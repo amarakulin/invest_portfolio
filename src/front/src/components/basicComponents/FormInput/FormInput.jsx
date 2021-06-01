@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
 
