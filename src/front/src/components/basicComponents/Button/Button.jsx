@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 const Button = styled.button`
 	padding: 21px 118px;
+	width: 100%;
 	background-color: #89D7AB;
 	border: none;
-	border-radius: 5px;
+	border-radius: 6px;
 	color: #fff;
 	transition: background-color 0.2s ease;
 	&:hover {
