@@ -1,0 +1,25 @@
+.container {
+	width: 20%;
+	margin-left: 150px;
+}
+
+.wrapepr {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.button {
+	margin-top: 50px;
+}
+
+.remindPassword {
+	font-size: 14px;
+	line-height: 17px;
+	color: #74B791;
+	transition: all 02s ease;
+}
+
+.remindPassword:hover {
+	color: #74B791;
+}
