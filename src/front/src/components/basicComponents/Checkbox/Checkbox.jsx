@@ -38,7 +38,7 @@ const Label = styled.label`
 	line-height: 17px;
 	color: #696F79;
 `
-function CustomCheckbox(props) {
+const CustomCheckbox = (props) => {
 	return (
 		<>
 			<Checkbox id={props.id}
