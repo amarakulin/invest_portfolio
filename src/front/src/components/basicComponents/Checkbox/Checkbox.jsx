@@ -33,6 +33,10 @@ const Checkbox = styled.input.attrs({type: 'checkbox'})`
 
 const Label = styled.label`
 	cursor: pointer;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 17px;
+	color: #696F79;
 `
 function CustomCheckbox(props) {
 	return (
@@ -40,7 +44,7 @@ function CustomCheckbox(props) {
 			<Checkbox id={props.id}
 				// onChange={props.handleCheckboxChange}
 			/>
-			<Label for={props.id}></Label>
+			<Label for={props.id}>{props.text}</Label>
 		</>  
 	)
 }
