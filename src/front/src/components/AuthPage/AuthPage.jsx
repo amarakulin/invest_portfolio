@@ -1,13 +1,20 @@
-import style from './AuthPage.module.css'
+import styled from 'styled-components';
 import AuthForm from './AuthForm/AuthForm'
 import AuthBG from '../../assets/AuthBG.png'
+import {AuthImg} from '../Basic/Img/Img'
+
+const Container = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: start;
+`
 
 const AuthPage = (props) => {
 	return (
-		<div className={style.container}>
-			<img src={AuthBG} alt="img" className={style.img}/>
+		<Container>
+			<AuthImg src={AuthBG} alt="img" />
 			<AuthForm></AuthForm>
-		</div>
+		</Container>
 	)
 }
 

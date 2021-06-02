@@ -1,25 +1,31 @@
-import style from './AuthForm.module.css';
-import Title from '../../basicComponents/Title/Title'
-import Subtitle from '../../basicComponents/Subtitle/Subtitle'
-import FormInput from '../../basicComponents/FormInput/FormInput'
-import Checkbox from '../../basicComponents/Checkbox/Checkbox'
-import Button from '../../basicComponents/Button/Button'
-import {NavLink} from 'react-router-dom'
+import styled from 'styled-components';
+import Title from '../../Basic/Title/Title'
+import Subtitle from '../../Basic/Subtitle/Subtitle'
+import FormInput from '../../Basic/FormInput/FormInput'
+import Checkbox from '../../Basic/Checkbox/Checkbox'
+import Button from '../../Basic/Button/Button'
+import {Wrapper} from '../../Basic/Wrapper/Wrapper'
+import Link from '../../Basic/Link/Link'
+
+const Container = styled.div`
+	width: 20%;
+	margin-left: 150px;
+`
 
 const AuthForm = (props) => {
 	return (
-		<div className={style.container}>
+		<Container>
 			<Title>Вход</Title>
-			<Subtitle>Пожалуйста, заполните все поля </Subtitle>
+			<Subtitle>Пожалуйста, заполните все поля</Subtitle>
 			<hr></hr>
 			<FormInput id="email" placeholder="Введите E-mail" labelText="E-mail*"/>
 			<FormInput id="password" placeholder="Введите пароль" labelText="Введите пароль*"/>
-			<div className={style.wrapepr}>
+			<Wrapper>
 				<Checkbox id="remember" text="Запомнить меня"></Checkbox>
-				<NavLink to="/reg" className={style.remindPassword}>Забыли пароль?</NavLink>
-			</div>
-			<Button className={style.button}>Войти</Button>
-		</div>
+				<Link to="/reset">Забыли пароль?</Link>
+			</Wrapper>
+			<Button>Войти</Button>
+		</Container>
 	)
 }
 
