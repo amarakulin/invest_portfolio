@@ -7,14 +7,12 @@ import lombok.Setter;
 
 import javax.persistence.Id;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class User {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ResponceUserDTO {
 
-	@Id
-	private Long id;
 	private String login;
 	private String email;
 	private String password;
