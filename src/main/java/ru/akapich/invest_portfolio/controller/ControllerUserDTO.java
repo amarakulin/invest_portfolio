@@ -18,14 +18,16 @@ public class ControllerUserDTO {
 	                           @RequestParam(value = "email", required = false) String email,
 	                           @RequestParam(value = "password", required = false) String password){
 		logger.info("RESPONSE!");
+		logger.info(String.format("login: %s, email: %s, password: %s", login, email, password));
+
 		return new ResponseUserDTO(login, email, password);
 	}
 
-	@PostMapping("/post/")
+	@PostMapping("/post")
 	public String post(@RequestBody RequestUserDTO request){
 		logger.info("REQUEST!");
 		if (request != null && "alex".equals(request.getLogin())){
-			return String.format("login: %s, email: %s, password: %s, Id: %d", request.getLogin(), request.getEmail(), request.getPassword(), request.getId());
+			return String.format("Pa - login: %s, email: %s, password: %s, Id: %d", request.getLogin(), request.getEmail(), request.getPassword(), request.getId());
 		}
 		return "Error";
 	}
