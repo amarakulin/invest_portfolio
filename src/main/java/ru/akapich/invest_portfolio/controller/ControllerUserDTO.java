@@ -11,7 +11,7 @@ import ru.akapich.invest_portfolio.DTO.ResponseUserDTO;
 @RequiredArgsConstructor
 public class ControllerUserDTO {
 
-	private static final Logger logger = LoggerFactory.getLogger(ControllerUserDTO.class);
+	private static final Logger logger = LoggerFactory.getLogger(ControllerUserDTO.class);//TODO change to annotation
 
 	@GetMapping("/get")
 	public ResponseUserDTO get(@RequestParam(value = "login", required = false) String login,
