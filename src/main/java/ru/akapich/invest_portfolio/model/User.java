@@ -28,4 +28,7 @@ public class User {
 
 	private String role;
 	private boolean enable;
+
+	//TODO Add timestamp create
+	//TODO Add access rules
 }
