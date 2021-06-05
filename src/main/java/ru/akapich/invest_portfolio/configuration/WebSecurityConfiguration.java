@@ -8,16 +8,16 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.akapich.invest_portfolio.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	private UserDetailsService userDetailsService;
 
 	@Bean
 	public  PasswordEncoder passwordEncoder(){
@@ -40,8 +40,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				.antMatchers("/user").authenticated()
+		http
+				.csrf().disable()
+				.authorizeRequests()
+				.antMatchers("/home").authenticated()
 				.antMatchers("/**").permitAll()
 				.and()
 				.formLogin().permitAll().defaultSuccessUrl("/home")
