@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @AllArgsConstructor
@@ -21,9 +19,13 @@ import javax.persistence.Table;
 public class User {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 
 	private String login;
 	private String email;
 	private String password;
+
+	private String role;
+	private boolean enable;
 }
