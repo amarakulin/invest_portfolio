@@ -1,16 +1,22 @@
-const SET_REMEMBER_USER = 'SET_REMEMBER_USER';
+import { AuthAPI } from '../api/api';
+
+export const SET_USER_DATA = 'SET_USER_DATA';
+
 
 const initialState = {
-	isAuthenticated: localStorage.getItem("isAuth"),
-	rememberMe: false
+	login: null,
+	email: null,
+	userID: null,
+	isAuth: localStorage.getItem("isAuth") || false,
 }
 
 const authReduser = (state = initialState, action) => {
 	switch (action.type) {
-		case SET_REMEMBER_USER: {
+		case SET_USER_DATA: {
 			return {
 				...state,
-				rememberMe: action.isRememberMe
+				...action.payload,
+				isAuth: action.isAuth
 			}
 		}
 		default: {
@@ -19,6 +25,7 @@ const authReduser = (state = initialState, action) => {
 	}
 }
 
-export const toggleAuthenticationAC = (isRememberMe) => ({type: SET_REMEMBER_USER, isRememberMe})
+export const setUserData = (userID, email, login, isAuth) => ({ type: SET_USER_DATA, payload: {userID, email, login}, isAuth});
+
 
 export default authReduser;
