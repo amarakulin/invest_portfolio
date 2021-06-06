@@ -39,3 +39,6 @@ src/main/resources/database/**
 
 # Log file
 *.log
+
+# Test file
+package.json
