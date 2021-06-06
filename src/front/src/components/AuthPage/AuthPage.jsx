@@ -13,7 +13,7 @@ const AuthPage = (props) => {
 	return (
 		<Container>
 			<AuthImg src={AuthBG} alt="img" />
-			<AuthForm></AuthForm>
+			<AuthForm />
 		</Container>
 	)
 }

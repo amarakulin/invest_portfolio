@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
+import { Field } from 'react-final-form'
 
 const Wrapper = styled.div`
 	margin-bottom: 25px;
@@ -9,11 +10,26 @@ const Wrapper = styled.div`
 const FormInput = (props) => {
 	return (
 		<Wrapper>
-			<Label htmlFor={props.id}>{props.labelText}</Label>
-			<Input 
-				id={props.id}
+			<Label htmlFor={props.id} > {props.labelText} </Label>
+			<Field
+				name={props.name}
 				placeholder={props.placeholder}
-			></Input>
+				type={props.type}
+				id={props.id}
+			>
+
+				{({ input, ...props }) => {
+					return (
+						<Input
+							{ ...input }
+							id={props.id}
+							placeholder={props.placeholder}
+						/>
+					);
+				}
+
+				}
+			</Field>
 		</Wrapper>
 	);
 }
