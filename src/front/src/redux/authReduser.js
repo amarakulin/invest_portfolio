@@ -27,5 +27,15 @@ const authReduser = (state = initialState, action) => {
 
 export const setUserData = (userID, email, login, isAuth) => ({ type: SET_USER_DATA, payload: {userID, email, login}, isAuth});
 
+export const login = (login, password, rememberMe) => (dispatch) => {
+	AuthAPI.login(login, password, rememberMe)
+		.then(res => {
+			if (res.resultCode === 0) {
+				dispatch(); //TODO getAuthUserData для получения информации залогиненого пользователя
+			} else {
+
+			}
+		})
+}
 
 export default authReduser;
