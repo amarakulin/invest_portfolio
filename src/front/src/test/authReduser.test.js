@@ -9,14 +9,11 @@ it('123', () => {
 		isAuth: localStorage.getItem("isAuth") || false,
 	}
 
-	const action = setUserData(1, 'akasha@,ail.ru', 'akasha', true);
+	const action = setUserData(1, 'akasha@mail.ru', 'akasha', true);
 
 	// Вызываем reduser
 	const newState = authReduser(initialState, action);
 
 	// Проверка
-	expect(newState.login).toBe('akasha');
-	expect(newState.email).toBe('akasha@,ail.ru');
-	expect(newState.userID).toBe(1);
-	expect(newState.isAuth).toBe(true);
+	expect(newState).toEqual({login: 'akasha', email: "akasha@mail.ru", userID: 1, isAuth: true});
 })
