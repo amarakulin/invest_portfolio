@@ -5,7 +5,7 @@ function App() {
 	return (
 		<Router>
 			<Route 
-				path="/log"
+				path="/login"
 				render={() => <AuthPage/>}
 			/>
 		</Router>
