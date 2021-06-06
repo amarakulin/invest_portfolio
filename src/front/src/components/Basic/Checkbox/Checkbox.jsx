@@ -44,7 +44,7 @@ const CustomCheckbox = (props) => {
 			<Checkbox id={props.id}
 				// onChange={props.handleCheckboxChange}
 			/>
-			<Label for={props.id}>{props.text}</Label>
+			<Label htmlFor={props.id}>{props.text}</Label>
 		</>  
 	)
 }

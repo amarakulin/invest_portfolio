@@ -9,7 +9,7 @@ const Wrapper = styled.div`
 const FormInput = (props) => {
 	return (
 		<Wrapper>
-			<Label for={props.id}>{props.labelText}</Label>
+			<Label htmlFor={props.id}>{props.labelText}</Label>
 			<Input 
 				id={props.id}
 				placeholder={props.placeholder}
