@@ -1,16 +1,16 @@
-const TOGGE_REMEMBER_USER = 'TOGGE_REMEMBER_USER';
+const SET_REMEMBER_USER = 'SET_REMEMBER_USER';
 
 const initialState = {
 	isAuthenticated: localStorage.getItem("isAuth"),
-	rememberAuthentication: false
+	rememberMe: false
 }
 
 const authReduser = (state = initialState, action) => {
 	switch (action.type) {
-		case TOGGE_REMEMBER_USER: {
+		case SET_REMEMBER_USER: {
 			return {
 				...state,
-				rememberAuthentication: !state.rememberAuthentication
+				rememberMe: action.isRememberMe
 			}
 		}
 		default: {
@@ -19,6 +19,6 @@ const authReduser = (state = initialState, action) => {
 	}
 }
 
-export const toggleAuthenticationAC = () => ({type: TOGGE_REMEMBER_USER})
+export const toggleAuthenticationAC = (isRememberMe) => ({type: SET_REMEMBER_USER, isRememberMe})
 
 export default authReduser;
