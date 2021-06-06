@@ -1,16 +1,15 @@
-package ru.akapich.invest_portfolio.service;
+package ru.akapich.invest_portfolio.service.impl;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.akapich.invest_portfolio.model.User;
 import ru.akapich.invest_portfolio.repository.UserRepository;
+import ru.akapich.invest_portfolio.service.UserService;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -47,12 +46,11 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public void save(String s){
+	public void save(User user){
 		//TODO check if exist user
-		System.out.println(s.length());
-//		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//		user.setRole("ROLE_USER");
-//		userRepository.save(user);
+		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+		user.setRole("ROLE_USER");
+		userRepository.save(user);
 		System.out.println("Saved user");
 	}
 }
