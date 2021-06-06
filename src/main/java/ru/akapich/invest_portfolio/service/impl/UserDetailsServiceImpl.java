@@ -14,6 +14,12 @@ import ru.akapich.invest_portfolio.service.UserService;
 import java.util.Collection;
 import java.util.HashSet;
 
+/**
+ * Implementation of {@link UserService} and {@link UserDetailsService} interfaces.
+ *
+ * @author Aleksandr Marakulin
+ **/
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 

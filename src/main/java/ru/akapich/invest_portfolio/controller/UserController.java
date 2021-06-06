@@ -7,6 +7,12 @@ import ru.akapich.invest_portfolio.model.User;
 import ru.akapich.invest_portfolio.service.UserService;
 
 
+/**
+ * Controller for {@link User}'s pages.
+ *
+ * @author Aleksandr Marakulin
+ **/
+
 @RestController
 public class UserController {
 

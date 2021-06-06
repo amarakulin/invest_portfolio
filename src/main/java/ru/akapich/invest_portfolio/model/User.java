@@ -7,6 +7,12 @@ import lombok.NonNull;
 
 import javax.persistence.*;
 
+/**
+ * JavaBean domain object that represents a User.
+ *
+ * @author Aleksandr Marakulin
+**/
+
 @Entity
 @Table(name="t_user")
 @AllArgsConstructor
