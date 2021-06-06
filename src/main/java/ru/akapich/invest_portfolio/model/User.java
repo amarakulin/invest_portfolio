@@ -1,30 +1,37 @@
 package ru.akapich.invest_portfolio.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import javax.persistence.*;
 
-
+@Entity
+@Table(name="t_user")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-@Table(name="t_user")
 public class User {
 
+
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	//TODO do some with ID
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@NonNull
+	@Column
 	private Long id;
 
+	@Column
 	private String login;
+	@Column
 	private String email;
+	@Column
 	private String password;
+	@Column
 	private String role;
 
+	@Column
 	private boolean enable;
 
 	public Long getId() {
@@ -77,3 +84,4 @@ public class User {
 //TODO Add timestamp create
 	//TODO Add access rules
 }
+
