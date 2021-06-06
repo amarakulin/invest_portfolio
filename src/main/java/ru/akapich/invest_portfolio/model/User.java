@@ -18,13 +18,13 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	private Long id;
 
 	private String login;
 	private String email;
 	private String password;
-
 	private String role;
+
 	private boolean enable;
 
 	public Long getId() {
