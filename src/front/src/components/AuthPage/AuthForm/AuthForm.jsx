@@ -6,7 +6,8 @@ import Checkbox from '../../Basic/Checkbox/Checkbox'
 import Button from '../../Basic/Button/Button'
 import { Wrapper } from '../../Basic/Wrapper/Wrapper'
 import Link from '../../Basic/Link/Link'
-import { Form, Field } from 'react-final-form'
+import { Form } from 'react-final-form'
+import { composeValidators, requiredField } from '../../../utils/validators'
 
 const Container = styled.div`
 	width: 20%;
@@ -14,13 +15,15 @@ const Container = styled.div`
 `
 
 const AuthForm = (props) => {
+
 	const onSubmit = (formData) => {
 		console.log(formData)
 	}
+
 	return (
 		<Form
 			onSubmit={onSubmit}
-			render={({ handleSubmit }) => (
+			render={({ handleSubmit, submitting, valid, ...rest}) => (
 				<Container>
 					<form onSubmit={handleSubmit}>
 						<Title>Вход</Title>
@@ -28,17 +31,20 @@ const AuthForm = (props) => {
 						<hr></hr>
 						<FormInput 
 							id="login" 
-							placeholder="Введите login"
-							labelText="Login*"
+							placeholder="Введите логин"
+							labelText="Логин*"
 							name="login"
 							type="text"
+							validate={[requiredField]}
+
 						/>
 						<FormInput
 							id="password"
 							placeholder="Введите пароль"
-							labelText="Введите пароль*"
+							labelText="Пароль*"
 							name="password"
 							type="password"
+							validate={[requiredField]}
 						/>
 						<Wrapper>
 							<Checkbox
@@ -49,33 +55,11 @@ const AuthForm = (props) => {
 							/>
 							<Link to="/reset">Забыли пароль?</Link>
 						</Wrapper>
-						<Button>Войти</Button>
+						<Button disabled={ submitting || !valid }>Войти</Button>
 					</form>
 				</Container>
 			)}
 		/>
-
-
-		// <Form
-		// 	onSubmit={onSubmit}
-		// 	render={({ handleSubmit }) => (
-
-		// 	)
-		// />
-		// <Container>
-		// 	<form>
-		// 		<Title>Вход</Title>
-		// 		<Subtitle>Пожалуйста, заполните все поля</Subtitle>
-		// 		<hr></hr>
-		// 		<FormInput id="email" placeholder="Введите E-mail" labelText="E-mail*"/>
-		// 		<FormInput id="password" placeholder="Введите пароль" labelText="Введите пароль*"/>
-		// 		<Wrapper>
-		// 			<Checkbox id="remember" text="Запомнить меня"></Checkbox>
-		// 			<Link to="/reset">Забыли пароль?</Link>
-		// 		</Wrapper>
-		// 		<Button>Войти</Button>
-		// 	</form>
-		// </Container>
 	)
 }
 

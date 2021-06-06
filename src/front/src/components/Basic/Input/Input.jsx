@@ -11,6 +11,7 @@ const Input = styled.input`
 	font-weight: 500;
 	font-size: 14px;
 	line-height: 17px;
+	${props => (props.isError ? 'border: 1px solid tomato;' : "")}
 
 	&:hover,
 	&:active,
