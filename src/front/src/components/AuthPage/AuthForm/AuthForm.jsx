@@ -8,6 +8,7 @@ import { Wrapper } from '../../Basic/Wrapper/Wrapper'
 import Link from '../../Basic/Link/Link'
 import { Form } from 'react-final-form'
 import { composeValidators, requiredField } from '../../../utils/validators'
+import Preloader from '../../Basic/Preloader/Preloader'
 
 const Container = styled.div`
 	width: 100%;
@@ -18,7 +19,9 @@ const Container = styled.div`
 const AuthForm = (props) => {
 
 	const onSubmit = (formData) => {
-		console.log(formData)
+		setTimeout(() => {
+			console.log('hello')
+		}, 1000);
 	}
 
 	return (
@@ -26,6 +29,7 @@ const AuthForm = (props) => {
 			onSubmit={onSubmit}
 			render={({ handleSubmit, submitting, valid, ...rest}) => (
 				<Container>
+					{console.log(submitting)}
 					<form onSubmit={handleSubmit}>
 						<Title>Вход</Title>
 						<Subtitle>Пожалуйста, заполните все поля</Subtitle>
@@ -56,7 +60,7 @@ const AuthForm = (props) => {
 							/>
 							<Link to="/reset">Забыли пароль?</Link>
 						</Wrapper>
-						<Button disabled={ submitting || !valid }>Войти</Button>
+						<Button disabled={ submitting || !valid }>{submitting ? <Preloader /> : 'Войти'}</Button>
 					</form>
 				</Container>
 			)}
