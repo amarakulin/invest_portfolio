@@ -2,10 +2,13 @@ package ru.akapich.invest_portfolio.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.Forms.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.User;
 import ru.akapich.invest_portfolio.service.UserService;
+
+import javax.validation.Valid;
 
 
 /**
@@ -28,8 +31,11 @@ public class UserController {
 	}
 
 	@PostMapping("/registration")
-	public String registration(@RequestBody RegistrationFrom form, Model model){
+	public String registration(@Valid @RequestBody RegistrationFrom form, BindingResult bindingResult, Model model){
 		//TODO validation
+		if (bindingResult.hasErrors()){
+//			model.mergeAttributes(form.getErrors(bindingResult));
+		}
 		User user = User.builder().
 				login(form.getLogin()).
 				email(form.getEmail()).
@@ -37,7 +43,9 @@ public class UserController {
 				role("Fucking_Role").
 				enable(true).
 				build();
+
 		userDetailsService.save(user);
+
 		return "Registration success ";
 	}
 
