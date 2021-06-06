@@ -27,10 +27,10 @@ const AuthForm = (props) => {
 						<Subtitle>Пожалуйста, заполните все поля</Subtitle>
 						<hr></hr>
 						<FormInput 
-							id="email" 
-							placeholder="Введите E-mail"
-							labelText="E-mail*"
-							name="email"
+							id="login" 
+							placeholder="Введите login"
+							labelText="Login*"
+							name="login"
 							type="text"
 						/>
 						<FormInput
@@ -41,7 +41,12 @@ const AuthForm = (props) => {
 							type="password"
 						/>
 						<Wrapper>
-							<Checkbox id="remember" text="Запомнить меня"></Checkbox>
+							<Checkbox
+								id="remember"
+								labelText="Запомнить меня"
+								name="rememberMe"
+								type="checkbox"
+							/>
 							<Link to="/reset">Забыли пароль?</Link>
 						</Wrapper>
 						<Button>Войти</Button>

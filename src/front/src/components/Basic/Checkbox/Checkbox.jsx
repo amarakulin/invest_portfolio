@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import checkboxArrow from '../../../assets/checkbox.svg';
+import { Field } from 'react-final-form'
 
-const Checkbox = styled.input.attrs({type: 'checkbox'})`
+const Checkbox = styled.input.attrs({ type: 'checkbox' })`
 	position: absolute;
 	z-index: -1;
 	opacity: 0;
@@ -41,11 +42,22 @@ const Label = styled.label`
 const CustomCheckbox = (props) => {
 	return (
 		<>
-			<Checkbox id={props.id}
-				// onChange={props.handleCheckboxChange}
-			/>
-			<Label htmlFor={props.id}>{props.text}</Label>
-		</>  
+			<Field
+				name={props.name}
+				type={props.type}
+				id={props.id}
+			>
+				{({ input, ...props }) => (
+						<Checkbox
+							{...input}
+							id={props.id}
+							name={props.name}
+						/>
+					)
+				}
+			</Field>
+			<Label htmlFor={props.id}>{props.labelText}</Label>
+		</>
 	)
 }
 
