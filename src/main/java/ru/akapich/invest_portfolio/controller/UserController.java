@@ -17,7 +17,7 @@ import ru.akapich.invest_portfolio.service.UserService;
 @RestController
 public class UserController {
 
-	@Autowired//TODO rewrite
+	@Autowired
 	private UserService userDetailsService;
 
 	@GetMapping("/home")
@@ -37,7 +37,6 @@ public class UserController {
 				role("Fucking_Role").
 				enable(true).
 				build();
-		System.out.println(user.getId());
 		userDetailsService.save(user);
 		return "Registration success ";
 	}
