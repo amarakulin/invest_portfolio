@@ -59,4 +59,10 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 		userRepository.save(user);
 		System.out.println("Saved user");
 	}
+
+	@Override
+	public boolean isLoginExist(String login) {
+		User is = userRepository.getUserByLogin(login);
+		return userRepository.getUserByLogin(login) == null;//TODO debag
+	}
 }

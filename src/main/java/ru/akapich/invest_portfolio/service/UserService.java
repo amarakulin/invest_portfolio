@@ -11,4 +11,6 @@ import ru.akapich.invest_portfolio.model.User;
 public interface UserService {
 
 	void save(User user);
+
+	boolean isLoginExist(String login);
 }

@@ -3,6 +3,7 @@ package ru.akapich.invest_portfolio.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 /**
  * JavaBean domain object that represents a User.
@@ -24,6 +25,7 @@ public class User {
 	private Long id;
 
 	@Column
+	@Size(min = 2, max = 10)
 	private String login;
 	@Column
 	private String email;
