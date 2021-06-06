@@ -10,8 +10,9 @@ import { Form } from 'react-final-form'
 import { composeValidators, requiredField } from '../../../utils/validators'
 
 const Container = styled.div`
-	width: 20%;
-	margin-left: 150px;
+	width: 100%;
+	max-width: 500px;
+	margin-left: 100px;
 `
 
 const AuthForm = (props) => {
