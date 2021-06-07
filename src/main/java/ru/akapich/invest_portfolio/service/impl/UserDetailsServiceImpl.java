@@ -1,5 +1,6 @@
 package ru.akapich.invest_portfolio.service.impl;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import java.util.HashSet;
  **/
 
 @Service
+@Log4j2
 public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
 	@Autowired
@@ -35,11 +37,13 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 		User user = userRepository.getUserByLogin(username);
 
 		if (user == null){
+			log.info(String.format("[-] User '%s' can't log in", username));
 			throw new UsernameNotFoundException("Неправильный Логин/Пароль");
 		}
 		else{
 			Collection<SimpleGrantedAuthority> roles = new HashSet<>();
 			roles.add(new SimpleGrantedAuthority(user.getRole()));
+			log.info(String.format("[+] User '%s' log in", username));
 			return new org.springframework.security.core.userdetails.User(
 					user.getLogin(),
 					user.getPassword(),
@@ -53,11 +57,8 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public void save(User user){
-		//TODO check if exist user
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setRole("ROLE_USER");
 		userRepository.save(user);
-		System.out.println("Saved user");
 	}
 
 	@Override
