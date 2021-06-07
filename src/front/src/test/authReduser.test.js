@@ -1,6 +1,6 @@
-import authReduser, { setUserData } from '../redux/authReduser'
+import authReduser, { setAuthUserData } from '../redux/authReduser'
 
-it('123', () => {
+it('setAuthUserData works wrong', () => {
 	// Исходные данные
 	const initialState = {
 		login: null,
@@ -9,11 +9,29 @@ it('123', () => {
 		isAuth: localStorage.getItem("isAuth") || false,
 	}
 
-	const action = setUserData(1, 'akasha@mail.ru', 'akasha', true);
+	const action = setAuthUserData(1, 'akasha@mail.ru', 'akasha', true);
 
 	// Вызываем reduser
 	const newState = authReduser(initialState, action);
 
 	// Проверка
 	expect(newState).toEqual({login: 'akasha', email: "akasha@mail.ru", userID: 1, isAuth: true});
+})
+
+it('Fake login should return error', () => {
+	const fakeLogin = new Promise((resolve) => resolve({resultCode: 1, errorMessage: 'error'}))
+
+	const processingLoginResponse = (res) => {
+		if (res.resultCode === 0) {
+			dispatch(setAuthUserData(res.userID, res.email, res.login, res.isAuth));
+		} else {
+			return res.errorMessage;
+		}
+	}
+
+	fakeLogin
+		.then(processingLoginResponse)
+		.then(res => {
+			expect(res).toBe('error')
+		})
 })
