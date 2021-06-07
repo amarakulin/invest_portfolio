@@ -36,6 +36,9 @@ export const login = (login, password, rememberMe) => (dispatch) => {
 				return res.errorMessage;
 			}
 		})
+		.catch(err => {
+			return err.message
+		})
 }
 
 export default authReduser;
