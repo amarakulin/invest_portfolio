@@ -5,7 +5,7 @@ import FormInput from '../../Basic/FormInput/FormInput'
 import Checkbox from '../../Basic/Checkbox/Checkbox'
 import Button from '../../Basic/Button/Button'
 import { Wrapper } from '../../Basic/Wrapper/Wrapper'
-import Link from '../../Basic/Link/Link'
+import {CkeckBoxLink} from '../../Basic/Link/Link'
 import { Form } from 'react-final-form'
 import { FORM_ERROR } from 'final-form'
 import { requiredField } from '../../../utils/validators'
@@ -61,7 +61,7 @@ const AuthForm = (props) => {
 								name="rememberMe"
 								type="checkbox"
 							/>
-							<Link to="/reset">Забыли пароль?</Link>
+							<CkeckBoxLink to="/reset">Забыли пароль?</CkeckBoxLink>
 						</Wrapper>
 						{hasSubmitErrors && <Error> {submitError} </Error>}
 						<Button disabled={ submitting || pristine }>{submitting ? <Preloader /> : 'Войти'}</Button>
