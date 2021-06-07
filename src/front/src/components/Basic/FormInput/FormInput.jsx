@@ -13,7 +13,6 @@ const Wrapper = styled.div`
 
 const FormInput = (props) => {
 	let [showPassword, setShowPassword] = useState(false);
-
 	return (
 		<Wrapper>
 			<Label htmlFor={props.id} > {props.labelText} </Label>
@@ -26,18 +25,17 @@ const FormInput = (props) => {
 			>
 
 				{({ input, meta, ...props }) => {
-					return (
-						<>
-							<Input
-								{...input}
-								id={props.id}
-								placeholder={props.placeholder}
-								isError={meta.touched && meta.error}
-							/>
-						</>
-					);
-				}
-
+						return (
+							<>
+								<Input
+									{...input}
+									id={props.id}
+									placeholder={props.placeholder}
+									isError={meta.touched && meta.error}
+								/>
+							</>
+						);
+					}
 				}
 			</Field>
 				{
