@@ -8,7 +8,7 @@ import { Wrapper } from '../../Basic/Wrapper/Wrapper'
 import { CkeckBoxLink } from '../../Basic/Link/Link'
 import { Form } from 'react-final-form'
 import { FORM_ERROR } from 'final-form'
-import { requiredField, emailValidator } from '../../../utils/validators'
+import { requiredField } from '../../../utils/validators'
 import Preloader from '../../Basic/Preloader/Preloader';
 import Error from '../../Basic/Error/Error';
 import { login } from '../../../redux/authReduser'
@@ -26,6 +26,7 @@ const Container = styled.div`
 const AuthForm = (props) => {
 
 	const onSubmit = async (formData) => {
+		console.log(formData);
 		const error = await props.login(formData.login, formData.password, formData.rememberMe)
 
 		if (error)
@@ -50,7 +51,7 @@ const AuthForm = (props) => {
 							type="text"
 							validate={composeValidators(requiredField)}
 						>
-							{ ({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} /> }
+							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
 						</Field>
 
 						<Field
@@ -61,16 +62,18 @@ const AuthForm = (props) => {
 							type="password"
 							validate={composeValidators(requiredField)}
 						>
-							{ ({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} /> }
+							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
 						</Field>
-						
+
 						<Wrapper marginBottom={50}>
-							<Checkbox
-								id="remember"
-								labelText="Запомнить меня"
-								name="rememberMe"
+							<Field
+								id="checkbox"
+								name="checkbox"
 								type="checkbox"
-							/>
+								labelText="Запомнить меня"
+							>
+								{({ ...props }) => <Checkbox {...props} />}
+							</Field>
 							<CkeckBoxLink to="/reset">Забыли пароль?</CkeckBoxLink>
 						</Wrapper>
 						{hasSubmitErrors && <Error> {submitError} </Error>}
