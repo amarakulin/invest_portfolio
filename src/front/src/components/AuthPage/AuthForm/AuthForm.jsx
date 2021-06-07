@@ -22,8 +22,8 @@ const Container = styled.div`
 
 const AuthForm = (props) => {
 
-	const onSubmit = (formData) => {
-		const error = props.login(formData.login, formData. password, formData.rememberMe);
+	const onSubmit = async (formData) => {
+		const error =  await props.login(formData.login, formData. password, formData.rememberMe)
 		
 		if (error)
 			return { [FORM_ERROR]: error }
@@ -45,7 +45,6 @@ const AuthForm = (props) => {
 							name="login"
 							type="text"
 							validate={[requiredField]}
-
 						/>
 						<FormInput
 							id="password"
