@@ -42,3 +42,6 @@ src/main/resources/database/**
 
 # Test file
 package.json
+
+# Managment file
+TODO
