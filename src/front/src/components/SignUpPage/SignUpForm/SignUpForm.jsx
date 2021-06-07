@@ -82,7 +82,7 @@ const SignUpForm = (props) => {
 							labelText="Повторите пароль*"
 							placeholder="Введите пароль"
 							name="re-password"
-							type="re-password"
+							type="password"
 							validate={composeValidators(requiredField)}
 						>
 							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
