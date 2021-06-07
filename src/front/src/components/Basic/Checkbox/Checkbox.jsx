@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import checkboxArrow from '../../../assets/checkbox.svg';
-import { Field } from 'react-final-form'
 
 const Checkbox = styled.input.attrs({ type: 'checkbox' })`
 	position: absolute;
