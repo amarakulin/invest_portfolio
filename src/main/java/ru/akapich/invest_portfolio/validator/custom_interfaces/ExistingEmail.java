@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 
 /**
  * Custom interface to verify if email already exist in
- * {@link ru.akapich.invest_portfolio.model.Forms.RegistrationFrom}.
+ * {@link ru.akapich.invest_portfolio.model.forms.RegistrationFrom}.
  *
  * @author Aleksandr Marakulin
  **/

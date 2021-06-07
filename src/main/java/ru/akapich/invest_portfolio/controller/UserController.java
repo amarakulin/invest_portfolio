@@ -5,12 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.akapich.invest_portfolio.model.Forms.RegistrationFrom;
+import ru.akapich.invest_portfolio.model.forms.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.User;
 import ru.akapich.invest_portfolio.service.UserService;
 import ru.akapich.invest_portfolio.validator.ValidatorController;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
