@@ -23,7 +23,7 @@ const Container = styled.div`
 const AuthForm = (props) => {
 
 	const onSubmit = async (formData) => {
-		const error =  await props.login(formData.login, formData. password, formData.rememberMe)
+		const error = await props.login(formData.login, formData.password, formData.rememberMe)
 		
 		if (error)
 			return { [FORM_ERROR]: error }
@@ -63,7 +63,7 @@ const AuthForm = (props) => {
 							/>
 							<Link to="/reset">Забыли пароль?</Link>
 						</Wrapper>
-						{hasSubmitErrors ? <Error> {submitError} </Error> : ''}
+						{hasSubmitErrors && <Error> {submitError} </Error>}
 						<Button disabled={ submitting || pristine }>{submitting ? <Preloader /> : 'Войти'}</Button>
 					</form>
 				</Container>
