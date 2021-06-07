@@ -13,7 +13,6 @@ import Preloader from '../../Basic/Preloader/Preloader';
 import Error from '../../Basic/Error/Error';
 import { login } from '../../../redux/authReduser'
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom'
 
 const Container = styled.div`
 	width: 100%;
@@ -29,9 +28,6 @@ const AuthForm = (props) => {
 		if (error)
 			return { [FORM_ERROR]: error }
 	}
-
-	if (props.isAuth)
-		return <Redirect to='/user'/>
 
 	return (
 		<Form
@@ -76,8 +72,4 @@ const AuthForm = (props) => {
 	)
 }
 
-const mapStateToProps = (state) => ({
-	isAuth: state.auth.isAuth
-})
-
-export default connect(mapStateToProps, {login})(AuthForm);
+export default connect(null, {login})(AuthForm);
