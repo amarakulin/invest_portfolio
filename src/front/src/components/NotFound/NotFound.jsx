@@ -18,9 +18,9 @@ const NotFoundTitle = styled.h1`
 `
 
 const Hint = styled.span`
-	font-size: 14px;
-	line-height: 17px;
-	`
+	font-size: 18px;
+	line-height: 24px;
+`
 
 const NotFound = () => {
 	return (
