@@ -89,7 +89,7 @@ const SignUpForm = (props) => {
 						</Field>
 
 						{hasSubmitErrors && <Error> {submitError} </Error>}
-						<Button disabled={submitting || pristine}>{submitting ? <Preloader /> : 'Войти'}</Button>
+						<Button disabled={submitting || pristine}>{submitting ? <Preloader /> : 'Зарегистрироваться'}</Button>
 						<AlreadyExist>Уже есть аккаунт? <Link to='/login'>Войти</Link></AlreadyExist>
 					</form>
 				</Container>

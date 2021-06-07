@@ -14,7 +14,7 @@ const FormInput = ({input, meta, ...props }) => {
 
 	const getType = (type) => {
 		if (type === 'password') {
-			if (!showPassword)
+			if (showPassword)
 				return 'text';
 		}
 	} 
