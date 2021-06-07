@@ -45,3 +45,6 @@ package.json
 
 # Managment file
 TODO
+
+# Tests file
+**/test
