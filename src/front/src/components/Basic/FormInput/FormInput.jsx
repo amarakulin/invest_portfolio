@@ -12,13 +12,19 @@ const Wrapper = styled.div`
 const FormInput = ({input, meta, ...props }) => {
 	let [showPassword, setShowPassword] = useState(false);
 
+	const getType = (type) => {
+		if (type === 'password') {
+			if (!showPassword)
+				return 'text';
+		}
+	} 
 	return (
 		<Wrapper>
-			<Label htmlFor={props.id} > {props.labelText} </Label>
+			<Label htmlFor={props.id} error={meta.touched && meta.error ? meta.error : ''} > { props.labelText} </Label>
 			<Input
 				{...input}
 				placeholder={props.placeholder}
-				type={input.type === 'password' && !showPassword ? 'password' : input.type}
+				type={getType(input.type) || input.type}
 				id={props.id}
 				isError={meta.touched && meta.error}
 			/>
