@@ -7,7 +7,7 @@ const initialState = {
 	login: null,
 	email: null,
 	userID: null,
-	isAuth: localStorage.getItem("isAuth") || false,
+	isAuth: localStorage.getItem('isAuth') || false,
 }
 
 const authReduser = (state = initialState, action) => {
@@ -33,7 +33,7 @@ export const login = (login, password, rememberMe) => (dispatch) => {
 			if (res.resultCode === 0) {
 				dispatch(); //TODO getAuthUserData для получения информации залогиненого пользователя
 			} else {
-
+				return res.errorMessage;
 			}
 		})
 }

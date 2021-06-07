@@ -7,8 +7,12 @@ import Button from '../../Basic/Button/Button'
 import { Wrapper } from '../../Basic/Wrapper/Wrapper'
 import Link from '../../Basic/Link/Link'
 import { Form } from 'react-final-form'
-import { composeValidators, requiredField } from '../../../utils/validators'
-import Preloader from '../../Basic/Preloader/Preloader'
+import { FORM_ERROR } from 'final-form'
+import { requiredField } from '../../../utils/validators'
+import Preloader from '../../Basic/Preloader/Preloader';
+import Error from '../../Basic/Error/Error';
+import { login } from '../../../redux/authReduser'
+import { connect } from 'react-redux';
 
 const Container = styled.div`
 	width: 100%;
@@ -19,17 +23,17 @@ const Container = styled.div`
 const AuthForm = (props) => {
 
 	const onSubmit = (formData) => {
-		setTimeout(() => {
-			console.log('hello')
-		}, 1000);
+		const error = props.login(formData.login, formData. password, formData.rememberMe);
+		
+		if (error)
+			return { [FORM_ERROR]: error }
 	}
 
 	return (
 		<Form
 			onSubmit={onSubmit}
-			render={({ handleSubmit, submitting, valid, ...rest}) => (
+			render={({ handleSubmit, submitting, pristine, hasSubmitErrors, submitError}) => (
 				<Container>
-					{console.log(submitting)}
 					<form onSubmit={handleSubmit}>
 						<Title>Вход</Title>
 						<Subtitle>Пожалуйста, заполните все поля</Subtitle>
@@ -51,7 +55,7 @@ const AuthForm = (props) => {
 							type="password"
 							validate={[requiredField]}
 						/>
-						<Wrapper>
+						<Wrapper marginBottom={50}>
 							<Checkbox
 								id="remember"
 								labelText="Запомнить меня"
@@ -60,7 +64,8 @@ const AuthForm = (props) => {
 							/>
 							<Link to="/reset">Забыли пароль?</Link>
 						</Wrapper>
-						<Button disabled={ submitting || !valid }>{submitting ? <Preloader /> : 'Войти'}</Button>
+						{hasSubmitErrors ? <Error> {submitError} </Error> : ''}
+						<Button disabled={ submitting || pristine }>{submitting ? <Preloader /> : 'Войти'}</Button>
 					</form>
 				</Container>
 			)}
@@ -68,4 +73,4 @@ const AuthForm = (props) => {
 	)
 }
 
-export default AuthForm;
+export default connect(null, {login})(AuthForm);
