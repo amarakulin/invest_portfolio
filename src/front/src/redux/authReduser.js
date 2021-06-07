@@ -47,4 +47,18 @@ export const login = (login, password, rememberMe) => (dispatch) => {
 		})
 }
 
+export const logout = () => (dispatch) => {
+	return AuthAPI.logout()
+		.then(res => {
+			if (res.resultCode === 0) {
+				dispatch(setAuthUserData(null, null, null, false)); //TODO getAuthUserData для получения информации залогиненого пользователя
+
+				localStorage.removeItem('isAuth');
+			}
+		})
+		.catch(err => {
+			return err.message
+		})
+}
+
 export default authReduser;
