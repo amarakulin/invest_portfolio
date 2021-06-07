@@ -2,8 +2,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Input from '../Input/Input';
 import Label from '../Label/Label';
-import { Field } from 'react-final-form'
-import { composeValidators } from '../../../utils/validators'
 import { ShowPassword } from './ShowPassword';
 
 const Wrapper = styled.div`
@@ -20,7 +18,7 @@ const FormInput = ({input, meta, ...props }) => {
 			<Input
 				{...input}
 				placeholder={props.placeholder}
-				type={input.type === 'password' && !showPassword ? 'password' : 'text'}
+				type={input.type === 'password' && !showPassword ? 'password' : input.type}
 				id={props.id}
 				isError={meta.touched && meta.error}
 			/>
