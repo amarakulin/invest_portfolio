@@ -64,4 +64,9 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 	public boolean isLoginExist(String login) {
 		return userRepository.getUserByLogin(login) != null;
 	}
+
+	@Override
+	public boolean isEmailExist(String email) {
+		return userRepository.getUserByEmail(email) != null;
+	}
 }
