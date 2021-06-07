@@ -6,7 +6,7 @@ const instanse = axios.create({
 
 export const AuthAPI = {
 	login(login, password, rememberMe = false) {
-		return instanse.post('/login', {
+		return instanse.post('login', {
 			login,
 			password,
 			rememberMe
