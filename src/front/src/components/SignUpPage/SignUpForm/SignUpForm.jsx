@@ -6,7 +6,7 @@ import Button from '../../Basic/Button/Button'
 import Link from '../../Basic/Link/Link'
 import { Form } from 'react-final-form'
 import { FORM_ERROR } from 'final-form'
-import { requiredField } from '../../../utils/validators'
+import { requiredField, emailValidator } from '../../../utils/validators'
 import Preloader from '../../Basic/Preloader/Preloader';
 import Error from '../../Basic/Error/Error';
 import { login } from '../../../redux/authReduser'
@@ -40,7 +40,7 @@ const AuthForm = (props) => {
 			render={({ handleSubmit, submitting, pristine, hasSubmitErrors, submitError}) => (
 				<Container>
 					<form onSubmit={handleSubmit}>
-						<Title>Вход</Title>
+						<Title>Регистрация</Title>
 						<Subtitle>Пожалуйста, заполните все поля отмеченные *</Subtitle>
 						<hr></hr>
 						<FormInput 
@@ -57,7 +57,7 @@ const AuthForm = (props) => {
 							placeholder="Введите E-mail"
 							name="email"
 							type="email"
-							validate={[requiredField]}
+							validate={[requiredField, emailValidator]}
 						/>
 						<FormInput
 							id="password"
@@ -85,4 +85,4 @@ const AuthForm = (props) => {
 	)
 }
 
-export default connect(null, {login})(AuthForm);
+export default connect(null, {})(AuthForm);
