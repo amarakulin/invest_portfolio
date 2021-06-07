@@ -6,6 +6,13 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
+/**
+ * Custom interface to verify if email already exist in
+ * {@link ru.akapich.invest_portfolio.model.Forms.RegistrationFrom}.
+ *
+ * @author Aleksandr Marakulin
+ **/
+
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = EmailValidator.class)

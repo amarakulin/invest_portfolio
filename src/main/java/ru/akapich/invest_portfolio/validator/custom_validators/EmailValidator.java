@@ -7,6 +7,13 @@ import ru.akapich.invest_portfolio.validator.custom_interfaces.ExistingEmail;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * JavaBean domain object that implements {@link ConstraintValidator}
+ * to validate if email already exist in database
+ *
+ * @author Aleksandr Marakulin
+ **/
+
 public class EmailValidator implements ConstraintValidator<ExistingEmail, String> {
 
 	@Autowired
