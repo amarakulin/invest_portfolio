@@ -11,39 +11,26 @@ const Wrapper = styled.div`
 	position: relative;
 `
 
-const FormInput = (props) => {
+const FormInput = ({input, meta, ...props }) => {
 	let [showPassword, setShowPassword] = useState(false);
+
+	console.log(input);
 	return (
 		<Wrapper>
 			<Label htmlFor={props.id} > {props.labelText} </Label>
-			<Field
-				name={props.name}
+			<Input
+				{...input}
 				placeholder={props.placeholder}
-				type={props.type === 'password' && !showPassword ? 'password' : 'text'}
+				type={input.type === 'password' && !showPassword ? 'password' : 'text'}
 				id={props.id}
-				validate={composeValidators(...props.validate)}
-			>
-
-				{({ input, meta, ...props }) => {
-						return (
-							<>
-								<Input
-									{...input}
-									id={props.id}
-									placeholder={props.placeholder}
-									isError={meta.touched && meta.error}
-								/>
-							</>
-						);
-					}
-				}
-			</Field>
-				{
-					props.type === "password" &&
-						<ShowPassword onClick={() => setShowPassword(prevState => !prevState)}>
-							{showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-						</ShowPassword>
-				}
+				isError={meta.touched && meta.error}
+			/>
+			{
+				input.type === "password" &&
+				<ShowPassword onClick={() => setShowPassword(prevState => !prevState)}>
+					{showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+				</ShowPassword>
+			}
 		</Wrapper>
 	);
 }
