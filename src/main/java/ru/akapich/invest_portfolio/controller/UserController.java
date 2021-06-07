@@ -54,7 +54,7 @@ public class UserController {
 					login(form.getLogin()).
 					email(form.getEmail()).
 					password(form.getPassword()).
-					role("Fucking_Role").
+					role("role.user").
 					enable(true).
 					build();
 
