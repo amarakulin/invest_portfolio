@@ -3,13 +3,13 @@ import Title from '../../Basic/Title/Title'
 import Subtitle from '../../Basic/Subtitle/Subtitle'
 import FormInput from '../../Basic/FormInput/FormInput'
 import Button from '../../Basic/Button/Button'
+import { Form, Field } from 'react-final-form'
 import Link from '../../Basic/Link/Link'
-import { Form } from 'react-final-form'
-import { FORM_ERROR } from 'final-form'
 import { requiredField, emailValidator } from '../../../utils/validators'
 import Preloader from '../../Basic/Preloader/Preloader';
 import Error from '../../Basic/Error/Error';
-import { login } from '../../../redux/authReduser'
+import { logout } from '../../../redux/authReduser'
+import { composeValidators } from '../../../utils/validators'
 import { connect } from 'react-redux';
 
 const Container = styled.div`
@@ -25,7 +25,7 @@ const AlreadyExist = styled.h2`
 	color: #8692A6;
 `
 
-const AuthForm = (props) => {
+const SignUpForm = (props) => {
 
 	const onSubmit = async (formData) => {
 		// const error = await props.login(formData.login, formData.password, formData.rememberMe)
@@ -43,40 +43,53 @@ const AuthForm = (props) => {
 						<Title>Регистрация</Title>
 						<Subtitle>Пожалуйста, заполните все поля отмеченные *</Subtitle>
 						<hr></hr>
-						<FormInput 
+
+						<Field
 							id="name" 
 							labelText="Ваше полное имя*"
 							placeholder="Введите имя"
 							name="name"
 							type="text"
-							validate={[requiredField]}
-						/>
-						<FormInput
-							id="email"
+							validate={composeValidators(requiredField)}
+						>
+							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
+						</Field>
+
+						<Field
+							id="email" 
 							labelText="E-mail*"
 							placeholder="Введите E-mail"
 							name="email"
 							type="email"
-							validate={[requiredField, emailValidator]}
-						/>
-						<FormInput
+							validate={composeValidators(requiredField, emailValidator)}
+						>
+							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
+						</Field>
+
+						<Field
 							id="password"
-							labelText="Придумайте пароль*"
+							labelText="Пароль*"
 							placeholder="Введите пароль"
 							name="password"
 							type="password"
-							validate={[requiredField]}
-						/>
-						<FormInput
+							validate={composeValidators(requiredField)}
+						>
+							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
+						</Field>
+
+						<Field
 							id="re-password"
 							labelText="Повторите пароль*"
 							placeholder="Введите пароль"
 							name="re-password"
-							type="password"
-							validate={[requiredField]}
-						/>
+							type="re-password"
+							validate={composeValidators(requiredField)}
+						>
+							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
+						</Field>
+
 						{hasSubmitErrors && <Error> {submitError} </Error>}
-						<Button disabled={ submitting || pristine }>{submitting ? <Preloader /> : 'Войти'}</Button>
+						<Button disabled={submitting || pristine}>{submitting ? <Preloader /> : 'Войти'}</Button>
 						<AlreadyExist>Уже есть аккаунт? <Link to='/login'>Войти</Link></AlreadyExist>
 					</form>
 				</Container>
@@ -85,4 +98,4 @@ const AuthForm = (props) => {
 	)
 }
 
-export default connect(null, {})(AuthForm);
+export default connect(null, { logout })(SignUpForm);
