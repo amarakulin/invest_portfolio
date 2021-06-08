@@ -17,5 +17,24 @@ const Button = styled.button`
 	}
 `;
 
+export const AddAsset = styled(Button)`
+	font-weight: bold;
+	width: auto;
+	padding: 13px 16px 13px 13px;
+	margin-bottom: 10px;
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	&:before {
+		content: '+';
+		color: #fff;
+		font-weight: bold;
+		font-size: 2em;
+		line-height: 1;
+		margin-right: 25px;
+	}
+`
+
 
 export default Button;
