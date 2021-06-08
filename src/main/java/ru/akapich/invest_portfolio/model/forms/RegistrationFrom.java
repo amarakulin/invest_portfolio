@@ -9,6 +9,7 @@ import org.springframework.core.env.Environment;
 import ru.akapich.invest_portfolio.validator.custom_interfaces.ExistingEmail;
 import ru.akapich.invest_portfolio.validator.custom_interfaces.ExistingLogin;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
