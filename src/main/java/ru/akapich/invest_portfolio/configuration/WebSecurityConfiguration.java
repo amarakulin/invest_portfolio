@@ -73,6 +73,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.formLogin().loginProcessingUrl("/api/login").permitAll().defaultSuccessUrl("/home")//
 				.and()
 				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
+	}
+}
 //				.csrf().disable()
 //				.authorizeRequests()
 //				.anyRequest().authenticated()
@@ -90,5 +92,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //				.formLogin().permitAll().defaultSuccessUrl("/home")
 //				.and()
 //				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
-	}
-}
+
+
