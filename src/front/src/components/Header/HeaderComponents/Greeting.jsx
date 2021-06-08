@@ -14,7 +14,7 @@ const Name = styled.h2`
 
 const Greeting = (props) => {
 	return (
-		<StartWrapper>
+		<StartWrapper marginBottom={71}>
 			<LogoImg src={logo} alt="logo" />
 			<Name> { `Добрый день, ${props.name}` } </Name>
 		</StartWrapper>
