@@ -11,6 +11,10 @@ export const StartWrapper = styled(Wrapper)`
 	justify-content: start;
 `
 
+export const AlignEndWrapper = styled(Wrapper)`
+	align-items: flex-end;
+`
+
 export const Container = styled.div`
 	width: 75%;
 	margin: 0 auto;
