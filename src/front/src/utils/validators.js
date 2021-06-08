@@ -13,7 +13,7 @@ export const emailValidator = (value) => {
 export const validateRepasswordField = (values) => {
 	const errors = {}
 
-	if (values.password != values.rePassword)
+	if (values.password !== values.rePassword)
 		errors.password = 'Пароли должны совпадать'
 	return errors
 }
