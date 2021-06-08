@@ -49,11 +49,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/home").authenticated()
-				.antMatchers("/**").permitAll()
+				.anyRequest().authenticated()
 				.and()
-				.formLogin().permitAll().defaultSuccessUrl("/home")
+				.formLogin().loginPage("/api/login").permitAll().defaultSuccessUrl("/home")
 				.and()
 				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
+//		http
+//				.csrf().disable()
+//				.authorizeRequests()
+//				.antMatchers("/home").authenticated()
+//				.antMatchers("/**").permitAll()
+//				.and()
+//				.formLogin().permitAll().defaultSuccessUrl("/home")
+//				.and()
+//				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 	}
 }
