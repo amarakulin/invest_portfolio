@@ -13,7 +13,7 @@ import ru.akapich.invest_portfolio.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	User getUserByLogin(String login);
-	User getUserByEmail(String login);
+	User getUserByName(String name);
+	User getUserByEmail(String email);
 
 }
