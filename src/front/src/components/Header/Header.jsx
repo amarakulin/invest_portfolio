@@ -30,15 +30,13 @@ const Header = (props) => {
 					TEST
 				</Modal>
 				<Greeting name={props.name} />
-				<HeaderFooter openModal={props.openModal} />
+				<HeaderFooter 
+					openModal={props.openModal}
+					logout={props.logout}
+				/>
 			</Container>
 		</StyledHeader>
 	)
 }
 
-const mapStateToProps = (state) => ({
-	name: state.auth.name,
-	isModalOpen: state.modal.isOpen
-})
-
-export default connect(mapStateToProps, {openModal, closeModal})(Header);
+export default Header;

@@ -17,22 +17,28 @@ const Button = styled.button`
 	}
 `;
 
-export const AddAsset = styled(Button)`
+export const HeaderButton = styled(Button)`
 	font-weight: bold;
 	width: auto;
-	padding: 13px 16px 13px 13px;
+	padding: 13px 13px 13px 13px;
 	margin-bottom: 10px;
 	position: relative;
 	display: flex;
 	align-items: center;
+`
 
+export const AddAsset = styled(HeaderButton)`
+	margin-right: 20px;
+	padding-left: 45px;
 	&:before {
 		content: '+';
+		position: absolute;
+		left: 13px;
 		color: #fff;
 		font-weight: bold;
 		font-size: 2em;
 		line-height: 1;
-		margin-right: 25px;
+		// margin-right: 25px;
 	}
 `
 
