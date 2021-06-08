@@ -3,6 +3,8 @@ import { Container } from '../Basic/Wrapper/Wrapper';
 import { connect } from 'react-redux';
 import Greeting from './HeaderComponents/Greeting';
 import HeaderFooter from './HeaderComponents/HeaderFooter'
+import Modal from '../Modal/Modal'
+import {openModal, closeModal} from '../../redux/modalReduser'
 
 const StyledHeader = styled.header`
 	padding-top: 78px;
@@ -24,15 +26,19 @@ const Header = (props) => {
 	return (
 		<StyledHeader>
 			<Container>
+				<Modal closeModal={props.closeModal} display={props.isModalOpen}>
+					TEST
+				</Modal>
 				<Greeting name={props.name} />
-				<HeaderFooter />
+				<HeaderFooter openModal={props.openModal} />
 			</Container>
 		</StyledHeader>
 	)
 }
 
 const mapStateToProps = (state) => ({
-	name: state.auth.login
+	name: state.auth.name,
+	isModalOpen: state.modal.isOpen
 })
 
-export default connect(mapStateToProps, {})(Header);
+export default connect(mapStateToProps, {openModal, closeModal})(Header);

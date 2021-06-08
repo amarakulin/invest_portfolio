@@ -10,7 +10,7 @@ export const ModalContainer = styled.div`
 	width: 100vw;
 	height: 100vh;
 	background: rgba(0, 0, 0, 0.6);
-	display: ${props => props.display ? 'block' : 'none'}
+	display: ${props => props.display}
 `
 export const ModalDialog = styled.div`
 	z-index: 2;
