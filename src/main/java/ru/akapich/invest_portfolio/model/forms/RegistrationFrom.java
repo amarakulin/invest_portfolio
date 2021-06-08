@@ -25,7 +25,7 @@ public class RegistrationFrom {
 	@Value("${valid.size.login}")//TODO doesn't work
 	private final String a = "test";
 
-	//TODO if size invalid and existingLogin occures an error, because two messages
+	//TODO Valid only Askii symbols
 	@NotBlank(message = "valid.empty.login")
 	@Size(min = 5, max = 32, message = a)
 	@ExistingLogin
