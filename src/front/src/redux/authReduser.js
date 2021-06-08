@@ -61,7 +61,7 @@ export const logout = () => (dispatch) => {
 		})
 }
 
-export const signUp = (name, email, password, rePassword) => (dispatch) => {
+export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 	AuthAPI.signUp(name, email, password, rePassword)
 		.then(res => {
 			if (res.resultCode === 0) {

@@ -28,8 +28,8 @@ const AlreadyExist = styled.h2`
 
 const SignUpForm = (props) => {
 
-	const onSubmit = async () => {
-		const error = await props.signUp()
+	const onSubmit = async (formData) => {
+		const error = await props.signUp(formData)
 		
 		if (error)
 			return { [FORM_ERROR]: error }
