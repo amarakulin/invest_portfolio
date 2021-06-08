@@ -21,6 +21,7 @@ import java.util.Set;
 
 @Log4j2
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
 	@Autowired
@@ -32,14 +33,15 @@ public class UserController {
 		return "success user IN ";
 	}
 
-	@PostMapping("/registration")
+	@CrossOrigin(origins = "http://localhost:3000/signup")
+	@PostMapping("/api/signup")
 	public String registration(@Valid @RequestBody RegistrationFrom form, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.mergeAttributes(ValidatorController.getErrors(bindingResult));
 
 			//Logging
 			log.info(String.format("[-] User '%s' try to register and didn't pass validation",
-									form.getLogin()) );
+									form.getName()) );
 			Set<Map.Entry<String, Object>> map = model.asMap().entrySet();
 			map.stream().filter(entry -> entry.getKey().contains("Error")).forEach(entry -> log.info(String.format(
 					"[-] Error type: %s | Error message: %s",
@@ -50,7 +52,7 @@ public class UserController {
 		}
 		else {
 			User user = User.builder().
-					login(form.getLogin()).
+					name(form.getName()).
 					email(form.getEmail()).
 					password(form.getPassword()).
 					role("role.user").
@@ -60,7 +62,7 @@ public class UserController {
 			userDetailsService.save(user);
 
 			log.info(String.format("[+] New User '%s' successfully register with email '%s'.",
-								user.getLogin(), user.getEmail()));
+								user.getName(), user.getEmail()));
 
 			return "Registration success ";
 		}

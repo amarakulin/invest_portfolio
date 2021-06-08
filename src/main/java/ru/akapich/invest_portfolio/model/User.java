@@ -26,7 +26,7 @@ public class User {
 
 	@Column
 	@Size(min = 2, max = 10)
-	private String login;
+	private String name;
 	@Column
 	private String email;
 	@Column

@@ -21,14 +21,14 @@ public class RegistrationFrom {
 //	@Autowired
 //	private Environment env;
 
-	@Value("${valid.size.login}")//TODO doesn't work
+	@Value("${valid.size.name}")//TODO doesn't work
 	private final String a = "test";
 
 	//TODO Valid only Askii symbols
-	@NotBlank(message = "valid.empty.login")
+	@NotBlank(message = "valid.empty.name")
 	@Size(min = 5, max = 32, message = a)
 	@ExistingLogin
-	private String login;
+	private String name;
 
 	@NotBlank(message = "valid.empty.email")
 	@Email(message = "valid.email")
@@ -41,5 +41,5 @@ public class RegistrationFrom {
 
 	@NotBlank(message = "valid.empty.password")
 	@Size(min = 5, max = 32, message = "valid.size.password")
-	private String confirmPassword;
+	private String rePassword;
 }

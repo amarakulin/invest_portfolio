@@ -34,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.getUserByLogin(username);
+		User user = userRepository.getUserByName(username);
 
 		if (user == null){
 			log.info(String.format("[-] User '%s' can't log in", username));
@@ -45,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 			roles.add(new SimpleGrantedAuthority(user.getRole()));
 			log.info(String.format("[+] User '%s' log in", username));
 			return new org.springframework.security.core.userdetails.User(
-					user.getLogin(),
+					user.getName(),
 					user.getPassword(),
 					user.isEnable(),
 					true,
@@ -63,7 +63,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public boolean isLoginExist(String login) {
-		return userRepository.getUserByLogin(login) != null;
+		return userRepository.getUserByName(login) != null;
 	}
 
 	@Override
