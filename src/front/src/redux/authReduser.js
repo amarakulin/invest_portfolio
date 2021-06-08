@@ -4,7 +4,7 @@ export const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
 
 
 const initialState = {
-	login: null,
+	name: null,
 	email: null,
 	userID: null,
 	isAuth: localStorage.getItem('isAuth'),
@@ -25,13 +25,13 @@ const authReduser = (state = initialState, action) => {
 	}
 }
 
-export const setAuthUserData = (userID, email, login, isAuth) => ({ type: SET_AUTH_USER_DATA, payload: {userID, email, login}, isAuth});
+export const setAuthUserData = (userID, email, name, isAuth) => ({ type: SET_AUTH_USER_DATA, payload: {userID, email, name}, isAuth});
 
-export const login = (login, password, rememberMe) => (dispatch) => {
-	return AuthAPI.login(login, password, rememberMe)
+export const login = (email, password, rememberMe) => (dispatch) => {
+	return AuthAPI.login(email, password, rememberMe)
 		.then(res => {
 			if (res.resultCode === 0) {
-				dispatch(setAuthUserData(res.userID, res.email, res.login, res.isAuth)); //TODO getAuthUserData для получения информации залогиненого пользователя
+				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
 
 				if (rememberMe)
 					localStorage.setItem('isAuth', true);
@@ -54,6 +54,20 @@ export const logout = () => (dispatch) => {
 				dispatch(setAuthUserData(null, null, null, false));
 
 				localStorage.removeItem('isAuth');
+			}
+		})
+		.catch(err => {
+			return err.message
+		})
+}
+
+export const signUp = (name, email, password, rePassword) => (dispatch) => {
+	AuthAPI.signUp(name, email, password, rePassword)
+		.then(res => {
+			if (res.resultCode === 0) {
+				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+			} else {
+				return res.errorMessage;
 			}
 		})
 		.catch(err => {

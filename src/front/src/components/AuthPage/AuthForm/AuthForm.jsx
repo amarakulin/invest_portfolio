@@ -26,8 +26,7 @@ const Container = styled.div`
 const AuthForm = (props) => {
 
 	const onSubmit = async (formData) => {
-		console.log(formData);
-		const error = await props.login(formData.login, formData.password, formData.rememberMe)
+		const error = await props.login(formData.email, formData.password, formData.rememberMe)
 
 		if (error)
 			return { [FORM_ERROR]: error }
@@ -44,10 +43,10 @@ const AuthForm = (props) => {
 						<hr></hr>
 
 						<Field
-							id="login"
-							labelText="Логин*"
-							placeholder="Введите логин"
-							name="login"
+							id="email"
+							labelText="E-mail*"
+							placeholder="Введите e-mail"
+							name="email"
 							type="text"
 							validate={composeValidators(requiredField)}
 						>

@@ -3,7 +3,7 @@ import authReduser, { setAuthUserData } from '../redux/authReduser'
 it('Добавление значений в setAuthUserData', () => {
 	// Исходные данные
 	const initialState = {
-		login: null,
+		name: null,
 		email: null,
 		userID: null,
 		isAuth: localStorage.getItem("isAuth") || false,
@@ -15,13 +15,13 @@ it('Добавление значений в setAuthUserData', () => {
 	const newState = authReduser(initialState, action);
 
 	// Проверка
-	expect(newState).toEqual({login: 'akasha', email: "akasha@mail.ru", userID: 1, isAuth: true});
+	expect(newState).toEqual({name: 'akasha', email: "akasha@mail.ru", userID: 1, isAuth: true});
 })
 
 it('Обнуление значений в setAuthUserData', () => {
 	// Исходные данные
 	const initialState = {
-		login: 'akasha',
+		name: 'akasha',
 		email: "akasha@mail.ru",
 		userID: 1,
 		isAuth: true,
@@ -33,7 +33,7 @@ it('Обнуление значений в setAuthUserData', () => {
 	const newState = authReduser(initialState, action);
 
 	// Проверка
-	expect(newState).toEqual({login: null, email: null ,userID: null ,isAuth: false});
+	expect(newState).toEqual({name: null, email: null ,userID: null ,isAuth: false});
 })
 
 it('Fake login should return error', () => {
