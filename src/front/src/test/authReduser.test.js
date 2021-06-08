@@ -1,6 +1,6 @@
 import authReduser, { setAuthUserData } from '../redux/authReduser'
 
-it('setAuthUserData works wrong', () => {
+it('Добавление значений в setAuthUserData', () => {
 	// Исходные данные
 	const initialState = {
 		login: null,
@@ -16,6 +16,24 @@ it('setAuthUserData works wrong', () => {
 
 	// Проверка
 	expect(newState).toEqual({login: 'akasha', email: "akasha@mail.ru", userID: 1, isAuth: true});
+})
+
+it('Обнуление значений в setAuthUserData', () => {
+	// Исходные данные
+	const initialState = {
+		login: 'akasha',
+		email: "akasha@mail.ru",
+		userID: 1,
+		isAuth: true,
+	}
+
+	const action = setAuthUserData(null, null, null, false);
+
+	// Вызываем reduser
+	const newState = authReduser(initialState, action);
+
+	// Проверка
+	expect(newState).toEqual({login: null, email: null ,userID: null ,isAuth: false});
 })
 
 it('Fake login should return error', () => {
