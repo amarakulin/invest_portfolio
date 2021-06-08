@@ -5,7 +5,7 @@ import FormInput from '../../Basic/FormInput/FormInput'
 import Button from '../../Basic/Button/Button'
 import { Form, Field } from 'react-final-form'
 import Link from '../../Basic/Link/Link'
-import { requiredField, emailValidator } from '../../../utils/validators'
+import { requiredField, emailValidator, validateRepasswordField } from '../../../utils/validators'
 import Preloader from '../../Basic/Preloader/Preloader';
 import Error from '../../Basic/Error/Error';
 import { logout } from '../../../redux/authReduser'
@@ -37,6 +37,7 @@ const SignUpForm = (props) => {
 	return (
 		<Form
 			onSubmit={onSubmit}
+			validate={validateRepasswordField}
 			render={({ handleSubmit, submitting, pristine, hasSubmitErrors, submitError}) => (
 				<Container>
 					<form onSubmit={handleSubmit}>
@@ -78,10 +79,10 @@ const SignUpForm = (props) => {
 						</Field>
 
 						<Field
-							id="re-password"
+							id="rePassword"
 							labelText="Повторите пароль*"
 							placeholder="Введите пароль"
-							name="re-password"
+							name="rePassword"
 							type="password"
 							validate={composeValidators(requiredField)}
 						>
