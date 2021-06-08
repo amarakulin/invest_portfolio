@@ -5,13 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.akapich.invest_portfolio.model.forms.LoginResponseForm;
 import ru.akapich.invest_portfolio.model.forms.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.User;
 import ru.akapich.invest_portfolio.service.UserService;
 import ru.akapich.invest_portfolio.validator.ValidatorController;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Controller for {@link User}'s pages.
@@ -21,10 +22,34 @@ import java.util.Set;
 
 @Log4j2
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
 	@Autowired
 	private UserService userDetailsService;
+
+
+	private LoginResponseForm getLoginResponse(User user, String errorMessage){
+		//TODO Refactor
+		LoginResponseForm response;
+		if (errorMessage.equals("")){
+			response = LoginResponseForm.builder().
+					error(errorMessage).
+					resultCode(0).
+					userID(user.getId()).
+					email(user.getEmail()).
+					name(user.getName()).build();
+		}
+		else{
+			response = LoginResponseForm.builder().
+					error(errorMessage).
+					resultCode(1).
+					userID(null).
+					email(null).
+					name(null).build();
+		}
+		return response;
+	}
 
 	@GetMapping("/home")
 	public String home() {
@@ -32,38 +57,39 @@ public class UserController {
 		return "success user IN ";
 	}
 
-	@PostMapping("/registration")
-	public String registration(@Valid @RequestBody RegistrationFrom form, BindingResult bindingResult, Model model) {
+	@CrossOrigin(origins = "http://localhost:3000/signup")
+	@PostMapping("/api/signup")
+	public LoginResponseForm registration(@Valid @RequestBody RegistrationFrom form, BindingResult bindingResult, Model model) {
+		User user = null;
+		String errorMessage = "";
+
 		if (bindingResult.hasErrors()) {
 			model.mergeAttributes(ValidatorController.getErrors(bindingResult));
 
-			//Logging
-			log.info(String.format("[-] User '%s' try to register and didn't pass validation",
-									form.getLogin()) );
-			Set<Map.Entry<String, Object>> map = model.asMap().entrySet();
-			map.stream().filter(entry -> entry.getKey().contains("Error")).forEach(entry -> log.info(String.format(
-					"[-] Error type: %s | Error message: %s",
-					entry.getKey(),
-					entry.getValue())));
+			errorMessage = model.asMap().entrySet().stream().
+					filter(key -> key.getKey().contains("Error")).
+					findFirst().
+					get().
+					getValue().toString();//TODO get withot isPresent!!!
 
-			return "User didn't pass validation";
+			log.info(String.format("[-] User '%s' try to register and didn't pass validation. Error message: %s",
+					form.getName(), errorMessage));
 		}
 		else {
-			User user = User.builder().
-					login(form.getLogin()).
+			user = User.builder().
+					name(form.getName()).
 					email(form.getEmail()).
 					password(form.getPassword()).
 					role("role.user").
 					enable(true).
 					build();
-
 			userDetailsService.save(user);
 
 			log.info(String.format("[+] New User '%s' successfully register with email '%s'.",
-								user.getLogin(), user.getEmail()));
-
-			return "Registration success ";
+								user.getName(), user.getEmail()));
 		}
+
+		return getLoginResponse(user, errorMessage);
 	}
 }
 

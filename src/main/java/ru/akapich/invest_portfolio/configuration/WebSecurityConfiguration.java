@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * Security Configuration.
@@ -20,7 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -45,23 +49,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**")
+				.allowedOrigins("http://localhost:3000")
+				.allowedMethods("*");
+	}
+
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+				.cors(withDefaults())
 				.csrf().disable()
-				.authorizeRequests()
+				.authorizeRequests().antMatchers("/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
-				.formLogin().loginPage("/api/login").permitAll().defaultSuccessUrl("/home")
+				.formLogin().loginProcessingUrl("/api/login").permitAll().defaultSuccessUrl("/home")//
 				.and()
 				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
-//		http
-//				.csrf().disable()
-//				.authorizeRequests()
-//				.antMatchers("/home").authenticated()
-//				.antMatchers("/**").permitAll()
-//				.and()
-//				.formLogin().permitAll().defaultSuccessUrl("/home")
-//				.and()
-//				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 	}
 }
+
+
+
