@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { TabLink } from '../../Basic/Link/Link'
 import { StartWrapper } from '../../Basic/Wrapper/Wrapper'
 

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { Container } from '../Basic/Wrapper/Wrapper';
-import Greeting from './HeaderComponents/Greeting';
 import { connect } from 'react-redux';
+import Greeting from './HeaderComponents/Greeting';
+import HeaderFooter from './HeaderComponents/HeaderFooter'
 
 const StyledHeader = styled.header`
 	padding-top: 78px;
@@ -24,6 +25,7 @@ const Header = (props) => {
 		<StyledHeader>
 			<Container>
 				<Greeting name={props.name} />
+				<HeaderFooter />
 			</Container>
 		</StyledHeader>
 	)
