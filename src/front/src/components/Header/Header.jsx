@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import { Container } from '../Basic/Wrapper/Wrapper';
-import { connect } from 'react-redux';
 import Greeting from './HeaderComponents/Greeting';
 import HeaderFooter from './HeaderComponents/HeaderFooter'
 import Modal from '../Modal/Modal'
-import {openModal, closeModal} from '../../redux/modalReduser'
 
 const StyledHeader = styled.header`
 	padding-top: 78px;

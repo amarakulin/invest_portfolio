@@ -61,8 +61,8 @@ export const logout = () => (dispatch) => {
 		})
 }
 
-export const signUp = (name, email, password, rePassword) => (dispatch) => {
-	AuthAPI.signUp(name, email, password, rePassword)
+export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
+	return AuthAPI.signUp(name, email, password, rePassword)
 		.then(res => {
 			if (res.resultCode === 0) {
 				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя

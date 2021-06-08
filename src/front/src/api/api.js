@@ -11,6 +11,7 @@ export const AuthAPI = {
 			password,
 			rememberMe
 		})
+		.then(res => res.data)
 	},
 	logout() {
 		return api.delete('login')
@@ -22,5 +23,6 @@ export const AuthAPI = {
 			password,
 			rePassword
 		})
+		.then(res => res.data)
 	}
 }

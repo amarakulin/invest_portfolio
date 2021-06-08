@@ -8,7 +8,7 @@ import Link from '../../Basic/Link/Link'
 import { requiredField, emailValidator, validateRepasswordField } from '../../../utils/validators'
 import Preloader from '../../Basic/Preloader/Preloader';
 import Error from '../../Basic/Error/Error';
-import { logout } from '../../../redux/authReduser'
+import { signUp } from '../../../redux/authReduser'
 import { composeValidators } from '../../../utils/validators'
 import { connect } from 'react-redux';
 import { FORM_ERROR } from 'final-form'
@@ -28,8 +28,8 @@ const AlreadyExist = styled.h2`
 
 const SignUpForm = (props) => {
 
-	const onSubmit = async () => {
-		const error = await props.logout()
+	const onSubmit = async (formData) => {
+		const error = await props.signUp(formData)
 		
 		if (error)
 			return { [FORM_ERROR]: error }
@@ -100,4 +100,4 @@ const SignUpForm = (props) => {
 	)
 }
 
-export default connect(null, { logout })(SignUpForm);
+export default connect(null, { signUp })(SignUpForm);
