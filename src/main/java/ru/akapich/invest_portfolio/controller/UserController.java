@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.akapich.invest_portfolio.model.forms.LoginResponseForm;
 import ru.akapich.invest_portfolio.model.forms.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.User;
 import ru.akapich.invest_portfolio.service.UserService;
@@ -27,6 +28,7 @@ public class UserController {
 	@Autowired
 	private UserService userDetailsService;
 
+
 	@GetMapping("/home")
 	public String home() {
 		log.info("/home! ");
@@ -35,20 +37,33 @@ public class UserController {
 
 	@CrossOrigin(origins = "http://localhost:3000/signup")
 	@PostMapping("/api/signup")
-	public String registration(@Valid @RequestBody RegistrationFrom form, BindingResult bindingResult, Model model) {
+	public LoginResponseForm registration(@Valid @RequestBody RegistrationFrom form, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
 			model.mergeAttributes(ValidatorController.getErrors(bindingResult));
+			String errorMessage = model.asMap().entrySet().stream().
+					filter(key -> key.getKey().contains("Error")).
+					findFirst().
+					get().
+					getValue().toString();//TODO get withot isPresent!!!
 
 			//Logging
-			log.info(String.format("[-] User '%s' try to register and didn't pass validation",
-									form.getName()) );
 			Set<Map.Entry<String, Object>> map = model.asMap().entrySet();
 			map.stream().filter(entry -> entry.getKey().contains("Error")).forEach(entry -> log.info(String.format(
 					"[-] Error type: %s | Error message: %s",
 					entry.getKey(),
 					entry.getValue())));
 
-			return "User didn't pass validation";
+			LoginResponseForm response = LoginResponseForm.builder().
+					error(errorMessage).
+					resultCode(1).
+					userID(null).
+					email(null).
+					name(null).build();
+
+			log.info(String.format("[-] User '%s' try to register and didn't pass validation",
+					form.getName()) );
+
+			return response;
 		}
 		else {
 			User user = User.builder().
@@ -58,13 +73,19 @@ public class UserController {
 					role("role.user").
 					enable(true).
 					build();
-
 			userDetailsService.save(user);
+
+			LoginResponseForm response = LoginResponseForm.builder().
+					error("").
+					resultCode(0).
+					userID(user.getId()).
+					email(user.getEmail()).
+					name(user.getName()).build();
 
 			log.info(String.format("[+] New User '%s' successfully register with email '%s'.",
 								user.getName(), user.getEmail()));
 
-			return "Registration success ";
+			return response;
 		}
 	}
 }
