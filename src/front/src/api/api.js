@@ -14,5 +14,8 @@ export const AuthAPI = {
 	},
 	logout() {
 		return api.delete('login')
+	},
+	signUp() {
+		
 	}
 }
