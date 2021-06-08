@@ -19,7 +19,13 @@ function App(props) {
 					component={ SignUpPage }
 				/>
 				<Route
+					exact
 					path="/"
+					component={ HomePage }
+				/>
+				<Route
+					exact
+					path="/assets"
 					component={ HomePage }
 				/>
 				<Route
