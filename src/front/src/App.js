@@ -2,14 +2,12 @@ import AuthPage from './components/AuthPage/AuthPage'
 import SignUpPage from './components/SignUpPage/SignUpPage'
 import HomePage from './components/HomePage/HomePage'
 import NotFound from './components/NotFound/NotFound'
-import { Route, BrowserRouter as Router, Redirect, Switch } from 'react-router-dom'
-import { connect } from 'react-redux';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
-function App(props) {
+function App() {
 	return (
 		<Router>
 			<Switch>
-				{props.isAuth && <Redirect to='/home' />}
 				<Route
 					path="/login"
 					component={AuthPage}
@@ -36,8 +34,4 @@ function App(props) {
 	);
 }
 
-const mapStateToProps = (state) => ({
-	isAuth: state.auth.isAuth
-})
-
-export default connect(mapStateToProps, {})(App);
+export default App;
