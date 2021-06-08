@@ -1,10 +1,32 @@
+import AuthPage from './components/AuthPage/AuthPage'
+import SignUpPage from './components/SignUpPage/SignUpPage'
+import NotFound from './components/NotFound/NotFound'
+import { Route, BrowserRouter as Router, Redirect, Switch } from 'react-router-dom'
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      
-    </div>
-  );
+function App(props) {
+	return (
+		<Router>
+			<Switch>
+				{props.isAuth && <Redirect to='/home' />}
+				<Route
+					path="/login"
+					component={AuthPage}
+				/>
+				<Route
+					path="/signup"
+					component={ SignUpPage }
+				/>
+				<Route
+					component={NotFound}
+				/>
+			</Switch>
+		</Router>
+	);
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+	isAuth: state.auth.isAuth
+})
+
+export default connect(mapStateToProps, {})(App);

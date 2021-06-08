@@ -1,1 +1,10 @@
 @import "reseter.css";
+
+*, *::after, *::before {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Inter', sans-serif;
+	font-style: normal;
+}
