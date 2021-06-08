@@ -11,6 +11,7 @@ import Error from '../../Basic/Error/Error';
 import { logout } from '../../../redux/authReduser'
 import { composeValidators } from '../../../utils/validators'
 import { connect } from 'react-redux';
+import { FORM_ERROR } from 'final-form'
 
 const Container = styled.div`
 	width: 100%;
@@ -27,11 +28,11 @@ const AlreadyExist = styled.h2`
 
 const SignUpForm = (props) => {
 
-	const onSubmit = async (formData) => {
-		// const error = await props.login(formData.login, formData.password, formData.rememberMe)
+	const onSubmit = async () => {
+		const error = await props.logout()
 		
-		// if (error)
-		// 	return { [FORM_ERROR]: error }
+		if (error)
+			return { [FORM_ERROR]: error }
 	}
 
 	return (
