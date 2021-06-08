@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import SignUpForm from './SignUpForm/SignUpForm'
 import AuthBG from '../../assets/AuthBG.png'
 import {AuthImg} from '../Basic/Img/Img'
 import { withAuthRedirectToHome } from '../../HOC/withRedirect'
@@ -9,13 +8,13 @@ const Container = styled.div`
 	align-items: center;
 `
 
-const AuthPage = (props) => {
+const LoginPage = (props) => {
 	return (
 		<Container>
 			<AuthImg src={AuthBG} alt="img" />
-			<SignUpForm />
+			{props.form}
 		</Container>
 	)
 }
 
-export default withAuthRedirectToHome(AuthPage);
+export default withAuthRedirectToHome(LoginPage);

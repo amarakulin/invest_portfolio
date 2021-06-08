@@ -1,8 +1,9 @@
-import AuthPage from './components/AuthPage/AuthPage'
-import SignUpPage from './components/SignUpPage/SignUpPage'
+import LoginPage from './components/LoginPage/LoginPage'
 import HomePage from './components/HomePage/HomePage'
 import NotFound from './components/NotFound/NotFound'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import AuthForm from './components/Forms/AuthForm/AuthForm'
+import SignUpForm from './components/Forms/SignUpForm/SignUpForm'
 
 function App() {
 	return (
@@ -10,11 +11,11 @@ function App() {
 			<Switch>
 				<Route
 					path="/login"
-					component={AuthPage}
+					render={() => <LoginPage form={<AuthForm />}></LoginPage>}
 				/>
 				<Route
 					path="/signup"
-					component={ SignUpPage }
+					render={() => <LoginPage form={<SignUpForm />}></LoginPage>}
 				/>
 				<Route
 					exact

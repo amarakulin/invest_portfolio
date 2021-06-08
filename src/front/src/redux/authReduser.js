@@ -39,7 +39,7 @@ export const login = (email, password, rememberMe) => (dispatch) => {
 					localStorage.removeItem('isAuth');
 				
 			} else {
-				return res.errorMessage;
+				return res.error;
 			}
 		})
 		.catch(err => {
@@ -67,7 +67,7 @@ export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 			if (res.resultCode === 0) {
 				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
 			} else {
-				return res.errorMessage;
+				return res.error;
 			}
 		})
 		.catch(err => {
