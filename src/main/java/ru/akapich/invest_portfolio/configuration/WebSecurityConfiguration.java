@@ -63,7 +63,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 				.authorizeRequests().antMatchers("/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
-				.formLogin().loginProcessingUrl("/api/login").permitAll().defaultSuccessUrl("/home")//
+				.formLogin().loginProcessingUrl("/api/auth/login").permitAll().defaultSuccessUrl("/home")//
 				.and()
 				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 	}

@@ -58,7 +58,7 @@ public class UserController {
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000/signup")
-	@PostMapping("/api/signup")
+	@PostMapping("/api/auth/signup")
 	public LoginResponseForm registration(@Valid @RequestBody RegistrationFrom form, BindingResult bindingResult, Model model) {
 		User user = null;
 		String errorMessage = "";

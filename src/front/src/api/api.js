@@ -6,7 +6,7 @@ const api = axios.create({
 
 export const AuthAPI = {
 	login(email, password, rememberMe = false) {
-		return api.post('login', {
+		return api.post('auth/login', {
 			email,
 			password,
 			rememberMe
@@ -14,10 +14,10 @@ export const AuthAPI = {
 		.then(res => res.data)
 	},
 	logout() {
-		return api.delete('login')
+		return api.delete('auth/login')
 	},
 	signUp(name, email, password, rePassword) {
-		return api.post('signup', {
+		return api.post('auth/signup', {
 			name,
 			email,
 			password,
