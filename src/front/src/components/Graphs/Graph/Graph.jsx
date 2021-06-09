@@ -1,4 +1,5 @@
 import React from 'react';
+import Tooltip from './Tooltip'
 import {Canvas} from './Canvas'
  
 export function getChartData() {
@@ -581,10 +582,26 @@ class Graph extends React.Component {
     this.proxy.mouse = {
       x: (clientX - left) * 2 - this.offsetX
     }
-  }
+	}
+	
+	tooltip = () => {
+		return {
+			show() {
+
+			}, 
+			hide() {
+
+			}
+		}
+	}
 
 	render() {
-		return <Canvas ref={this.canvasRef} onMouseMove={this.mousemove} />
+		return (
+			<>
+				<Canvas ref={this.canvasRef} onMouseMove={this.mousemove} />
+				<Tooltip data={[]} />
+			</>
+		)
 	}
 }
 
