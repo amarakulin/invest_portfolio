@@ -436,7 +436,7 @@ class Graph extends React.Component {
 	}
 
   renderLines = () => {
-    const renderLine = (coords, color) => {
+    const renderLine = (coords, color = '#09f10a') => {
       this.ctx.beginPath();
       this.ctx.lineWidth = 4;
       this.ctx.strokeStyle = color;
@@ -450,7 +450,15 @@ class Graph extends React.Component {
     this.yData.forEach(line => {
 			const coords = line.map(this.toCoords).filter((_, i) => i !== 0);
 			
-			renderLine(coords, '#09f10a');
+			renderLine(coords, '#09f');
+
+			for (const [x, y] of coords) {
+				if (this.isOver(x - this.offsetX, coords.length)) {
+					this.circle(x, y);
+					break ;
+				}
+
+			}
 		})
   }
 
@@ -544,6 +552,19 @@ class Graph extends React.Component {
 			}
 		})
 		return [min, max];
+	}
+
+	circle = (x, y, color = '#ff0000') => {
+		this.ctx.beginPath();
+
+		this.ctx.strokeStyle = color;
+		this.ctx.fillStyle = '#fff';
+
+		this.ctx.arc(x, y, 8, 0, Math.PI * 2)
+		this.ctx.fill();
+		this.ctx.stroke();
+		
+		this.ctx.closePath();
 	}
 
   toDate = (timestamp) => {
