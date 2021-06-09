@@ -33,17 +33,17 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.getUserByName(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userRepository.getUserByEmail(email);
 
 		if (user == null){
-			log.info(String.format("[-] User '%s' can't log in", username));
+			log.info(String.format("[-] User with email: '%s' can't log in", email));
 			throw new UsernameNotFoundException("Неправильный Логин/Пароль");
 		}
 		else{
 			Collection<SimpleGrantedAuthority> roles = new HashSet<>();
 			roles.add(new SimpleGrantedAuthority(user.getRole()));
-			log.info(String.format("[+] User '%s' log in", username));
+			log.info(String.format("[+] User with email: '%s' log in", email));
 			return new org.springframework.security.core.userdetails.User(
 					user.getName(),
 					user.getPassword(),
