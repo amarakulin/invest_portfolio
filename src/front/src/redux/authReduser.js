@@ -66,6 +66,7 @@ export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 		.then(res => {
 			if (res.resultCode === 0) {
 				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+				localStorage.setItem('isAuth', true);
 			} else {
 				return res.error;
 			}
