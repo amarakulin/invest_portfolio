@@ -389,7 +389,7 @@ class Graph extends React.Component {
 		this.PADDING = this.DPI_HEIGHT * 0.05;
 
 		this.VIEW_HEIGHT = this.DPI_HEIGHT - this.PADDING * 2;
-		this.VIEW_WIDTH = this.DPI_WIDTH;
+		this.VIEW_WIDTH = this.DPI_WIDTH - this.offsetX;
 
 		this.yRatio = this.VIEW_HEIGHT / (this.yMax - this.yMin);
 		this.xRatio = this.VIEW_WIDTH / (this.data.lines[0].length - 2);
