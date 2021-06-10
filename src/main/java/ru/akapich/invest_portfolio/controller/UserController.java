@@ -2,12 +2,15 @@ package ru.akapich.invest_portfolio.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.akapich.invest_portfolio.model.forms.LoginForm;
 import ru.akapich.invest_portfolio.model.forms.LoginResponseForm;
 import ru.akapich.invest_portfolio.model.forms.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.User;
+import ru.akapich.invest_portfolio.repository.UserRepository;
 import ru.akapich.invest_portfolio.service.UserService;
 import ru.akapich.invest_portfolio.validator.ValidatorController;
 import javax.validation.Valid;
@@ -27,6 +30,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userDetailsService;
+
+	@Autowired
+	private UserRepository userRepository;
 
 
 	private LoginResponseForm getLoginResponse(User user, String errorMessage){
@@ -57,10 +63,18 @@ public class UserController {
 		return "success user IN ";
 	}
 
-	@PostMapping("/api/auth/login")
-	public String loginPost() {
-		log.info("/login!");
-		return "LOGIN ";
+	@PostMapping(path = "/api/auth/login", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+	public LoginResponseForm loginPost(@Valid LoginForm form, Model model) {
+
+		User user = null;
+		String errorMessage = "";
+
+		user = userRepository.getUserByEmail(form.getEmail());
+
+		log.info(String.format("[+] User '%s' log in with email '%s'.",
+				user.getName(), user.getEmail()));
+
+		return getLoginResponse(user, errorMessage);
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000/signup")
