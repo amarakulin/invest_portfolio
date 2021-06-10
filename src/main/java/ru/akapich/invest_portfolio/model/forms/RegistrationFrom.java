@@ -17,8 +17,7 @@ import javax.validation.constraints.Size;
 @Component
 public class RegistrationFrom {
 
-	//TODO Valid only Askii symbols
-	@NotBlank()
+	@NotBlank(message = "{valid.empty.name}")
 	@Size(min = 2, max = 32, message = "{valid.size.name}")
 	@ExistingLogin
 	private String name;
