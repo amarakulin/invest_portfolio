@@ -57,6 +57,12 @@ public class UserController {
 		return "success user IN ";
 	}
 
+	@PostMapping("/api/auth/login")
+	public String loginPost() {
+		log.info("/login!");
+		return "LOGIN ";
+	}
+
 	@CrossOrigin(origins = "http://localhost:3000/signup")
 	@PostMapping("/api/auth/signup")
 	public LoginResponseForm registration(@Valid @RequestBody RegistrationFrom form, BindingResult bindingResult, Model model) {

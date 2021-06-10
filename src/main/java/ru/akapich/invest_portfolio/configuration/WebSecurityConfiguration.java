@@ -14,7 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ru.akapich.invest_portfolio.configuration.filter.CustomBeforeAuthenticationFilter;
+//import ru.akapich.invest_portfolio.configuration.filter.CustomBeforeAuthenticationFilter;
+import ru.akapich.invest_portfolio.service.impl.UserDetailsServiceImpl;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -29,8 +30,11 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
+//	@Autowired
+//	private UserDetailsService userDetailsService;
+
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
 
 	@Bean
 	public  BCryptPasswordEncoder bCryptPasswordEncoder(){
@@ -51,39 +55,59 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 		auth.authenticationProvider(authenticationProvider());
 	}
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-				.allowedOrigins("http://localhost:3000")
-				.allowedMethods("*");
-	}
+//	@Override
+//	public void addCorsMappings(CorsRegistry registry) {
+//		registry.addMapping("/**")
+//				.allowedOrigins("http://localhost:3000")
+//				.allowedMethods("*");
+//	}
 
 
-	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
-
-	@Autowired
-	public CustomBeforeAuthenticationFilter customBeforeAuthenticationFilter;
+//	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+//	@Override
+//	public AuthenticationManager authenticationManagerBean() throws Exception {
+//		return super.authenticationManagerBean();
+//	}
+//
+//	@Autowired
+//	public CustomBeforeAuthenticationFilter customBeforeAuthenticationFilter;
 
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.cors(withDefaults())
 				.csrf().disable()
 				.authorizeRequests().antMatchers("/**").permitAll()
 				.anyRequest().authenticated()
 					.and()
-				.addFilterBefore(customBeforeAuthenticationFilter, CustomBeforeAuthenticationFilter.class)
-				.formLogin().permitAll()
-				.loginProcessingUrl("/api/auth/login").usernameParameter("email")
-				.defaultSuccessUrl("/home")
+				.formLogin()
+				.usernameParameter("email").defaultSuccessUrl("/api/auth/login")
 					.and()
 				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 	}
 }
+//.loginProcessingUrl("/api/auth/login").
+//http.authorizeRequests()
+//		.antMatchers("/home", "/admin").authenticated()
+//		.antMatchers("/**").permitAll()
+//		.and()
+//		.formLogin().permitAll().defaultSuccessUrl("/home")
+//		.and()
+//		.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 
+
+//				.cors(withDefaults())
+//.addFilterBefore(customBeforeAuthenticationFilter, CustomBeforeAuthenticationFilter.class)
+//http.csrf().disable().authorizeRequests()
+//		//...
+//		.antMatchers(
+//		HttpMethod.GET,
+//		"/index*", "/static/**", "/*.js", "/*.json", "/*.ico")
+//		.permitAll()
+//		.anyRequest().authenticated()
+//		.and()
+//		.formLogin().loginPage("/index.html")
+//		.loginProcessingUrl("/perform_login")
+//		.defaultSuccessUrl("/homepage.html",true)
+//		.failureUrl("/index.html?error=true")
 
