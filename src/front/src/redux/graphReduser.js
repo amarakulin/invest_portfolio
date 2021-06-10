@@ -1,46 +1,39 @@
-const SET_TOOLTIP_DATA = 'SET_TOOLTIP_DATA';
-const RESETE_TOOLTIP_DATA = 'RESETE_TOOLTIP_DATA';
-const SET_MOUSE_X = 'SET_MOUSE_X';
-const RESET_MOUSE_X = 'RESET_MOUSE_X';
+const SET_DATA = 'SET_DATA'
+const RESET_DATA = 'RESET_DATA'
 
 const initialState = {
 	tooltip: {
-		showTooltip: false,
 		top: null,
 		left: null,
 		title: '',
 		data: []
 	},
+	showTooltip: false,
 	mouseX: null
 }
 
 const graphReduser = (state = initialState, action) => {
 	switch (action.type) {
-		case SET_TOOLTIP_DATA: {
+		case SET_DATA: {
 			return {
 				...state,
 				tooltip: {
 					...action.tooltip
-				}
-			}
-		}
-		case RESETE_TOOLTIP_DATA: {
-			return {
-				...state,
-				tooltip: {
-					...action.tooltip
-				}
-			}
-		}
-		case SET_MOUSE_X: {
-			return {
-				...state,
+				},
+				showTooltip: true,
 				mouseX: action.x
 			}
 		}
-		case RESET_MOUSE_X: {
+		case RESET_DATA: {
 			return {
 				...state,
+				tooltip: {
+					top: null,
+					left: null,
+					title: '',
+					data: []
+				},
+				showTooltip: false,
 				mouseX: null
 			}
 		}
@@ -50,33 +43,19 @@ const graphReduser = (state = initialState, action) => {
 	}
 }
 
-export const setTooltipData = ({top, left, title, data}) => {
-	return {
-		type: SET_TOOLTIP_DATA,
-		tooltip: {
-			showTooltip: true,
-			top,
-			left,
-			title,
-			data
-		}
-	}
-}
+export const setData = ({top, left, title, data, x}) => ({
+	type: SET_DATA,
+	tooltip: {
+		top,
+		left,
+		title,
+		data
+	},
+	x: x
+})
 
-export const resetTooltipData = () => {
-	return {
-		type: SET_TOOLTIP_DATA,
-		tooltip: {
-			showTooltip: false,
-			top: null,
-			left: null,
-			title: '',
-			data: []
-		}
-	}
-}
-
-export const setMouseX = (x) => ({type: SET_MOUSE_X, x})
-export const resetMouseX = () => ({type: SET_MOUSE_X})
+export const resetData = () => ({
+	type: RESET_DATA,
+})
 
 export default graphReduser;

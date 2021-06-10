@@ -1,26 +1,27 @@
-import graphReduser, {setTooltipData, resetTooltipData, setMouseX, resetMouseX} from '../redux/graphReduser.js';
+import graphReduser, {setData, resetData} from '../redux/graphReduser.js';
 
-it('Добавление значений через setTooltipData', () => {
+it('Добавление значений через setData', () => {
 	// Исходные данные
 	const initialState = {
 		tooltip: {
-			showTooltip: false,
 			top: null,
 			left: null,
 			title: '',
 			data: []
 		},
-		mouseX: 10
+		showTooltip: false,
+		mouseX: null
 	}
 
-	const tooltipData = {
-		showTooltip: true,
+	const data = {
 		top: 100,
 		left: 200,
 		title: 'hello',
-		data: [123, 456, 89]
+		data: [123, 456, 89],
+		x: 100,
 	}
-	const action = setTooltipData(tooltipData);
+
+	const action = setData(data);
 
 	// Вызываем reduser
 	const newState = graphReduser(initialState, action);
@@ -28,30 +29,31 @@ it('Добавление значений через setTooltipData', () => {
 	// Проверка
 	expect(newState).toEqual({
 		tooltip: {
-			showTooltip: true,
 			top: 100,
 			left: 200,
 			title: 'hello',
 			data: [123, 456, 89]
 		},
-		mouseX: 10
+		showTooltip: true,
+		mouseX: 100,
 	});
 })
 
-it('Reset значений через resetTooltipData', () => {
+it('Удаление значений через resetData', () => {
 	// Исходные данные
 	const initialState = {
 		tooltip: {
-			showTooltip: true,
 			top: 100,
 			left: 200,
 			title: 'hello',
 			data: [123, 456, 89]
 		},
-		mouseX: 10
+		showTooltip: true,
+		mouseX: 100,
 	}
 
-	const action = resetTooltipData();
+
+	const action = resetData();
 
 	// Вызываем reduser
 	const newState = graphReduser(initialState, action);
@@ -59,136 +61,12 @@ it('Reset значений через resetTooltipData', () => {
 	// Проверка
 	expect(newState).toEqual({
 		tooltip: {
-			showTooltip: false,
 			top: null,
 			left: null,
 			title: '',
 			data: []
 		},
-		mouseX: 10
-	});
-})
-
-it('set значений через setMouseX, если в mouseX null', () => {
-	// Исходные данные
-	const initialState = {
-		tooltip: {
-			showTooltip: false,
-			top: null,
-			left: null,
-			title: '',
-			data: []
-		},
-		mouseX: null
-	}
-
-	const action = setMouseX(100);
-
-	// Вызываем reduser
-	const newState = graphReduser(initialState, action);
-
-	// Проверка
-	expect(newState).toEqual({
-		tooltip: {
-			showTooltip: false,
-			top: null,
-			left: null,
-			title: '',
-			data: []
-		},
-		mouseX: 100
-	});
-})
-
-it('set значений через setMouseX, если в mouseX не null', () => {
-	// Исходные данные
-	const initialState = {
-		tooltip: {
-			showTooltip: false,
-			top: null,
-			left: null,
-			title: '',
-			data: []
-		},
-		mouseX: 50
-	}
-
-	const action = setMouseX(100);
-
-	// Вызываем reduser
-	const newState = graphReduser(initialState, action);
-
-	// Проверка
-	expect(newState).toEqual({
-		tooltip: {
-			showTooltip: false,
-			top: null,
-			left: null,
-			title: '',
-			data: []
-		},
-		mouseX: 100
-	});
-})
-
-it('reset значений через setMouseX, если в mouseX не null', () => {
-	// Исходные данные
-	const initialState = {
-		tooltip: {
-			showTooltip: false,
-			top: null,
-			left: null,
-			title: '',
-			data: []
-		},
-		mouseX: 50
-	}
-
-	const action = resetMouseX();
-
-	// Вызываем reduser
-	const newState = graphReduser(initialState, action);
-
-	// Проверка
-	expect(newState).toEqual({
-		tooltip: {
-			showTooltip: false,
-			top: null,
-			left: null,
-			title: '',
-			data: []
-		},
-		mouseX: null
-	});
-})
-
-it('reset значений через setMouseX, если в tooltip есть данные', () => {
-	// Исходные данные
-	const initialState = {
-		tooltip: {
-			showTooltip: true,
-			top: 100,
-			left: 200,
-			title: 'hello',
-			data: [123, 456, 89]
-		},
-		mouseX: 50
-	}
-
-	const action = resetMouseX();
-
-	// Вызываем reduser
-	const newState = graphReduser(initialState, action);
-
-	// Проверка
-	expect(newState).toEqual({
-		tooltip: {
-			showTooltip: true,
-			top: 100,
-			left: 200,
-			title: 'hello',
-			data: [123, 456, 89]
-		},
+		showTooltip: false,
 		mouseX: null
 	});
 })
