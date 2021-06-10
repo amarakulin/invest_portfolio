@@ -29,9 +29,10 @@ const Tooltip = (props) => {
 
 	const titleStyle = {
 		margin: 0,
-		fontSize: '16px',
-		lineHeight: '16px',
+		fontSize: '18px',
+		lineHeight: '18px',
 		fontWeight: 'normal',
+		textAlign: 'center'
 	}
 
 	const listStyle = {

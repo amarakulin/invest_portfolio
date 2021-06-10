@@ -377,6 +377,7 @@ class Graph extends React.Component {
 		[this.yMin, this.yMax] = this.calculateBounderies();
 
     this.raf = null;
+    this.tooltipData = []
 	}
 	
 	componentDidMount() {
@@ -505,6 +506,8 @@ class Graph extends React.Component {
       
 				this.ctx.restore();
 				
+        this.tooltipTitle = this.toDate(this.xData[i]);
+        // this.tooltipData;
       }
 		}
     
@@ -576,8 +579,8 @@ class Graph extends React.Component {
     this.props.setData({
         top: clientY - top,
         left: clientX - left + this.offsetX / 3,
-        title: '',
-        data: [{value: 1, name: 'name'}, {value: 2, name: 'name 2'}],
+        title: this.tooltipTitle,
+        data: this.tooltipData,
         x: (clientX - left) * 2 - this.offsetX
     });
 		this.raf = requestAnimationFrame(this.paint);
