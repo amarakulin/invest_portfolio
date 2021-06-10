@@ -77,6 +77,6 @@ export const resetTooltipData = () => {
 }
 
 export const setMouseX = (x) => ({type: SET_MOUSE_X, x})
-export const resetMouseX = () => ({type: SET_MOUSE_X, x: null})
+export const resetMouseX = () => ({type: SET_MOUSE_X})
 
 export default graphReduser;

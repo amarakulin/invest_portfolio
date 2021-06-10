@@ -1,6 +1,8 @@
 import React from 'react';
-import Tooltip from './Tooltip'
-import {Canvas} from './Canvas'
+import Tooltip from './Tooltip';
+import {connect} from 'react-redux';
+import { setTooltipData, resetTooltipData, setMouseX, resetMouseX} from '../../../redux/graphReduser'
+import {Canvas, GraphContainer} from './Canvas'
  
 export function getChartData() {
   return {
@@ -126,7 +128,7 @@ export function getChartData() {
         [
           'y0',
           37,
-          20,
+          28,
           32,
           39,
           32,
@@ -158,7 +160,7 @@ export function getChartData() {
           63,
           60,
           55,
-          65,
+          140,
           76,
           33,
           45,
@@ -187,7 +189,7 @@ export function getChartData() {
           66,
           53,
           38,
-          52,
+          10,
           109,
           121,
           53,
@@ -222,7 +224,7 @@ export function getChartData() {
           75,
           72,
           39,
-          47,
+          30,
           52,
           73,
           89,
@@ -238,121 +240,121 @@ export function getChartData() {
           114,
           64,
         ],
-        [
-          'y1',
-          22,
-          12,
-          30,
-          40,
-          33,
-          23,
-          18,
-          41,
-          45,
-          69,
-          57,
-          61,
-          70,
-          47,
-          31,
-          34,
-          40,
-          55,
-          27,
-          57,
-          48,
-          32,
-          40,
-          49,
-          54,
-          49,
-          34,
-          51,
-          51,
-          51,
-          66,
-          51,
-          94,
-          60,
-          64,
-          28,
-          44,
-          96,
-          49,
-          73,
-          30,
-          88,
-          63,
-          42,
-          56,
-          67,
-          52,
-          67,
-          35,
-          61,
-          40,
-          55,
-          63,
-          61,
-          105,
-          59,
-          51,
-          76,
-          63,
-          57,
-          47,
-          56,
-          51,
-          98,
-          103,
-          62,
-          54,
-          104,
-          48,
-          41,
-          41,
-          37,
-          30,
-          28,
-          26,
-          37,
-          65,
-          86,
-          70,
-          81,
-          54,
-          74,
-          70,
-          50,
-          74,
-          79,
-          85,
-          62,
-          36,
-          46,
-          68,
-          43,
-          66,
-          50,
-          28,
-          66,
-          39,
-          23,
-          63,
-          74,
-          83,
-          66,
-          40,
-          60,
-          29,
-          36,
-          27,
-          54,
-          89,
-          50,
-          73,
-          52,
-        ],
+        // [
+        //   'y1',
+        //   22,
+        //   0,
+        //   30,
+        //   40,
+        //   33,
+        //   23,
+        //   18,
+        //   41,
+        //   45,
+        //   0,
+        //   57,
+        //   61,
+        //   70,
+        //   47,
+        //   31,
+        //   34,
+        //   40,
+        //   55,
+        //   27,
+        //   57,
+        //   48,
+        //   32,
+        //   40,
+        //   49,
+        //   54,
+        //   49,
+        //   34,
+        //   51,
+        //   51,
+        //   51,
+        //   66,
+        //   51,
+        //   94,
+        //   60,
+        //   64,
+        //   28,
+        //   44,
+        //   96,
+        //   49,
+        //   73,
+        //   30,
+        //   88,
+        //   63,
+        //   42,
+        //   56,
+        //   67,
+        //   52,
+        //   67,
+        //   35,
+        //   61,
+        //   40,
+        //   55,
+        //   63,
+        //   61,
+        //   105,
+        //   59,
+        //   51,
+        //   76,
+        //   63,
+        //   57,
+        //   47,
+        //   56,
+        //   51,
+        //   98,
+        //   103,
+        //   62,
+        //   54,
+        //   104,
+        //   48,
+        //   41,
+        //   41,
+        //   37,
+        //   30,
+        //   28,
+        //   26,
+        //   37,
+        //   65,
+        //   86,
+        //   70,
+        //   81,
+        //   54,
+        //   74,
+        //   70,
+        //   50,
+        //   74,
+        //   79,
+        //   85,
+        //   62,
+        //   36,
+        //   46,
+        //   68,
+        //   43,
+        //   66,
+        //   50,
+        //   28,
+        //   66,
+        //   39,
+        //   23,
+        //   63,
+        //   74,
+        //   83,
+        //   66,
+        //   40,
+        //   60,
+        //   29,
+        //   336,
+        //   27,
+        //   54,
+        //   89,
+        //   50,
+        //   73,
+        //   52,
+        // ],
       ],
       types: {
         y0: 'line',
@@ -401,20 +403,7 @@ class Graph extends React.Component {
 		this.yData = this.data.lines.filter(line => this.data.types[line[0]] === 'line')
 		this.xData = this.data.lines.filter(line => this.data.types[line[0]] !== 'line')[0]
 
-    this.proxy = new Proxy({}, {
-      set(...args) {
-        const result = Reflect.set(...args);
-        const outThis = args[0].outThis.outThis;
-        outThis.raf = requestAnimationFrame(outThis.paint);
-
-        return result;
-      }
-    });
-
-    this.proxy.outThis = {
-      outThis: this
-    }
-
+		this.paint();
 	}
 
   componentWillUnmount() {
@@ -435,7 +424,7 @@ class Graph extends React.Component {
 	toCoords = (y, i) => {
 		return [
 			Math.floor((i - 1) * this.xRatio + this.offsetX),
-			Math.floor(this.DPI_HEIGHT - this.PADDING - y * this.yRatio)
+			Math.floor(this.DPI_HEIGHT - this.PADDING - (y * this.yRatio))
 		];
 	}
 
@@ -443,7 +432,8 @@ class Graph extends React.Component {
     const renderLine = (coords, color = '#09f10a') => {
       this.ctx.beginPath();
       this.ctx.lineWidth = 4;
-      this.ctx.strokeStyle = color;
+			this.ctx.strokeStyle = color;
+			this.ctx.lineJoin = 'bevel';
       for (const [x, y] of coords) {
         this.ctx.lineTo(x, y);
       }
@@ -502,8 +492,8 @@ class Graph extends React.Component {
       if ((i - 1) % step === 0) {
         const text = this.toDate(this.xData[i]);
         this.ctx.fillText(text, x, this.DPI_HEIGHT - 10);
-        this.ctx.moveTo(this.offsetX + x, 0 + this.PADDING * 2);
-        this.ctx.lineTo(this.offsetX + x, this.DPI_HEIGHT - this.PADDING);
+        this.ctx.moveTo(x + this.offsetX, 0 + this.PADDING * 2);
+        this.ctx.lineTo(x + this.offsetX, this.DPI_HEIGHT - this.PADDING);
       }
 
 
@@ -513,7 +503,8 @@ class Graph extends React.Component {
         this.ctx.moveTo(x + this.offsetX, this.PADDING);
         this.ctx.lineTo(x + this.offsetX, this.DPI_HEIGHT - this.PADDING)
       
-        this.ctx.restore();
+				this.ctx.restore();
+				
       }
 		}
     
@@ -522,11 +513,11 @@ class Graph extends React.Component {
 	}
 
   isOver = (x, length) => {
-    if (!this.proxy.mouse)
+    if (!this.props.mouseX)
       return false;
     const width = this.DPI_WIDTH / length;
 
-    return Math.abs((x - this.proxy.mouse.x)) < width / 2;
+    return Math.abs((x - this.props.mouseX)) < width / 2;
   }
 
 	calculateBounderies = () => {
@@ -579,33 +570,43 @@ class Graph extends React.Component {
     return `${addZero(date.getDate())}.${addZero(date.getMonth() + 1)}.${date.getFullYear()}`
   }
 
-  mousemove = ({clientX, clientY}) => {
-    const {left} = this.canvasRef.current.getBoundingClientRect();
+  mouseMove = ({clientX, clientY}) => {
+    const {left, top} = this.canvasRef.current.getBoundingClientRect();
 
-    this.proxy.mouse = {
-      x: (clientX - left) * 2 - this.offsetX
-    }
+		this.props.setTooltipData({
+			top: clientY - top,
+			left: clientX - left + this.offsetX / 3,
+			title: '',
+			data: []
+		})
+		this.props.setMouseX((clientX - left) * 2 - this.offsetX);
+		this.raf = requestAnimationFrame(this.paint);
+	}
+
+	mouseLeve = () => {
+		this.props.resetMouseX();
+		this.props.resetTooltipData();
 	}
 	
-	tooltip = () => {
-		return {
-			show() {
-
-			}, 
-			hide() {
-
-			}
-		}
-	}
-
-	render() {
+	render = () => {
 		return (
-			<>
-				<Canvas ref={this.canvasRef} onMouseMove={this.mousemove} />
-				<Tooltip data={[]} />
-			</>
+			<GraphContainer>
+				<Canvas ref={this.canvasRef} onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeve} />
+				{this.props.tooltip.showTooltip && <Tooltip 
+					data={[]}
+					title={this.props.tooltip.title} 
+					top={this.props.tooltip.top}
+					left={this.props.tooltip.left}
+				/>}
+				
+			</GraphContainer>
 		)
 	}
 }
 
-export default Graph;
+const mapDispatchToProps = (state) => ({
+	tooltip: state.graph.tooltip,
+	mouseX: state.graph.mouseX
+})
+
+export default connect(mapDispatchToProps, {setTooltipData, resetTooltipData, setMouseX, resetMouseX})(Graph);
