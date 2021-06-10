@@ -120,6 +120,9 @@ export function getChartData() {
           1551916800000,
           1552003200000,
 				],
+				// [
+				// 	'y0', 0, 30, 
+				// ]
         [
           'y0',
           37,
@@ -366,15 +369,10 @@ export function getChartData() {
 class Graph extends React.Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			mousePosition: 0
-		}
-
 		this.canvasRef = React.createRef();
+		this.rows = 12;
 		this.data = getChartData();
 		[this.yMin, this.yMax] = this.calculateBounderies();
-		this.rows = 5;
 
     this.raf = null;
 	}
@@ -402,6 +400,21 @@ class Graph extends React.Component {
 
 		this.yData = this.data.lines.filter(line => this.data.types[line[0]] === 'line')
 		this.xData = this.data.lines.filter(line => this.data.types[line[0]] !== 'line')[0]
+
+    this.proxy = new Proxy({}, {
+      set(...args) {
+        const result = Reflect.set(...args);
+        const outThis = args[0].outThis.outThis;
+        outThis.raf = requestAnimationFrame(outThis.paint);
+
+        return result;
+      }
+    });
+
+    this.proxy.outThis = {
+      outThis: this
+    }
+
 	}
 
   componentWillUnmount() {
@@ -509,11 +522,11 @@ class Graph extends React.Component {
 	}
 
   isOver = (x, length) => {
-    if (!this.state.mousePosition)
+    if (!this.proxy.mouse)
       return false;
     const width = this.DPI_WIDTH / length;
 
-    return Math.abs((x - this.state.mousePosition)) < width / 2;
+    return Math.abs((x - this.proxy.mouse.x)) < width / 2;
   }
 
 	calculateBounderies = () => {
@@ -569,11 +582,9 @@ class Graph extends React.Component {
   mousemove = ({clientX, clientY}) => {
     const {left} = this.canvasRef.current.getBoundingClientRect();
 
-		this.setState({
-			mousePosition: (clientX - left) * 2 - this.offsetX,
-		})
-
-		this.raf = requestAnimationFrame(this.paint);
+    this.proxy.mouse = {
+      x: (clientX - left) * 2 - this.offsetX
+    }
 	}
 	
 	tooltip = () => {
