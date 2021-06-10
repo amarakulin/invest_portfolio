@@ -19,7 +19,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface ExistingLogin {
 
-	String message() default "valid.existing.login";
+	String message() default "{valid.existing.name}";
 
 	Class<?>[] groups() default {};
 
