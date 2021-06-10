@@ -1,24 +1,6 @@
 import styled from 'styled-components';
 
 
-const TooltipContainer = styled.div`
-	padding: 20px;
-	background-color: #fff;
-	box-shadow: 0px 0px 10px 2px rgba(20, 20, 21, 0.2);
-	border-radius: 6px;
-	display: inline-block;
-	position: absolute;
-	top: ${props => props.top}px;
-	left: ${props => props.left}px;
-`
-
-const TooltipTitle = styled.h2`
-	margin: 0;
-	font-size: 16px;
-	line-height: 16px;
-	font-weight: normal;
-`
-
 const TooltipList = styled.ul`
 	list-style-type: circle;
 `
@@ -33,10 +15,33 @@ const TooltipListItemName = styled.div`
 `
 
 const Tooltip = (props) => {
+
+	const containerStyle = {
+		padding: '20px',
+		backgroundColor: '#fff',
+		borderRadius: '6px',
+		position: 'absolute',
+		boxShadow: '0px 0px 10px 2px rgba(20, 20, 21, 0.2)',
+		display: 'inline-block',
+		top: `${props.top}px`,
+		left: `${props.left}px`,
+	}
+
+	const titleStyle = {
+		margin: 0,
+		fontSize: '16px',
+		lineHeight: '16px',
+		fontWeight: 'normal',
+	}
+
+	const listStyle = {
+		listStyleType: 'circle'
+	}
+
 	return (
-		<TooltipContainer left={props.left} top={props.top}>
-			<TooltipTitle> {props.title} </TooltipTitle>
-			<TooltipList >
+		<div style={containerStyle}>
+			<h2 style={titleStyle}> {props.title} </h2>
+			<ul style={listStyle}>
 				{
 					props.data.map((item, i) => {
 						return <TooltipListItem key={i} >
@@ -45,8 +50,8 @@ const Tooltip = (props) => {
 						</TooltipListItem>
 					})
 				}
-			</TooltipList>
-		</TooltipContainer>
+			</ul>
+		</div>
 	)
 }
 
