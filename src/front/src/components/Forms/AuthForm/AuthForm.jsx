@@ -24,12 +24,16 @@ const Container = styled.div`
 `
 
 const AuthForm = (props) => {
-
 	const onSubmit = async (formData) => {
-		const error = await props.login(formData.email, formData.password, formData.rememberMe)
 
-		if (error)
-			return { [FORM_ERROR]: error }
+		var params = new URLSearchParams();
+		for(let key in formData)
+			params.append(key, formData[key]);
+
+		// const error = await props.login(formData.email, formData.password, formData.rememberMe)
+
+		// if (error)
+		// 	return { [FORM_ERROR]: error }
 	}
 
 	return (
