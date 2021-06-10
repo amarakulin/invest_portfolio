@@ -81,7 +81,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 				.anyRequest().authenticated()
 					.and()
 				.formLogin()
-				.usernameParameter("email").defaultSuccessUrl("/api/auth/login")
+				.usernameParameter("email")
 					.and()
 				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 	}

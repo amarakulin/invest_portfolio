@@ -3,6 +3,7 @@ package ru.akapich.invest_portfolio.controller;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import ru.akapich.invest_portfolio.model.forms.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.User;
 import ru.akapich.invest_portfolio.repository.UserRepository;
 import ru.akapich.invest_portfolio.service.UserService;
+import ru.akapich.invest_portfolio.service.impl.UserDetailsServiceImpl;
 import ru.akapich.invest_portfolio.validator.ValidatorController;
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -29,7 +31,7 @@ import java.util.Map;
 public class UserController {
 
 	@Autowired
-	private UserService userDetailsService;
+	private UserDetailsServiceImpl userDetailsService;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -57,24 +59,21 @@ public class UserController {
 		return response;
 	}
 
-	@GetMapping("/home")
-	public String home() {
-		log.info("/home! ");
-		return "success user IN ";
+	@GetMapping("/api/auth/login")
+	public String loginGet() {
+		log.info("/loginGET! ");
+		return "Login Get ";
 	}
 
 	@PostMapping(path = "/api/auth/login", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-	public LoginResponseForm loginPost(@Valid LoginForm form, Model model) {
-
+	public String loginPost(@Valid LoginForm form, BindingResult bindingResult, Model model) {
 		User user = null;
 		String errorMessage = "";
+		log.info(String.format("333 loginPost 333 email: %s, password: %s", form.getEmail() , form.getPassword() ));
 
-		user = userRepository.getUserByEmail(form.getEmail());
+		//TODO didn't match password!!!!
 
-		log.info(String.format("[+] User '%s' log in with email '%s'.",
-				user.getName(), user.getEmail()));
-
-		return getLoginResponse(user, errorMessage);
+		return "LoginPost";
 	}
 
 	@CrossOrigin(origins = "http://localhost:3000/signup")
