@@ -19,7 +19,7 @@ public class RegistrationFrom {
 
 	//TODO Valid only Askii symbols
 	@NotBlank()
-	@Size(min = 5, max = 32, message = "{valid.size.name}")
+	@Size(min = 2, max = 32, message = "{valid.size.name}")
 	@ExistingLogin
 	private String name;
 
