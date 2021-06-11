@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * JavaBean domain object that represents a User.
@@ -33,6 +34,9 @@ public class User {
 	private String password;
 	@Column
 	private String role;
+
+	@OneToMany(mappedBy = "t_user")
+	private Set<InvestPortfolio> idInvestPortfolio;
 
 	@Column
 	private boolean enable;
