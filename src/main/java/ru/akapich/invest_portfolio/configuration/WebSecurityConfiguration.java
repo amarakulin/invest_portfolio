@@ -10,11 +10,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-//import ru.akapich.invest_portfolio.configuration.filter.CustomBeforeAuthenticationFilter;
+import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationSuccessHandler;
 import ru.akapich.invest_portfolio.service.impl.UserDetailsServiceImpl;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -29,9 +29,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
-
-//	@Autowired
-//	private UserDetailsService userDetailsService;
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
@@ -50,64 +47,42 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 		return daoAuthenticationProvider;
 	}
 
+	private AuthenticationSuccessHandler successHandler() {
+		return new MyAuthenticationSuccessHandler();
+	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
 	}
 
-//	@Override
-//	public void addCorsMappings(CorsRegistry registry) {
-//		registry.addMapping("/**")
-//				.allowedOrigins("http://localhost:3000")
-//				.allowedMethods("*");
-//	}
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**")
+				.allowedOrigins("http://localhost:3000")
+				.allowedMethods("*");
+	}
 
 
-//	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-//	@Override
-//	public AuthenticationManager authenticationManagerBean() throws Exception {
-//		return super.authenticationManagerBean();
-//	}
-//
-//	@Autowired
-//	public CustomBeforeAuthenticationFilter customBeforeAuthenticationFilter;
-
+	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
+				.cors(withDefaults())
 				.csrf().disable()
 				.authorizeRequests().antMatchers("/**").permitAll()
 				.anyRequest().authenticated()
 					.and()
-				.formLogin()
+				.formLogin().loginProcessingUrl("/api/auth/login")
 				.usernameParameter("email")
+				.passwordParameter("password")
+				.successHandler(successHandler())
 					.and()
 				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 	}
 }
-//.loginProcessingUrl("/api/auth/login").
-//http.authorizeRequests()
-//		.antMatchers("/home", "/admin").authenticated()
-//		.antMatchers("/**").permitAll()
-//		.and()
-//		.formLogin().permitAll().defaultSuccessUrl("/home")
-//		.and()
-//		.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
-
-
-//				.cors(withDefaults())
-//.addFilterBefore(customBeforeAuthenticationFilter, CustomBeforeAuthenticationFilter.class)
-//http.csrf().disable().authorizeRequests()
-//		//...
-//		.antMatchers(
-//		HttpMethod.GET,
-//		"/index*", "/static/**", "/*.js", "/*.json", "/*.ico")
-//		.permitAll()
-//		.anyRequest().authenticated()
-//		.and()
-//		.formLogin().loginPage("/index.html")
-//		.loginProcessingUrl("/perform_login")
-//		.defaultSuccessUrl("/homepage.html",true)
-//		.failureUrl("/index.html?error=true")
-
