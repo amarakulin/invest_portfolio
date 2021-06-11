@@ -1,19 +1,3 @@
-import styled from 'styled-components';
-
-
-const TooltipList = styled.ul`
-	list-style-type: circle;
-`
-
-const TooltipListItem = styled.li`
-`
-
-const TooltipListItemValue = styled.li`
-`
-
-const TooltipListItemName = styled.li`
-`
-
 const Tooltip = (props) => {
 
 	const containerStyle = {
