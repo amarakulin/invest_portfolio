@@ -6,6 +6,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+/**
+ * Message Configuration.
+ * This class to store comments im message.properties
+ *
+ * @author Aleksandr Marakulin
+ **/
+
 @Configuration
 public class MessageSourceConfiguration {
 

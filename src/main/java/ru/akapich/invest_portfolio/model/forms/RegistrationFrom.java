@@ -11,6 +11,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+/**
+ * Object that get form client to validate and fill to database the user.
+ *
+ * @author Aleksandr Marakulin
+ **/
+
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

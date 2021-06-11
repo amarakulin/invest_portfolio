@@ -15,11 +15,10 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationFailureHandler;
 import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationSuccessHandler;
 import ru.akapich.invest_portfolio.service.impl.UserDetailsServiceImpl;
-
-import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
