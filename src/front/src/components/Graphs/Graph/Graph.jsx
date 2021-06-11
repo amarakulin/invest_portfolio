@@ -365,6 +365,10 @@ export function getChartData() {
         y0: '#0',
         y1: '#1',
       },
+      color: {
+        y0: '#ffac17',
+        y1: '#19f3f2'
+      }
     }
 }
 
@@ -444,12 +448,12 @@ class Graph extends React.Component {
 
     this.yData.forEach(line => {
 			const coords = line.map(this.toCoords).filter((_, i) => i !== 0);
-			
-			renderLine(coords, '#09f');
+
+			renderLine(coords, this.data.color[line[0]]);
 
 			for (const [x, y] of coords) {
 				if (this.isOver(x - this.offsetX, coords.length)) {
-					this.circle(x, y);
+					this.circle(x, y, this.data.color[line[0]]);
 					break ;
 				}
 
@@ -507,7 +511,13 @@ class Graph extends React.Component {
 				this.ctx.restore();
 				
         this.tooltipTitle = this.toDate(this.xData[i]);
-        // this.tooltipData;
+
+
+        this.tooltipData = this.yData.map(line => ({
+          value: line[i + 1],
+          name: this.data.names[line[0]],
+          color: this.data.color[line[0]]
+        }))
       }
 		}
     
@@ -558,7 +568,7 @@ class Graph extends React.Component {
 		this.ctx.strokeStyle = color;
 		this.ctx.fillStyle = '#fff';
 
-		this.ctx.arc(x, y, 8, 0, Math.PI * 2)
+		this.ctx.arc(x, y, 10, 0, Math.PI * 2)
 		this.ctx.fill();
 		this.ctx.stroke();
 		

@@ -8,10 +8,10 @@ const TooltipList = styled.ul`
 const TooltipListItem = styled.li`
 `
 
-const TooltipListItemValue = styled.div`
+const TooltipListItemValue = styled.li`
 `
 
-const TooltipListItemName = styled.div`
+const TooltipListItemName = styled.li`
 `
 
 const Tooltip = (props) => {
@@ -36,7 +36,18 @@ const Tooltip = (props) => {
 	}
 
 	const listStyle = {
-		listStyleType: 'circle'
+		listStyleType: 'none',
+		padding: '0px',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'start',
+		justifyContent: 'space-between',
+		margin: '0'
+	}
+
+	const listItemStyle = {
+		display: 'flex',
+		alignItems: 'center',
 	}
 
 	return (
@@ -45,10 +56,9 @@ const Tooltip = (props) => {
 			<ul style={listStyle}>
 				{
 					props.data.map((item, i) => {
-						return <TooltipListItem key={i} >
-							<TooltipListItemValue> { item.value } </TooltipListItemValue>
-							<TooltipListItemName> { item.name } </TooltipListItemName>
-						</TooltipListItem>
+						return <ul style={listStyle} key={i} >
+							<li style={listItemStyle, {color: item.color}}> {`${item.name}: ${item.value}`} </li>
+						</ul>
 					})
 				}
 			</ul>
