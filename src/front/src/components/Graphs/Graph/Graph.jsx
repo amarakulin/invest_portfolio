@@ -381,12 +381,11 @@ class Graph extends React.Component {
 		this.data = getChartData();
 		[this.yMin, this.yMax] = this.calculateBounderies();
 
+		this.state = {
+			isMounted: false
+		}
 		this.raf = null;
 		this.tooltipData = [];
-
-		this.HEIGHT = null;
-		this.WIDTH = null;
-		this.PADDING = null;
 	}
 
 	componentDidMount() {
@@ -413,13 +412,17 @@ class Graph extends React.Component {
 		this.yData = this.data.lines.filter(line => this.data.types[line[0]] === 'line')
 		this.xData = this.data.lines.filter(line => this.data.types[line[0]] !== 'line')[0]
 
+		this.setState({
+			isMounted: true
+		})
 		this.paint();
-		this._ismounted = true;
 	}
 
 	componentWillUnmount() {
 		cancelAnimationFrame(this.raf);
-		this._ismounted = false;
+		this.setState({
+			isMounted: false
+		})
 	}
 
 	paint = () => {
@@ -618,7 +621,7 @@ class Graph extends React.Component {
 					top={this.props.tooltip.top}
 					left={this.props.tooltip.left}
 				/>}
-				{this._ismounted && 
+				{this.state.isMounted && 
 					<GraphSlider
 						data={this.data}
 						size={{

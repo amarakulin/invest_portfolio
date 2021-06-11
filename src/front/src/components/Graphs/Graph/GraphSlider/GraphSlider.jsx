@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
-import {GraphSliderContainer, LeftEdge, RightEdge, LeftArrow, RightArrow, Window} from './StyledGraphSlider'
+import React from 'react';
+import {GraphSliderContainer, LeftArrow, RightArrow, windowStyle, LeftEdgeStyle, RightEdgeStyle} from './StyledGraphSlider'
 import { GraphSliderCanvas } from '../Canvas';
 
 
@@ -11,7 +11,7 @@ const toCoords = (y, i, xRatio, yRatio, DPI_HEIGHT, PADDING) => {
 	];
 }
 
-const renderLines = ({ctx, yData, xRatio, yRatio, DPI_HEIGHT, PADDING, data}) => {
+const renderLines = (ctx, yData, xRatio, yRatio, DPI_HEIGHT, PADDING, data) => {
 	const renderLine = (coords, color = '#000') => {
 		ctx.beginPath();
 		ctx.lineWidth = 4;
@@ -33,52 +33,165 @@ const renderLines = ({ctx, yData, xRatio, yRatio, DPI_HEIGHT, PADDING, data}) =>
 }
 
 
-const GraphSlider = ({ size, bounderies, data, ...props }) => {
-	const sliderCanvasRef = useRef(null);
-	let DPI_HEIGHT, DPI_WIDTH, VIEW_HEIGHT, PADDING, VIEW_WIDTH, yRatio, xRatio, yData, xData;
+class GraphSlider extends React.Component {
+	constructor(props) {
+		super(props);
+		this.sliderCanvasRef = React.createRef();
+		this.data = this.props.data;
 
-	useEffect(() => {
-		const ctx = sliderCanvasRef.current.getContext('2d');
+		this.state = {
+			windowWidth: 0,
+			windowLeft: 0,
+			windowRight: 0,
+			rightWidth: 0,
+			leftWidth: 0,
+			cursor: 'grab'
+		}
 
-		initCanvas(ctx);
-	}, [])
-
-	const initCanvas = (ctx) => {
-		DPI_HEIGHT = size.height * 2;
-		DPI_WIDTH = size.width * 2;
-		PADDING = DPI_HEIGHT * 0.05;
-
-		VIEW_HEIGHT = DPI_HEIGHT - PADDING * 2;
-		VIEW_WIDTH = DPI_WIDTH;
-
-		sliderCanvasRef.current.width = DPI_WIDTH;
-		sliderCanvasRef.current.height = DPI_HEIGHT;
-
-		yRatio = VIEW_HEIGHT / (bounderies.yMax - bounderies.yMin);
-		xRatio = VIEW_WIDTH / (data.lines[0].length - 2);
-
-		yData = data.lines.filter(line => data.types[line[0]] === 'line')
-		xData = data.lines.filter(line => data.types[line[0]] !== 'line')[0]
-		debugger
-		renderLines({ctx, yData, xRatio, yRatio, DPI_HEIGHT, PADDING, data});
+		document.addEventListener('mouseup', this.mouseUp)
 	}
 
-	return (
-		<GraphSliderContainer>
-			<GraphSliderCanvas ref={sliderCanvasRef} />
+	componentDidMount() {
+		this.ctx = this.sliderCanvasRef.current.getContext('2d');
 
-			<LeftEdge>
-				<LeftArrow />
-			</LeftEdge>
+		this.WIDTH = this.props.size.width;
+		this.HEIGHT = this.props.size.width
+		this.DPI_HEIGHT = this.props.size.height * 2;
+		this.DPI_WIDTH = this.props.size.width * 2;
+		this.MIN_WIDTH = this.WIDTH * 0.05;
+		this.PADDING = this.DPI_HEIGHT * 0.05;
 
-			<Window />
+		this.defoultWidth = this.WIDTH * 0.3;
+		this.setPosition(0, this.WIDTH - this.defoultWidth);
 
-			<RightEdge>
-				<RightArrow />
-			</RightEdge>
+		this.VIEW_HEIGHT = this.DPI_HEIGHT - this.PADDING * 2;
+		this.VIEW_WIDTH = this.DPI_WIDTH;
 
-		</GraphSliderContainer>
-	)
+		this.sliderCanvasRef.current.width = this.DPI_WIDTH;
+		this.sliderCanvasRef.current.height = this.DPI_HEIGHT;
+
+		this.yRatio = this.VIEW_HEIGHT / (this.props.bounderies.yMax - this.props.bounderies.yMin);
+		this.xRatio = this.VIEW_WIDTH / (this.props.data.lines[0].length - 2);
+
+		this.yData = this.props.data.lines.filter(line => this.props.data.types[line[0]] === 'line');
+		this.xData = this.props.data.lines.filter(line => this.props.data.types[line[0]] !== 'line')[0];
+
+		renderLines(this.ctx, this.yData, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.data);
+	}
+
+	setPosition = (left, right) => {
+		const w = this.WIDTH - right - left;
+
+		if (w < this.MIN_WIDTH) {
+			this.windowWidth = this.MIN_WIDTH;
+			return ;
+		}
+		if (left < 0) {
+			this.leftPos = 0;
+			this.windowWidth = 0;
+			return ;
+		}
+
+		if (right < 0) {
+			this.rightPos = 0;
+			this.windowWidth = 0;
+			return ;
+		}
+
+		this.setState({
+			windowWidth: w,
+			windowLeft: left,
+			windowRight: right,
+			rightWidth: right,
+			leftWidth: left,
+		})
+	}
+
+	mouseDown = (e) => {
+		const type = e.target.dataset.type;
+		const dimentions = {
+			left: this.state.windowLeft,
+			right: this.state.windowRight,
+			width: this.state.windowWidth
+		}
+		this.setState({
+			cursor: 'grabbing'
+		})
+
+		if (type === 'window') {
+			const startX = e.pageX;
+
+			document.onmousemove = (e) => {
+				const delta = startX - e.pageX;
+		
+				if (delta === 0)
+					return ;
+		
+				const left = dimentions.left - delta;
+				const right = this.WIDTH - left - dimentions.width;
+		
+				this.setPosition(left, right);
+			};
+		}
+	}
+
+	mouseUp = () => {
+		document.onmousemove = null;
+		this.setState({
+			cursor: 'grab'
+		})
+	}
+
+
+	componentWillUnmount() {
+		this.setState({
+			windowWidth: 0,
+			windowLeft: 0,
+			windowRight: 0,
+			rightWidth: 0,
+			leftWidth: 0,
+			cursor: 'grab'
+		});
+
+		document.removeEventListener('mouseup', this.mouseUp);
+	}
+
+	render() {
+		return (
+			<GraphSliderContainer onMouseDown={this.mouseDown}>
+				<GraphSliderCanvas ref={this.sliderCanvasRef} />
+	
+				<div
+					style={Object.assign({}, 
+						LeftEdgeStyle,
+						{left: this.state.leftPos, width: this.state.leftWidth})} 
+				>
+					<LeftArrow data-type='left'/>
+				</div>
+	
+				<div
+					style={Object.assign({},
+						windowStyle, {
+							left: this.state.windowLeft,
+							right: this.state.windowRight,
+							width: this.state.windowWidth,
+							cursor: this.state.cursor
+						}
+					)}
+					data-type='window'
+				/>
+	
+				<div
+					style={Object.assign({}, 
+						RightEdgeStyle,
+						{left: this.state.rightPos, width: this.state.rightWidth})} 
+				>
+					<RightArrow data-type='right'/>
+				</div>
+	
+			</GraphSliderContainer>
+		)
+	}
 }
 
 export default GraphSlider;

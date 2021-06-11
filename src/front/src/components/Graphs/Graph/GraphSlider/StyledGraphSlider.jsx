@@ -6,22 +6,33 @@ export const GraphSliderContainer = styled.div`
 	z-index: 1;
 `
 
-const Edge = styled.div`
-	transition: background 0.22s ease-in-out;
-	background: #f5f9fb;
-	opacity: 0.8;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-`
+export const LeftEdgeStyle = {
+	transition:'background 0.22s ease-in-out',
+	background: '#f5f9fb',
+	opacity: '0.8',
+	position: 'absolute',
+	top: '0',
+	bottom: '0',
+	left: '0',
+}
 
-export const LeftEdge = styled(Edge)`
-	left: 0;
-`
+export const RightEdgeStyle = {
+	transition:'background 0.22s ease-in-out',
+	background: '#f5f9fb',
+	opacity: '0.8',
+	position: 'absolute',
+	top: '0',
+	bottom: '0',
+	right: '0',
+}
 
-export const RightEdge = styled(Edge)`
-	right: 0;
-`
+export const windowStyle = {
+	position: 'absolute',
+	background: 'transparent',
+	top: '0',
+	bottom: '0',
+	cursor: 'grab'
+}
 
 const Arrow = styled.div`
 	position: absolute;
@@ -40,11 +51,4 @@ export const LeftArrow = styled(Arrow)`
 export const RightArrow = styled(Arrow)`
 	left: 0;
 	cursor: e-resize;
-`
-
-export const Window = styled.div`
-	position: absolute;
-	background: transparent;
-	top: 0;
-	bottom: 0;
 `
