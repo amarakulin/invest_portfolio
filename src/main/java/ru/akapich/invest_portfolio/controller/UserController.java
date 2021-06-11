@@ -96,9 +96,18 @@ public class UserController {
 	@RequestMapping(value = "/username", method = RequestMethod.GET)
 	@ResponseBody
 	public LoginResponseForm currentUserName(Authentication authentication) {
-		log.info(String.format("Front ask for user: %s", authentication.getName()));
-		User user = userRepository.getUserByName(authentication.getName());
-		return getLoginResponse(user, "");
+		String errorMessage = "";
+		User user = null;
+
+		if (authentication == null) {
+			errorMessage = "{valid.worng.email_password}";
+			log.info("[-] (Get [/username]) - doesn't exist");
+		}
+		else{
+			log.info(String.format("[+] Front ask for user: %s", authentication.getName()));
+			user = userRepository.getUserByName(authentication.getName());
+		}
+		return getLoginResponse(user, errorMessage);
 	}
 
 
