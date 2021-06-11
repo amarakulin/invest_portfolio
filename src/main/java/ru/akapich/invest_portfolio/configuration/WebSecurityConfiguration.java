@@ -11,11 +11,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationFailureHandler;
 import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationSuccessHandler;
 import ru.akapich.invest_portfolio.service.impl.UserDetailsServiceImpl;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -51,6 +55,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 		return new MyAuthenticationSuccessHandler();
 	}
 
+	private AuthenticationFailureHandler failureHandler() {
+		return new MyAuthenticationFailureHandler() ;
+	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
@@ -82,6 +90,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.successHandler(successHandler())
+				.failureHandler(failureHandler())
 					.and()
 				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 	}
