@@ -21,7 +21,7 @@ public class MessageSourceConfiguration {
 		ReloadableResourceBundleMessageSource messageSource
 				= new ReloadableResourceBundleMessageSource();
 
-		messageSource.setBasename("classpath:application");
+		messageSource.setBasename("classpath:message");
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
 	}

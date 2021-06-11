@@ -2,6 +2,8 @@ package ru.akapich.invest_portfolio.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +25,11 @@ import javax.validation.Valid;
 @Log4j2
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@PropertySource("classpath:message.properties")
 public class UserController {
+
+	@Autowired
+	Environment env;
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
@@ -53,15 +59,17 @@ public class UserController {
 		return response;
 	}
 
-
-	@RequestMapping(value = "/username", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/username", method = RequestMethod.GET)
 	@ResponseBody
 	public LoginResponseForm currentUserName(Authentication authentication) {
 		String errorMessage = "";
 		User user = null;
 
 		if (authentication == null) {
-			errorMessage = "{valid.worng.email_password}";
+			errorMessage = env.getProperty("valid.wrong.email_password");
+			if (errorMessage == null){
+				errorMessage = "Неизвестная ошибка";
+			}
 			log.info("[-] (Get [/username]) - doesn't exist");
 		}
 		else{
@@ -96,7 +104,7 @@ public class UserController {
 					name(form.getName()).
 					email(form.getEmail()).
 					password(form.getPassword()).
-					role("role.user").
+					role("{role.user}").
 					enable(true).
 					build();
 			userDetailsService.save(user);
