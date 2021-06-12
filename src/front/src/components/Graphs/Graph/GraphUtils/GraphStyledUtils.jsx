@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 export const GraphCanvas = styled.canvas`
 	width: 100%;
-	height: 80vh;
+	transition: all 0.5s ease;
+	height: ${props => props.customHeight || 80}vh;
 `
 
 export const GraphSliderCanvas = styled.canvas`

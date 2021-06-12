@@ -2,7 +2,7 @@ import React from 'react';
 import Tooltip from './Tooltip/Tooltip';
 import { connect } from 'react-redux';
 import { resetData, setData } from '../../../redux/graphReduser';
-import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate } from './GraphUtils/utils'
+import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate, checkIsAllHidden } from './GraphUtils/utils'
 import { GraphCanvas, GraphContainer } from './GraphUtils/GraphStyledUtils'
 
 class Graph extends React.Component {
@@ -75,7 +75,7 @@ class Graph extends React.Component {
 		this.yData = this.partData.filter(line => this.props.totalData.types[line[0]] === 'line');
 		this.xData = this.partData.filter(line => this.props.totalData.types[line[0]] !== 'line')[0];
 
-		if (this.partData.length === 1) {
+		if (checkIsAllHidden(this.props.hiddenName, this.props.totalData.lines)) {
 			this.clear();
 			this.renderLine([[0, this.DPI_HEIGHT - this.PADDING], [this.DPI_WIDTH, this.DPI_HEIGHT - this.PADDING]], '#F0F0F0')
 			return ;
@@ -235,8 +235,12 @@ class Graph extends React.Component {
 			this.paint();
 		return (
 			<GraphContainer>
-				<GraphCanvas ref={this.canvasRef} onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeve} />
-				{this.props.showTooltip && this.partData.length > 1 && <Tooltip
+				<GraphCanvas 
+					ref={this.canvasRef}
+					onMouseMove={this.mouseMove}
+					onMouseLeave={this.mouseLeve}
+					customHeight={checkIsAllHidden(this.props.hiddenName, this.props.totalData.lines) && 2} />
+				{this.props.showTooltip && checkIsAllHidden(this.props.hiddenName, this.props.totalData.lines) && <Tooltip
 					data={this.props.tooltip.data || []}
 					title={this.props.tooltip.title}
 					top={this.props.tooltip.top}

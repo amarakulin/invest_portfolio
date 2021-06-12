@@ -71,3 +71,7 @@ export const toDate = (timestamp) => {
 
 	return `${addZero(date.getDate())}.${addZero(date.getMonth() + 1)}.${date.getFullYear()}`
 }
+
+export const checkIsAllHidden = (hidden, total) => {
+	return hidden.length === total.length - 1
+}
