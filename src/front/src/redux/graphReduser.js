@@ -2,7 +2,9 @@ const SET_DATA = 'SET_DATA';
 const RESET_DATA = 'RESET_DATA';
 const SET_DATA_INDEX = 'SET_DATA_INDEX';
 const SET_SLIDER_DATA = 'SET_SLIDER_DATA';
-const SET_TOTAL_GRAPH_DATA = 'SET_TOTAL_GRAPH_DATA'
+const SET_TOTAL_GRAPH_DATA = 'SET_TOTAL_GRAPH_DATA';
+const SET_HIDDEN_GRAPH_NAME = 'SET_HIDDEN_GRAPH_NAME';
+const REMOVE_HIDDEN_GRAPH_NAME = 'REMOVE_HIDDEN_GRAPH_NAME'
 
 export const widthPercent = 30;
 
@@ -26,7 +28,8 @@ const initialState = {
 		rightWidth: 0,
 		leftWidth: 0,
 	},
-	data: null
+	data: null,
+	hiddenGraphsName: []
 }
 
 const graphReduser = (state = initialState, action) => {
@@ -78,6 +81,18 @@ const graphReduser = (state = initialState, action) => {
 				}
 			}
 		}
+		case SET_HIDDEN_GRAPH_NAME: {
+			return {
+				...state,
+				hiddenGraphsName: [...state.hiddenGraphsName, action.name]
+			}
+		}
+		case REMOVE_HIDDEN_GRAPH_NAME: {
+			return {
+				...state,
+				hiddenGraphsName: state.hiddenGraphsName.filter(el => el != action.name)
+			}
+		}
 		default: {
 			return state;
 		}
@@ -97,17 +112,21 @@ export const setData = ({top, left, title, data, x}) => ({
 
 export const resetData = () => ({
 	type: RESET_DATA,
-})
+});
 
-export const setDataIndex = (left, right) => ({type: SET_DATA_INDEX, index: {left, right}})
+export const setDataIndex = (left, right) => ({type: SET_DATA_INDEX, index: {left, right}});
 
 export const setSliderGraphData = ({windowWidth, windowLeft, windowRight, rightWidth, leftWidth}) => {
 	return {
 		type: SET_SLIDER_DATA,
 		data: {windowWidth, windowLeft, windowRight, rightWidth, leftWidth}
 	}
-}
+};
 
-export const setTotalGraphData = (data) => ({type: SET_TOTAL_GRAPH_DATA, data: data})
+export const setTotalGraphData = (data) => ({type: SET_TOTAL_GRAPH_DATA, data: data});
+
+export const setHiddenGraphName = (name) => ({type: SET_HIDDEN_GRAPH_NAME, name});
+
+export const removeHiddenGraphname = (name) => ({type: REMOVE_HIDDEN_GRAPH_NAME, name})
 
 export default graphReduser;
