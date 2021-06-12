@@ -3,6 +3,7 @@ import Tooltip from './Tooltip/Tooltip';
 import GraphSlider from './GraphSlider/GraphSlider';
 import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate } from './GraphUtils/utils'
 import { connect } from 'react-redux';
+// import { resetData, setData } from '../../../redux/graphReduser'
 import { GraphCanvas, GraphContainer } from './GraphUtils/GraphStyledUtils'
 
 class Graph extends React.Component {
@@ -12,6 +13,7 @@ class Graph extends React.Component {
 			isMounted: false,
 		}
 		this.canvasRef = React.createRef();
+		// this.props.setTotalGraphData(getChartData());
 		this.rows = 12;
 		this.raf = null;
 		this.tooltipData = [];
@@ -237,4 +239,4 @@ class Graph extends React.Component {
 	}
 }
 
-export default connect(null, { resetData, setData, setTotalGraphData })(Graph);
+export default Graph;

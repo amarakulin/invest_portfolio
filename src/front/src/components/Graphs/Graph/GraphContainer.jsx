@@ -4,6 +4,7 @@ import Graph from './Graph';
 import Preloader from '../../Basic/Preloader/Preloader';
 import { resetData, setData, setTotalGraphData } from '../../../redux/graphReduser';
 import { GraphPreloaderContainer } from './GraphUtils/GraphStyledUtils'
+import { toggleIsFetching } from '../../../redux/apiReduser'
 
 export function getChartData() {
 	return {
@@ -374,17 +375,13 @@ export function getChartData() {
 }
 
 const GraphContainer = (props) => {
-	const [isFetching, setIsFetching] = useState(true);
-
-
 	setTimeout(() => {
 		props.setTotalGraphData(getChartData())
-		setIsFetching(false);
+		props.toggleIsFetching(false);//! в apiReduser isFetching по дефолту стоит true!!!!
 	}, 1500);
 
 	return (
-		
-		isFetching 
+		props.isFetching 
 			? <GraphPreloaderContainer> <Preloader color='black'/> </GraphPreloaderContainer>
 			: <Graph {...props} />
 	)
@@ -396,6 +393,7 @@ const mapStateToProps = (state) => ({
 	showTooltip: state.graph.showTooltip,
 	dataIndex: state.graph.dataIndex,
 	totalData: state.graph.data,
+	isFetching: state.api.isFetching
 })
 
-export default connect(mapStateToProps, {setTotalGraphData, resetData, setData})(GraphContainer);
+export default connect(mapStateToProps, {setTotalGraphData, resetData, setData, toggleIsFetching})(GraphContainer);
