@@ -121,9 +121,9 @@ class GraphSlider extends React.Component {
 		if (type === 'window') {
 			const startX = e.pageX;
 
-			document.onmousemove = (e) => {
+			this.grabWindow = (e) => {
 				const delta = startX - e.pageX;
-		
+			
 				if (delta === 0)
 					return ;
 		
@@ -131,12 +131,14 @@ class GraphSlider extends React.Component {
 				const right = this.WIDTH - left - dimentions.width;
 		
 				this.setPosition(left, right);
-			};
+			}
+
+			document.addEventListener('mousemove', this.grabWindow)
 		}
 	}
 
 	mouseUp = () => {
-		document.onmousemove = null;
+		document.removeEventListener('mousemove', this.grabWindow);
 		this.setState({
 			cursor: 'grab'
 		})
