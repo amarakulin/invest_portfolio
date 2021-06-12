@@ -7,7 +7,7 @@ export const GraphCanvas = styled.canvas`
 
 export const GraphSliderCanvas = styled.canvas`
 	width: 100%;
-	height: calc(80vh * 0.15);
+	height: 60px;
 `
 
 export const GraphContainer = styled.div`
