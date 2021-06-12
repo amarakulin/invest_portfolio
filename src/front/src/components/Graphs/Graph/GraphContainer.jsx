@@ -388,13 +388,9 @@ const GraphContainer = (props) => {
 		props.isFetching 
 			? <GraphPreloaderContainer> <Preloader color='black'/> </GraphPreloaderContainer>
 			: <>
-				<Graph {...props} />
-				<GraphSlider
-					data={props.totalData}
-				/>
-				<GraphToggler 
-					data={props.totalData}
-				/>
+				<Graph data={props.totalData}/>
+				<GraphSlider data={props.totalData}/>
+				<GraphToggler data={props.totalData}/>
 			</>
 	)
 }
