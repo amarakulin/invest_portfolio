@@ -1,6 +1,7 @@
 import React from 'react';
 import Tooltip from './Tooltip';
 import GraphSlider from './GraphSlider/GraphSlider';
+import { getYRatio, getXRatio, toCoords } from './GraphUtils/utils'
 import { connect } from 'react-redux';
 import { resetData, setData } from '../../../redux/graphReduser'
 import { GraphCanvas, GraphContainer } from './Canvas'
@@ -391,6 +392,10 @@ class Graph extends React.Component {
 	componentDidMount() {
 		this.ctx = this.canvasRef.current.getContext('2d');
 
+		// this.length = this.data.lines[0].length;
+		// this.leftIndex = ;
+		// this.rightIndex;
+
 		this.WIDTH = this.canvasRef.current.offsetWidth;
 		this.HEIGHT = this.canvasRef.current.offsetHeight;
 
@@ -406,8 +411,8 @@ class Graph extends React.Component {
 		this.VIEW_HEIGHT = this.DPI_HEIGHT - this.PADDING * 2;
 		this.VIEW_WIDTH = this.DPI_WIDTH - this.offsetX;
 
-		this.yRatio = this.VIEW_HEIGHT / (this.yMax - this.yMin);
-		this.xRatio = this.VIEW_WIDTH / (this.data.lines[0].length - 2);
+		this.yRatio = getYRatio(this.VIEW_HEIGHT, this.yMax, this.yMin);
+		this.xRatio = getXRatio(this.VIEW_WIDTH, this.data.lines[0].length);
 
 		this.yData = this.data.lines.filter(line => this.data.types[line[0]] === 'line')
 		this.xData = this.data.lines.filter(line => this.data.types[line[0]] !== 'line')[0]
@@ -457,7 +462,7 @@ class Graph extends React.Component {
 		}
 
 		this.yData.forEach(line => {
-			const coords = line.map(this.toCoords).filter((_, i) => i !== 0);
+			const coords = line.map((y, i) => toCoords(y, i, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.yMin, this.offsetX)).filter((_, i) => i !== 0);
 
 			renderLine(coords, this.data.color[line[0]]);
 

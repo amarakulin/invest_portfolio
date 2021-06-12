@@ -1,37 +1,7 @@
 import React from 'react';
 import {GraphSliderContainer, LeftArrow, RightArrow, windowStyle, LeftEdgeStyle, RightEdgeStyle} from './StyledGraphSlider'
 import { GraphSliderCanvas } from '../Canvas';
-
-
-
-const toCoords = (y, i, xRatio, yRatio, DPI_HEIGHT, PADDING) => {
-	return [
-		Math.floor((i - 1) * xRatio),
-		Math.floor(DPI_HEIGHT - PADDING - (y * yRatio))
-	];
-}
-
-const renderLines = (ctx, yData, xRatio, yRatio, DPI_HEIGHT, PADDING, data) => {
-	const renderLine = (coords, color = '#000') => {
-		ctx.beginPath();
-		ctx.lineWidth = 4;
-		ctx.strokeStyle = color;
-		ctx.lineJoin = 'bevel';
-		for (const [x, y] of coords) {
-			ctx.lineTo(x, y);
-		}
-		ctx.stroke();
-		ctx.closePath();
-	}
-
-
-	yData.forEach(line => {
-		const coords = line.map((y, i) => toCoords(y, i, xRatio, yRatio, DPI_HEIGHT, PADDING)).filter((_, i) => i !== 0);
-		
-		renderLine(coords, data.color[line[0]]);
-	})
-}
-
+import { getYRatio, getXRatio, renderLines } from '../GraphUtils/utils'
 
 class GraphSlider extends React.Component {
 	constructor(props) {
@@ -47,14 +17,12 @@ class GraphSlider extends React.Component {
 			leftWidth: 0,
 			cursor: 'grab'
 		}
-
-		document.addEventListener('mouseup', this.mouseUp)
 	}
 
 	componentDidMount() {
+		this.WIDTH = this.props.size.width;
 		this.ctx = this.sliderCanvasRef.current.getContext('2d');
 
-		this.WIDTH = this.props.size.width;
 		this.HEIGHT = this.props.size.width
 		this.DPI_HEIGHT = this.props.size.height * 2;
 		this.DPI_WIDTH = this.props.size.width * 2;
@@ -70,33 +38,22 @@ class GraphSlider extends React.Component {
 		this.sliderCanvasRef.current.width = this.DPI_WIDTH;
 		this.sliderCanvasRef.current.height = this.DPI_HEIGHT;
 
-		this.yRatio = this.VIEW_HEIGHT / (this.props.bounderies.yMax - this.props.bounderies.yMin);
-		this.xRatio = this.VIEW_WIDTH / (this.props.data.lines[0].length - 2);
+		this.yRatio = getYRatio(this.VIEW_HEIGHT, this.props.bounderies.yMax, this.props.bounderies.yMin);
+		this.xRatio = getXRatio(this.VIEW_WIDTH, this.props.data.lines[0].length);
 
 		this.yData = this.props.data.lines.filter(line => this.props.data.types[line[0]] === 'line');
 		this.xData = this.props.data.lines.filter(line => this.props.data.types[line[0]] !== 'line')[0];
 
-		renderLines(this.ctx, this.yData, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.data);
+		document.addEventListener('mouseup', this.mouseUp);
+
+		renderLines(this.ctx, this.yData, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.data, this.props.bounderies.yMin, 0);
 	}
 
 	setPosition = (left, right) => {
 		const w = this.WIDTH - right - left;
 
-		if (w < this.MIN_WIDTH) {
-			this.windowWidth = this.MIN_WIDTH;
+		if (w < this.MIN_WIDTH || left < 0 || right < 0)
 			return ;
-		}
-		if (left < 0) {
-			this.leftPos = 0;
-			this.windowWidth = 0;
-			return ;
-		}
-
-		if (right < 0) {
-			this.rightPos = 0;
-			this.windowWidth = 0;
-			return ;
-		}
 
 		this.setState({
 			windowWidth: w,
@@ -107,21 +64,31 @@ class GraphSlider extends React.Component {
 		})
 	}
 
+	getPosition = () => {
+		const left = this.state.leftWidth;
+		const right = this.WIDTH - this.state.rightWidth;
+
+		return [
+			Math.floor((left * 100) / this.WIDTH),
+			Math.ceil((right * 100) / this.WIDTH),
+		]
+	}
+
 	mouseDown = (e) => {
 		const type = e.target.dataset.type;
+		const startX = e.pageX;
 		const dimentions = {
 			left: this.state.windowLeft,
 			right: this.state.windowRight,
 			width: this.state.windowWidth
 		}
-		this.setState({
-			cursor: 'grabbing'
-		})
 
 		if (type === 'window') {
-			const startX = e.pageX;
-
-			this.grabWindow = (e) => {
+			this.setState({
+				cursor: 'grabbing'
+			})
+			
+			this.grab = (e) => {
 				const delta = startX - e.pageX;
 			
 				if (delta === 0)
@@ -133,12 +100,32 @@ class GraphSlider extends React.Component {
 				this.setPosition(left, right);
 			}
 
-			document.addEventListener('mousemove', this.grabWindow)
+			document.addEventListener('mousemove', this.grab)
+		} else if (type === 'left' || type === 'right') {
+			this.grab = (e) => {
+				const delta = startX - e.pageX;
+				let left, right;
+
+				if (delta === 0)
+					return ;
+
+				if (type === 'left') {
+					left = this.WIDTH - (dimentions.width + delta) - dimentions.right;
+					right = this.WIDTH - (dimentions.width + delta) - left;
+
+				} else if (type === 'right') {
+					right = this.WIDTH - (dimentions.width - delta) - dimentions.left;
+					left = dimentions.left;
+				}
+				
+				this.setPosition(left, right);
+			}
+			document.addEventListener('mousemove', this.grab);
 		}
 	}
 
 	mouseUp = () => {
-		document.removeEventListener('mousemove', this.grabWindow);
+		document.removeEventListener('mousemove', this.grab);
 		this.setState({
 			cursor: 'grab'
 		})
@@ -155,6 +142,7 @@ class GraphSlider extends React.Component {
 			cursor: 'grab'
 		});
 
+		document.removeEventListener('mousemove', this.grab);
 		document.removeEventListener('mouseup', this.mouseUp);
 	}
 
@@ -166,7 +154,7 @@ class GraphSlider extends React.Component {
 				<div
 					style={Object.assign({}, 
 						LeftEdgeStyle,
-						{left: this.state.leftPos, width: this.state.leftWidth})} 
+						{width: this.state.leftWidth})} 
 				>
 					<LeftArrow data-type='left'/>
 				</div>
@@ -186,7 +174,7 @@ class GraphSlider extends React.Component {
 				<div
 					style={Object.assign({}, 
 						RightEdgeStyle,
-						{left: this.state.rightPos, width: this.state.rightWidth})} 
+						{width: this.state.rightWidth})} 
 				>
 					<RightArrow data-type='right'/>
 				</div>
