@@ -112,9 +112,9 @@ class Graph extends React.Component {
 			this.renderLine(coords, this.props.totalData.color[line[0]]);
 
 			for (const [x, y] of coords) {
-				if (y === null)
-					break;
 				if (this.isOver(x - this.offsetX, coords.length)) {
+					if (y === null)
+						break;
 					this.circle(x, y, this.props.totalData.color[line[0]]);
 					break;
 				}
@@ -210,15 +210,20 @@ class Graph extends React.Component {
 	mouseMove = ({ clientX, clientY }) => {
 		const { left, top } = this.canvasRef.current.getBoundingClientRect();
 
-		this.props.setData({
-			top: clientY - top,
-			left: clientX - left + this.offsetX / 3,
-			title: this.tooltipTitle,
-			data: this.tooltipData,
-			x: (clientX - left) * 2 - this.offsetX
-		});
-		// this.raf = requestAnimationFrame(this.paint);
-		this.paint();
+		if (clientY - top > this.VIEW_HEIGHT / 2 + this.PADDING / 2) {
+			this.props.resetData();
+		}
+		else {
+			this.props.setData({
+				top: clientY - top,
+				left: clientX - left + this.offsetX / 3,
+				title: this.tooltipTitle,
+				data: this.tooltipData,
+				x: (clientX - left) * 2 - this.offsetX
+			});
+			this.raf = requestAnimationFrame(this.paint);
+		}
+
 	}
 
 	mouseLeve = () => {

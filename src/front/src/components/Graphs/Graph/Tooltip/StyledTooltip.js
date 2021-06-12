@@ -5,6 +5,7 @@ export const containerStyle = {
 	position: 'absolute',
 	boxShadow: '0px 0px 10px 2px rgba(20, 20, 21, 0.2)',
 	display: 'inline-block',
+	zIndex: '10'
 }
 
 export const titleStyle = {
