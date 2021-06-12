@@ -1,5 +1,5 @@
 import React from 'react';
-import Tooltip from './Tooltip';
+import Tooltip from './Tooltip/Tooltip';
 import GraphSlider from './GraphSlider/GraphSlider';
 import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate } from './GraphUtils/utils'
 import { connect } from 'react-redux';
