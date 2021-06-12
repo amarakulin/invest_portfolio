@@ -1,7 +1,7 @@
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 const initialState = {
-	isFetching: true
+	isFetching: false
 }
 
 const apiReduser = (state = initialState, action) => {
