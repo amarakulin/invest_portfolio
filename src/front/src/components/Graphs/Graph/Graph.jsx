@@ -377,14 +377,14 @@ export function getChartData() {
 class Graph extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			isMounted: false
+		}
 		this.canvasRef = React.createRef();
 		this.rows = 12;
 		this.data = getChartData();
 		[this.yMin, this.yMax] = this.calculateBounderies();
 
-		this.state = {
-			isMounted: false
-		}
 		this.raf = null;
 		this.tooltipData = [];
 	}
@@ -392,9 +392,10 @@ class Graph extends React.Component {
 	componentDidMount() {
 		this.ctx = this.canvasRef.current.getContext('2d');
 
-		// this.length = this.data.lines[0].length;
-		// this.leftIndex = ;
-		// this.rightIndex;
+		this.partData = this.data.lines.map(line => {
+			return line.slice(this.props.dataIndex.left, this.props.dataIndex.right);
+		})
+		console.log(this.partData);
 
 		this.WIDTH = this.canvasRef.current.offsetWidth;
 		this.HEIGHT = this.canvasRef.current.offsetHeight;
@@ -439,13 +440,6 @@ class Graph extends React.Component {
 
 	clear = () => {
 		this.ctx.clearRect(0, 0, this.DPI_WIDTH, this.DPI_HEIGHT)
-	}
-
-	toCoords = (y, i) => {
-		return [
-			Math.floor((i - 1) * this.xRatio + this.offsetX),
-			Math.floor(this.DPI_HEIGHT - this.PADDING - (y * this.yRatio))
-		];
 	}
 
 	renderLines = () => {
@@ -648,7 +642,8 @@ class Graph extends React.Component {
 const mapDispatchToProps = (state) => ({
 	tooltip: state.graph.tooltip,
 	mouseX: state.graph.mouseX,
-	showTooltip: state.graph.showTooltip
+	showTooltip: state.graph.showTooltip,
+	dataIndex: state.graph.dataIndex
 })
 
 export default connect(mapDispatchToProps, { resetData, setData })(Graph);

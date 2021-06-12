@@ -1,5 +1,6 @@
-const SET_DATA = 'SET_DATA'
-const RESET_DATA = 'RESET_DATA'
+const SET_DATA = 'SET_DATA';
+const RESET_DATA = 'RESET_DATA';
+const SET_DATA_INDEX = 'SET_DATA_INDEX';
 
 const initialState = {
 	tooltip: {
@@ -9,7 +10,11 @@ const initialState = {
 		data: []
 	},
 	showTooltip: false,
-	mouseX: null
+	mouseX: null,
+	dataIndex: {
+		left: 0,
+		right: 30
+	}
 }
 
 const graphReduser = (state = initialState, action) => {
@@ -37,6 +42,14 @@ const graphReduser = (state = initialState, action) => {
 				mouseX: null
 			}
 		}
+		case SET_DATA_INDEX: {
+			return {
+				...state,
+				dataIndex: {
+					...action.index
+				}
+			}
+		}
 		default: {
 			return state;
 		}
@@ -57,5 +70,7 @@ export const setData = ({top, left, title, data, x}) => ({
 export const resetData = () => ({
 	type: RESET_DATA,
 })
+
+export const setDataIndex = (left, right) => ({type: SET_DATA_INDEX, index: {left, right}})
 
 export default graphReduser;

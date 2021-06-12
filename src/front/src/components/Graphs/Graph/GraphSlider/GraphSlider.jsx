@@ -2,6 +2,8 @@ import React from 'react';
 import {GraphSliderContainer, LeftArrow, RightArrow, windowStyle, LeftEdgeStyle, RightEdgeStyle} from './StyledGraphSlider'
 import { GraphSliderCanvas } from '../Canvas';
 import { getYRatio, getXRatio, renderLines } from '../GraphUtils/utils'
+import { connect } from 'react-redux';
+import { setDataIndex } from '../../../../redux/graphReduser'
 
 class GraphSlider extends React.Component {
 	constructor(props) {
@@ -62,6 +64,9 @@ class GraphSlider extends React.Component {
 			rightWidth: right,
 			leftWidth: left,
 		})
+		
+		const [leftIndex, rightIndex] = this.getPosition()
+		this.props.setDataIndex(leftIndex, rightIndex);
 	}
 
 	getPosition = () => {
@@ -184,4 +189,4 @@ class GraphSlider extends React.Component {
 	}
 }
 
-export default GraphSlider;
+export default connect(null, {setDataIndex})(GraphSlider);

@@ -1,4 +1,4 @@
-import graphReduser, {setData, resetData} from '../redux/graphReduser.js';
+import graphReduser, {setData, resetData, setDataIndex} from '../redux/graphReduser.js';
 
 it('Добавление значений через setData', () => {
 	// Исходные данные
@@ -68,5 +68,29 @@ it('Удаление значений через resetData', () => {
 		},
 		showTooltip: false,
 		mouseX: null
+	});
+})
+
+it('setDataIndex', () => {
+	// Исходные данные
+	const initialState = {
+		dataIndex: {
+			left: null,
+			right: null
+		}
+	}
+
+
+	const action = setDataIndex(10, 20);
+
+	// Вызываем reduser
+	const newState = graphReduser(initialState, action);
+
+	// Проверка
+	expect(newState).toEqual({
+		dataIndex: {
+			left: 10,
+			right: 20
+		}
 	});
 })
