@@ -6,7 +6,7 @@ const Link = styled(NavLink)`
 	font-size: 18px;
 	line-height: 28px;
 	color: #74B791;
-	transition: all 02s ease;
+	transition: all 0.2s ease;
 	&:hover {
 		color: #74B791;
 	}
