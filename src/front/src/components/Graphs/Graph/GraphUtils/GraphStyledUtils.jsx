@@ -13,3 +13,11 @@ export const GraphSliderCanvas = styled.canvas`
 export const GraphContainer = styled.div`
 	position: relative;
 `
+
+export const GraphPreloaderContainer = styled.div`
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 200px;
+`

@@ -8,7 +8,7 @@ const Tooltip = (props) => {
 				{
 					props.data.map((item, i) => {
 						if (item.value === null || item.value === undefined)
-							return 
+							return null
 						return <ul style={listStyle} key={i} >
 							<li style={Object.assign({}, listItemStyle, {color: item.color})}> {`${item.name}: ${item.value}`} </li>
 						</ul>
