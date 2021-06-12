@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const StyledPreloader = styled.div`
 	
-		color: #ffffff;
+		color: ${props => props.color};
 		font-size: 100%;
 		text-indent: -9999em;
 		overflow: hidden;
@@ -83,9 +83,9 @@ const StyledPreloader = styled.div`
 	}
 `
 
-const Preloader = () => {
+const Preloader = ({color = '#fff'}) => {
 	return (
-		<StyledPreloader />
+		<StyledPreloader color={color} />
 	)
 }
 
