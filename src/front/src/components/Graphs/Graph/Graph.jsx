@@ -75,6 +75,12 @@ class Graph extends React.Component {
 		this.yData = this.partData.filter(line => this.props.totalData.types[line[0]] === 'line');
 		this.xData = this.partData.filter(line => this.props.totalData.types[line[0]] !== 'line')[0];
 
+		if (this.partData.length === 1) {
+			this.clear();
+			this.renderLine([[0, this.DPI_HEIGHT - this.PADDING], [this.DPI_WIDTH, this.DPI_HEIGHT - this.PADDING]], '#F0F0F0')
+			return ;
+		}
+			
 		this.clear();
 		this.renderYAxis();
 		this.renderXAxis();
@@ -85,32 +91,31 @@ class Graph extends React.Component {
 		this.ctx.clearRect(0, 0, this.DPI_WIDTH, this.DPI_HEIGHT)
 	}
 
-	renderLines = () => {
-		const renderLine = (coords, color = '#000') => {
-			this.ctx.beginPath();
-			this.ctx.lineWidth = 4;
-			this.ctx.strokeStyle = color;
-			this.ctx.lineJoin = 'bevel';
-			for (const [x, y] of coords) {
-				if (y === null)
-					continue;
-				this.ctx.lineTo(x, y);
-			}
-			this.ctx.stroke();
-			this.ctx.closePath();
+	renderLine = (coords, color = '#000') => {
+		this.ctx.beginPath();
+		this.ctx.lineWidth = 4;
+		this.ctx.strokeStyle = color;
+		this.ctx.lineJoin = 'bevel';
+		for (const [x, y] of coords) {
+			if (y === null)
+				continue;
+			this.ctx.lineTo(x, y);
 		}
+		this.ctx.stroke();
+		this.ctx.closePath();
+	}
 
+	renderLines = () => {
 		this.yData.forEach(line => {
 			const coords = line.map((y, i) => toCoords(y, i, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.yMin, this.offsetX)).filter((_, i) => i !== 0);
 
-			renderLine(coords, this.props.totalData.color[line[0]]);
+			this.renderLine(coords, this.props.totalData.color[line[0]]);
 
 			for (const [x, y] of coords) {
 				if (this.isOver(x - this.offsetX, coords.length)) {
 					this.circle(x, y, this.props.totalData.color[line[0]]);
 					break;
 				}
-
 			}
 		})
 	}
@@ -223,7 +228,7 @@ class Graph extends React.Component {
 		return (
 			<GraphContainer>
 				<GraphCanvas ref={this.canvasRef} onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeve} />
-				{this.props.showTooltip && <Tooltip
+				{this.props.showTooltip && this.partData.length > 1 && <Tooltip
 					data={this.props.tooltip.data || []}
 					title={this.props.tooltip.title}
 					top={this.props.tooltip.top}

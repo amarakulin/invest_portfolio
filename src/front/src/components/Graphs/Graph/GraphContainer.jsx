@@ -379,7 +379,7 @@ const GraphContainer = (props) => {
 		setTimeout(() => {
 			props.setTotalGraphData(getChartData())
 			props.toggleIsFetching(false);//! в apiReduser isFetching по дефолту стоит true!!!!
-		}, 0);
+		}, 100);
 	}
 
 	return (
