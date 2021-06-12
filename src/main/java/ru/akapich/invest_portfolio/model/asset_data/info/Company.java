@@ -33,6 +33,6 @@ public class Company {
 	private String ticker;
 
 	//foreign key
-	@OneToOne(mappedBy = "t_company")
+	@OneToOne//(mappedBy = "t_company")
 	private FinancialAsset financialAsset;
 }

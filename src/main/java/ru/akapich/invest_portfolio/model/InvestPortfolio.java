@@ -24,7 +24,7 @@ public class InvestPortfolio {
 	@JoinColumn(name = "id_set_financial_assets")
 	private SetFinancialAssets idSetFinancialAssets;
 
-	@OneToMany(mappedBy = "t_invest_portfolio")
+	@OneToMany//(mappedBy = "t_invest_portfolio")
 	private Set<Statistic> idStatistic;
 
 

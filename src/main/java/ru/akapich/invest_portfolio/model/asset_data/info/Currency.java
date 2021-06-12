@@ -30,6 +30,6 @@ public class Currency {
 	private String name;
 
 	//foreign key
-	@OneToOne(mappedBy = "t_currency")
+	@OneToOne//(mappedBy = "t_currency")
 	private FinancialAsset financialAsset;
 }

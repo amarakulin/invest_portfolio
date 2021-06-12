@@ -35,7 +35,7 @@ public class User {
 	@Column
 	private String role;
 
-	@OneToMany(mappedBy = "t_user")
+	@OneToMany//(mappedBy = "t_user")
 	private Set<InvestPortfolio> idInvestPortfolio;
 
 	@Column

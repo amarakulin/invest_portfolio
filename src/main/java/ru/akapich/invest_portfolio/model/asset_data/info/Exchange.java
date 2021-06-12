@@ -30,6 +30,6 @@ public class Exchange {
 	private String name;
 
 	//foreign key
-	@OneToOne(mappedBy = "t_exchange")
+	@OneToOne//(mappedBy = "t_exchange")
 	private FinancialAsset financialAsset;
 }

@@ -29,6 +29,6 @@ public class TypeAsset {
 	private String name;
 
 	//foreign key
-	@OneToOne(mappedBy = "t_type_asset")
+	@OneToOne//(mappedBy = "t_type_asset")
 	private FinancialAsset financialAsset;
 }
