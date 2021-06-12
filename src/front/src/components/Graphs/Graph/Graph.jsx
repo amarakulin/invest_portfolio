@@ -3,7 +3,7 @@ import Tooltip from './Tooltip/Tooltip';
 import GraphSlider from './GraphSlider/GraphSlider';
 import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate } from './GraphUtils/utils'
 import { connect } from 'react-redux';
-import { resetData, setData } from '../../../redux/graphReduser'
+import { resetData, setData, setTotalGraphData } from '../../../redux/graphReduser'
 import { GraphCanvas, GraphContainer } from './Canvas'
 
 export function getChartData() {
@@ -381,7 +381,7 @@ class Graph extends React.Component {
 			isMounted: false
 		}
 		this.canvasRef = React.createRef();
-
+		this.props.setTotalGraphData(getChartData());
 		this.rows = 12;
 		this.raf = null;
 		this.tooltipData = [];
@@ -389,7 +389,6 @@ class Graph extends React.Component {
 
 	componentDidMount() {
 		this.ctx = this.canvasRef.current.getContext('2d');
-		this.data = getChartData();
 
 		this.setState({
 			isMounted: true
@@ -404,11 +403,11 @@ class Graph extends React.Component {
 	}
 
 	paint = () => {
-		this.length = this.data.lines[0].length
+		this.length = this.props.totalData.lines[0].length
 		this.leftIndex = Math.floor((this.length * this.props.dataIndex.left) / 100);
 		this.rightIndex = Math.ceil((this.length * this.props.dataIndex.right) / 100);
 
-		this.partData = this.data.lines.map(line => {
+		this.partData = this.props.totalData.lines.map(line => {
 			const res = line.slice(this.leftIndex, this.rightIndex)
 			if (typeof res[0] !== 'string') {
 				res.unshift(line[0]);
@@ -416,7 +415,7 @@ class Graph extends React.Component {
 			return res;
 		});
 
-		[this.yMin, this.yMax] = calculateBounderies({lines: this.partData, types: this.data.types});
+		[this.yMin, this.yMax] = calculateBounderies({lines: this.partData, types: this.props.totalData.types});
 
 		this.WIDTH = this.canvasRef.current.offsetWidth;
 		this.HEIGHT = this.canvasRef.current.offsetHeight;
@@ -436,8 +435,8 @@ class Graph extends React.Component {
 		this.yRatio = getYRatio(this.VIEW_HEIGHT, this.yMax, this.yMin);
 		this.xRatio = getXRatio(this.VIEW_WIDTH, this.partData[0].length);
 
-		this.yData = this.partData.filter(line => this.data.types[line[0]] === 'line');
-		this.xData = this.partData.filter(line => this.data.types[line[0]] !== 'line')[0];
+		this.yData = this.partData.filter(line => this.props.totalData.types[line[0]] === 'line');
+		this.xData = this.partData.filter(line => this.props.totalData.types[line[0]] !== 'line')[0];
 
 		this.clear();
 		this.renderYAxis();
@@ -465,11 +464,11 @@ class Graph extends React.Component {
 		this.yData.forEach(line => {
 			const coords = line.map((y, i) => toCoords(y, i, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.yMin, this.offsetX)).filter((_, i) => i !== 0);
 
-			renderLine(coords, this.data.color[line[0]]);
+			renderLine(coords, this.props.totalData.color[line[0]]);
 
 			for (const [x, y] of coords) {
 				if (this.isOver(x - this.offsetX, coords.length)) {
-					this.circle(x, y, this.data.color[line[0]]);
+					this.circle(x, y, this.props.totalData.color[line[0]]);
 					break;
 				}
 
@@ -531,8 +530,8 @@ class Graph extends React.Component {
 
 				this.tooltipData = this.yData.map(line => ({
 					value: line[i + 1],
-					name: this.data.names[line[0]],
-					color: this.data.color[line[0]]
+					name: this.props.totalData.names[line[0]],
+					color: this.props.totalData.color[line[0]]
 				}))
 			}
 		}
@@ -593,7 +592,7 @@ class Graph extends React.Component {
 				/>}
 				{this.state.isMounted && 
 					<GraphSlider
-						data={this.data}
+						data={this.props.totalData}
 						size={{
 							height: this.HEIGHT * 0.1,
 							width: this.WIDTH,
@@ -610,7 +609,8 @@ const mapDispatchToProps = (state) => ({
 	tooltip: state.graph.tooltip,
 	mouseX: state.graph.mouseX,
 	showTooltip: state.graph.showTooltip,
-	dataIndex: state.graph.dataIndex
+	dataIndex: state.graph.dataIndex,
+	totalData: state.graph.data,
 })
 
-export default connect(mapDispatchToProps, { resetData, setData })(Graph);
+export default connect(mapDispatchToProps, { resetData, setData, setTotalGraphData })(Graph);

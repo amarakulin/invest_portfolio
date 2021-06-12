@@ -1,4 +1,4 @@
-import graphReduser, {setData, resetData, setDataIndex} from '../redux/graphReduser.js';
+import graphReduser, {setData, resetData, setDataIndex, setTotalGraphData} from '../redux/graphReduser.js';
 
 it('Добавление значений через setData', () => {
 	// Исходные данные
@@ -91,6 +91,52 @@ it('setDataIndex', () => {
 		dataIndex: {
 			left: 10,
 			right: 20
+		}
+	});
+})
+
+it('setTotalGraphData', () => {
+	// Исходные данные
+	const initialState = {
+		data: null
+	}
+
+
+	const action = setTotalGraphData({
+		lines: [
+			['time', 10, 20, 30],
+			['l1', 10, 20, 3]
+		],
+		types: {
+			time: 'time',
+			l1: 'line'
+		},
+		names: {
+			l1: '#1',
+		},
+		color: {
+			l1: '#19f3f2'
+		}
+	});
+
+	// Вызываем reduser
+	const newState = graphReduser(initialState, action);
+
+	// Проверка
+	expect(newState).toEqual({
+		lines: [
+			['time', 10, 20, 30],
+			['l1', 10, 20, 3]
+		],
+		types: {
+			time: 'time',
+			l1: 'line'
+		},
+		names: {
+			l1: '#1',
+		},
+		color: {
+			l1: '#19f3f2'
 		}
 	});
 })

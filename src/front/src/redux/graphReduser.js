@@ -2,6 +2,7 @@ const SET_DATA = 'SET_DATA';
 const RESET_DATA = 'RESET_DATA';
 const SET_DATA_INDEX = 'SET_DATA_INDEX';
 const SET_SLIDER_DATA = 'SET_SLIDER_DATA';
+const SET_TOTAL_GRAPH_DATA = 'SET_TOTAL_GRAPH_DATA'
 
 export const widthPercent = 30;
 
@@ -24,7 +25,8 @@ const initialState = {
 		windowRight: 0,
 		rightWidth: 0,
 		leftWidth: 0,
-	}
+	},
+	data: null
 }
 
 const graphReduser = (state = initialState, action) => {
@@ -68,6 +70,14 @@ const graphReduser = (state = initialState, action) => {
 				}
 			}
 		}
+		case SET_TOTAL_GRAPH_DATA: {
+			return {
+				...state,
+				data: {
+					...action.data
+				}
+			}
+		}
 		default: {
 			return state;
 		}
@@ -97,5 +107,7 @@ export const setSliderGraphData = ({windowWidth, windowLeft, windowRight, rightW
 		data: {windowWidth, windowLeft, windowRight, rightWidth, leftWidth}
 	}
 }
+
+export const setTotalGraphData = (data) => ({type: SET_TOTAL_GRAPH_DATA, data: data})
 
 export default graphReduser;
