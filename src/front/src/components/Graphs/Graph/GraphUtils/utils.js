@@ -61,3 +61,11 @@ export const calculateBounderies = ({lines, types}) => {
 	})
 	return [min, max];
 }
+
+export const toDate = (timestamp) => {
+	const addZero = (num) => num < 10 ? `0${num}` : num;
+
+	const date = new Date(timestamp);
+
+	return `${addZero(date.getDate())}.${addZero(date.getMonth() + 1)}.${date.getFullYear()}`
+}

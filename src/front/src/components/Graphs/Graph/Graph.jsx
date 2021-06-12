@@ -1,7 +1,7 @@
 import React from 'react';
 import Tooltip from './Tooltip';
 import GraphSlider from './GraphSlider/GraphSlider';
-import { getYRatio, getXRatio, toCoords, calculateBounderies } from './GraphUtils/utils'
+import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate } from './GraphUtils/utils'
 import { connect } from 'react-redux';
 import { resetData, setData } from '../../../redux/graphReduser'
 import { GraphCanvas, GraphContainer } from './Canvas'
@@ -405,8 +405,8 @@ class Graph extends React.Component {
 
 	paint = () => {
 		this.length = this.data.lines[0].length
-		this.leftIndex = Math.round((this.length * this.props.dataIndex.left) / 100);
-		this.rightIndex = Math.round((this.length * this.props.dataIndex.right) / 100);
+		this.leftIndex = Math.floor((this.length * this.props.dataIndex.left) / 100);
+		this.rightIndex = Math.ceil((this.length * this.props.dataIndex.right) / 100);
 
 		this.partData = this.data.lines.map(line => {
 			const res = line.slice(this.leftIndex, this.rightIndex)
@@ -513,7 +513,7 @@ class Graph extends React.Component {
 			const x = i * this.xRatio;
 
 			if ((i - 1) % step === 0) {
-				const text = this.toDate(this.xData[i]);
+				const text = toDate(this.xData[i]);
 				this.ctx.fillText(text, x, this.DPI_HEIGHT - 10);
 				this.ctx.moveTo(x + this.offsetX, 0 + this.PADDING * 2);
 				this.ctx.lineTo(x + this.offsetX, this.DPI_HEIGHT - this.PADDING);
@@ -528,7 +528,7 @@ class Graph extends React.Component {
 
 				this.ctx.restore();
 
-				this.tooltipTitle = this.toDate(this.xData[i]);
+				this.tooltipTitle = toDate(this.xData[i]);
 
 
 				this.tooltipData = this.yData.map(line => ({
@@ -551,34 +551,6 @@ class Graph extends React.Component {
 		return Math.abs((x - this.props.mouseX)) < width / 2;
 	}
 
-	calculateBounderies = ({lines, types}) => {
-		let min;
-		let max;
-
-		lines.forEach((line) => {
-			if (types[line[0]] !== 'line')
-				return;
-
-			if (typeof (max) !== 'number')
-				max = line[1];
-			if (typeof (min) !== 'number')
-				min = line[1];
-
-			if (min > line[1])
-				min = line[1];
-			if (max < line[1])
-				max = line[1];
-
-			for (let i = 2; i < line.length; i++) {
-				if (min > line[i])
-					min = line[i];
-				if (max < line[i])
-					max = line[i];
-			}
-		})
-		return [min, max];
-	}
-
 	circle = (x, y, color = '#000') => {
 		this.ctx.beginPath();
 
@@ -590,14 +562,6 @@ class Graph extends React.Component {
 		this.ctx.stroke();
 
 		this.ctx.closePath();
-	}
-
-	toDate = (timestamp) => {
-		const addZero = (num) => num < 10 ? `0${num}` : num;
-
-		const date = new Date(timestamp);
-
-		return `${addZero(date.getDate())}.${addZero(date.getMonth() + 1)}.${date.getFullYear()}`
 	}
 
 	mouseMove = ({ clientX, clientY }) => {

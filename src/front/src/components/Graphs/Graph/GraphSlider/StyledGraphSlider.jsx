@@ -8,7 +8,7 @@ export const GraphSliderContainer = styled.div`
 
 export const LeftEdgeStyle = {
 	transition:'background 0.22s ease-in-out',
-	background: '#f5f9fb',
+	background: '#89D7AB',
 	opacity: '0.8',
 	position: 'absolute',
 	top: '0',
@@ -18,7 +18,7 @@ export const LeftEdgeStyle = {
 
 export const RightEdgeStyle = {
 	transition:'background 0.22s ease-in-out',
-	background: '#f5f9fb',
+	background: '#89D7AB',
 	opacity: '0.8',
 	position: 'absolute',
 	top: '0',
@@ -39,7 +39,7 @@ const Arrow = styled.div`
 	top: 0;
 	bottom: 0;
 	transition: background 0.22s ease-in-out;
-	background: #ddeaf3;
+	background: #74B791;
 	width: 4px;
 `
 
