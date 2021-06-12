@@ -61,13 +61,6 @@ class GraphSlider extends React.Component {
 			rightWidth: right,
 			leftWidth: left,
 		})
-		this.setState({
-			windowWidth: w,
-			windowLeft: left,
-			windowRight: right,
-			rightWidth: right,
-			leftWidth: left,
-		})
 	}
 
 	getPosition = () => {
