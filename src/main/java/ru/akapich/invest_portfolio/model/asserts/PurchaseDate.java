@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import ru.akapich.invest_portfolio.model.InvestPortfolio;
+
 import javax.persistence.*;
 import java.util.Date;
 

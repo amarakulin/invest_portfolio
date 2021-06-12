@@ -5,32 +5,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
- * JavaBean domain object
- * That represent price changes on {@link ru.akapich.invest_portfolio.model.FinancialAsset}
+ * JavaBean object that represent all types of asset.
  *
  * @author Aleksandr Marakulin
  **/
 
 @Entity
-@Table(name="t_history_price")
+@Table(name="t_type_asset")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class HistoryPrice {
+public class TypeAsset {
 
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 
 	@Column
-	@Temporal(TemporalType.DATE)
-	private Date date;
-
-	@Column
-	private BigDecimal price;
+	private String name;
 }
