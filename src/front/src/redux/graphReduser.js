@@ -1,6 +1,7 @@
 const SET_DATA = 'SET_DATA';
 const RESET_DATA = 'RESET_DATA';
 const SET_DATA_INDEX = 'SET_DATA_INDEX';
+const SET_SLIDER_DATA = 'SET_SLIDER_DATA';
 
 export const widthPercent = 30;
 
@@ -14,8 +15,15 @@ const initialState = {
 	showTooltip: false,
 	mouseX: null,
 	dataIndex: {
-		left: 0,
-		right: widthPercent
+		left: null,
+		right: null
+	},
+	sliderGraphData: {
+		windowWidth: 0,
+		windowLeft: 0,
+		windowRight: 0,
+		rightWidth: 0,
+		leftWidth: 0,
 	}
 }
 
@@ -52,6 +60,14 @@ const graphReduser = (state = initialState, action) => {
 				}
 			}
 		}
+		case SET_SLIDER_DATA: {
+			return {
+				...state,
+				sliderGraphData: {
+					...action.data
+				}
+			}
+		}
 		default: {
 			return state;
 		}
@@ -74,5 +90,12 @@ export const resetData = () => ({
 })
 
 export const setDataIndex = (left, right) => ({type: SET_DATA_INDEX, index: {left, right}})
+
+export const setSliderGraphData = ({windowWidth, windowLeft, windowRight, rightWidth, leftWidth}) => {
+	return {
+		type: SET_SLIDER_DATA,
+		data: {windowWidth, windowLeft, windowRight, rightWidth, leftWidth}
+	}
+}
 
 export default graphReduser;

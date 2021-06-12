@@ -31,7 +31,7 @@ export const windowStyle = {
 	background: 'transparent',
 	top: '0',
 	bottom: '0',
-	cursor: 'grab'
+	cursor: 'ew-resize'
 }
 
 const Arrow = styled.div`
@@ -45,10 +45,10 @@ const Arrow = styled.div`
 
 export const LeftArrow = styled(Arrow)`
 	right: 0;
-	cursor: w-resize;
+	cursor: col-resize;
 `
 
 export const RightArrow = styled(Arrow)`
 	left: 0;
-	cursor: e-resize;
+	cursor: col-resize;
 `

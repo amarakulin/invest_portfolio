@@ -3,7 +3,7 @@ import {GraphSliderContainer, LeftArrow, RightArrow, windowStyle, LeftEdgeStyle,
 import { GraphSliderCanvas } from '../Canvas';
 import { getYRatio, getXRatio, renderLines, calculateBounderies } from '../GraphUtils/utils'
 import { connect } from 'react-redux';
-import { setDataIndex, widthPercent } from '../../../../redux/graphReduser';
+import { setDataIndex, widthPercent, setSliderGraphData } from '../../../../redux/graphReduser';
 
 
 
@@ -12,15 +12,6 @@ class GraphSlider extends React.Component {
 		super(props);
 		this.sliderCanvasRef = React.createRef();
 		this.data = this.props.data;
-
-		this.state = {
-			windowWidth: 0,
-			windowLeft: 0,
-			windowRight: 0,
-			rightWidth: 0,
-			leftWidth: 0,
-			cursor: 'grab'
-		}
 	}
 
 	componentDidMount() {
@@ -34,8 +25,11 @@ class GraphSlider extends React.Component {
 		this.MIN_WIDTH = this.WIDTH * 0.05;
 		this.PADDING = this.DPI_HEIGHT * 0.05;
 
-		this.defoultWidth = this.WIDTH * widthPercent / 100;
-		this.setPosition(0, this.WIDTH - this.defoultWidth);
+		this.defoultWidth = this.WIDTH - (this.WIDTH * widthPercent / 100);
+		this.setPosition(this.defoultWidth, 0);
+		const [leftIndex, rightIndex] = this.getPosition();
+		this.props.setDataIndex(leftIndex, rightIndex);
+		
 
 		this.VIEW_HEIGHT = this.DPI_HEIGHT - this.PADDING * 2;
 		this.VIEW_WIDTH = this.DPI_WIDTH;
@@ -60,6 +54,13 @@ class GraphSlider extends React.Component {
 		if (w < this.MIN_WIDTH || left < 0 || right < 0)
 			return ;
 
+		this.props.setSliderGraphData({
+			windowWidth: w,
+			windowLeft: left,
+			windowRight: right,
+			rightWidth: right,
+			leftWidth: left,
+		})
 		this.setState({
 			windowWidth: w,
 			windowLeft: left,
@@ -70,8 +71,8 @@ class GraphSlider extends React.Component {
 	}
 
 	getPosition = () => {
-		const left = this.state.leftWidth;
-		const right = this.WIDTH - this.state.rightWidth;
+		const left = this.props.posData.leftWidth;
+		const right = this.WIDTH - this.props.posData.rightWidth;
 
 		return [
 			(left * 100) / this.WIDTH,
@@ -83,16 +84,12 @@ class GraphSlider extends React.Component {
 		const type = e.target.dataset.type;
 		const startX = e.pageX;
 		const dimentions = {
-			left: this.state.windowLeft,
-			right: this.state.windowRight,
-			width: this.state.windowWidth
+			left: this.props.posData.windowLeft,
+			right: this.props.posData.windowRight,
+			width: this.props.posData.windowWidth
 		}
 
 		if (type === 'window') {
-			this.setState({
-				cursor: 'grabbing'
-			})
-			
 			this.grab = (e) => {
 				const delta = startX - e.pageX;
 			
@@ -137,21 +134,17 @@ class GraphSlider extends React.Component {
 
 	mouseUp = () => {
 		document.removeEventListener('mousemove', this.grab);
-		this.setState({
-			cursor: 'grab'
-		})
 	}
 
 
 	componentWillUnmount() {
-		this.setState({
+		this.props.setSliderGraphData({
 			windowWidth: 0,
 			windowLeft: 0,
 			windowRight: 0,
 			rightWidth: 0,
 			leftWidth: 0,
-			cursor: 'grab'
-		});
+		})
 
 		document.removeEventListener('mousemove', this.grab);
 		document.removeEventListener('mouseup', this.mouseUp);
@@ -165,7 +158,7 @@ class GraphSlider extends React.Component {
 				<div
 					style={Object.assign({}, 
 						LeftEdgeStyle,
-						{width: this.state.leftWidth})} 
+						{width: this.props.posData.leftWidth})} 
 				>
 					<LeftArrow data-type='left'/>
 				</div>
@@ -173,10 +166,9 @@ class GraphSlider extends React.Component {
 				<div
 					style={Object.assign({},
 						windowStyle, {
-							left: this.state.windowLeft,
-							right: this.state.windowRight,
-							width: this.state.windowWidth,
-							cursor: this.state.cursor
+							left: this.props.posData.windowLeft,
+							right: this.props.posData.windowRight,
+							width: this.props.posData.windowWidth,
 						}
 					)}
 					data-type='window'
@@ -185,7 +177,7 @@ class GraphSlider extends React.Component {
 				<div
 					style={Object.assign({}, 
 						RightEdgeStyle,
-						{width: this.state.rightWidth})} 
+						{width: this.props.posData.rightWidth})} 
 				>
 					<RightArrow data-type='right'/>
 				</div>
@@ -195,4 +187,8 @@ class GraphSlider extends React.Component {
 	}
 }
 
-export default connect(null, {setDataIndex})(GraphSlider);
+const mapStateToProps = (state) => ({
+	posData: state.graph.sliderGraphData
+})
+
+export default connect(mapStateToProps, {setDataIndex, setSliderGraphData})(GraphSlider);

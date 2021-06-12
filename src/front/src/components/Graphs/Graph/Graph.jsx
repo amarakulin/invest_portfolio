@@ -418,8 +418,6 @@ class Graph extends React.Component {
 
 		[this.yMin, this.yMax] = calculateBounderies({lines: this.partData, types: this.data.types});
 
-		console.log(this.yMin, this.yMax);
-
 		this.WIDTH = this.canvasRef.current.offsetWidth;
 		this.HEIGHT = this.canvasRef.current.offsetHeight;
 
