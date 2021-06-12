@@ -27,8 +27,8 @@ class GraphSlider extends React.Component {
 
 		this.defoultWidth = this.WIDTH - (this.WIDTH * widthPercent / 100);
 		this.setPosition(this.defoultWidth, 0);
-		const [leftIndex, rightIndex] = this.getPosition();
-		this.props.setDataIndex(leftIndex, rightIndex);
+
+		this.props.setDataIndex((100 - widthPercent), 100);
 		
 
 		this.VIEW_HEIGHT = this.DPI_HEIGHT - this.PADDING * 2;

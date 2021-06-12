@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const GraphSliderContainer = styled.div`
 	position: relative;
 	margin-bottom: 1rem;
-	z-index: 1;
 `
 
 export const LeftEdgeStyle = {
