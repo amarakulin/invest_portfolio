@@ -1,7 +1,7 @@
 import React from 'react';
 import Tooltip from './Tooltip/Tooltip';
-import GraphSlider from './GraphSlider/GraphSlider';
-import GraphToggler from './GraphToggler/GraphToggler'
+import { connect } from 'react-redux';
+import { resetData, setData } from '../../../redux/graphReduser';
 import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate } from './GraphUtils/utils'
 import { GraphCanvas, GraphContainer } from './GraphUtils/GraphStyledUtils'
 
@@ -112,6 +112,8 @@ class Graph extends React.Component {
 			this.renderLine(coords, this.props.totalData.color[line[0]]);
 
 			for (const [x, y] of coords) {
+				if (y === null)
+					break;
 				if (this.isOver(x - this.offsetX, coords.length)) {
 					this.circle(x, y, this.props.totalData.color[line[0]]);
 					break;
@@ -235,18 +237,17 @@ class Graph extends React.Component {
 					top={this.props.tooltip.top}
 					left={this.props.tooltip.left}
 				/>}
-				{/* <GraphSlider
-					data={this.props.totalData}
-				/>
-				<GraphToggler 
-					data={this.props.totalData}
-					setHiddenGraphName={this.props.setHiddenGraphName}
-					removeHiddenGraphname={this.props.removeHiddenGraphname}
-					hiddenName={this.props.hiddenName}
-				/> */}
 			</GraphContainer>
 		)
 	}
 }
 
-export default Graph;
+const mapStateToProps = (state) => ({
+	tooltip: state.graph.tooltip,
+	mouseX: state.graph.mouseX,
+	showTooltip: state.graph.showTooltip,
+	hiddenName: state.graph.hiddenGraphsName,
+	dataIndex: state.graph.dataIndex,
+})
+
+export default connect(mapStateToProps, {resetData, setData,})(Graph);

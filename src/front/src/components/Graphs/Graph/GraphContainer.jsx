@@ -3,7 +3,7 @@ import Graph from './Graph';
 import GraphSlider from './GraphSlider/GraphSlider';
 import GraphToggler from './GraphToggler/GraphToggler'
 import Preloader from '../../Basic/Preloader/Preloader';
-import { resetData, setData, setTotalGraphData, setHiddenGraphName, removeHiddenGraphname } from '../../../redux/graphReduser';
+import { setTotalGraphData, setHiddenGraphName, removeHiddenGraphname } from '../../../redux/graphReduser';
 import { GraphPreloaderContainer } from './GraphUtils/GraphStyledUtils'
 import { toggleIsFetching } from '../../../redux/apiReduser'
 
@@ -394,30 +394,14 @@ const GraphContainer = (props) => {
 				/>
 				<GraphToggler 
 					data={props.totalData}
-					setHiddenGraphName={props.setHiddenGraphName}
-					removeHiddenGraphname={props.removeHiddenGraphname}
-					hiddenName={props.hiddenName}
 				/>
 			</>
 	)
 }
 
 const mapStateToProps = (state) => ({
-	tooltip: state.graph.tooltip,
-	mouseX: state.graph.mouseX,
-	showTooltip: state.graph.showTooltip,
-	dataIndex: state.graph.dataIndex,
 	totalData: state.graph.data,
 	isFetching: state.api.isFetching,
-	hiddenName: state.graph.hiddenGraphsName
 })
 
-export default connect(mapStateToProps, 
-	{
-		setTotalGraphData,
-		resetData,
-		setData,
-		toggleIsFetching,
-		setHiddenGraphName,
-		removeHiddenGraphname
-	})(GraphContainer);
+export default connect(mapStateToProps, {setTotalGraphData, toggleIsFetching})(GraphContainer);

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { connect } from 'react-redux';
+import { setHiddenGraphName, removeHiddenGraphname } from '../../../../redux/graphReduser';
 import styled from 'styled-components';
 
 const ToggeUl = styled.ul`
@@ -75,4 +76,8 @@ const GraphToggler = (props) => {
 	)
 }
 
-export default GraphToggler;
+const mapStateToProps = (state) => ({
+	hiddenName: state.graph.hiddenGraphsName
+})
+
+export default connect(mapStateToProps, {setHiddenGraphName, removeHiddenGraphname})(GraphToggler);
