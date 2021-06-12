@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { connect } from 'react-redux';
 import Graph from './Graph';
 import Preloader from '../../Basic/Preloader/Preloader';
-import { resetData, setData, setTotalGraphData } from '../../../redux/graphReduser';
+import { resetData, setData, setTotalGraphData, setHiddenGraphName, removeHiddenGraphname } from '../../../redux/graphReduser';
 import { GraphPreloaderContainer } from './GraphUtils/GraphStyledUtils'
 import { toggleIsFetching } from '../../../redux/apiReduser'
 
@@ -375,10 +374,13 @@ export function getChartData() {
 }
 
 const GraphContainer = (props) => {
-	setTimeout(() => {
-		props.setTotalGraphData(getChartData())
-		props.toggleIsFetching(false);//! в apiReduser isFetching по дефолту стоит true!!!!
-	}, 1500);
+
+	if (!props.totalData) {
+		setTimeout(() => {
+			props.setTotalGraphData(getChartData())
+			props.toggleIsFetching(false);//! в apiReduser isFetching по дефолту стоит true!!!!
+		}, 0);
+	}
 
 	return (
 		props.isFetching 
@@ -393,7 +395,16 @@ const mapStateToProps = (state) => ({
 	showTooltip: state.graph.showTooltip,
 	dataIndex: state.graph.dataIndex,
 	totalData: state.graph.data,
-	isFetching: state.api.isFetching
+	isFetching: state.api.isFetching,
+	hiddenName: state.graph.hiddenGraphsName
 })
 
-export default connect(mapStateToProps, {setTotalGraphData, resetData, setData, toggleIsFetching})(GraphContainer);
+export default connect(mapStateToProps, 
+	{
+		setTotalGraphData,
+		resetData,
+		setData,
+		toggleIsFetching,
+		setHiddenGraphName,
+		removeHiddenGraphname
+	})(GraphContainer);

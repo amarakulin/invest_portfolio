@@ -1,9 +1,8 @@
 import React from 'react';
 import Tooltip from './Tooltip/Tooltip';
 import GraphSlider from './GraphSlider/GraphSlider';
+import GraphToggler from './GraphToggler/GraphToggler'
 import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate } from './GraphUtils/utils'
-import { connect } from 'react-redux';
-// import { resetData, setData } from '../../../redux/graphReduser'
 import { GraphCanvas, GraphContainer } from './GraphUtils/GraphStyledUtils'
 
 class Graph extends React.Component {
@@ -13,7 +12,6 @@ class Graph extends React.Component {
 			isMounted: false,
 		}
 		this.canvasRef = React.createRef();
-		// this.props.setTotalGraphData(getChartData());
 		this.rows = 12;
 		this.raf = null;
 		this.tooltipData = [];
@@ -39,12 +37,19 @@ class Graph extends React.Component {
 		this.leftIndex = Math.floor((this.length * this.props.dataIndex.left) / 100);
 		this.rightIndex = Math.ceil((this.length * this.props.dataIndex.right) / 100);
 
-		this.partData = this.props.totalData.lines.map(line => {
+		this.partData = this.props.totalData.lines
+		.map(line => {
 			const res = line.slice(this.leftIndex, this.rightIndex)
 			if (typeof res[0] !== 'string') {
 				res.unshift(line[0]);
 			}
 			return res;
+		})
+		.filter(line => {
+			if (this.props.hiddenName.includes(this.props.totalData.names[line[0]])) {
+				return false;
+			}
+			return true;
 		});
 
 		[this.yMin, this.yMax] = calculateBounderies({lines: this.partData, types: this.props.totalData.types});
@@ -225,13 +230,21 @@ class Graph extends React.Component {
 					left={this.props.tooltip.left}
 				/>}
 				{this.state.isMounted && 
-					<GraphSlider
-						data={this.props.totalData}
-						size={{
-							height: this.HEIGHT * 0.1,
-							width: this.WIDTH,
-						}}
-					/>
+					<>
+						<GraphSlider
+							data={this.props.totalData}
+							size={{
+								height: this.HEIGHT * 0.1,
+								width: this.WIDTH,
+							}}
+						/>
+						<GraphToggler 
+							data={this.props.totalData}
+							setHiddenGraphName={this.props.setHiddenGraphName}
+							removeHiddenGraphname={this.props.removeHiddenGraphname}
+							hiddenName={this.props.hiddenName}
+						/>
+					</>
 				}
 
 			</GraphContainer>
