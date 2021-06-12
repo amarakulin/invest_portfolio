@@ -20,6 +20,21 @@ class Graph extends React.Component {
 	componentDidMount() {
 		this.ctx = this.canvasRef.current.getContext('2d');
 
+		this.WIDTH = this.canvasRef.current.offsetWidth;
+		this.HEIGHT = this.canvasRef.current.offsetHeight;
+
+		this.DPI_WIDTH = this.WIDTH * 2;
+		this.DPI_HEIGHT = this.HEIGHT * 2;
+
+		this.canvasRef.current.width = this.DPI_WIDTH;
+		this.canvasRef.current.height = this.DPI_HEIGHT;
+
+		this.offsetX = this.DPI_WIDTH * 0.05;
+		this.PADDING = this.DPI_HEIGHT * 0.05;
+
+		this.VIEW_HEIGHT = this.DPI_HEIGHT - this.PADDING * 2;
+		this.VIEW_WIDTH = this.DPI_WIDTH - this.offsetX;
+
 		this.setState({
 			isMounted: true
 		})
@@ -53,21 +68,6 @@ class Graph extends React.Component {
 		});
 
 		[this.yMin, this.yMax] = calculateBounderies({lines: this.partData, types: this.props.totalData.types});
-
-		this.WIDTH = this.canvasRef.current.offsetWidth;
-		this.HEIGHT = this.canvasRef.current.offsetHeight;
-
-		this.DPI_WIDTH = this.WIDTH * 2;
-		this.DPI_HEIGHT = this.HEIGHT * 2;
-
-		this.canvasRef.current.width = this.DPI_WIDTH;
-		this.canvasRef.current.height = this.DPI_HEIGHT;
-
-		this.offsetX = this.DPI_WIDTH * 0.05;
-		this.PADDING = this.DPI_HEIGHT * 0.05;
-
-		this.VIEW_HEIGHT = this.DPI_HEIGHT - this.PADDING * 2;
-		this.VIEW_WIDTH = this.DPI_WIDTH - this.offsetX;
 
 		this.yRatio = getYRatio(this.VIEW_HEIGHT, this.yMax, this.yMin);
 		this.xRatio = getXRatio(this.VIEW_WIDTH, this.partData[0].length);
@@ -215,7 +215,8 @@ class Graph extends React.Component {
 			data: this.tooltipData,
 			x: (clientX - left) * 2 - this.offsetX
 		});
-		this.raf = requestAnimationFrame(this.paint);
+		// this.raf = requestAnimationFrame(this.paint);
+		this.paint();
 	}
 
 	mouseLeve = () => {
@@ -234,24 +235,15 @@ class Graph extends React.Component {
 					top={this.props.tooltip.top}
 					left={this.props.tooltip.left}
 				/>}
-				{this.state.isMounted && 
-					<>
-						<GraphSlider
-							data={this.props.totalData}
-							size={{
-								height: this.HEIGHT * 0.1,
-								width: this.WIDTH,
-							}}
-						/>
-						<GraphToggler 
-							data={this.props.totalData}
-							setHiddenGraphName={this.props.setHiddenGraphName}
-							removeHiddenGraphname={this.props.removeHiddenGraphname}
-							hiddenName={this.props.hiddenName}
-						/>
-					</>
-				}
-
+				{/* <GraphSlider
+					data={this.props.totalData}
+				/>
+				<GraphToggler 
+					data={this.props.totalData}
+					setHiddenGraphName={this.props.setHiddenGraphName}
+					removeHiddenGraphname={this.props.removeHiddenGraphname}
+					hiddenName={this.props.hiddenName}
+				/> */}
 			</GraphContainer>
 		)
 	}

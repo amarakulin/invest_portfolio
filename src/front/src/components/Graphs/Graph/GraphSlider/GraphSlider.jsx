@@ -15,12 +15,14 @@ class GraphSlider extends React.Component {
 	}
 
 	componentDidMount() {
-		this.WIDTH = this.props.size.width;
+		this.HEIGHT = this.sliderCanvasRef.current.offsetHeight;
+		this.WIDTH = this.sliderCanvasRef.current.offsetWidth;
+
 		this.ctx = this.sliderCanvasRef.current.getContext('2d');
 		[this.yMin, this.yMax] = calculateBounderies({lines: this.props.data.lines, types: this.props.data.types})
 
-		this.DPI_HEIGHT = this.props.size.height * 2;
-		this.DPI_WIDTH = this.props.size.width * 2;
+		this.DPI_HEIGHT = this.HEIGHT * 2;
+		this.DPI_WIDTH = this.WIDTH * 2;
 		this.MIN_WIDTH = this.WIDTH * 0.05;
 		this.PADDING = this.DPI_HEIGHT * 0.05;
 

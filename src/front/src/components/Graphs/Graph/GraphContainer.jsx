@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
 import Graph from './Graph';
+import GraphSlider from './GraphSlider/GraphSlider';
+import GraphToggler from './GraphToggler/GraphToggler'
 import Preloader from '../../Basic/Preloader/Preloader';
 import { resetData, setData, setTotalGraphData, setHiddenGraphName, removeHiddenGraphname } from '../../../redux/graphReduser';
 import { GraphPreloaderContainer } from './GraphUtils/GraphStyledUtils'
@@ -136,10 +138,10 @@ export function getChartData() {
 				35,
 				19,
 				65,
-				36,
+				436,
 				62,
 				113,
-				69,
+				436,
 				120,
 				60,
 				51,
@@ -246,11 +248,11 @@ export function getChartData() {
 				22,
 				0,
 				30,
-				40,
+				436,
 				33,
-				23,
+				431,
 				18,
-				41,
+				436,
 				45,
 				0,
 				57,
@@ -385,7 +387,18 @@ const GraphContainer = (props) => {
 	return (
 		props.isFetching 
 			? <GraphPreloaderContainer> <Preloader color='black'/> </GraphPreloaderContainer>
-			: <Graph {...props} />
+			: <>
+				<Graph {...props} />
+				<GraphSlider
+					data={props.totalData}
+				/>
+				<GraphToggler 
+					data={props.totalData}
+					setHiddenGraphName={props.setHiddenGraphName}
+					removeHiddenGraphname={props.removeHiddenGraphname}
+					hiddenName={props.hiddenName}
+				/>
+			</>
 	)
 }
 
