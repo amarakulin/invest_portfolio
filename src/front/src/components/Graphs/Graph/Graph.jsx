@@ -1,7 +1,7 @@
 import React from 'react';
 import Tooltip from './Tooltip';
 import GraphSlider from './GraphSlider/GraphSlider';
-import { getYRatio, getXRatio, toCoords } from './GraphUtils/utils'
+import { getYRatio, getXRatio, toCoords, calculateBounderies } from './GraphUtils/utils'
 import { connect } from 'react-redux';
 import { resetData, setData } from '../../../redux/graphReduser'
 import { GraphCanvas, GraphContainer } from './Canvas'
@@ -381,21 +381,44 @@ class Graph extends React.Component {
 			isMounted: false
 		}
 		this.canvasRef = React.createRef();
-		this.rows = 12;
-		this.data = getChartData();
-		[this.yMin, this.yMax] = this.calculateBounderies();
 
+		this.rows = 12;
 		this.raf = null;
 		this.tooltipData = [];
 	}
 
 	componentDidMount() {
 		this.ctx = this.canvasRef.current.getContext('2d');
+		this.data = getChartData();
+
+		this.setState({
+			isMounted: true
+		})
+	}
+
+	componentWillUnmount() {
+		cancelAnimationFrame(this.raf);
+		this.setState({
+			isMounted: false
+		})
+	}
+
+	paint = () => {
+		this.length = this.data.lines[0].length
+		this.leftIndex = Math.round((this.length * this.props.dataIndex.left) / 100);
+		this.rightIndex = Math.round((this.length * this.props.dataIndex.right) / 100);
 
 		this.partData = this.data.lines.map(line => {
-			return line.slice(this.props.dataIndex.left, this.props.dataIndex.right);
-		})
-		console.log(this.partData);
+			const res = line.slice(this.leftIndex, this.rightIndex)
+			if (typeof res[0] !== 'string') {
+				res.unshift(line[0]);
+			}
+			return res;
+		});
+
+		[this.yMin, this.yMax] = calculateBounderies({lines: this.partData, types: this.data.types});
+
+		console.log(this.yMin, this.yMax);
 
 		this.WIDTH = this.canvasRef.current.offsetWidth;
 		this.HEIGHT = this.canvasRef.current.offsetHeight;
@@ -413,25 +436,11 @@ class Graph extends React.Component {
 		this.VIEW_WIDTH = this.DPI_WIDTH - this.offsetX;
 
 		this.yRatio = getYRatio(this.VIEW_HEIGHT, this.yMax, this.yMin);
-		this.xRatio = getXRatio(this.VIEW_WIDTH, this.data.lines[0].length);
+		this.xRatio = getXRatio(this.VIEW_WIDTH, this.partData[0].length);
 
-		this.yData = this.data.lines.filter(line => this.data.types[line[0]] === 'line')
-		this.xData = this.data.lines.filter(line => this.data.types[line[0]] !== 'line')[0]
+		this.yData = this.partData.filter(line => this.data.types[line[0]] === 'line');
+		this.xData = this.partData.filter(line => this.data.types[line[0]] !== 'line')[0];
 
-		this.setState({
-			isMounted: true
-		})
-		this.paint();
-	}
-
-	componentWillUnmount() {
-		cancelAnimationFrame(this.raf);
-		this.setState({
-			isMounted: false
-		})
-	}
-
-	paint = () => {
 		this.clear();
 		this.renderYAxis();
 		this.renderXAxis();
@@ -542,10 +551,9 @@ class Graph extends React.Component {
 		return Math.abs((x - this.props.mouseX)) < width / 2;
 	}
 
-	calculateBounderies = () => {
+	calculateBounderies = ({lines, types}) => {
 		let min;
 		let max;
-		const { lines, types } = this.data;
 
 		lines.forEach((line) => {
 			if (types[line[0]] !== 'line')
@@ -610,7 +618,8 @@ class Graph extends React.Component {
 	}
 
 	render = () => {
-
+		if (this.state.isMounted)
+			this.paint();
 		return (
 			<GraphContainer>
 				<GraphCanvas ref={this.canvasRef} onMouseMove={this.mouseMove} onMouseLeave={this.mouseLeve} />
@@ -626,10 +635,6 @@ class Graph extends React.Component {
 						size={{
 							height: this.HEIGHT * 0.1,
 							width: this.WIDTH,
-						}}
-						bounderies={{
-							yMin: this.yMin,
-							yMax: this.yMax
 						}}
 					/>
 				}

@@ -1,9 +1,11 @@
 import React from 'react';
 import {GraphSliderContainer, LeftArrow, RightArrow, windowStyle, LeftEdgeStyle, RightEdgeStyle} from './StyledGraphSlider'
 import { GraphSliderCanvas } from '../Canvas';
-import { getYRatio, getXRatio, renderLines } from '../GraphUtils/utils'
+import { getYRatio, getXRatio, renderLines, calculateBounderies } from '../GraphUtils/utils'
 import { connect } from 'react-redux';
-import { setDataIndex } from '../../../../redux/graphReduser'
+import { setDataIndex, widthPercent } from '../../../../redux/graphReduser';
+
+
 
 class GraphSlider extends React.Component {
 	constructor(props) {
@@ -24,6 +26,7 @@ class GraphSlider extends React.Component {
 	componentDidMount() {
 		this.WIDTH = this.props.size.width;
 		this.ctx = this.sliderCanvasRef.current.getContext('2d');
+		[this.yMin, this.yMax] = calculateBounderies({lines: this.props.data.lines, types: this.props.data.types})
 
 		this.HEIGHT = this.props.size.width
 		this.DPI_HEIGHT = this.props.size.height * 2;
@@ -31,7 +34,7 @@ class GraphSlider extends React.Component {
 		this.MIN_WIDTH = this.WIDTH * 0.05;
 		this.PADDING = this.DPI_HEIGHT * 0.05;
 
-		this.defoultWidth = this.WIDTH * 0.3;
+		this.defoultWidth = this.WIDTH * widthPercent / 100;
 		this.setPosition(0, this.WIDTH - this.defoultWidth);
 
 		this.VIEW_HEIGHT = this.DPI_HEIGHT - this.PADDING * 2;
@@ -40,7 +43,7 @@ class GraphSlider extends React.Component {
 		this.sliderCanvasRef.current.width = this.DPI_WIDTH;
 		this.sliderCanvasRef.current.height = this.DPI_HEIGHT;
 
-		this.yRatio = getYRatio(this.VIEW_HEIGHT, this.props.bounderies.yMax, this.props.bounderies.yMin);
+		this.yRatio = getYRatio(this.VIEW_HEIGHT, this.yMax, this.yMin);
 		this.xRatio = getXRatio(this.VIEW_WIDTH, this.props.data.lines[0].length);
 
 		this.yData = this.props.data.lines.filter(line => this.props.data.types[line[0]] === 'line');
@@ -48,7 +51,7 @@ class GraphSlider extends React.Component {
 
 		document.addEventListener('mouseup', this.mouseUp);
 
-		renderLines(this.ctx, this.yData, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.data, this.props.bounderies.yMin, 0);
+		renderLines(this.ctx, this.yData, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.data, this.yMin, 0);
 	}
 
 	setPosition = (left, right) => {
@@ -64,9 +67,6 @@ class GraphSlider extends React.Component {
 			rightWidth: right,
 			leftWidth: left,
 		})
-		
-		const [leftIndex, rightIndex] = this.getPosition()
-		this.props.setDataIndex(leftIndex, rightIndex);
 	}
 
 	getPosition = () => {
@@ -74,8 +74,8 @@ class GraphSlider extends React.Component {
 		const right = this.WIDTH - this.state.rightWidth;
 
 		return [
-			Math.floor((left * 100) / this.WIDTH),
-			Math.ceil((right * 100) / this.WIDTH),
+			(left * 100) / this.WIDTH,
+			(right * 100) / this.WIDTH,
 		]
 	}
 
@@ -103,6 +103,9 @@ class GraphSlider extends React.Component {
 				const right = this.WIDTH - left - dimentions.width;
 		
 				this.setPosition(left, right);
+
+				const [leftIndex, rightIndex] = this.getPosition();
+				this.props.setDataIndex(leftIndex, rightIndex);
 			}
 
 			document.addEventListener('mousemove', this.grab)
@@ -124,6 +127,9 @@ class GraphSlider extends React.Component {
 				}
 				
 				this.setPosition(left, right);
+
+				const [leftIndex, rightIndex] = this.getPosition();
+				this.props.setDataIndex(leftIndex, rightIndex);
 			}
 			document.addEventListener('mousemove', this.grab);
 		}

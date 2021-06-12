@@ -33,3 +33,31 @@ export const renderLines = (ctx, yData, xRatio, yRatio, DPI_HEIGHT, PADDING, dat
 		renderLine(coords, data.color[line[0]]);
 	})
 }
+
+export const calculateBounderies = ({lines, types}) => {
+	let min;
+	let max;
+
+	lines.forEach((line) => {
+		if (types[line[0]] !== 'line')
+			return;
+
+		if (typeof (max) !== 'number')
+			max = line[1];
+		if (typeof (min) !== 'number')
+			min = line[1];
+
+		if (min > line[1])
+			min = line[1];
+		if (max < line[1])
+			max = line[1];
+
+		for (let i = 2; i < line.length; i++) {
+			if (min > line[i])
+				min = line[i];
+			if (max < line[i])
+				max = line[i];
+		}
+	})
+	return [min, max];
+}

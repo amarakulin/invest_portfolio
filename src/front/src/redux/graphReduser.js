@@ -2,6 +2,8 @@ const SET_DATA = 'SET_DATA';
 const RESET_DATA = 'RESET_DATA';
 const SET_DATA_INDEX = 'SET_DATA_INDEX';
 
+export const widthPercent = 30;
+
 const initialState = {
 	tooltip: {
 		top: null,
@@ -13,7 +15,7 @@ const initialState = {
 	mouseX: null,
 	dataIndex: {
 		left: 0,
-		right: 30
+		right: widthPercent
 	}
 }
 
