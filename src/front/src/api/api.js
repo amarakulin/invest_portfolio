@@ -26,3 +26,9 @@ export const AuthAPI = {
 		.then(res => res.data)
 	}
 }
+
+export const DataAPI = {
+	getGraphData() {
+		return api.get('data/graph')
+	}
+}

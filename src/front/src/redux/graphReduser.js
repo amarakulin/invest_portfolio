@@ -1,3 +1,6 @@
+import { DataAPI } from '../api/api'
+import { toggleIsFetching } from './apiReduser'
+
 const SET_DATA = 'SET_DATA';
 const RESET_DATA = 'RESET_DATA';
 const SET_DATA_INDEX = 'SET_DATA_INDEX';
@@ -128,5 +131,18 @@ export const setTotalGraphData = (data) => ({type: SET_TOTAL_GRAPH_DATA, data: d
 export const setHiddenGraphName = (name) => ({type: SET_HIDDEN_GRAPH_NAME, name});
 
 export const removeHiddenGraphname = (name) => ({type: REMOVE_HIDDEN_GRAPH_NAME, name})
+
+export const getGraphData = () => (dispatch) => {
+	dispatch(toggleIsFetching(true));
+	DataAPI.getGraphData()
+		.then(res => {
+			if (res.resulCode === 0) {
+				dispatch(setTotalGraphData(res.data));
+			}
+		})
+		.finally(res => {
+			dispatch(toggleIsFetching(false));
+		})
+}
 
 export default graphReduser;

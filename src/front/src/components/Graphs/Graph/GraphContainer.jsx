@@ -1,9 +1,10 @@
+import {useEffect} from 'react';
 import { connect } from 'react-redux';
 import Graph from './Graph';
 import GraphSlider from './GraphSlider/GraphSlider';
 import GraphToggler from './GraphToggler/GraphToggler'
 import Preloader from '../../Basic/Preloader/Preloader';
-import { setTotalGraphData, setHiddenGraphName, removeHiddenGraphname } from '../../../redux/graphReduser';
+import { setTotalGraphData, getGraphData } from '../../../redux/graphReduser';
 import { GraphPreloaderContainer } from './GraphUtils/GraphStyledUtils'
 import { toggleIsFetching } from '../../../redux/apiReduser'
 
@@ -377,18 +378,16 @@ export function getChartData() {
 
 const GraphContainer = (props) => {
 
-	if (!props.totalData) {
-		setTimeout(() => {
-			props.setTotalGraphData(getChartData())
-			props.toggleIsFetching(false);//! в apiReduser isFetching по дефолту стоит true!!!!
-		}, 100);
-	}
-
+	useEffect(() => {
+		props.setTotalGraphData(getChartData())
+		props.getGraphData();
+	}, [])
+	
 	return (
 		props.isFetching 
 			? <GraphPreloaderContainer> <Preloader color='black'/> </GraphPreloaderContainer>
 			: <>
-				<Graph data={props.totalData}/>
+				<Graph {...props}/>
 				<GraphSlider data={props.totalData}/>
 				<GraphToggler data={props.totalData}/>
 			</>
@@ -400,4 +399,4 @@ const mapStateToProps = (state) => ({
 	isFetching: state.api.isFetching,
 })
 
-export default connect(mapStateToProps, {setTotalGraphData, toggleIsFetching})(GraphContainer);
+export default connect(mapStateToProps, {setTotalGraphData, toggleIsFetching, getGraphData})(GraphContainer);
