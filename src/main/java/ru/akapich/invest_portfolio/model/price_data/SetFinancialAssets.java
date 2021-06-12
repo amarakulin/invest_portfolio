@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.model;
+package ru.akapich.invest_portfolio.model.price_data;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import ru.akapich.invest_portfolio.model.asset_data.FinancialAsset;
 
 import javax.persistence.*;
 import java.util.Set;

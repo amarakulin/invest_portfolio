@@ -3,6 +3,7 @@ package ru.akapich.invest_portfolio.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.akapich.invest_portfolio.model.price_data.SetFinancialAssets;
 
 import javax.persistence.*;
 
@@ -21,6 +22,12 @@ public class Statistic {
 	@Column
 	private String name;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_set_financial_assets")
 	private SetFinancialAssets idSetFinancialAssets;
+
+	//foreign
+	@ManyToOne
+	@JoinColumn(name = "id_invest_portfolio", nullable = false)
+	private InvestPortfolio investPortfolio;
 }

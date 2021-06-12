@@ -1,14 +1,15 @@
-package ru.akapich.invest_portfolio.model.asserts;
+package ru.akapich.invest_portfolio.model.asset_data.info;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.akapich.invest_portfolio.model.asset_data.FinancialAsset;
 
 import javax.persistence.*;
 
 /**
  * JavaBean object that represents the marked Exchange
- * of {@link ru.akapich.invest_portfolio.model.FinancialAsset}
+ * of {@link FinancialAsset}
  *
  * @author Aleksandr Marakulin
  **/
@@ -27,4 +28,8 @@ public class Exchange {
 
 	@Column
 	private String name;
+
+	//foreign key
+	@OneToOne(mappedBy = "t_exchange")
+	private FinancialAsset financialAsset;
 }

@@ -1,8 +1,9 @@
-package ru.akapich.invest_portfolio.model.asserts;
+package ru.akapich.invest_portfolio.model.asset_data.info;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.akapich.invest_portfolio.model.asset_data.FinancialAsset;
 
 import javax.persistence.*;
 
@@ -26,4 +27,8 @@ public class TypeAsset {
 
 	@Column
 	private String name;
+
+	//foreign key
+	@OneToOne(mappedBy = "t_type_asset")
+	private FinancialAsset financialAsset;
 }

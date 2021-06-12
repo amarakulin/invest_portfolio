@@ -1,8 +1,9 @@
-package ru.akapich.invest_portfolio.model.asserts;
+package ru.akapich.invest_portfolio.model.price_data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.akapich.invest_portfolio.model.asset_data.FinancialAsset;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.util.Date;
 
 /**
  * JavaBean domain object
- * That represent price changes on {@link ru.akapich.invest_portfolio.model.FinancialAsset}
+ * That represent price changes on {@link FinancialAsset}
  *
  * @author Aleksandr Marakulin
  **/
@@ -33,4 +34,8 @@ public class HistoryPrice {
 
 	@Column
 	private BigDecimal price;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_financial_asset")
+	private FinancialAsset financialAsset;
 }

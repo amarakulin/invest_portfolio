@@ -1,14 +1,15 @@
-package ru.akapich.invest_portfolio.model.asserts;
+package ru.akapich.invest_portfolio.model.asset_data.info;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.akapich.invest_portfolio.model.asset_data.FinancialAsset;
 
 import javax.persistence.*;
 
 /**
  * JavaBean object that represents info a company of
- * {@link ru.akapich.invest_portfolio.model.FinancialAsset}
+ * {@link FinancialAsset}
  *
  * @author Aleksandr Marakulin
  **/
@@ -30,4 +31,8 @@ public class Company {
 
 	@Column
 	private String ticker;
+
+	//foreign key
+	@OneToOne(mappedBy = "t_company")
+	private FinancialAsset financialAsset;
 }
