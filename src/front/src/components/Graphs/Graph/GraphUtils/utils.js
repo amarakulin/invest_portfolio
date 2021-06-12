@@ -9,7 +9,7 @@ export const  getXRatio = (width, length) => {
 export const toCoords = (y, i, xRatio, yRatio, DPI_HEIGHT, PADDING, yMin, offsetX) => {
 	return [
 		Math.floor((i - 1) * xRatio + offsetX),
-		Math.floor(DPI_HEIGHT - PADDING - ((y - yMin) /  yRatio))
+		y !== null ?  Math.floor(DPI_HEIGHT - PADDING - ((y - yMin) /  yRatio)) : null
 	];
 }
 
@@ -20,6 +20,8 @@ export const renderLines = (ctx, yData, xRatio, yRatio, DPI_HEIGHT, PADDING, dat
 		ctx.strokeStyle = color;
 		ctx.lineJoin = 'bevel';
 		for (const [x, y] of coords) {
+			if (y === null)
+					continue;
 			ctx.lineTo(x, y);
 		}
 		ctx.stroke();

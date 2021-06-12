@@ -1,6 +1,7 @@
 import React from 'react';
 import Tooltip from './Tooltip/Tooltip';
 import GraphSlider from './GraphSlider/GraphSlider';
+import Preloader from '../../Basic/Preloader/Preloader'
 import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate } from './GraphUtils/utils'
 import { connect } from 'react-redux';
 import { resetData, setData, setTotalGraphData } from '../../../redux/graphReduser'
@@ -129,10 +130,10 @@ export function getChartData() {
 			// ]
 			[
 				'y0',
-				37,
-				28,
-				32,
-				39,
+				null,
+				null,
+				null,
+				null,
 				32,
 				35,
 				19,
@@ -378,10 +379,16 @@ class Graph extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isMounted: false
+			isMounted: false,
+			// isFetching: true
 		}
 		this.canvasRef = React.createRef();
 		this.props.setTotalGraphData(getChartData());
+		// setTimeout(() => {
+		// 	this.setState({
+		// 		isFetching: false
+		// 	})
+		// }, 1000);
 		this.rows = 12;
 		this.raf = null;
 		this.tooltipData = [];
@@ -455,6 +462,8 @@ class Graph extends React.Component {
 			this.ctx.strokeStyle = color;
 			this.ctx.lineJoin = 'bevel';
 			for (const [x, y] of coords) {
+				if (y === null)
+					continue;
 				this.ctx.lineTo(x, y);
 			}
 			this.ctx.stroke();
@@ -579,6 +588,8 @@ class Graph extends React.Component {
 	}
 
 	render = () => {
+		// if (this.state.isFetching)
+		// 	return <Preloader color='black'/>
 		if (this.state.isMounted)
 			this.paint();
 		return (
