@@ -15,6 +15,7 @@ const LegenTitle = styled.h3`
 const LegendList = styled.ul`
 	padding: 0;
 	list-style-type: none;
+	display: inline-block;
 `
 
 const LegendListItem = styled.li`
@@ -27,24 +28,50 @@ const LegendListItem = styled.li`
 	display: flex;
 	align-items: center;
 	cursor: pointer;
+	
 	&::before {
 		content: '';
+		transition: all 0.2s ease;
 		width: 25px;
 		height: 25px;
 		margin-right: 10px;
-		display: block;
+		display: inline-block;
 		background-color: ${props => props.color};
+	}
+	&.unactive {
+		&::before {
+			background-color: #E3E3E3;
+		}
 	}
 `
 
-const Legend = ({data, colorArr}) => {
+const Legend = (props) => {
+
+	const getClassName = (i) => {
+		if (props.activeIndex !== null) {
+			if (props.activeIndex === i)
+				return 'active';
+			else
+				return 'unactive';
+		}
+		return '';
+	}
+
 	return (
 		<LegendContainer>
 			<LegenTitle>Категории: </LegenTitle>
 			<LegendList>
 				{
-					data.map((el, i) => {
-						return <LegendListItem color={colorArr[i]}>{`${el.name} (${el.ticker})`}</LegendListItem>
+					props.data.map((el, i) => {
+						return <LegendListItem 
+								color={props.colorArr[i]}
+								key={el.name}
+								onMouseEnter={() => props.mouseEnterHandler(i)}
+								onMouseLeave={() => props.mouseLeaveHandler()}
+								className={getClassName(i)}
+							>
+								{`${el.name} (${el.ticker})`}
+							</LegendListItem>
 					})
 				}
 			</LegendList>
