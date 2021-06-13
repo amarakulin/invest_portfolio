@@ -3,13 +3,13 @@ package ru.akapich.invest_portfolio.model.portfolio.asset_data.info;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.FinancialAsset;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.FinancialAssetInUse;
 
 import javax.persistence.*;
 
 /**
  * JavaBean object that represents the marked Exchange
- * of {@link FinancialAsset}
+ * of {@link FinancialAssetInUse}
  *
  * @author Aleksandr Marakulin
  **/

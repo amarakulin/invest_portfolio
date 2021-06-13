@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.FinancialAsset;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 
 import javax.persistence.*;
@@ -34,7 +34,7 @@ public class PurchaseDate {
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_financial_asset", nullable = false)
-	private FinancialAsset financialAsset;
+	private FinancialAssetInUse financialAsset;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_invest_portfolio", nullable = false)

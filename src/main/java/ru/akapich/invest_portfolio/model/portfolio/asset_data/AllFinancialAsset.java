@@ -10,12 +10,16 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.TypeAsset;
 
 import javax.persistence.*;
 
+/**
+ * @author Aleksandr Marakulin
+ **/
+
 @Entity
-@Table(name="t_financial_asset")
+@Table(name="t_all_financial_asset")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class FinancialAsset {
+public class AllFinancialAsset {
 
 	@Id
 	@Column
@@ -37,5 +41,4 @@ public class FinancialAsset {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_exchange")
 	private Exchange idExchange;
-
 }
