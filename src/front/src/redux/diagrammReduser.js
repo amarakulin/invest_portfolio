@@ -5,21 +5,99 @@ const getChartData = () => ([
 	{
 		"name": "name 1",
 		"ticker": "ticker 1",
-		"percent": 10,
+		"percent": 20,
 		"value": 500
 	},
 	{
 		"name": "name 2",
 		"ticker": "ticker 2",
-		"percent": 70,
+		"percent": 30,
 		"value": 5500
 	},
 	{
 		"name": "name 3",
 		"ticker": "ticker 3",
-		"percent": 20,
+		"percent": 30,
 		"value": 3900
-	}
+	},
+	{
+		"name": "name 4",
+		"ticker": "ticker 4",
+		"percent": 10,
+		"value": 3900
+	},
+	{
+		"name": "name 5",
+		"ticker": "ticker 5",
+		"percent": 1,
+		"value": 3900
+	},
+	{
+		"name": "name 6",
+		"ticker": "ticker 6",
+		"percent": 1,
+		"value": 3900
+	},
+	{
+		"name": "name 7",
+		"ticker": "ticker 7",
+		"percent": 1,
+		"value": 3900
+	},
+	{
+		"name": "name 8",
+		"ticker": "ticker 8",
+		"percent": 1,
+		"value": 3900
+	},
+	{
+		"name": "name 9",
+		"ticker": "ticker 9",
+		"percent": 1,
+		"value": 3900
+	},
+	{
+		"name": "name 10",
+		"ticker": "ticker 10",
+		"percent": 1,
+		"value": 3900
+	},
+	{
+		"name": "name 11",
+		"ticker": "ticker 11",
+		"percent": 1,
+		"value": 3900
+	},
+	{
+		"name": "name 12",
+		"ticker": "ticker 12",
+		"percent": 1,
+		"value": 3900
+	},
+	{
+		"name": "name 13",
+		"ticker": "ticker 13",
+		"percent": 1,
+		"value": 3900
+	},
+	{
+		"name": "name 14",
+		"ticker": "ticker 14",
+		"percent": 0.5,
+		"value": 3900
+	},
+	{
+		"name": "name 14",
+		"ticker": "ticker 14",
+		"percent": 0.3,
+		"value": 3900
+	},
+	{
+		"name": "name 14",
+		"ticker": "ticker 14",
+		"percent": 0.2,
+		"value": 3900
+	},
 ])
 
 const SET_TOTAL_DIAGRAMM_DATA = 'SET_TOTAL_DIAGRAMM_DATA';
