@@ -1,9 +1,8 @@
-package ru.akapich.invest_portfolio.model.asset_data.info;
+package ru.akapich.invest_portfolio.model.portfolio.asset_data.info;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.asset_data.FinancialAsset;
 
 import javax.persistence.*;
 

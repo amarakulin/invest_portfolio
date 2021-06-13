@@ -1,6 +1,7 @@
 package ru.akapich.invest_portfolio.model;
 
 import lombok.*;
+import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;

@@ -1,12 +1,11 @@
-package ru.akapich.invest_portfolio.model;
+package ru.akapich.invest_portfolio.model.portfolio;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.price_data.SetFinancialAssets;
+import ru.akapich.invest_portfolio.model.portfolio.price_data.SetFinancialAssets;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name="t_invest_portfolio")

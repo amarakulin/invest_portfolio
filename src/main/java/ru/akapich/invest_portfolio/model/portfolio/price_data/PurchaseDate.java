@@ -1,11 +1,11 @@
-package ru.akapich.invest_portfolio.model.price_data;
+package ru.akapich.invest_portfolio.model.portfolio.price_data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import ru.akapich.invest_portfolio.model.asset_data.FinancialAsset;
-import ru.akapich.invest_portfolio.model.InvestPortfolio;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.FinancialAsset;
+import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 
 import javax.persistence.*;
 import java.util.Date;

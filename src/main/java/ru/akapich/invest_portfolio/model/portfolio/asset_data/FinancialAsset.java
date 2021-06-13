@@ -1,12 +1,12 @@
-package ru.akapich.invest_portfolio.model.asset_data;
+package ru.akapich.invest_portfolio.model.portfolio.asset_data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.asset_data.info.Company;
-import ru.akapich.invest_portfolio.model.asset_data.info.Currency;
-import ru.akapich.invest_portfolio.model.asset_data.info.Exchange;
-import ru.akapich.invest_portfolio.model.asset_data.info.TypeAsset;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Company;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Currency;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Exchange;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.TypeAsset;
 
 import javax.persistence.*;
 
