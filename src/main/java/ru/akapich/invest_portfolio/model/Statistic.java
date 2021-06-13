@@ -22,12 +22,11 @@ public class Statistic {
 	@Column
 	private String name;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_set_financial_assets")
 	private SetFinancialAssets idSetFinancialAssets;
 
-	//foreign
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_invest_portfolio", nullable = false)
 	private InvestPortfolio investPortfolio;
 }

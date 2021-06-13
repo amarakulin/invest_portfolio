@@ -32,7 +32,7 @@ public class Company {
 	@Column
 	private String ticker;
 
-	//foreign key
-	@OneToOne//(mappedBy = "t_company")
-	private FinancialAsset financialAsset;
+//	//foreign key
+//	@OneToOne//(mappedBy = "t_company")
+//	private FinancialAsset financialAsset;
 }

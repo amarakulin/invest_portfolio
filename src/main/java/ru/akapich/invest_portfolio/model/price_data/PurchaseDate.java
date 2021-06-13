@@ -32,11 +32,11 @@ public class PurchaseDate {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_financial_asset")
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_financial_asset", nullable = false)
 	private FinancialAsset financialAsset;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_invest_portfolio")
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_invest_portfolio", nullable = false)
 	private InvestPortfolio investPortfolio;
 }

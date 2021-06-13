@@ -29,7 +29,7 @@ public class Currency {
 	@Column
 	private String name;
 
-	//foreign key
-	@OneToOne//(mappedBy = "t_currency")
-	private FinancialAsset financialAsset;
+//	//foreign key
+//	@OneToOne//(mappedBy = "t_currency")
+//	private FinancialAsset financialAsset;
 }

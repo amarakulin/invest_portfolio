@@ -35,7 +35,7 @@ public class HistoryPrice {
 	@Column
 	private BigDecimal price;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_financial_asset")
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_financial_asset", nullable = false)
 	private FinancialAsset financialAsset;
 }

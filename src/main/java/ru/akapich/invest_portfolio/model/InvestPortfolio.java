@@ -20,12 +20,12 @@ public class InvestPortfolio {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_set_financial_assets")
 	private SetFinancialAssets idSetFinancialAssets;
 
-	@OneToMany//(mappedBy = "t_invest_portfolio")
-	private Set<Statistic> idStatistic;
-
+//	@OneToMany
+//	@JoinColumn(name = "id_statistic")
+//	private Set<Statistic> idStatistic;
 
 }

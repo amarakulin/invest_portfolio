@@ -26,5 +26,5 @@ public class SetFinancialAssets {
 
 	@Type(type = "jsonb")
 	@Column(columnDefinition = "jsonb")
-	Set<FinancialAsset> financialAssets;
+	Set<Integer> setFinancialAssets;
 }

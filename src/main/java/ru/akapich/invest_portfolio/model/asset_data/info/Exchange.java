@@ -29,7 +29,7 @@ public class Exchange {
 	@Column
 	private String name;
 
-	//foreign key
-	@OneToOne//(mappedBy = "t_exchange")
-	private FinancialAsset financialAsset;
+//	//foreign key
+//	@OneToOne//(mappedBy = "t_exchange")
+//	private FinancialAsset financialAsset;
 }

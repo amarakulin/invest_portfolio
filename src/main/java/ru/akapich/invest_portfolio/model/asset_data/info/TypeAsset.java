@@ -28,7 +28,7 @@ public class TypeAsset {
 	@Column
 	private String name;
 
-	//foreign key
-	@OneToOne//(mappedBy = "t_type_asset")
-	private FinancialAsset financialAsset;
+//	//foreign key
+//	@OneToOne//(mappedBy = "t_type_asset")
+//	private FinancialAsset financialAsset;
 }
