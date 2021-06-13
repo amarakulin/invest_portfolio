@@ -8,10 +8,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import ru.akapich.invest_portfolio.model.User;
 import ru.akapich.invest_portfolio.repository.UserRepository;
 import ru.akapich.invest_portfolio.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -33,17 +36,19 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.getUserByName(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		if (user == null){
-			log.info(String.format("[-] User '%s' can't log in", username));
-			throw new UsernameNotFoundException("Неправильный Логин/Пароль");
-		}
-		else{
+		//TODO find another way
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		String password = request.getParameter("password");
+		log.info(String.format("loadUserByUsername: %s with password: %s", email, password));
+
+		User user = userRepository.getUserByEmail(email);
+		if (user != null && bCryptPasswordEncoder.matches(password, user.getPassword())){
+
 			Collection<SimpleGrantedAuthority> roles = new HashSet<>();
 			roles.add(new SimpleGrantedAuthority(user.getRole()));
-			log.info(String.format("[+] User '%s' log in", username));
+			log.info(String.format("[+] User with email: '%s' log in", email));
 			return new org.springframework.security.core.userdetails.User(
 					user.getName(),
 					user.getPassword(),
@@ -52,6 +57,10 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 					true,
 					true,
 					roles);
+		}
+		else{
+			log.info(String.format("[-] User with email: '%s' can't log in", email));
+			throw new UsernameNotFoundException("Неправильный Логин/Пароль");
 		}
 	}
 

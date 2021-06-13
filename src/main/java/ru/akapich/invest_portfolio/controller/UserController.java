@@ -2,17 +2,19 @@ package ru.akapich.invest_portfolio.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.LoginResponseForm;
 import ru.akapich.invest_portfolio.model.forms.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.User;
-import ru.akapich.invest_portfolio.service.UserService;
+import ru.akapich.invest_portfolio.repository.UserRepository;
+import ru.akapich.invest_portfolio.service.impl.UserDetailsServiceImpl;
 import ru.akapich.invest_portfolio.validator.ValidatorController;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Controller for {@link User}'s pages.
@@ -23,11 +25,17 @@ import java.util.Map;
 @Log4j2
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
+@PropertySource("classpath:message.properties")
 public class UserController {
 
 	@Autowired
-	private UserService userDetailsService;
+	Environment env;
 
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	private LoginResponseForm getLoginResponse(User user, String errorMessage){
 		//TODO Refactor
@@ -51,15 +59,31 @@ public class UserController {
 		return response;
 	}
 
-	@GetMapping("/home")
-	public String home() {
-		log.info("/home! ");
-		return "success user IN ";
+	@RequestMapping(value = "/api/username", method = RequestMethod.GET)
+	@ResponseBody
+	public LoginResponseForm currentUserName(Authentication authentication) {
+		String errorMessage = "";
+		User user = null;
+
+		if (authentication == null) {
+			errorMessage = env.getProperty("valid.wrong.email_password");
+			if (errorMessage == null){
+				errorMessage = "Неизвестная ошибка";
+			}
+			log.info("[-] (Get [/username]) - doesn't exist");
+		}
+		else{
+			user = userRepository.getUserByName(authentication.getName());
+			log.info(String.format("[+] Front ask for user: %s", authentication.getName()));
+		}
+		return getLoginResponse(user, errorMessage);
 	}
+
 
 	@CrossOrigin(origins = "http://localhost:3000/signup")
 	@PostMapping("/api/auth/signup")
-	public LoginResponseForm registration(@Valid @RequestBody RegistrationFrom form, BindingResult bindingResult, Model model) {
+	public LoginResponseForm registration(@Valid @RequestBody RegistrationFrom form,
+											BindingResult bindingResult, Model model) {
 		User user = null;
 		String errorMessage = "";
 
@@ -70,7 +94,7 @@ public class UserController {
 					filter(key -> key.getKey().contains("Error")).
 					findFirst().
 					get().
-					getValue().toString();//TODO get withot isPresent!!!
+					getValue().toString();//TODO get without isPresent!!!
 
 			log.info(String.format("[-] User '%s' try to register and didn't pass validation. Error message: %s",
 					form.getName(), errorMessage));
@@ -80,7 +104,7 @@ public class UserController {
 					name(form.getName()).
 					email(form.getEmail()).
 					password(form.getPassword()).
-					role("role.user").
+					role("{role.user}").
 					enable(true).
 					build();
 			userDetailsService.save(user);

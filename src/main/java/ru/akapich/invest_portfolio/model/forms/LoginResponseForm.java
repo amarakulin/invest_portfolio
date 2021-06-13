@@ -6,6 +6,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Object that get response result of authentication/registration.
+ *
+ * @author Aleksandr Marakulin
+ **/
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
