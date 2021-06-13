@@ -12,7 +12,7 @@ public interface UserService {
 
 	void save(User user);
 
-	boolean isLoginExist(String login);
+	boolean isNameExist(String login);
 
 	boolean isEmailExist(String email);
 }

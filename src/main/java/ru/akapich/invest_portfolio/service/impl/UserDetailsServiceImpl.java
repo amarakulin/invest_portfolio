@@ -71,8 +71,8 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public boolean isLoginExist(String login) {
-		return userRepository.getUserByName(login) != null;
+	public boolean isNameExist(String name) {
+		return userRepository.getUserByName(name) != null;
 	}
 
 	@Override

@@ -28,6 +28,6 @@ public class LoginValidator implements ConstraintValidator<ExistingLogin, String
 
 	@Override
 	public boolean isValid(String login, ConstraintValidatorContext constraintValidatorContext) {
-		return !userService.isLoginExist(login);
+		return !userService.isNameExist(login);
 	}
 }
