@@ -23,9 +23,11 @@ const getChartData = () => ([
 ])
 
 const SET_TOTAL_DIAGRAMM_DATA = 'SET_TOTAL_DIAGRAMM_DATA';
+const SET_ACTIVE_CIRCLE_INDEX = 'SET_ACTIVE_CIRCLE_INDEX';
 
 const initialState = {
-	data: null
+	data: null,
+	activeIndex: null
 }
 
 const graphReduser = (state = initialState, action) => {
@@ -36,6 +38,12 @@ const graphReduser = (state = initialState, action) => {
 				data: [...action.data]
 			}
 		}
+		case SET_ACTIVE_CIRCLE_INDEX: {
+			return {
+				...state,
+				activeIndex: action.activeIndex
+			}
+		}
 		default: {
 			return state;
 		}
@@ -43,6 +51,8 @@ const graphReduser = (state = initialState, action) => {
 }
 
 export const setTotalDiagrammData = (data) => ({type: SET_TOTAL_DIAGRAMM_DATA, data})
+
+export const setActiveCircle = (activeIndex) => ({type: SET_ACTIVE_CIRCLE_INDEX, activeIndex})
 
 export const getDiagrammData = () => (dispatch) => {
 	dispatch(toggleIsFetching(true));
@@ -57,8 +67,8 @@ export const getDiagrammData = () => (dispatch) => {
 
 		})
 		.finally(() => {
+			dispatch(setTotalDiagrammData(getChartData())); //!DELETE
 			dispatch(toggleIsFetching(false));
-			dispatch(setTotalDiagrammData(getChartData()));
 		})
 }
 
