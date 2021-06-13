@@ -30,5 +30,8 @@ export const AuthAPI = {
 export const DataAPI = {
 	getGraphData() {
 		return api.get('data/graph')
+	},
+	getDiagrammData() {
+		return api.get('data/diagramm')
 	}
 }
