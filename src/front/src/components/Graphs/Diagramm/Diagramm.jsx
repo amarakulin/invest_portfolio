@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import Legend from './Legend/Legend'
 
 const DiargammCanvas = styled.div`
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	justify-content: space-around;
+	align-items: flex-start;
 `
 
 const Svg = styled.svg`
@@ -24,19 +25,6 @@ const Circle = styled.circle`
 		opacity: 0.9;
 		stroke-width: 3;
 	}
-`
-
-const Legend = styled.div`
-
-`
-
-const LegenTitle = styled.h3`
-`
-
-const LegendList = styled.ul`
-`
-
-const LegendListItem = styled.li`
 `
 
 const randomColor = () => '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -69,9 +57,7 @@ const Diagramm = ({data}) => {
 					})
 				}
 			</Svg>
-			<Legend >
-
-			</Legend>
+			<Legend data={data} colorArr={colorArr} />
 		</DiargammCanvas>
 	)
 }
