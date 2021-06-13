@@ -87,13 +87,13 @@ const getChartData = () => ([
 		"value": 3900
 	},
 	{
-		"name": "name 14",
+		"name": "name 15",
 		"ticker": "ticker 14",
 		"percent": 0.3,
 		"value": 3900
 	},
 	{
-		"name": "name 14",
+		"name": "name 16",
 		"ticker": "ticker 14",
 		"percent": 0.2,
 		"value": 3900

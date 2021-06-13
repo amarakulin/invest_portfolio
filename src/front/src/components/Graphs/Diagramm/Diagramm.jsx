@@ -5,7 +5,7 @@ import Svg from './Svg/Svg'
 const DiargammCanvas = styled.div`
 	display: flex;
 	justify-content: space-around;
-	align-items: flex-start;
+	align-items: center;
 	margin-top: 85px;
 `
 
@@ -16,8 +16,7 @@ const colorArr = Array.from(new Array(100), el => el = randomColor());
 const Diagramm = (props) => {
 	return (
 		<DiargammCanvas>
-			{console.log(props)}
-			<Svg 
+			<Svg
 				{...props}
 				colorArr={colorArr}
 			/>

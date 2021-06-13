@@ -16,6 +16,10 @@ const LegendList = styled.ul`
 	padding: 0;
 	list-style-type: none;
 	display: inline-block;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	max-height: 400px;
 `
 
 const LegendListItem = styled.li`
