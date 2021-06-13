@@ -3,7 +3,6 @@ package ru.akapich.invest_portfolio.model.portfolio.asset_data;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Company;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Currency;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Exchange;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.TypeAsset;
@@ -26,9 +25,11 @@ public class AllFinancialAsset {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_company")
-	private Company idCompany;
+	@Column
+	private String ticker;
+
+	@Column
+	private String name;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_currency")
