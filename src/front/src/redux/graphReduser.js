@@ -139,9 +139,13 @@ export const getGraphData = () => (dispatch) => {
 			if (res.resulCode === 0) {
 				dispatch(setTotalGraphData(res.data));
 			}
+			dispatch(toggleIsFetching(false));
+		})
+		.catch(err => {
+			
 		})
 		.finally(res => {
-			dispatch(setTotalGraphData(getChartData()))
+			dispatch(setTotalGraphData(getChartData())) //! DELETE
 			dispatch(toggleIsFetching(false));
 		})
 }
