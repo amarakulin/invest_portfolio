@@ -240,7 +240,7 @@ class Graph extends React.Component {
 					onMouseMove={this.mouseMove}
 					onMouseLeave={this.mouseLeve}
 					customHeight={checkIsAllHidden(this.props.hiddenName, this.props.totalData.lines) && 2} />
-				{this.props.showTooltip && checkIsAllHidden(this.props.hiddenName, this.props.totalData.lines) && <Tooltip
+				{this.props.showTooltip && !checkIsAllHidden(this.props.hiddenName, this.props.totalData.lines) && <Tooltip
 					data={this.props.tooltip.data || []}
 					title={this.props.tooltip.title}
 					top={this.props.tooltip.top}
