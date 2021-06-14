@@ -35,3 +35,10 @@ export const DataAPI = {
 		return api.get('data/diagramm')
 	}
 }
+
+export const SearchAPI = {
+	getMatchAssets(params) {
+		return api.get(`data/matchassets?ticker=${params}`)
+			.then(res => res.data);
+	}
+}
