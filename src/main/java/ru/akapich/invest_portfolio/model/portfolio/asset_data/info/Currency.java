@@ -1,6 +1,7 @@
 package ru.akapich.invest_portfolio.model.portfolio.asset_data.info;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.FinancialAssetInUse;
@@ -19,6 +20,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class Currency {
 
 	@Id

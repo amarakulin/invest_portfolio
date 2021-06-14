@@ -13,4 +13,6 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Exchange;
 
 @Repository
 public interface ExchangeRepository extends JpaRepository<Exchange, Integer> {
+
+	Exchange findExchangeByName(String name);
 }

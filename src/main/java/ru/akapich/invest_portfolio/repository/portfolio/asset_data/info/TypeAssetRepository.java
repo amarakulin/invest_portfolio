@@ -12,4 +12,6 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.TypeAsset;
 
 @Repository
 public interface TypeAssetRepository extends JpaRepository<TypeAsset, Integer> {
+
+	TypeAsset findTypeAssetByName(String name);
 }

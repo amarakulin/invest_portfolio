@@ -1,6 +1,7 @@
 package ru.akapich.invest_portfolio.model.portfolio.asset_data;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Currency;
@@ -8,6 +9,7 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Exchange;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.TypeAsset;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * @author Aleksandr Marakulin
@@ -18,6 +20,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class AllFinancialAsset {
 
 	@Id
@@ -42,4 +45,22 @@ public class AllFinancialAsset {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_exchange")
 	private Exchange idExchange;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		AllFinancialAsset that = (AllFinancialAsset) o;
+		return Objects.equals(id, that.id) &&
+				Objects.equals(ticker, that.ticker) &&
+				Objects.equals(name, that.name) &&
+				Objects.equals(idCurrency, that.idCurrency) &&
+				Objects.equals(idTypeAsset, that.idTypeAsset) &&
+				Objects.equals(idExchange, that.idExchange);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, ticker, name, idCurrency, idTypeAsset, idExchange);
+	}
 }
