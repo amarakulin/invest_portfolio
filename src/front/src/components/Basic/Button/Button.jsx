@@ -29,16 +29,21 @@ export const HeaderButton = styled(Button)`
 
 export const AddAsset = styled(HeaderButton)`
 	margin-right: 20px;
-	padding-left: 45px;
 	&:before {
 		content: '+';
-		position: absolute;
-		left: 13px;
 		color: #fff;
 		font-weight: bold;
 		font-size: 2em;
 		line-height: 1;
-		// margin-right: 25px;
+		margin-right: 13px;
+	}
+`
+
+export const AddNewAssset = styled(AddAsset)`
+	margin: 0;
+	&:before {
+		font-size: 1em;
+		margin-right: 0;
 	}
 `
 
