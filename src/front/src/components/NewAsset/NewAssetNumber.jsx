@@ -4,7 +4,7 @@ const NewAssetNumber = ({input, meta, ...props}) => {
 	return (
 		<Input
 			{...input}
-			type='text'
+			type='number'
 			placeholder='Количество'
 			width='20%'
 			autoComplete='off'
