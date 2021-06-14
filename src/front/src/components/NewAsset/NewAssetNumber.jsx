@@ -6,6 +6,8 @@ const NewAssetNumber = ({input, meta, ...props}) => {
 			{...input}
 			type='text'
 			placeholder='Количество'
+			width='20%'
+			autoComplete='off'
 		/>
 	)
 }

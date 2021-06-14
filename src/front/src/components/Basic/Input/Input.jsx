@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const Input = styled.input`
-	padding: 23px 110px 24px 30px;
-	width: 100%;
+	padding: 23px 20px 24px 30px;
+	width: ${props => props.width || '100%'};
 	transition: border-color 0.2s ease;
 	background: #FFFFFF;
 	border: 1px solid #8692A6;

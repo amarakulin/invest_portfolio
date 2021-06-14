@@ -7,6 +7,8 @@ const Search = ({input, meta, ...props}) => {
 			{...input}
 			type='text'
 			placeholder='Поиск'
+			width='70%'
+			autoComplete='off'
 			onChange={(e) => {
 				input.onChange(e);
 			}}
