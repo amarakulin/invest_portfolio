@@ -15,7 +15,7 @@ const NewAssetContainer = styled.div`
 const NewAsset = (props) => {
 	return (
 		<NewAssetContainer>
-			<Field name={'search-' + props.index} >
+			<Field name={'search-' + props.index} mutators={props.mutators} >
 				{props => <Search {...props} />}
 			</Field>
 

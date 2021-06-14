@@ -12,6 +12,9 @@ const Search = ({ input, meta, ...props }) => {
 				placeholder='Поиск'
 				width='70%'
 				autoComplete='off'
+				onBlur={() => {
+					props.setShowSearch(false);
+				}}
 				onChange={e => {
 					const value = (e.currentTarget.value).toUpperCase();
 
@@ -23,7 +26,16 @@ const Search = ({ input, meta, ...props }) => {
 						props.setShowSearch(true);
 				}}
 			/>
-			{props.showSearch && <SearchResult data={props.data} isFetching={props.isFetching}/>}
+			{props.showSearch && 
+				<SearchResult
+					data-type='result'
+					data={props.data}
+					isFetching={props.isFetching}
+					setShowSearch={props.setShowSearch}
+					setSelectedIndex={props.setSelectedIndex}
+					setInputData={props.mutators.setValue}
+					inputName={input.name}
+			/>}
 		</>
 	)
 }
@@ -31,7 +43,7 @@ const Search = ({ input, meta, ...props }) => {
 const mapStateToProps = (state) => ({
 	isFetching: state.search.isFetching,
 	data: state.search.data,
-	showSearch: state.search.showSearch
+	showSearch: state.search.showSearch,
 })
 
 export default connect(mapStateToProps, {getMatchAssets, setShowSearch})(Search);

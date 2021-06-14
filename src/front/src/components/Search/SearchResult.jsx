@@ -61,23 +61,29 @@ const SearchResultType = styled.span`
 	color: #8692A6;
 `
 
-const SearchResult = ({ data, isFetching }) => {
+const SearchResult = (props) => {
 	return (
-		<SearchResultList isFetching={isFetching}>
+		<SearchResultList isFetching={props.isFetching}>
 			{
-				isFetching
+				props.isFetching
 				? <Preloader color='black'/>
-				: data.length
-					? data.map(el => {
+				: props.data.length
+					? props.data.map((el, i) => {
 						return (
-							<SearchResultListItem key={el.ticker + el.type}>
+							<SearchResultListItem 
+								onMouseDown={() => {
+									props.setInputData(props.inputName, props.data[i].ticker);
+									props.setShowSearch(false);
+								}}
+								key={el.ticker + el.type}
+							>
 								<SearchResultTicker>{el.ticker.toUpperCase()}</SearchResultTicker>
 								<SearchResultCompanyName>{el.name.toUpperCase()}</SearchResultCompanyName>
 								<SearchResultType>{el.type}</SearchResultType>
 							</SearchResultListItem>
 						)
 					})
-					: <SearchResultListItem>{'Ничего не найдено'}</SearchResultListItem>
+					: <SearchResultListItem>{'Совпадений не найдено'}</SearchResultListItem>
 			}
 		</SearchResultList>
 	)
