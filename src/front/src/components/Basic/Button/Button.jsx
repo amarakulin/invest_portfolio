@@ -20,7 +20,7 @@ const Button = styled.button`
 export const HeaderButton = styled(Button)`
 	font-weight: bold;
 	width: auto;
-	padding: 13px 13px 13px 13px;
+	padding: 13px;
 	margin-bottom: 10px;
 	position: relative;
 	display: flex;
@@ -29,6 +29,7 @@ export const HeaderButton = styled(Button)`
 
 export const AddAsset = styled(HeaderButton)`
 	margin-right: 20px;
+	padding: 9px;
 	&:before {
 		content: '+';
 		color: #fff;
