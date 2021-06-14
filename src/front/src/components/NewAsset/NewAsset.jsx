@@ -7,6 +7,8 @@ import AddNewAsset from './AddNewAsset';
 const NewAssetContainer = styled.div`
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 25px;
 `
 
 const NewAsset = (props) => {
