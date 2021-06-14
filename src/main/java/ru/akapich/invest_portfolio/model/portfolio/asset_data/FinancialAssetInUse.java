@@ -6,6 +6,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * JavaBean domain object that represents a assets in use.
+ * Collected form {@link AllFinancialAsset}
+ *
+ * @author Aleksandr Marakulin
+ **/
 @Entity
 @Table(name="t_financial_asset_in_use")
 @AllArgsConstructor

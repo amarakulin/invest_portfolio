@@ -12,6 +12,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
+ * JavaBean domain object that represents all assets
+ *
  * @author Aleksandr Marakulin
  **/
 

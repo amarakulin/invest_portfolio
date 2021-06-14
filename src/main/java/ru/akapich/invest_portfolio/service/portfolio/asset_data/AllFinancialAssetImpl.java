@@ -1,26 +1,20 @@
 package ru.akapich.invest_portfolio.service.portfolio.asset_data;
 
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.annotations.common.AssertionFailure;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.AllFinancialAsset;
-import ru.akapich.invest_portfolio.parcer.america.ParseAmericanStock;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.AllFinancialAssetRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.info.CurrencyService;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.info.ExchangeService;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.info.TypeAssetService;
 
-import javax.persistence.EntityManager;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.*;
 
 /**
+ * Implementation of {@link AllFinancialAssetService} interface
+ *
  * @author Aleksandr Marakulin
  **/
 
