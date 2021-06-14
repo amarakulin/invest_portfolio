@@ -41,6 +41,10 @@ export const AddAsset = styled(HeaderButton)`
 
 export const AddNewAssset = styled(AddAsset)`
 	margin: 0;
+	width: 35px;
+	height: 35px;
+	padding: 0;
+	justify-content: center;
 	&:before {
 		font-size: 1em;
 		margin-right: 0;
