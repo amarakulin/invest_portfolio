@@ -2,12 +2,12 @@ import { SearchAPI } from '../api/api'
 
 const TOGGLE_SEARCH_IS_FETCHING = 'TOGGLE_SEARCH_IS_FETCHING';
 const SET_MATCH_ASSETS = 'SET_MATCH_ASSETS';
-const SET_SHOW_SEARCH = 'SET_SHOW_SEARCH';
+const INCREASE_NEW_ASSETS_NUMBER = 'INCREASE_NEW_ASSETS_NUMBER';
 
 const initialState = {
-	showSearch: false,
 	isFetching: false,
 	data: [],
+	newAssetsNumber: 1
 }
 
 const searchReduser = (state = initialState, action) => {
@@ -24,10 +24,10 @@ const searchReduser = (state = initialState, action) => {
 				data: [...action.data]
 			}
 		}
-		case SET_SHOW_SEARCH: {
+		case INCREASE_NEW_ASSETS_NUMBER: {
 			return {
 				...state,
-				showSearch: action.showSearch
+				newAssetsNumber: state.newAssetsNumber + 1
 			}
 		}
 		default: {
@@ -40,7 +40,7 @@ const toggleIsFetching = (isFetching) => ({type: TOGGLE_SEARCH_IS_FETCHING, isFe
 
 const setMatchAssets = (data) => ({type: SET_MATCH_ASSETS, data});
 
-export const setShowSearch = (showSearch) => ({type: SET_SHOW_SEARCH, showSearch});
+export const increaseNewAssetsNumber = () => ({type: INCREASE_NEW_ASSETS_NUMBER})
 
 
 export const getMatchAssets = (text) => (dispatch) => {
