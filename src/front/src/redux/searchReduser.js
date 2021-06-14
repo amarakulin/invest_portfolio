@@ -7,7 +7,7 @@ const SET_SHOW_SEARCH = 'SET_SHOW_SEARCH';
 const initialState = {
 	showSearch: false,
 	isFetching: false,
-	data: []
+	data: [],
 }
 
 const searchReduser = (state = initialState, action) => {
@@ -37,8 +37,11 @@ const searchReduser = (state = initialState, action) => {
 }
 
 const toggleIsFetching = (isFetching) => ({type: TOGGLE_SEARCH_IS_FETCHING, isFetching});
+
 const setMatchAssets = (data) => ({type: SET_MATCH_ASSETS, data});
-export const setShowSearch = (showSearch) => ({type: SET_SHOW_SEARCH, showSearch})
+
+export const setShowSearch = (showSearch) => ({type: SET_SHOW_SEARCH, showSearch});
+
 
 export const getMatchAssets = (text) => (dispatch) => {
 	dispatch(toggleIsFetching(true));
