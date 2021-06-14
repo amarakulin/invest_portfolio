@@ -10,12 +10,16 @@ const AddNewAssetsForm = () => {
 
 	return (
 		<Form
+			mutators={{
+				setValue: (args, state, utils) => {
+					utils.changeValue(state, args[0], () => args[1])
+				}
+			}}
 			onSubmit={onSubmit}
-			render={({ handleSubmit, submitting }) => (
+			render={({ handleSubmit, form, submitting }) => (
 				<form onSubmit={handleSubmit}>
 
-					<NewAsset index={1}/>
-					<NewAsset index={2}/>
+					<NewAsset mutators={form.mutators} index={1}/>
 					
 					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
 				</form>
