@@ -22,6 +22,8 @@ public class ParseAmericanStock {
 	//TODO encode !!
 	private static final String API_KEY = "1480cef042784c4ea6dc3cd0975ad6e5";
 
+
+	//TODO Set g IOException
 	public List<Map<String, String>> getAllStocksByAmericanExchange(String exchange) throws IOException {
 		//TODO refactor
 		String REQUEST_URL = String.format("https://api.twelvedata.com/stocks?exchange=%s&apikey=%s", exchange, API_KEY );
