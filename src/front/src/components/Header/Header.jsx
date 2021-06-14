@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { Container } from '../Basic/Wrapper/Wrapper';
 import Greeting from './HeaderComponents/Greeting';
-import HeaderFooter from './HeaderComponents/HeaderFooter'
-import Modal from '../Modal/Modal'
+import HeaderFooter from './HeaderComponents/HeaderFooter';
+import Modal from '../Modal/Modal';
 import {connect} from 'react-redux';
-import {logout} from '../../redux/authReduser'
-import {openModal, closeModal} from '../../redux/modalReduser'
+import {logout} from '../../redux/authReduser';
+import {openModal, closeModal} from '../../redux/modalReduser';
+import AddNewAssetsForm from '../Forms/AddNewAssetsForm/AddNewAssetsForm';
 
 const StyledHeader = styled.header`
 	padding-top: 78px;
@@ -28,7 +29,7 @@ const Header = (props) => {
 		<StyledHeader>
 			<Container>
 				<Modal closeModal={props.closeModal} display={props.isModalOpen}>
-					TEST
+					<AddNewAssetsForm />
 				</Modal>
 				<Greeting name={props.name} />
 				<HeaderFooter 
