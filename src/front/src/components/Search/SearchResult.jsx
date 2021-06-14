@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Preloader from '../Basic/Preloader/Preloader';
 
 const SearchResultList = styled.ul`
 	padding: 0;
@@ -10,6 +11,15 @@ const SearchResultList = styled.ul`
 	z-index: 10;
 	width: 70%;
 	border-radius: 6px;
+	min-height: 50px;
+	${props => props.isFetching && 
+		`
+			display: flex; 
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		`
+	}
 `
 
 const SearchResultListItem = styled.li`
@@ -32,6 +42,7 @@ const SearchResultListItem = styled.li`
 
 const SearchResultTicker = styled.strong`
 	display: block;
+	font-size: 16px;
 `
 
 const SearchResultCompanyName = styled.span`
@@ -41,25 +52,32 @@ const SearchResultCompanyName = styled.span`
 	display: block;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	font-size: 16px;
 `
 
 const SearchResultType = styled.span`
 	display: block;
+	font-size: 12px;
+	color: #8692A6;
 `
 
-const SearchResult = ({ data }) => {
+const SearchResult = ({ data, isFetching }) => {
 	return (
-		<SearchResultList>
+		<SearchResultList isFetching={isFetching}>
 			{
-				data.map(el => {
-					return (
-						<SearchResultListItem key={el.ticker + el.type}>
-							<SearchResultTicker>{el.ticker.toUpperCase()}</SearchResultTicker>
-							<SearchResultCompanyName>{el.company.toUpperCase()}</SearchResultCompanyName>
-							<SearchResultType>{el.type}</SearchResultType>
-						</SearchResultListItem>
-					)
-				})
+				isFetching
+				? <Preloader color='black'/>
+				: data.length
+					? data.map(el => {
+						return (
+							<SearchResultListItem key={el.ticker + el.type}>
+								<SearchResultTicker>{el.ticker.toUpperCase()}</SearchResultTicker>
+								<SearchResultCompanyName>{el.name.toUpperCase()}</SearchResultCompanyName>
+								<SearchResultType>{el.type}</SearchResultType>
+							</SearchResultListItem>
+						)
+					})
+					: <SearchResultListItem>{'Ничего не найдено'}</SearchResultListItem>
 			}
 		</SearchResultList>
 	)

@@ -1,24 +1,7 @@
-// onChange -> GET request with ?text=${input} to api
 import Input from '../Basic/Input/Input';
-import SearchResult from './SearchResult'
-
-const res = [
-	{
-		ticker: 'AXC',
-		company: 'APPLE',
-		type: 'акция'
-	},
-	{
-		ticker: 'ZKJ',
-		company: 'MICROSOFT',
-		type: 'акция'
-	},
-	{
-		ticker: 'ANC',
-		company: 'ahsjdbajskdnasjahsjdbajskdnasjahsjdbajskdnasjahsjdbajskdnasjahsjdbajskdnasj',
-		type: 'акция'
-	}
-]
+import SearchResult from './SearchResult';
+import { getMatchAssets, setShowSearch } from '../../redux/searchReduser';
+import { connect } from 'react-redux';
 
 const Search = ({ input, meta, ...props }) => {
 	return (
@@ -30,13 +13,25 @@ const Search = ({ input, meta, ...props }) => {
 				width='70%'
 				autoComplete='off'
 				onChange={e => {
-					input.onChange((e.currentTarget.value ).toUpperCase());
+					const value = (e.currentTarget.value).toUpperCase();
 
+					input.onChange(value);
+					props.getMatchAssets(value);
+					if (!value.length)
+						props.setShowSearch(false);
+					else
+						props.setShowSearch(true);
 				}}
 			/>
-			<SearchResult data={res}/>
+			{props.showSearch && <SearchResult data={props.data} isFetching={props.isFetching}/>}
 		</>
 	)
 }
 
-export default Search;
+const mapStateToProps = (state) => ({
+	isFetching: state.search.isFetching,
+	data: state.search.data,
+	showSearch: state.search.showSearch
+})
+
+export default connect(mapStateToProps, {getMatchAssets, setShowSearch})(Search);
