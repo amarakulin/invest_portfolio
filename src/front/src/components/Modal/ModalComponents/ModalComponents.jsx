@@ -17,7 +17,7 @@ export const ModalDialog = styled.div`
 	position: fixed;
 	background: #fff;
 	border-radius: 6px;
-	padding: 25px 20px;
+	padding: 60px 20px 30px 20px;
 	width: 40%;
 	height: auto;
 	top:50%;
