@@ -6,7 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.akapich.invest_portfolio.model.User;
 import ru.akapich.invest_portfolio.parcer.america.ParseAmericanStock;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.AllFinancialAssetImpl;
 
@@ -34,14 +33,8 @@ public class GraphController {
 
 	@GetMapping("/api/data/graph")
 	public String graph() throws IOException {
-
-		List<Map<String, String>> listAssets = parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
+		List<Map<String, String>> listAssets= parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
 		allFinancialAsset.insertAllAssets(listAssets);
-
-//		for(var item : listAssets){
-//			item.forEach((k, v) -> System.out.println(k + ":" + v));
-//			System.out.println("=================" + item.get("symbol"));
-//		}
 
 		return "Parsed Stock";
 	}
