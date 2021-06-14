@@ -1,10 +1,14 @@
-import styled from 'styled-components';
+import { increaseNewAssetsNumber } from '../../redux/searchReduser';
 import {AddNewAssset} from '../Basic/Button/Button'
+import { connect } from 'react-redux';
 
-const AddNewAsset = () => {
+const AddNewAsset = (props) => {
 	return (
-		<AddNewAssset />
+		<AddNewAssset onClick={(e) => {
+			e.preventDefault();
+			props.increaseNewAssetsNumber();
+		}} />
 	)
 }
 
-export default AddNewAsset;
+export default connect(null, {increaseNewAssetsNumber})(AddNewAsset);
