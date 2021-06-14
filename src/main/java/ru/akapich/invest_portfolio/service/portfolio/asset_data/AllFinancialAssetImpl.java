@@ -37,6 +37,7 @@ public class AllFinancialAssetImpl implements AllFinancialAssetService {
 	@Override
 	@Transactional
 	public void insertAllAssets(List<Map<String, String>> listAssets) {
+		log.info("[...] Start loading data form American site to database");
 		Set<AllFinancialAsset> allFinancialAssets = new HashSet<>();
 		for (Map<String, String> asset : listAssets) {
 				AllFinancialAsset assetToInsert = AllFinancialAsset.builder()
