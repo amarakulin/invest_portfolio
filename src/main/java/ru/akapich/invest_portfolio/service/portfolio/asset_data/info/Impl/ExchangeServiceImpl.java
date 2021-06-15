@@ -4,11 +4,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Exchange;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.info_assets.Exchange;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.info.ExchangeRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.info.ExchangeService;
-
-import javax.persistence.EntityManager;
 
 /**
  * Implementation of {@link ExchangeService} interface.

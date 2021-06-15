@@ -4,11 +4,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.info.Currency;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.info_assets.Currency;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.info.CurrencyRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.info.CurrencyService;
-
-import javax.persistence.EntityManager;
 
 /**
  * Implementation of {@link CurrencyService} interface.

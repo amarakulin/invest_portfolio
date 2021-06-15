@@ -1,10 +1,10 @@
-package ru.akapich.invest_portfolio.model.portfolio.asset_data.info;
+package ru.akapich.invest_portfolio.model.portfolio.asset_data.info_assets;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.FinancialAssetInUse;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 
 import javax.persistence.*;
 

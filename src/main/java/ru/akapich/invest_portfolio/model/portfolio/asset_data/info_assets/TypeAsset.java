@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.model.portfolio.asset_data.info;
+package ru.akapich.invest_portfolio.model.portfolio.asset_data.info_assets;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
