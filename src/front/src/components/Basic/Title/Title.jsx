@@ -16,6 +16,7 @@ export const SmallTitle = styled.h2`
 	font-size: 30px;
 	line-height: 36px;
 	color: #343A40;
+	margin: 0;
 `
 
 

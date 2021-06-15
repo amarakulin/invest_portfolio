@@ -1,14 +1,13 @@
-import {SmallTitle} from '../../Basic/Title/Title'
+import FunctionalAssetsControllerContent from './FunctionalAssetsControllerContent/FunctionalAssetsControllerContent'
+import {SmallTitle} from '../../Basic/Title/Title';
+import {Wrapper} from '../../Basic/Wrapper/Wrapper';
 
 const TopAssetsControllerContent = () => {
 	return (
-		<div>
+		<Wrapper>
 			<SmallTitle>Мои активы</SmallTitle>
-			<div className="FunctionalAssetsControllerContent">
-				<button className="CreateCategory"></button>
-				<button className="Filter reverse"></button>
-			</div>
-		</div>
+			<FunctionalAssetsControllerContent />
+		</Wrapper>
 	)
 }
 
