@@ -1,3 +1,5 @@
+import { newAssetsDataConverter } from './newAssetsDataConverter'
+
 export const composeValidators = (...validators) => value =>
 	validators.reduce((error, validator) => error || validator(value), undefined)
 
@@ -21,10 +23,15 @@ export const validateRepasswordField = (values) => {
 export const validateIdenticalName = (value) => {
 	const errors = {};
 
-	const validatingData = Object.values(value).filter((_, i) => !(i % 2));
-	const supArr = Array.from([...new Set(validatingData)]);
+	let tickerArr = [];
 
-	if (validatingData.length != supArr.length)
+	newAssetsDataConverter(value).value.forEach(el => {
+		tickerArr.push(el.ticker);
+	})
+
+	const tickerSet = Array.from([...new Set(tickerArr)]);
+
+	if (tickerArr.length != tickerSet.length)
 		errors.identical = 'Поля не должны иметь одинаковые имена';
 
 	return errors;
