@@ -3,12 +3,12 @@ import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader'
 import Button from '../../Basic/Button/Button';
-import AddNewAsset from '../../NewAsset/AddNewAsset'
+import AddNewAsset from '../../NewAsset/AddInput'
 
 const AddNewAssetsForm = (props) => {
 
-	console.log(props.newAssetsNumber)
 	const createArr = (form) => {
+		console.log(1)
 		const arr = []
 		for (let i = 0; i < props.newAssetsNumber; i++) {
 			arr.push(<NewAsset key={i} mutators={form.mutators} index={i}/>)
@@ -36,7 +36,7 @@ const AddNewAssetsForm = (props) => {
 							return el
 						})
 					}
-					<AddNewAsset />
+					<AddNewAsset form={form}/>
 					
 					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
 				</form>

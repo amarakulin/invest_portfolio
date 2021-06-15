@@ -40,7 +40,7 @@ export const AddAsset = styled(HeaderButton)`
 	}
 `
 
-export const AddNewAssetStyled = styled(AddAsset)`
+export const AddInputStyled = styled(AddAsset)`
 	margin: 0 0 20px 0;
 	width: 35px;
 	height: 35px;
@@ -52,7 +52,7 @@ export const AddNewAssetStyled = styled(AddAsset)`
 	}
 `
 
-export const RemoveNewAssetStyled = styled(AddNewAssetStyled)`
+export const RemoveInputStyled = styled(AddInputStyled)`
 	margin: 0;
 	&:before {
 		content: '-';

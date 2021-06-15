@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Field } from 'react-final-form';
 import Search from '../Search/Search';
 import NewAssetNumber from './NewAssetNumber';
-import AddNewAsset from './AddNewAsset';
+import RemoveNewAsset from './RemoveInput';
 
 const NewAssetContainer = styled.div`
 	display: flex;
@@ -22,7 +22,7 @@ const NewAsset = (props) => {
 			<Field name={'number-' + props.index} >
 				{props => <NewAssetNumber {...props} />}
 			</Field>
-			<AddNewAsset />
+			<RemoveNewAsset index={props.index} />
 		</NewAssetContainer>
 	)
 }
