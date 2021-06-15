@@ -14,7 +14,7 @@ import { FORM_ERROR } from 'final-form';
 const AddNewAssetsForm = (props) => {
 	const onSubmit = async (data) => {
 		const formData = newAssetsDataConverter(data);
-			console.log(formData);
+
 		const error = await props.postNewAssetsData(formData);
 		
 		if (error) {
