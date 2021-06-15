@@ -2,7 +2,8 @@ import NewAsset from '../../NewAsset/NewAsset';
 import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader'
-import Button from '../../Basic/Button/Button'
+import Button from '../../Basic/Button/Button';
+import AddNewAsset from '../../NewAsset/AddNewAsset'
 
 const AddNewAssetsForm = (props) => {
 
@@ -35,6 +36,7 @@ const AddNewAssetsForm = (props) => {
 							return el
 						})
 					}
+					<AddNewAsset />
 					
 					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
 				</form>
