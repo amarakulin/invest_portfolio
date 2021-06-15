@@ -28,6 +28,7 @@ const Search = ({ input, meta, ...props }) => {
 					else
 						setShowSearch(true);
 				}}
+				required
 			/>
 			{showSearch && 
 				<SearchResult

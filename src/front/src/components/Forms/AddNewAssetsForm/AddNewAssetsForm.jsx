@@ -22,7 +22,7 @@ const AddNewAssetsForm = (props) => {
 				}
 			}}
 			onSubmit={onSubmit}
-			render={({ handleSubmit, form, submitting, state }) => (
+			render={({ handleSubmit, form, submitting }) => (
 				<form onSubmit={handleSubmit}>
 					{
 						props.newAssets.map(el => {
