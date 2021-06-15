@@ -2,13 +2,9 @@ import styled from 'styled-components';
 import logo from '../../../assets/logo.svg'
 import {LogoImg} from '../../Basic/Img/Img'
 import {StartWrapper} from '../../Basic/Wrapper/Wrapper'
+import {SmallTitle} from '../../Basic/Title/Title'
 
-const Name = styled.h2`
-	font-style: normal;
-	font-weight: bold;
-	font-size: 30px;
-	line-height: 36px;
-	color: #343A40;
+const Name = styled(SmallTitle)`
 	margin: 0 0 0 36px;
 `
 

@@ -10,5 +10,13 @@ const Title = styled.h1`
 	margin-bottom: 12px;
 `;
 
+export const SmallTitle = styled.h2`
+	font-style: normal;
+	font-weight: bold;
+	font-size: 30px;
+	line-height: 36px;
+	color: #343A40;
+`
+
 
 export default Title;
