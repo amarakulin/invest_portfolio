@@ -5,6 +5,7 @@ import graphReduser from './graphReduser.js';
 import diagrammReduser from './diagrammReduser.js';
 import searchReduser from './searchReduser.js';
 import apiReduser from './apiReduser.js';
+import newAssetsReduser from './newAssetsReduser.js';
 import thunkMiddleware from 'redux-thunk';
 
 const reduser = combineReducers({
@@ -13,6 +14,7 @@ const reduser = combineReducers({
 	graph: graphReduser,
 	diagramm: diagrammReduser,
 	search: searchReduser,
+	newAssets: newAssetsReduser,
 	api: apiReduser
 });
 

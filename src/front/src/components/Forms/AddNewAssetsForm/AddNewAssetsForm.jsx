@@ -1,20 +1,19 @@
+import { useEffect } from 'react';
 import NewAsset from '../../NewAsset/NewAsset';
 import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader'
 import Button from '../../Basic/Button/Button';
-import AddNewAsset from '../../NewAsset/AddInput'
+import AddInput from '../../NewAsset/AddInput';
+import { addNewAsset } from '../../../redux/newAssetsReduser'
 
 const AddNewAssetsForm = (props) => {
 
-	const createArr = (form) => {
-		console.log(1)
-		const arr = []
-		for (let i = 0; i < props.newAssetsNumber; i++) {
-			arr.push(<NewAsset key={i} mutators={form.mutators} index={i}/>)
-		}
-		return arr;
-	}
+	const length = props.newAssets.length
+	// useEffect(() => {
+	// 	props.addNewAsset(<NewAsset key={0} index={0}/>)
+	// }, [])
+
 
 	const onSubmit = async (formData) => {
 		console.log(formData);
@@ -32,11 +31,14 @@ const AddNewAssetsForm = (props) => {
 				<form onSubmit={handleSubmit}>
 
 					{
-						createArr(form).map(el => {
-							return el
+						props.newAssets.map(el => {
+							return el;
 						})
 					}
-					<AddNewAsset form={form}/>
+					<AddInput 
+						elem={ <NewAsset mutators={form.mutators} index={length} key={length - 1} /> } 
+						form={form}
+					/>
 					
 					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
 				</form>
@@ -46,7 +48,7 @@ const AddNewAssetsForm = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-	newAssetsNumber: state.search.newAssetsNumber
+	newAssets: state.newAssets.newAssets
 })
 
-export default connect(mapStateToProps, {})(AddNewAssetsForm);
+export default connect(mapStateToProps, {addNewAsset})(AddNewAssetsForm);
