@@ -16,11 +16,11 @@ const StyledTable = styled.table`
 		minmax(150px, 12%);
 `
 
-const Table = () => {
+const Table = ({data}) => {
 	return (
 		<StyledTable>
-			<TableHeader />
-			<TableBody />
+			<TableHeader data={data.header}/>
+			<TableBody data={data.body}/>
 		</StyledTable>
 
 	);

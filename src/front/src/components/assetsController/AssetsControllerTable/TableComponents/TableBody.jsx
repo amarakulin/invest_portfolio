@@ -5,18 +5,22 @@ const StyledTableBody = styled.tbody`
 	display: contents;
 `
 
-const TableBody = () => {
+const TableBody = ({data}) => {
 	return (
 		<StyledTableBody>
-			<TableRow>
-				<th>Газпром</th>
-				<th>GAZP</th>
-				<th>акция</th>
-				<th>MOEX</th>
-				<th>180руб.</th>
-				<th>3 шт.</th>
-				<th>540 руб.</th>
-			</TableRow>
+			{
+				data.map((el, i) => {
+					return (
+						<TableRow key={i}>
+							{
+								el.map((el, i) => {
+									return <td key={i}>{el}</td>
+								})
+							}
+						</TableRow>
+					)
+				})
+			}
 		</StyledTableBody>
 	)
 }

@@ -6,7 +6,7 @@ const SET_TABLE_DATA = 'SET_TABLE_DATA';
 
 const initialState = {
 	isFetching: false,
-	data: []
+	data: {}
 }
 
 const tableReduser = (state = initialState, action) => {
@@ -20,7 +20,7 @@ const tableReduser = (state = initialState, action) => {
 		case SET_TABLE_DATA: {
 			return {
 				...state,
-				data: [...action.data]
+				data: {...action.data}
 			}
 		}
 		default: {
@@ -56,11 +56,11 @@ function getTableDataTest() {
 		header: [
 			'Название', 'Тикер', 'Тип актива', 'Биржа', 'Цена', 'Кол-во', 'Сумма'
 		],
-		body: {
-			1: ['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
-			2: ['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
-			3: ['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
-			4: ['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
-		}
+		body: [
+			['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
+			['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
+			['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
+			['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.']
+		]
 	}
 }

@@ -1,10 +1,25 @@
-
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getTableData } from '../../../redux/tableReduser';
+import Preloader from '../../Basic/Preloader/Preloader'
 import Table from './TableComponents/Table'
 
-const AssetsControllerTable = () => {
+const AssetsControllerTable = (props) => {
+
+	useEffect(() => {
+		props.getTableData();
+	}, []);
+
 	return (
-		<Table />
+		props.isFetching || !Object.keys(props.data).length 
+			? <Preloader color='black' /> 
+			: <Table data={props.data} />
 	)
 }
 
-export default AssetsControllerTable;
+const mapDispatchToProps = (state) => ({
+	data: state.table.data,
+	isFetching: state.table.isFetching,
+})
+
+export default connect(mapDispatchToProps, {getTableData})(AssetsControllerTable);

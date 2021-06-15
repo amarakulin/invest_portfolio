@@ -5,17 +5,15 @@ const StyledTableHeader = styled.thead`
 	display: contents;
 `
 
-const TableHeader = () => {
+const TableHeader = ({data}) => {
 	return (
 		<StyledTableHeader>
 			<TableRow>
-				<th>Название</th>
-				<th>Тикер</th>
-				<th>Тип актива</th>
-				<th>Биржа</th>
-				<th>Цена</th>
-				<th>Кол-во</th>
-				<th>Сумма</th>
+				{
+					data.map((el, i) => {
+						return <th key={i}>{el}</th>
+					})
+				}
 			</TableRow>
 		</StyledTableHeader>
 	)
