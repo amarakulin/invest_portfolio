@@ -1,10 +1,10 @@
 import { increaseNewAssetsNumber } from '../../redux/searchReduser';
-import {AddNewAssset} from '../Basic/Button/Button'
+import { AddNewAssetStyled } from '../Basic/Button/Button'
 import { connect } from 'react-redux';
 
 const AddNewAsset = (props) => {
 	return (
-		<AddNewAssset onClick={(e) => {
+		<AddNewAssetStyled onClick={(e) => {
 			e.preventDefault();
 			props.increaseNewAssetsNumber();
 		}} />
