@@ -32,7 +32,15 @@ export const addNewAsset = (asset) => ({type: ADD_NEW_ASSET, asset})
 export const removeNewAsset = (id) => ({type: REMOVE_NEW_ASSET, id})
 
 export const postNewAssetsData = (data) => (dispatch) => {
-	DataAPI.postNewAssetsData(data)
+	return DataAPI.postNewAssetsData(data)
+		.then(res => {
+			if (res.resultCode !== 0) {
+				return res.error
+			}
+		})
+		.catch(err => {
+			return err.message
+		})
 }
 
 export default newAssetsReduser;

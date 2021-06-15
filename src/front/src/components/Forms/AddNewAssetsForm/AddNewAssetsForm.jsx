@@ -5,16 +5,21 @@ import Preloader from '../../Basic/Preloader/Preloader'
 import Button from '../../Basic/Button/Button';
 import AddInput from '../../NewAsset/AddInput';
 import Error from '../../Basic/Error/Error';
-import { newAssetsDataConverter } from '../../../utils/newAssetsDataConverter'
-import { addNewAsset, postNewAssetsData } from '../../../redux/newAssetsReduser'
-import { validateIdenticalName } from '../../../utils/validators'
-import { setValue } from '../../../utils/mutators'
+import { newAssetsDataConverter } from '../../../utils/newAssetsDataConverter';
+import { addNewAsset, postNewAssetsData } from '../../../redux/newAssetsReduser';
+import { validateIdenticalName } from '../../../utils/validators';
+import { setValue } from '../../../utils/mutators';
+import { FORM_ERROR } from 'final-form';
 
 const AddNewAssetsForm = (props) => {
 	const onSubmit = async (data) => {
 		const formData = newAssetsDataConverter(data);
 
-		props.postNewAssetsData(formData); //TODO добавить обработку ошибок
+		const error = await props.postNewAssetsData(formData);
+		
+		if (error) {
+			return { [FORM_ERROR]: error }
+		}
 		//TODO после отправки нужно заново запросить данные пользователя
 	}
 
@@ -23,7 +28,7 @@ const AddNewAssetsForm = (props) => {
 			validate={validateIdenticalName}
 			mutators={{setValue}}
 			onSubmit={onSubmit}
-			render={({ handleSubmit, form, submitting, valid, errors }) => (
+			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError}) => (
 				<form onSubmit={handleSubmit}>
 					{
 						props.newAssets.map(el => {
@@ -36,6 +41,7 @@ const AddNewAssetsForm = (props) => {
 					/>
 					
 					{errors.identical && <Error> {errors.identical} </Error>}
+					{hasSubmitErrors && <Error> {submitError} </Error>}
 					<Button disabled={submitting || !valid}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
 				</form>
 			)}
