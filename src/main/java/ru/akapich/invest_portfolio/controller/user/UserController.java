@@ -4,15 +4,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.LoginResponseForm;
 import ru.akapich.invest_portfolio.model.forms.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.user.User;
-import ru.akapich.invest_portfolio.repository.user.UserRepository;
 import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
+import ru.akapich.invest_portfolio.utils.UtilsUser;
 import ru.akapich.invest_portfolio.validator.ValidatorController;
 import javax.validation.Valid;
 
@@ -29,13 +28,13 @@ import javax.validation.Valid;
 public class UserController {
 
 	@Autowired
+	private UtilsUser utilsUser;
+
+	@Autowired
 	Environment env;
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	private LoginResponseForm getLoginResponse(User user, String errorMessage){
 		//TODO Refactor
@@ -61,11 +60,11 @@ public class UserController {
 
 	@RequestMapping(value = "/api/username", method = RequestMethod.GET)
 	@ResponseBody
-	public LoginResponseForm currentUserName(Authentication authentication) {
+	public LoginResponseForm currentUserName() {
 		String errorMessage = "";
-		User user = null;
+		User user = utilsUser.getUserInCurrentSession();
 
-		if (authentication == null) {
+		if (user == null) {
 			errorMessage = env.getProperty("valid.wrong.email_password");
 			if (errorMessage == null){
 				errorMessage = "Неизвестная ошибка";
@@ -73,8 +72,7 @@ public class UserController {
 			log.info("[-] (Get [/username]) - doesn't exist");
 		}
 		else{
-			user = userRepository.getUserByName(authentication.getName());
-			log.info(String.format("[+] Front ask for user: %s", authentication.getName()));
+			log.info(String.format("[+] Front ask for user: %s", user.getName()));
 		}
 		return getLoginResponse(user, errorMessage);
 	}
