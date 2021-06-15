@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import NewAsset from '../../NewAsset/NewAsset';
 import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
@@ -8,8 +7,7 @@ import AddInput from '../../NewAsset/AddInput';
 import { addNewAsset } from '../../../redux/newAssetsReduser'
 
 const AddNewAssetsForm = (props) => {
-
-	const length = props.newAssets.length
+	const length = props.newAssets.length;
 
 
 	const onSubmit = async (formData) => {
@@ -26,14 +24,13 @@ const AddNewAssetsForm = (props) => {
 			onSubmit={onSubmit}
 			render={({ handleSubmit, form, submitting, state }) => (
 				<form onSubmit={handleSubmit}>
-					{console.log(form.getState())}
 					{
 						props.newAssets.map(el => {
 							return el;
 						})
 					}
 					<AddInput 
-						elem={ <NewAsset mutators={form.mutators} index={length} key={new Date().getTime()} id={new Date().getTime()} /> } 
+						elem={ <NewAsset form={form} index={length} key={new Date().getTime()} id={new Date().getTime()} /> } 
 						form={form}
 					/>
 					

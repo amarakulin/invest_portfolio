@@ -15,14 +15,14 @@ const NewAssetContainer = styled.div`
 const NewAsset = (props) => {
 	return (
 		<NewAssetContainer>
-			<Field name={'search-' + props.id} mutators={props.mutators} >
+			<Field name={'search-' + props.id} mutators={props.form.mutators} >
 				{props => <Search {...props} />}
 			</Field>
 
 			<Field name={'number-' + props.id} >
 				{props => <NewAssetNumber {...props} />}
 			</Field>
-			<RemoveInput index={props.index} />
+			<RemoveInput reset={props.form.change} index={props.index} id={props.id}/>
 		</NewAssetContainer>
 	)
 }
