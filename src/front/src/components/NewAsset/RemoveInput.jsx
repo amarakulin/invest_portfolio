@@ -7,7 +7,7 @@ const RemoveInput = (props) => {
 		<RemoveInputStyled onClick={(e) => {
 			e.preventDefault();
 			props.reset(`search-${props.id}`, undefined);
-			props.reset(`number-${props.id}`, undefined);
+			props.reset(`amount-${props.id}`, undefined);
 			props.removeNewAsset(props.id);
 		}} />
 	)
