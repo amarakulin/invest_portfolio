@@ -12,6 +12,7 @@ import ru.akapich.invest_portfolio.model.forms.AssetsResponseForm;
 import ru.akapich.invest_portfolio.model.forms.NewAssetsForm;
 import ru.akapich.invest_portfolio.model.forms.ValidateCRUDAssetsInterface;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.AllFinancialAssetRepository;
+import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AddingNewListFinancialAssetsImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,10 @@ import java.util.stream.Collectors;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @PropertySource("classpath:message.properties")
-public class CRUDAssets implements ValidateCRUDAssetsInterface {
+public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
+
+	@Autowired
+	private AddingNewListFinancialAssetsImpl addingNewListFinancialAsset;
 
 	@Autowired
 	private AllFinancialAssetRepository allFinancialAssetRepository;
@@ -70,16 +74,12 @@ public class CRUDAssets implements ValidateCRUDAssetsInterface {
 				.build();
 	}
 
-	private void addNewAssets(List<NewAssetsForm> listAssetsForm){
-
-	}
-
 	@PostMapping("/api/data/newassets")
 	public AssetsResponseForm setNewAssets(@RequestBody List<NewAssetsForm> listAssetsForm, Model model){
 
 		AssetsResponseForm assetsResponseForm = getAssetsResponseForm(listAssetsForm);
 		if(assetsResponseForm.getResultCode() == 0){
-			addNewAssets(listAssetsForm);
+			addingNewListFinancialAsset.addNewAssets(listAssetsForm);
 		}
 		return assetsResponseForm;
 	}
