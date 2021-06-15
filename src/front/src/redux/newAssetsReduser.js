@@ -8,12 +8,15 @@ const initialState = {
 const newAssetsReduser = (state = initialState, action) => {
 	switch (action.type) {
 		case REMOVE_NEW_ASSET: {
-			
+			return {
+				...state,
+				newAssets: state.newAssets.filter((_, i) => i != action.index)
+			}
 		}
 		case ADD_NEW_ASSET: {
 			return {
 				...state,
-				newAssets: [...state.newAssets, (action.asset)]
+				newAssets: [...state.newAssets, action.asset]
 			}
 		}
 		default: {
@@ -23,5 +26,7 @@ const newAssetsReduser = (state = initialState, action) => {
 }
 
 export const addNewAsset = (asset) => ({type: ADD_NEW_ASSET, asset})
+
+export const removeNewAsset = (index) => ({type: REMOVE_NEW_ASSET, index})
 
 export default newAssetsReduser;

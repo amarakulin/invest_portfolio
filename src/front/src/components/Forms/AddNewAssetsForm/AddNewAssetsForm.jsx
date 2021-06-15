@@ -10,9 +10,6 @@ import { addNewAsset } from '../../../redux/newAssetsReduser'
 const AddNewAssetsForm = (props) => {
 
 	const length = props.newAssets.length
-	// useEffect(() => {
-	// 	props.addNewAsset(<NewAsset key={0} index={0}/>)
-	// }, [])
 
 
 	const onSubmit = async (formData) => {
@@ -27,16 +24,16 @@ const AddNewAssetsForm = (props) => {
 				}
 			}}
 			onSubmit={onSubmit}
-			render={({ handleSubmit, form, submitting }) => (
+			render={({ handleSubmit, form, submitting, state }) => (
 				<form onSubmit={handleSubmit}>
-
+					{console.log(form.getState())}
 					{
 						props.newAssets.map(el => {
 							return el;
 						})
 					}
 					<AddInput 
-						elem={ <NewAsset mutators={form.mutators} index={length} key={length - 1} /> } 
+						elem={ <NewAsset mutators={form.mutators} index={length} key={new Date().getTime()} id={new Date().getTime()} /> } 
 						form={form}
 					/>
 					

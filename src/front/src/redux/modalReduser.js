@@ -2,7 +2,7 @@ export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const OPEN_MODAL = 'OPEN_MODAL';
 
 const initialState = {
-	isOpen: false
+	isOpen: true
 }
 
 const modalReduser = (state = initialState, action) => {
