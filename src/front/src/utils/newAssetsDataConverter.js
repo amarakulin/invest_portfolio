@@ -1,11 +1,21 @@
 export const newAssetsDataConverter = (data) => {
-	const arr = Object.values(data);
+	const getIdArr = (data) => {
+		let setId = new Set();
+
+		for (let el in data) {
+			setId.add(+el.slice(el.indexOf('-') + 1))
+		}
+
+		return (Array.from([...setId]));
+	}
+
+	let id = getIdArr(data);
 	const finalArr = [];
 
-	for (let i = 0; i < arr.length; i += 2) {
+	for (let i = 0; i < id.length; i++) {
 		finalArr.push({
-			ticker: arr[i],
-			amount: arr[i + 1]
+			ticker: data[`search-${id[i]}`],
+			amount: data[`amount-${id[i]}`]
 		})
 	}
 
