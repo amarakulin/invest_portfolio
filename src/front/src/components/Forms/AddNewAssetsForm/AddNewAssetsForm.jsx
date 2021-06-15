@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader'
 import Button from '../../Basic/Button/Button';
 import AddInput from '../../NewAsset/AddInput';
-import { addNewAsset } from '../../../redux/newAssetsReduser'
+import { addNewAsset, postNewAssetsData } from '../../../redux/newAssetsReduser'
 
 const AddNewAssetsForm = (props) => {
 	const onSubmit = async (data) => {
@@ -21,7 +21,8 @@ const AddNewAssetsForm = (props) => {
 		const formData = {
 			value: finalArr
 		}
-		  
+
+		props.postNewAssetsData(formData);
 		//TODO после отправки нужно заново запросить данные пользователя
 	}
 
@@ -55,4 +56,4 @@ const mapStateToProps = (state) => ({
 	newAssets: state.newAssets.newAssets
 })
 
-export default connect(mapStateToProps, {addNewAsset})(AddNewAssetsForm);
+export default connect(mapStateToProps, {addNewAsset, postNewAssetsData})(AddNewAssetsForm);

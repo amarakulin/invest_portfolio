@@ -33,6 +33,10 @@ export const DataAPI = {
 	},
 	getDiagrammData() {
 		return api.get('data/diagramm')
+	},
+	postNewAssetsData(data) {
+		return api.post('data/newassets', data)
+			.then(res => res.data)
 	}
 }
 

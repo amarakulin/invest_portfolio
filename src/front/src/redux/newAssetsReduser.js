@@ -1,3 +1,5 @@
+import { DataAPI } from '../api/api'
+
 const REMOVE_NEW_ASSET = 'REMOVE_NEW_ASSET';
 const ADD_NEW_ASSET = 'ADD_NEW_ASSET';
 
@@ -28,5 +30,9 @@ const newAssetsReduser = (state = initialState, action) => {
 export const addNewAsset = (asset) => ({type: ADD_NEW_ASSET, asset})
 
 export const removeNewAsset = (id) => ({type: REMOVE_NEW_ASSET, id})
+
+export const postNewAssetsData = (data) => (dispatch) => {
+	DataAPI.postNewAssetsData(data)
+}
 
 export default newAssetsReduser;
