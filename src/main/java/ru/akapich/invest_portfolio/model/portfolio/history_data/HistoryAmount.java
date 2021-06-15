@@ -1,6 +1,7 @@
 package ru.akapich.invest_portfolio.model.portfolio.history_data;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
@@ -21,6 +22,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class HistoryAmount {
 
 	@Id
@@ -29,8 +31,7 @@ public class HistoryAmount {
 	private Long id;
 
 	@Column
-	@Temporal(TemporalType.DATE)
-	private Date date;
+	private String date;
 
 	@Column
 	private BigDecimal amount;

@@ -1,6 +1,7 @@
 package ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 public class FinancialAssetInUse {
 
 	@Id
@@ -26,5 +28,5 @@ public class FinancialAssetInUse {
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_financial_asset", nullable = false)
-	private AllFinancialAsset financialAsset;
+	private AllFinancialAsset idAllFinancialAsset;
 }

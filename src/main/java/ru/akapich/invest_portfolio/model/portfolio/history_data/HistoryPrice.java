@@ -29,8 +29,7 @@ public class HistoryPrice {
 	private Long id;
 
 	@Column
-	@Temporal(TemporalType.DATE)
-	private Date date;
+	private String date;
 
 	@Column
 	private BigDecimal price;
