@@ -33,11 +33,9 @@ const Search = ({ input, meta, ...props }) => {
 			/>
 			{showSearch && 
 				<SearchResult
-					data-type='result'
 					data={props.data}
 					isFetching={props.isFetching}
 					setShowSearch={setShowSearch}
-					setSelectedIndex={props.setSelectedIndex}
 					setInputData={props.mutators.setValue}
 					inputName={input.name}
 			/>}
