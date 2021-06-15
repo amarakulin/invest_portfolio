@@ -4,6 +4,7 @@ import modalReduser from './modalReduser.js';
 import graphReduser from './graphReduser.js';
 import diagrammReduser from './diagrammReduser.js';
 import searchReduser from './searchReduser.js';
+import tableReduser from './tableReduser.js';
 import apiReduser from './apiReduser.js';
 import newAssetsReduser from './newAssetsReduser.js';
 import thunkMiddleware from 'redux-thunk';
@@ -15,6 +16,7 @@ const reduser = combineReducers({
 	diagramm: diagrammReduser,
 	search: searchReduser,
 	newAssets: newAssetsReduser,
+	table: tableReduser,
 	api: apiReduser
 });
 

@@ -37,6 +37,10 @@ export const DataAPI = {
 	postNewAssetsData(data) {
 		return api.post('data/newassets', data)
 			.then(res => res.data)
+	},
+	getTableData() {
+		return api.get('data/tableassets')
+			.then(res => res.data)
 	}
 }
 
