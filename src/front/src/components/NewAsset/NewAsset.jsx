@@ -27,7 +27,7 @@ const NewAsset = (props) => {
 			>
 				{props => <NewAssetNumber {...props} />}
 			</Field>
-			<RemoveInput reset={props.form.change} index={props.index} id={props.id}/>
+			<RemoveInput reset={props.form.change} id={props.id}/>
 		</NewAssetContainer>
 	)
 }

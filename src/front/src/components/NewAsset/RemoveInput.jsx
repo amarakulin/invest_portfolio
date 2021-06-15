@@ -8,7 +8,7 @@ const RemoveInput = (props) => {
 			e.preventDefault();
 			props.reset(`search-${props.id}`, undefined);
 			props.reset(`number-${props.id}`, undefined);
-			props.removeNewAsset(props.index);
+			props.removeNewAsset(props.id);
 		}} />
 	)
 }
