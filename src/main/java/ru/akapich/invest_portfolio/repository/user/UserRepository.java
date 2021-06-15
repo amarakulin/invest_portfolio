@@ -1,8 +1,8 @@
-package ru.akapich.invest_portfolio.repository;
+package ru.akapich.invest_portfolio.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.akapich.invest_portfolio.model.User;
+import ru.akapich.invest_portfolio.model.user.User;
 
 /**
  * JavaBean object that interaction with Database.

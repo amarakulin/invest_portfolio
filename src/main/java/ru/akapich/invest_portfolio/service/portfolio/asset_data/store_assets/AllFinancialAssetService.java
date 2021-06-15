@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.service.portfolio.asset_data;
+package ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets;
 
 import java.io.IOException;
 import java.util.List;

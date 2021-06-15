@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.model.portfolio.price_data;
+package ru.akapich.invest_portfolio.model.portfolio.history_data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

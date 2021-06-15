@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.service.impl;
+package ru.akapich.invest_portfolio.service.user.impl;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import ru.akapich.invest_portfolio.model.User;
-import ru.akapich.invest_portfolio.repository.UserRepository;
-import ru.akapich.invest_portfolio.service.UserService;
+import ru.akapich.invest_portfolio.model.user.User;
+import ru.akapich.invest_portfolio.repository.user.UserRepository;
+import ru.akapich.invest_portfolio.service.user.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;

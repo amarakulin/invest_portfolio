@@ -1,6 +1,6 @@
-package ru.akapich.invest_portfolio.service;
+package ru.akapich.invest_portfolio.service.user;
 
-import ru.akapich.invest_portfolio.model.User;
+import ru.akapich.invest_portfolio.model.user.User;
 
 /**
  * Service class for {@link User}

@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.repository.portfolio.asset_data.info;
+package ru.akapich.invest_portfolio.repository.portfolio.asset_data.info_assets;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

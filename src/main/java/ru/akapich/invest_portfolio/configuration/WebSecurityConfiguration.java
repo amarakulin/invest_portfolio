@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationFailureHandler;
 import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationSuccessHandler;
-import ru.akapich.invest_portfolio.service.impl.UserDetailsServiceImpl;
+import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 

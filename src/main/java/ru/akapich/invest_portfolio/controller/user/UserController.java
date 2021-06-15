@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.controller;
+package ru.akapich.invest_portfolio.controller.user;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.LoginResponseForm;
 import ru.akapich.invest_portfolio.model.forms.RegistrationFrom;
-import ru.akapich.invest_portfolio.model.User;
-import ru.akapich.invest_portfolio.repository.UserRepository;
-import ru.akapich.invest_portfolio.service.impl.UserDetailsServiceImpl;
+import ru.akapich.invest_portfolio.model.user.User;
+import ru.akapich.invest_portfolio.repository.user.UserRepository;
+import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
 import ru.akapich.invest_portfolio.validator.ValidatorController;
 import javax.validation.Valid;
 

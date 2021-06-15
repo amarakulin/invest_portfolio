@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.MatchAssetForm;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFinancialAsset;
-import ru.akapich.invest_portfolio.repository.portfolio.asset_data.AllFinancialAssetRepository;
+import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.AllFinancialAssetRepository;
 
 import java.util.ArrayList;
 import java.util.List;

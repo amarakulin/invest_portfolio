@@ -1,12 +1,12 @@
-package ru.akapich.invest_portfolio.service.portfolio.asset_data.info.Impl;
+package ru.akapich.invest_portfolio.service.portfolio.asset_data.info_assets.Impl;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.info_assets.Exchange;
-import ru.akapich.invest_portfolio.repository.portfolio.asset_data.info.ExchangeRepository;
-import ru.akapich.invest_portfolio.service.portfolio.asset_data.info.ExchangeService;
+import ru.akapich.invest_portfolio.repository.portfolio.asset_data.info_assets.ExchangeRepository;
+import ru.akapich.invest_portfolio.service.portfolio.asset_data.info_assets.ExchangeService;
 
 /**
  * Implementation of {@link ExchangeService} interface.

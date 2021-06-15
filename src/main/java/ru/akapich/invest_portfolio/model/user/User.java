@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.model;
+package ru.akapich.invest_portfolio.model.user;
 
 import lombok.*;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
