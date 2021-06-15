@@ -3,7 +3,6 @@ package ru.akapich.invest_portfolio.model.portfolio;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.portfolio.price_data.SetFinancialAssets;
 
 import javax.persistence.*;
 
@@ -19,9 +18,9 @@ public class InvestPortfolio {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_set_financial_assets")
-	private SetFinancialAssets idSetFinancialAssets;
+//	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	@JoinColumn(name = "id_set_financial_assets")
+//	private SetFinancialAssets idSetFinancialAssets;
 
 //	@OneToMany
 //	@JoinColumn(name = "id_statistic")

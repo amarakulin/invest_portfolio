@@ -3,7 +3,7 @@ package ru.akapich.invest_portfolio.model.portfolio.price_data;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,17 +11,17 @@ import java.util.Date;
 
 /**
  * JavaBean domain object
- * That represent price changes on {@link FinancialAssetInUse}
+ * That represent amount of assert changes on {@link OwnedFinancialAsset}
  *
  * @author Aleksandr Marakulin
  **/
 
 @Entity
-@Table(name="t_history_price")
+@Table(name="t_history_amount")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class HistoryPrice {
+public class HistoryAmount {
 
 	@Id
 	@Column
@@ -33,9 +33,9 @@ public class HistoryPrice {
 	private Date date;
 
 	@Column
-	private BigDecimal price;
+	private BigDecimal amount;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_in_use_financial_asset", nullable = false)
-	private FinancialAssetInUse idFinancialAssetInUse;
+	@JoinColumn(name = "id_owned_financial_asset", nullable = false)
+	private OwnedFinancialAsset ownedFinancialAsset;
 }

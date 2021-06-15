@@ -36,8 +36,13 @@ public class User {
 	@Column
 	private String role;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)//(mappedBy = "t_user")
-	private Set<InvestPortfolio> idInvestPortfolio;
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)//TODO why is Set???
+//	private Set<InvestPortfolio> idInvestPortfolio;
+//	private InvestPortfolio idInvestPortfolio;//TODO try with
+// OR
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_invest_portfolio")
+	private InvestPortfolio investPortfolio;
 
 	@Column
 	private boolean enable;
