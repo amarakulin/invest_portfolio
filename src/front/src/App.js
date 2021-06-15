@@ -1,5 +1,6 @@
 import LoginPage from './components/LoginPage/LoginPage'
 import HomePage from './components/HomePage/HomePage'
+import assetsController from './components/assetsController/assetsController'
 import NotFound from './components/NotFound/NotFound'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import AuthForm from './components/Forms/AuthForm/AuthForm'
@@ -25,7 +26,7 @@ function App() {
 				<Route
 					exact
 					path="/assets"
-					component={ HomePage }
+					component={ assetsController }
 				/>
 				<Route
 					component={NotFound}
