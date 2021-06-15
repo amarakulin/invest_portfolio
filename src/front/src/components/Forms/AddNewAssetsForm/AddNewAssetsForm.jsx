@@ -7,11 +7,22 @@ import AddInput from '../../NewAsset/AddInput';
 import { addNewAsset } from '../../../redux/newAssetsReduser'
 
 const AddNewAssetsForm = (props) => {
-	const length = props.newAssets.length;
+	const onSubmit = async (data) => {
+		const arr = Object.values(data);
+		const finalArr = [];
+		
+		for (let i = 0; i < arr.length; i += 2) {
+			finalArr.push({
+				ticker: arr[i],
+				amount: arr[i + 1]
+			})
+		}
 
-
-	const onSubmit = async (formData) => {
-		console.log(formData);
+		const formData = {
+			value: finalArr
+		}
+		  
+		//TODO после отправки нужно заново запросить данные пользователя
 	}
 
 	return (
@@ -30,8 +41,7 @@ const AddNewAssetsForm = (props) => {
 						})
 					}
 					<AddInput 
-						elem={ <NewAsset form={form} index={length} key={new Date().getTime()} id={new Date().getTime()} /> } 
-						form={form}
+						elem={ <NewAsset form={form} key={new Date().getTime()} id={new Date().getTime()} /> } 
 					/>
 					
 					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
