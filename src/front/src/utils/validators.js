@@ -17,3 +17,15 @@ export const validateRepasswordField = (values) => {
 		errors.password = 'Пароли должны совпадать'
 	return errors
 }
+
+export const validateIdenticalName = (value) => {
+	const errors = {};
+
+	const validatingData = Object.values(value).filter((_, i) => !(i % 2));
+	const supArr = Array.from([...new Set(validatingData)]);
+
+	if (validatingData.length != supArr.length)
+		errors.identical = 'Поля не должны иметь одинаковые имена';
+
+	return errors;
+}

@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 
 const AddInput = (props) => {
 	return (
-		<AddInputStyled onClick={(e) => {
-			e.preventDefault();
-			props.addNewAsset(props.elem)
-		}} />
+		<AddInputStyled 
+			disabled={props.disabled}
+			onClick={(e) => {
+				e.preventDefault();
+				props.addNewAsset(props.elem)
+			}} 
+		/>
 	)
 }
 
