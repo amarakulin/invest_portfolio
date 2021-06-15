@@ -40,8 +40,8 @@ export const AddAsset = styled(HeaderButton)`
 	}
 `
 
-export const AddNewAssset = styled(AddAsset)`
-	margin: 0;
+export const AddNewAssetStyled = styled(AddAsset)`
+	margin: 0 0 20px 0;
 	width: 35px;
 	height: 35px;
 	padding: 0;
@@ -49,6 +49,13 @@ export const AddNewAssset = styled(AddAsset)`
 	&:before {
 		font-size: 1em;
 		margin-right: 0;
+	}
+`
+
+export const RemoveNewAssetStyled = styled(AddNewAssetStyled)`
+	margin: 0;
+	&:before {
+		content: '-';
 	}
 `
 
