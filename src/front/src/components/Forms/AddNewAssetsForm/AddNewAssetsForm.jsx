@@ -8,6 +8,7 @@ import Error from '../../Basic/Error/Error';
 import { newAssetsDataConverter } from '../../../utils/newAssetsDataConverter'
 import { addNewAsset, postNewAssetsData } from '../../../redux/newAssetsReduser'
 import { validateIdenticalName } from '../../../utils/validators'
+import { setValue } from '../../../utils/mutators'
 
 const AddNewAssetsForm = (props) => {
 	const onSubmit = async (data) => {
@@ -20,11 +21,7 @@ const AddNewAssetsForm = (props) => {
 	return (
 		<Form
 			validate={validateIdenticalName}
-			mutators={{
-				setValue: (args, state, utils) => {
-					utils.changeValue(state, args[0], () => args[1])
-				}
-			}}
+			mutators={{setValue}}
 			onSubmit={onSubmit}
 			render={({ handleSubmit, form, submitting, valid, errors }) => (
 				<form onSubmit={handleSubmit}>
