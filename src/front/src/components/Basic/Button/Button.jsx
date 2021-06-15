@@ -25,6 +25,17 @@ export const HeaderButton = styled(Button)`
 	position: relative;
 	display: flex;
 	align-items: center;
+	${props => props.marginRight && `margin-right: ${props.marginRight}px`}
+`
+
+export const ReversedHeaderButton = styled(HeaderButton)`
+	background-color: #fff;
+	color: #89D7AB;
+	border: 1px solid #89D7AB;
+	&:hover {
+		color: #fff;
+		background-color: #89D7AB;
+	}
 `
 
 export const AddAsset = styled(HeaderButton)`
