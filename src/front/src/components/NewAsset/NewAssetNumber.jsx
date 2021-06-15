@@ -8,7 +8,7 @@ const NewAssetNumber = ({input, meta, ...props}) => {
 			placeholder='Количество'
 			width='20%'
 			autoComplete='off'
-			required
+			isError={meta.touched && meta.error}
 		/>
 	)
 }

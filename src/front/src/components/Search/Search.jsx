@@ -15,7 +15,9 @@ const Search = ({ input, meta, ...props }) => {
 				placeholder='Поиск'
 				width='70%'
 				autoComplete='off'
+				isError={meta.touched && meta.error}
 				onBlur={() => {
+					input.onBlur();
 					setShowSearch(false);
 				}}
 				onChange={e => {
@@ -28,7 +30,6 @@ const Search = ({ input, meta, ...props }) => {
 					else
 						setShowSearch(true);
 				}}
-				required
 			/>
 			{showSearch && 
 				<SearchResult

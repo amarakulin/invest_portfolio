@@ -3,6 +3,7 @@ import { Field } from 'react-final-form';
 import Search from '../Search/Search';
 import NewAssetNumber from './NewAssetNumber';
 import RemoveInput from './RemoveInput';
+import { requiredField } from '../../utils/validators'
 
 const NewAssetContainer = styled.div`
 	display: flex;
@@ -18,12 +19,14 @@ const NewAsset = (props) => {
 			<Field 
 				name={'search-' + props.id}
 				mutators={props.form.mutators}
+				validate={requiredField}
 			>
 				{props => <Search {...props} />}
 			</Field>
 
 			<Field 
 				name={'number-' + props.id}
+				validate={requiredField}
 			>
 				{props => <NewAssetNumber {...props} />}
 			</Field>
