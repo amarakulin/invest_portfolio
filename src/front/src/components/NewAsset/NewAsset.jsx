@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Field } from 'react-final-form';
 import Search from '../Search/Search';
-import NewAssetNumber from './NewAssetNumber';
+import NewAssetNumber from './NewAssetAmount';
 import RemoveInput from './RemoveInput';
 import { requiredField } from '../../utils/validators'
 
@@ -25,7 +25,7 @@ const NewAsset = (props) => {
 			</Field>
 
 			<Field 
-				name={'number-' + props.id}
+				name={'amount-' + props.id}
 				validate={requiredField}
 			>
 				{props => <NewAssetNumber {...props} />}

@@ -1,6 +1,6 @@
 import Input from '../Basic/Input/Input';
 
-const NewAssetNumber = ({input, meta, ...props}) => {
+const NewAssetAmount = ({input, meta, ...props}) => {
 	return (
 		<Input
 			{...input}
@@ -13,4 +13,4 @@ const NewAssetNumber = ({input, meta, ...props}) => {
 	)
 }
 
-export default NewAssetNumber;
+export default NewAssetAmount;
