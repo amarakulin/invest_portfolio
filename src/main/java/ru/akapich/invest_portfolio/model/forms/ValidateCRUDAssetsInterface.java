@@ -1,5 +1,7 @@
 package ru.akapich.invest_portfolio.model.forms;
 
+import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
+
 import java.util.List;
 
 /**

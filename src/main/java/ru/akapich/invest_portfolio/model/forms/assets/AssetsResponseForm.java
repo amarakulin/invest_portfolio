@@ -1,5 +1,4 @@
-package ru.akapich.invest_portfolio.model.forms;
-
+package ru.akapich.invest_portfolio.model.forms.assets;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Object that get response result of authentication/registration.
+ * Object that send a response if worked with assets.
  *
  * @author Aleksandr Marakulin
  **/
@@ -16,11 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginResponseForm {
+public class AssetsResponseForm {
 
 	private String error;
 	private Integer resultCode;
-	private Long userID;
-	private String email;
-	private String name;
 }
