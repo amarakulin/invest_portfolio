@@ -18,7 +18,7 @@ import ru.akapich.invest_portfolio.repository.user.UserRepository;
 @Log4j2
 @Component
 public class UtilsUser implements AuthenticationFacadeInterface{
-
+//TODO move all of this in UserService!!!!!!!!!!!!!!
 	@Autowired
 	private UserRepository userRepository;
 

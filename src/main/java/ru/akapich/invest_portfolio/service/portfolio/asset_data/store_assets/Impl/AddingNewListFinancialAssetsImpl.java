@@ -16,6 +16,9 @@ import ru.akapich.invest_portfolio.utils.UtilsUser;
 import java.util.List;
 
 /**
+ * Implementation of {@link AddingNewListFinancialAsset} interface.
+ * Adds new assets in a {@link InvestPortfolio}
+ *
  * @author Aleksandr Marakulin
  **/
 
@@ -41,7 +44,7 @@ public class AddingNewListFinancialAssetsImpl implements AddingNewListFinancialA
 		for (NewAssetsForm assetsForm : listAssetsForm){
 			log.info(String.format("Adding asset with ticker: %s", assetsForm.getTicker()));
 			FinancialAssetInUse financialAssetInUse = financialAssetInUseService
-					.getOrAddToAssetInUseIfNotExist(assetsForm.getTicker());
+					.getAndAddToAssetInUseIfNotExist(assetsForm.getTicker());
 			log.info(String.format("Get asset with ticker: %s", financialAssetInUse.getIdAllFinancialAsset().getTicker()));
 			InvestPortfolio userInvestPortfolio = utilsUser.getUserInCurrentSession().getInvestPortfolio();
 			log.info(String.format("Get InvPortfolio with id : %d", userInvestPortfolio.getId()));
@@ -50,7 +53,7 @@ public class AddingNewListFinancialAssetsImpl implements AddingNewListFinancialA
 					.getAndAddNewOwnedAssetsUser(userInvestPortfolio, financialAssetInUse);
 			log.info(String.format("Get ownedFinancialAsset with :ticker %s, inv_p %d", ownedFinancialAsset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker(), ownedFinancialAsset.getInvestPortfolio().getId()));
 			historyAmountService.addNewHistoryAmount(ownedFinancialAsset, assetsForm.getAmount());
-			log.info("Done motherfucker!!!");
 		}
+		log.info("Done motherfucker!!!");
 	}
 }

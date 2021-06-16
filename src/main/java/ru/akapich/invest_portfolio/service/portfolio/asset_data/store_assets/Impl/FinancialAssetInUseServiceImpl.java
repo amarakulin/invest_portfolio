@@ -10,6 +10,7 @@ import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.FinancialAssetInUseService;
 
 /**
+ * Implementation of {@link FinancialAssetInUseService} interface
  *
  *
  * @author Aleksandr Marakulin
@@ -27,13 +28,13 @@ public class FinancialAssetInUseServiceImpl implements FinancialAssetInUseServic
 
 	@Override
 	@Transactional
-	public FinancialAssetInUse getOrAddToAssetInUseIfNotExist(String ticker) {
+	public FinancialAssetInUse getAndAddToAssetInUseIfNotExist(String ticker) {
 		log.info("addToAssetInUseIfNotExist start searching");
 		FinancialAssetInUse matchedAsset = financialAssetInUseRepository.
-				findFinancialAssetInUseByIdAllFinancialAsset_Ticker(ticker);
-
+				findFinancialAssetInUseByIdAllFinancialAsset_Ticker(ticker);//FIXME May be could search only in AllFinancialAssets
+		log.info(String.format("matchedAsset in addToAssetInUseIfNotExist: %s", ticker));
 		if (matchedAsset == null){
-			log.info("addToAssetInUseIfNotExist couldn't find a ticker 'in use'");
+			log.info(String.format("addToAssetInUseIfNotExist couldn't find a ticker '%s' 'in use'", ticker));
 			matchedAsset = FinancialAssetInUse.builder()
 					.idAllFinancialAsset(allFinancialAssetRepository.findByTicker(ticker))
 					.build();

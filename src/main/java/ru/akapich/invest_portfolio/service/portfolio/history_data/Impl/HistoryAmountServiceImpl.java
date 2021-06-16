@@ -13,6 +13,8 @@ import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountS
 import java.math.BigDecimal;
 
 /**
+ * Implementation of {@link HistoryAmountService} interface.
+ *
  * @author Aleksandr Marakulin
  **/
 
