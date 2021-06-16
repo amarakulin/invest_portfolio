@@ -41,13 +41,17 @@ public class AddingNewListFinancialAssetsImpl implements AddingNewListFinancialA
 	@Override
 	public void addNewAssets(List<NewAssetsForm> listAssetsForm) {
 		log.info("Start addNewAssets !!!!!!!!!");
+		InvestPortfolio userInvestPortfolio = utilsUser.getUserInCurrentSession().getInvestPortfolio();
+		if (userInvestPortfolio == null){
+			log.info("User not in the session");
+			return;
+		}
+		log.info(String.format("Get InvPortfolio with id : %d", userInvestPortfolio.getId()));
 		for (NewAssetsForm assetsForm : listAssetsForm){
 			log.info(String.format("Adding asset with ticker: %s", assetsForm.getTicker()));
 			FinancialAssetInUse financialAssetInUse = financialAssetInUseService
 					.getAndAddToAssetInUseIfNotExist(assetsForm.getTicker());
 			log.info(String.format("Get asset with ticker: %s", financialAssetInUse.getIdAllFinancialAsset().getTicker()));
-			InvestPortfolio userInvestPortfolio = utilsUser.getUserInCurrentSession().getInvestPortfolio();
-			log.info(String.format("Get InvPortfolio with id : %d", userInvestPortfolio.getId()));
 
 			OwnedFinancialAsset ownedFinancialAsset = ownedFinancialAssetService
 					.getAndAddNewOwnedAssetsUser(userInvestPortfolio, financialAssetInUse);
