@@ -90,16 +90,18 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 
 
-	@PostMapping(value = "/api/data/newassets", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public AssetsResponseForm setNewAssets(@RequestBody NewAssetsFormList listAssetsForm, Model model){
+//	@PostMapping(value = "/api/data/newassets", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/api/data/newassets", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public AssetsResponseForm setNewAssets(@RequestBody List<NewAssetsForm> listAssetsForm, Model model){
 		log.info("Start: setNewAssets");
-		AssetsResponseForm assetsResponseForm = getAssetsResponseForm(listAssetsForm);
-		log.info(String.format("Get a result of response error: %s", assetsResponseForm.getError()));
-//		//FIXME May be check if user in the session
-		if(assetsResponseForm.getResultCode() == 0){
-			addingNewListFinancialAsset.addNewAssets(listAssetsForm);
-		}
+//		AssetsResponseForm assetsResponseForm = getAssetsResponseForm(listAssetsForm);
+//		log.info(String.format("Get a result of response error: %s", assetsResponseForm.getError()));
+////		//FIXME May be check if user in the session
+//		if(assetsResponseForm.getResultCode() == 0){
+//			addingNewListFinancialAsset.addNewAssets(listAssetsForm);
+//		}
 		log.info("End: setNewAssets");
-		return assetsResponseForm;
+//		return assetsResponseForm;
+		return new AssetsResponseForm();
 	}
 }
