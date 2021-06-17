@@ -12,19 +12,18 @@ import { addNewAssetsFormSubmit } from '../../../utils/formSubmit';
 const AddNewAssetsForm = (props) => {
 	return (
 		<Form
-			mutators={{setValue}}
+			mutators={{ setValue }}
 			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData, props.newAssets)}
-			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError}) => (
+			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError }) => (
 				<form onSubmit={handleSubmit}>
-					<NewAsset 
+					<NewAsset
 						searchData={props.searchData}
 						nessesaryField={props.nessesaryField}
 						newAssets={props.newAssets}
 						form={form}
 					/>
 					{props.newAssets.length ? <AddedAssets data={props.newAssets} /> : null}
-					
-					
+
 					{errors.identical && <Error> {errors.identical} </Error>}
 					{hasSubmitErrors && <Error> {submitError} </Error>}
 					<Button disabled={submitting || !valid || !props.newAssets.length}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
@@ -40,4 +39,4 @@ const mapStateToProps = (state) => ({
 	searchData: state.search.searchData,
 })
 
-export default connect(mapStateToProps, {addNewAsset, postNewAssetsData})(AddNewAssetsForm);
+export default connect(mapStateToProps, { addNewAsset, postNewAssetsData })(AddNewAssetsForm);
