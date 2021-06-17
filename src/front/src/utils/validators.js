@@ -20,6 +20,12 @@ export const validateRepasswordField = (values) => {
 	return errors
 }
 
+export const amountValidator = (value) => {
+	if (+value <= 0)
+		return true
+	return undefined;
+}
+
 export const validateIdenticalName = (data) => {
 	return (value) => {
 

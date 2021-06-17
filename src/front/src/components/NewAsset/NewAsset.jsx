@@ -3,7 +3,7 @@ import { Field } from 'react-final-form';
 import Search from '../Search/Search';
 import NewAssetNumber from './NewAssetAmount';
 import AddNewAsset from './AddNewAsset';
-import { validateIdenticalName } from '../../utils/validators';
+import { validateIdenticalName, amountValidator } from '../../utils/validators';
 
 const NewAssetContainer = styled.div`
 	display: flex;
@@ -28,6 +28,7 @@ const NewAsset = (props) => {
 
 			<Field 
 				name={'amount'}
+				validate={amountValidator}
 			>
 				{props => <NewAssetNumber labelText='Количество' {...props} />}
 			</Field>
