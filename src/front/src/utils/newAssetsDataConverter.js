@@ -19,7 +19,5 @@ export const newAssetsDataConverter = (data) => {
 		})
 	}
 
-	return {
-		value: finalArr
-	}
+	return finalArr;
 }

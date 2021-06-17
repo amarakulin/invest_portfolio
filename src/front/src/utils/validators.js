@@ -25,7 +25,7 @@ export const validateIdenticalName = (value) => {
 
 	let tickerArr = [];
 
-	newAssetsDataConverter(value).value.forEach(el => {
+	newAssetsDataConverter(value).forEach(el => {
 		tickerArr.push(el.ticker);
 	})
 
