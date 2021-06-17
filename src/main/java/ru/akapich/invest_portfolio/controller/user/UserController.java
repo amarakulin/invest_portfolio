@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.login.LoginResponseForm;
 import ru.akapich.invest_portfolio.model.forms.login.RegistrationFrom;
+import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.user.User;
 import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
 import ru.akapich.invest_portfolio.utils.UtilsUser;
@@ -98,13 +99,14 @@ public class UserController {
 					form.getName(), errorMessage));
 		}
 		else {
-			user = User.builder().
-					name(form.getName()).
-					email(form.getEmail()).
-					password(form.getPassword()).
-					role("{role.user}").
-					enable(true).
-					build();
+			user = User.builder()
+					.name(form.getName())
+					.email(form.getEmail())
+					.password(form.getPassword())
+					.role("{role.user}")
+					.investPortfolio(new InvestPortfolio())
+					.enable(true)
+					.build();
 			userDetailsService.save(user);
 
 			log.info(String.format("[+] New User '%s' successfully register with email '%s'.",
