@@ -5,7 +5,7 @@ const ADD_NEW_ASSET = 'ADD_NEW_ASSET';
 
 const initialState = {
 	newAssets: [],
-	nessesaryField: ['ticker', 'name', 'type', 'amount']
+	nessesaryField: ['ticker', 'name', 'type']
 }
 
 const newAssetsReduser = (state = initialState, action) => {
