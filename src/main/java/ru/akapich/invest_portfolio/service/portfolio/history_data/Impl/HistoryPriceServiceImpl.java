@@ -3,6 +3,7 @@ package ru.akapich.invest_portfolio.service.portfolio.history_data.Impl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryPrice;
 import ru.akapich.invest_portfolio.parcer.price_assets.america.ParseAmericanPriceAssets;
@@ -38,6 +39,7 @@ public class HistoryPriceServiceImpl implements HistoryPriceService {
 	private HistoryPriceRepository historyPriceRepository;
 
 	@Override
+	@Transactional
 	public void updatePriceAmericanAssets() throws IOException {
 		Map<String, BigDecimal> infoAmericanPriceAssets = parseAmericanPriceAssets.getAllPriceAmericanAssets("NYSE");
 		String currentDate = dateService.getCurrentDate();
