@@ -13,6 +13,14 @@ const NewAssetContainer = styled.div`
 	position: relative;
 `
 
+const disableAddNewAssetButton = (values, isInvalid) => {//TODO перенести
+	if (isInvalid)
+		return true;
+	if (!values.ticker || !values.name || !values.amount || !values.type)
+		return true;
+	return false;
+}
+
 const NewAsset = (props) => {
 	return (
 		<NewAssetContainer>
@@ -35,7 +43,7 @@ const NewAsset = (props) => {
 				{props => <NewAssetNumber {...props}/>}
 			</Field>
 			<AddNewAsset 
-				disabled={props.form.getState().invalid}
+				disabled={disableAddNewAssetButton(props.form.getState().values, props.form.getState().invalid)}
 				values={props.form.getState().values}
 				reset={props.form.reset}
 			/>

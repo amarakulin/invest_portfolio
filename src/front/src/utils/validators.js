@@ -36,7 +36,6 @@ export const validateIdenticalName = (data) => {
 }
 
 export const validateSearchUnknownTicker = (data) => (value) => {
-	console.log(value,data);
 	if (!value)
 		return undefined;
 	if (data.every(el => el.ticker !== value))

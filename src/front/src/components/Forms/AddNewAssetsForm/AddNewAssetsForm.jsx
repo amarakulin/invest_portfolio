@@ -14,10 +14,6 @@ const AddNewAssetsForm = (props) => {
 		<Form
 			mutators={{setValue}}
 			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData)}
-			validate={(value) => {
-				if (!value.ticker || !value.name || !value.amount || !value.type)
-					return 'Не валид'
-			}}
 			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError}) => (
 				<form onSubmit={handleSubmit}>
 					<NewAsset 
