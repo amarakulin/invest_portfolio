@@ -93,7 +93,7 @@ const graphReduser = (state = initialState, action) => {
 		case REMOVE_HIDDEN_GRAPH_NAME: {
 			return {
 				...state,
-				hiddenGraphsName: state.hiddenGraphsName.filter(el => el != action.name)
+				hiddenGraphsName: state.hiddenGraphsName.filter(el => el !== action.name)
 			}
 		}
 		default: {
