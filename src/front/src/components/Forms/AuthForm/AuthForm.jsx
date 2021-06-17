@@ -65,9 +65,10 @@ const AuthForm = (props) => {
 						<Subtitle>Пожалуйста, заполните все поля</Subtitle>
 						<hr></hr>
 						{
-							Fields.map(el => {
+							Fields.map((el, i) => {
 								return (
 									<Field
+										key={i}
 										{...el}
 									>
 										{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
