@@ -8,7 +8,7 @@ const HeaderFooter = (props) => {
 		<AlignEndWrapper>
 			<HeaderTabs />
 			<ButtonWrapper>
-				<AddAsset onClick={props.openModal}> Добавить актив </AddAsset>
+				<AddAsset onClick={() => props.openModal(true)}> Добавить актив </AddAsset>
 				<HeaderButton onClick={props.logout}> Выйти </HeaderButton>
 			</ButtonWrapper>
 		</AlignEndWrapper>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Container } from '../Basic/Wrapper/Wrapper';
 import Greeting from './HeaderComponents/Greeting';
 import HeaderFooter from './HeaderComponents/HeaderFooter';
@@ -9,15 +10,17 @@ import AddNewAssetsForm from '../Forms/AddNewAssetsForm/AddNewAssetsForm';
 import { StyledHeader } from './HeaderComponents/HeaderStyles';
 
 const Header = (props) => {
+	const [isModalOpen, toggleIsModal] = useState(false);
+
 	return (
 		<StyledHeader>
 			<Container>
-				<Modal closeModal={props.closeModal} display={props.isModalOpen}>
+				<Modal closeModal={toggleIsModal} display={isModalOpen}>
 					<AddNewAssetsForm />
 				</Modal>
 				<Greeting name={props.name} />
 				<HeaderFooter 
-					openModal={props.openModal}
+					openModal={toggleIsModal}
 					logout={props.logout}
 				/>
 			</Container>
@@ -26,9 +29,7 @@ const Header = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-	isActive: state.auth.isAuth,
-	name: state.auth.name,
-	isModalOpen: state.modal.isOpen
+	name: state.auth.name
 })
 
 export default connect(mapStateToProps, {logout, closeModal, openModal})(Header);
