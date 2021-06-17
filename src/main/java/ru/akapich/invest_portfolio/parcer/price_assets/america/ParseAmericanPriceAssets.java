@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Class to get a price of assets
@@ -28,19 +27,22 @@ public class ParseAmericanPriceAssets {
 	private HistoryPriceService historyPriceService;
 
 	//TODO Set g IOException
-	public Map<String, Map<String, BigDecimal>> getAllPriceAmericanAssets(String exchange) throws IOException {//TODO think about response type
+	public Map<String, BigDecimal> getAllPriceAmericanAssets(String exchange) throws IOException {
 		//TODO refactor
-
-		String stringWithTickers = historyPriceService.listTickersToUpdateByExchange(exchange);
-		System.out.println(String.format("Get string pf tickers: %s", stringWithTickers));
 		System.out.println("Start getAllPriceAmericanAssets");
-		String REQUEST_URL = String.format("https://api.twelvedata.com/price?symbol=%s&apikey=%s", stringWithTickers, API_KEY );
+//		String stringWithTickers = historyPriceService.listTickersToUpdateByExchange(exchange);
+//		System.out.println(String.format("Get string pf tickers: %s", stringWithTickers));
+//
+//		String REQUEST_URL = String.format("https://api.twelvedata.com/price?symbol=%s&apikey=%s", stringWithTickers, API_KEY );
+		String REQUEST_URL = String.format("https://api.twelvedata.com/price?symbol=AAPL,MCD&apikey=%s", API_KEY );
 
 		URL requestURL = new URL(REQUEST_URL);
 		HttpURLConnection connection = (HttpURLConnection)requestURL.openConnection();
 		StringBuilder responseData = new StringBuilder();
 		ObjectMapper mapper = new ObjectMapper();
 		List<Map<String, String>> listAssets = new ArrayList<>();
+
+		Map<String, BigDecimal> mapAssetsPrice = new HashMap<>();
 
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("User-Agent", "twelve_java/1.0");
@@ -55,21 +57,12 @@ public class ParseAmericanPriceAssets {
 			responseData.append(scanner.nextLine());
 		}
 		System.out.println(responseData.toString());
-//		JsonNode allAsset = mapper.readTree(responseData.toString());
-//		for (JsonNode asset : allAsset){
-//			for (JsonNode assetData : asset){
-//				listAssets.add(
-//						Arrays.stream(assetData.toString()
-//								.replace("{", "")
-//								.replace("}", "")
-//								.replace("\",\"", "=")
-//								.replace("\"", "")
-//								.split("="))
-//								.map(s -> s.split(":", 2))
-//								.collect(Collectors.toMap(s -> s[0], s -> s[1]))
-//				);
-//			}
-//		}
-		return responseData;
+		JsonNode allAsset = mapper.readTree(responseData.toString());
+		for (Iterator<String> it = allAsset.fieldNames(); it.hasNext(); ) {
+			String key = it.next();
+			mapAssetsPrice.put(key, BigDecimal.valueOf(allAsset.get(key).get("price").asDouble()));
+		}
+		mapAssetsPrice.forEach((key, value) -> System.out.println(key + ":" + value));
+		return mapAssetsPrice;
 	}
 }
