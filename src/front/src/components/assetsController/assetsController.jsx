@@ -2,6 +2,7 @@ import Header from '../Header/Header';
 import TopAssetsControllerContent from './TopAssetsControllerContent/TopAssetsControllerContent'
 import AssetsControllerTable from './AssetsControllerTable/AssetsControllerTable'
 import { Container } from '../Basic/Wrapper/Wrapper';
+import { withAuthRedirectToSignUp } from '../../HOC/withRedirect'
 
 
 const assetsController = (props) => {
@@ -16,4 +17,4 @@ const assetsController = (props) => {
 	)
 }
 
-export default assetsController;
+export default withAuthRedirectToSignUp(assetsController);
