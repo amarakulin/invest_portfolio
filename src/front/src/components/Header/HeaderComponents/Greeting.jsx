@@ -1,12 +1,7 @@
-import styled from 'styled-components';
-import logo from '../../../assets/logo.svg'
-import {LogoImg} from '../../Basic/Img/Img'
-import {StartWrapper} from '../../Basic/Wrapper/Wrapper'
-import {SmallTitle} from '../../Basic/Title/Title'
-
-const Name = styled(SmallTitle)`
-	margin: 0 0 0 36px;
-`
+import logo from '../../../assets/logo.svg';
+import {LogoImg} from '../../Basic/Img/Img';
+import {StartWrapper} from '../../Basic/Wrapper/Wrapper';
+import { Name } from './HeaderStyles';
 
 const Greeting = (props) => {
 	return (

@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { Container } from '../Basic/Wrapper/Wrapper';
 import Greeting from './HeaderComponents/Greeting';
 import HeaderFooter from './HeaderComponents/HeaderFooter';
@@ -7,23 +6,7 @@ import {connect} from 'react-redux';
 import {logout} from '../../redux/authReduser';
 import {openModal, closeModal} from '../../redux/modalReduser';
 import AddNewAssetsForm from '../Forms/AddNewAssetsForm/AddNewAssetsForm';
-
-const StyledHeader = styled.header`
-	padding-top: 78px;
-	position: relative;
-	display: flex;
-	margin-bottom: 50px;
-	&::after {
-		content: '';
-		position: absolute;
-		right: 0%;
-		bottom: 0;
-		display: block;
-		width: 100vw;
-		height: 1px;
-		background-color: #DADADA;
-	}
-`
+import { StyledHeader } from './HeaderComponents/HeaderStyles';
 
 const Header = (props) => {
 	return (

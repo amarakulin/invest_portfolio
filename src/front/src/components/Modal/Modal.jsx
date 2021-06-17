@@ -1,4 +1,4 @@
-import { ModalContainer, ModalDialog, CloseModalButton } from './ModalComponents/ModalComponents'
+import { ModalContainer, ModalDialog, CloseModalButton } from './ModalStyles'
 
 const Modal = (props) => {
 	return (

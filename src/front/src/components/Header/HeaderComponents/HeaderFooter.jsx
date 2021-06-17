@@ -1,23 +1,16 @@
 import HeaderTabs from './HeaderTabs'
 import {AlignEndWrapper} from '../../Basic/Wrapper/Wrapper'
 import {AddAsset, HeaderButton} from '../../Basic/Button/Button'
-import styled from 'styled-components';
-
-const ButtnoWrapper = styled.div`
-	display: flex;
-	align-items: center;
-	justif-content: space-between;
-`
-
+import { ButtonWrapper } from './HeaderStyles'
 
 const HeaderFooter = (props) => {
 	return (
 		<AlignEndWrapper>
 			<HeaderTabs />
-			<ButtnoWrapper>
+			<ButtonWrapper>
 				<AddAsset onClick={props.openModal}> Добавить актив </AddAsset>
 				<HeaderButton onClick={props.logout}> Выйти </HeaderButton>
-			</ButtnoWrapper>
+			</ButtonWrapper>
 		</AlignEndWrapper>
 	)
 }
