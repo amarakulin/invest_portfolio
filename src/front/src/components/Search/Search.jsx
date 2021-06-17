@@ -34,6 +34,13 @@ const Search = ({ input, meta, ...props }) => {
 
 					input.onChange(value);
 					props.getMatchAssets(value);
+					props.searchData.forEach((el, i) => {
+						if (el.ticker === value) {
+							props.nessesaryField.forEach(el => {
+								props.mutators.setValue(el, props.searchData[i][el])
+							})
+						}
+					})
 					setShowSearch(true);
 				}}
 			/>
