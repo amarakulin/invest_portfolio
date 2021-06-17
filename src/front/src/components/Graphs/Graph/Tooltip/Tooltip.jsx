@@ -1,4 +1,4 @@
-import { containerStyle, titleStyle, listStyle, listItemStyle } from './StyledTooltip'
+import { containerStyle, titleStyle, listStyle, listItemStyle } from './TooltipStyles'
 
 const Tooltip = (props) => {
 	return (
