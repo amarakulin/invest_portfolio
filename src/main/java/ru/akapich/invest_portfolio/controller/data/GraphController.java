@@ -42,5 +42,6 @@ public class GraphController {
 	@GetMapping("api/data/updateprice")
 	public String update(){
 
+		return "Succes update";
 	}
 }
