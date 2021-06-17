@@ -2,7 +2,7 @@ import { removeNewAsset } from '../../redux/newAssetsReduser';
 import { RemoveInputStyled } from '../Basic/Button/Button'
 import { connect } from 'react-redux';
 
-const RemoveInput = (props) => {
+const RemoveAddedAsset = (props) => {
 	return (
 		<RemoveInputStyled onClick={(e) => {
 			e.preventDefault();
@@ -13,4 +13,4 @@ const RemoveInput = (props) => {
 	)
 }
 
-export default connect(null, {removeNewAsset})(RemoveInput);
+export default connect(null, {removeNewAsset})(RemoveAddedAsset);

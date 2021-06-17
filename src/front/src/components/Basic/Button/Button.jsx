@@ -65,6 +65,8 @@ export const AddAssetButton = styled(AddAsset)`
 
 export const RemoveAssetButton = styled(AddAssetButton)`
 	margin: 0;
+	width:33px;
+	height:33px;
 	&:before {
 		content: '-';
 	}

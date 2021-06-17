@@ -3,13 +3,13 @@ import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader'
 import Button from '../../Basic/Button/Button';
-import AddInput from '../../NewAsset/AddNewAsset';
 import Error from '../../Basic/Error/Error';
 import { newAssetsDataConverter } from '../../../utils/newAssetsDataConverter';
 import { addNewAsset, postNewAssetsData } from '../../../redux/newAssetsReduser';
 import { validateIdenticalName } from '../../../utils/validators';
 import { setValue } from '../../../utils/mutators';
 import { FORM_ERROR } from 'final-form';
+import AddedAssets from '../../NewAsset/AddedAssets/AddedAssets'
 
 const AddNewAssetsForm = (props) => {
 	const onSubmit = async (data) => {
@@ -32,6 +32,7 @@ const AddNewAssetsForm = (props) => {
 				<form onSubmit={handleSubmit}>
 
 					<NewAsset form={form} />
+					<AddedAssets />
 					
 					{errors.identical && <Error> {errors.identical} </Error>}
 					{hasSubmitErrors && <Error> {submitError} </Error>}
@@ -42,8 +43,4 @@ const AddNewAssetsForm = (props) => {
 	)
 }
 
-const mapStateToProps = (state) => ({
-	newAssets: state.newAssets.newAssets
-})
-
-export default connect(mapStateToProps, {addNewAsset, postNewAssetsData})(AddNewAssetsForm);
+export default connect(null, {addNewAsset, postNewAssetsData})(AddNewAssetsForm);
