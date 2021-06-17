@@ -3,18 +3,23 @@ package ru.akapich.invest_portfolio.parcer.price_assets.america;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * Class to get a price of assets
+ *
  * @author Aleksandr Marakulin
  **/
 
+@Component
 public class ParseAmericanPriceAssets {
 	//TODO encode !!
 	private static final String API_KEY = "1480cef042784c4ea6dc3cd0975ad6e5";
@@ -23,11 +28,13 @@ public class ParseAmericanPriceAssets {
 	private HistoryPriceService historyPriceService;
 
 	//TODO Set g IOException
-	public List<Map<String, String>> getAllPriceAmericanAssets(String exchange) throws IOException {
+	public Map<String, Map<String, BigDecimal>> getAllPriceAmericanAssets(String exchange) throws IOException {//TODO think about response type
 		//TODO refactor
 
-		List<String> assetsInfo = historyPriceService.listTickersToUpdateByExchange(exchange);
-		String REQUEST_URL = String.format("https://api.twelvedata.com/stocks?exchange=%s&apikey=%s", exchange, API_KEY );
+		String stringWithTickers = historyPriceService.listTickersToUpdateByExchange(exchange);
+		System.out.println(String.format("Get string pf tickers: %s", stringWithTickers));
+		System.out.println("Start getAllPriceAmericanAssets");
+		String REQUEST_URL = String.format("https://api.twelvedata.com/price?symbol=%s&apikey=%s", stringWithTickers, API_KEY );
 
 		URL requestURL = new URL(REQUEST_URL);
 		HttpURLConnection connection = (HttpURLConnection)requestURL.openConnection();
@@ -47,7 +54,7 @@ public class ParseAmericanPriceAssets {
 		while (scanner.hasNextLine()) {
 			responseData.append(scanner.nextLine());
 		}
-
+		System.out.println(responseData.toString());
 //		JsonNode allAsset = mapper.readTree(responseData.toString());
 //		for (JsonNode asset : allAsset){
 //			for (JsonNode assetData : asset){
@@ -63,6 +70,6 @@ public class ParseAmericanPriceAssets {
 //				);
 //			}
 //		}
-		return listAssets;
+		return responseData;
 	}
 }

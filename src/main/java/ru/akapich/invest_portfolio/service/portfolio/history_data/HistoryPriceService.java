@@ -2,7 +2,7 @@ package ru.akapich.invest_portfolio.service.portfolio.history_data;
 
 import ru.akapich.invest_portfolio.service.portfolio.history_data.Impl.HistoryPriceServiceImpl;
 
-import java.util.List;
+import java.io.IOException;
 
 /**
  * Interface of {@link HistoryPriceServiceImpl}
@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface HistoryPriceService {
 
-	void updatePriceAmericanAssets();
+	void updatePriceAmericanAssets() throws IOException;
 
-	List<String> listTickersToUpdateByExchange(String exchange);
+	String listTickersToUpdateByExchange(String exchange);
 }
