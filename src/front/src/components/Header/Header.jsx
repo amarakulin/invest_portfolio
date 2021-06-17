@@ -5,7 +5,6 @@ import HeaderFooter from './HeaderComponents/HeaderFooter';
 import Modal from '../Modal/Modal';
 import {connect} from 'react-redux';
 import {logout} from '../../redux/authReduser';
-import {openModal, closeModal} from '../../redux/modalReduser';
 import AddNewAssetsForm from '../Forms/AddNewAssetsForm/AddNewAssetsForm';
 import { StyledHeader } from './HeaderComponents/HeaderStyles';
 
