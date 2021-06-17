@@ -12,6 +12,7 @@ const StyledHeader = styled.header`
 	padding-top: 78px;
 	position: relative;
 	display: flex;
+	margin-bottom: 50px;
 	&::after {
 		content: '';
 		position: absolute;
