@@ -1,5 +1,5 @@
 import { AddedAssetsTitle, AddedAssetsList, AddedAssetsListItem, AddedAssetsName } from './AddedAssetsStyles';
-import RemoveAsset from './RemoveAsset';
+import RemoveAsset from '../AddAssetButtons/RemoveAsset';
 
 const AddedAssets = ({ data }) => {
 	return (

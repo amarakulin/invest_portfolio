@@ -1,5 +1,5 @@
-import { addNewAsset } from '../../redux/newAssetsReduser';
-import { AddAssetButton } from '../Basic/Button/Button'
+import { addNewAsset } from '../../../redux/newAssetsReduser';
+import { AddAssetButton } from '../../Basic/Button/Button'
 import { connect } from 'react-redux';
 
 const AddNewAsset = (props) => {

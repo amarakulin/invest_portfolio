@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Field } from 'react-final-form';
 import Search from '../Search/Search';
 import NewAssetNumber from './NewAssetAmount';
-import AddNewAsset from './AddNewAsset';
+import AddNewAsset from './AddAssetButtons/AddNewAsset';
 import { validateIdenticalName, amountValidator, validateSearchUnknownTicker, composeValidators } from '../../utils/validators';
 
 const NewAssetContainer = styled.div`
