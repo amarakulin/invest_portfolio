@@ -20,19 +20,13 @@ export const validateRepasswordField = (values) => {
 	return errors
 }
 
-export const validateIdenticalName = (value) => {
-	const errors = {};
+export const validateIdenticalName = (data) => {
+	return (value) => {
 
-	let tickerArr = [];
-
-	newAssetsDataConverter(value).forEach(el => {
-		tickerArr.push(el.ticker);
-	})
-
-	const tickerSet = Array.from([...new Set(tickerArr)]);
-
-	if (tickerArr.length != tickerSet.length)
-		errors.identical = 'Поля не должны иметь одинаковые имена';
-
-	return errors;
+		for (let el of data) {
+			if (el.ticker == value)
+				return 'Такой актив уже добавлен';
+		}
+		return undefined;
+	}
 }

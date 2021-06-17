@@ -4,6 +4,7 @@ import Search from '../Search/Search';
 import NewAssetNumber from './NewAssetAmount';
 import AddNewAsset from './AddNewAsset';
 import { requiredField } from '../../utils/validators'
+import { validateIdenticalName } from '../../utils/validators';
 
 const NewAssetContainer = styled.div`
 	display: flex;
@@ -21,16 +22,15 @@ const NewAsset = (props) => {
 			<Field 
 				name={'ticker'}
 				mutators={props.form.mutators}
-				validate={requiredField}
+				validate={validateIdenticalName(props.data)}
 			>
 				{props => <Search nessesary={nessesaryField} {...props} labelText='Выберите актив' />}
 			</Field>
 
 			<Field 
 				name={'amount'}
-				validate={requiredField}
 			>
-				{props => <NewAssetNumber labelText='Колличество' {...props} />}
+				{props => <NewAssetNumber labelText='Количество' {...props} />}
 			</Field>
 			<AddNewAsset 
 				disabled={Object.values(props.form.getState().values).length != nessesaryField.length}

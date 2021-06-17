@@ -15,10 +15,8 @@ const Search = ({ input, meta, ...props }) => {
 
 	return (
 		<SearchWrapper>
-			<Label
-				htmlFor='search'
-			> 
-				{props.labelText} 
+			<Label htmlFor='search' error={meta.touched && meta.error ? meta.error : ''}>
+				{props.labelText}
 			</Label>
 			<Input
 				{...input}

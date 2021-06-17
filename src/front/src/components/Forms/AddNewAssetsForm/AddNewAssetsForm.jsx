@@ -6,7 +6,6 @@ import Button from '../../Basic/Button/Button';
 import Error from '../../Basic/Error/Error';
 import { newAssetsDataConverter } from '../../../utils/newAssetsDataConverter';
 import { addNewAsset, postNewAssetsData } from '../../../redux/newAssetsReduser';
-import { validateIdenticalName } from '../../../utils/validators';
 import { setValue } from '../../../utils/mutators';
 import { FORM_ERROR } from 'final-form';
 import AddedAssets from '../../NewAsset/AddedAssets/AddedAssets'
@@ -25,12 +24,11 @@ const AddNewAssetsForm = (props) => {
 
 	return (
 		<Form
-			validate={validateIdenticalName}
 			mutators={{setValue}}
 			onSubmit={onSubmit}
 			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError}) => (
 				<form onSubmit={handleSubmit}>
-					<NewAsset form={form} />
+					<NewAsset data={props.newAssets} form={form} />
 					<AddedAssets data={props.newAssets} />
 					
 					{errors.identical && <Error> {errors.identical} </Error>}

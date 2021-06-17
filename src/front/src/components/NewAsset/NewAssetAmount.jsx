@@ -19,7 +19,6 @@ const NewAssetAmount = ({ input, meta, ...props }) => {
 				type='number'
 				placeholder='Количество'
 				autoComplete='off'
-				isError={meta.touched && meta.error}
 			/>
 		</NewAssetAmountWrapper>
 	)
