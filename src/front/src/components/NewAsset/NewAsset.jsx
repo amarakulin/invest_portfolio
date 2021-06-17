@@ -34,7 +34,7 @@ const NewAsset = (props) => {
 				{props => <NewAssetNumber {...props}/>}
 			</Field>
 			<AddNewAsset 
-				disabled={Object.values(props.form.getState().values).length != props.nessesaryField.length || props.form.getState().invalid}
+				disabled={props.form.getState().invalid}
 				values={props.form.getState().values}
 				reset={props.form.reset}
 			/>

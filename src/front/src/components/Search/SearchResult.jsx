@@ -67,13 +67,13 @@ const SearchResult = (props) => {
 			{
 				props.isFetching
 				? <Preloader color='black'/>
-				: props.data.length
-					? props.data.map((el, i) => {
+				: props.searchData.length
+					? props.searchData.map((el, i) => {
 						return (
 							<SearchResultListItem 
 								onMouseDown={() => {
 									props.nessesary.forEach(el => {
-										props.setInputData(el, props.data[i][el])
+										props.setInputData(el, props.searchData[i][el]) //TODO aount set to 0
 									})
 									props.setShowSearch(false);
 								}}

@@ -37,21 +37,21 @@ const Search = ({ input, meta, ...props }) => {
 					setShowSearch(true);
 				}}
 			/>
-			{showSearch && 
+			{showSearch &&
 				<SearchResult
-					data={props.data}
+					searchData={props.searchData}
 					isFetching={props.isFetching}
 					setShowSearch={setShowSearch}
 					setInputData={props.mutators.setValue}
 					nessesary={props.nessesaryField}
-			/>}
+				/>}
 		</SearchWrapper>
 	)
 }
 
 const mapStateToProps = (state) => ({
 	isFetching: state.search.isFetching,
-	data: state.search.data,
+	searchData: state.search.searchData,
 })
 
-export default connect(mapStateToProps, {getMatchAssets})(Search);
+export default connect(mapStateToProps, { getMatchAssets })(Search);

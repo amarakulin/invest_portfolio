@@ -5,7 +5,7 @@ const SET_MATCH_ASSETS = 'SET_MATCH_ASSETS';
 
 const initialState = {
 	isFetching: false,
-	data: [],
+	searchData: [],
 }
 
 const searchReduser = (state = initialState, action) => {
@@ -19,7 +19,7 @@ const searchReduser = (state = initialState, action) => {
 		case SET_MATCH_ASSETS: {
 			return {
 				...state,
-				data: [...action.data]
+				searchData: [...action.searchData]
 			}
 		}
 		default: {
@@ -30,7 +30,7 @@ const searchReduser = (state = initialState, action) => {
 
 const toggleIsFetching = (isFetching) => ({type: TOGGLE_SEARCH_IS_FETCHING, isFetching});
 
-const setMatchAssets = (data) => ({type: SET_MATCH_ASSETS, data});
+const setMatchAssets = (searchData) => ({type: SET_MATCH_ASSETS, searchData});
 
 export const getMatchAssets = (text) => (dispatch) => {
 	dispatch(toggleIsFetching(true));
