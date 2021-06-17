@@ -5,12 +5,7 @@ const StyledTableRow = styled.div`
 	display: grid;
 	grid-template-columns: 
 		minmax(150px, 22%)
-		minmax(150px, 14%)
-		minmax(150px, 14%)
-		minmax(150px, 14%)
-		minmax(150px, 12%)
-		minmax(150px, 12%)
-		minmax(150px, 12%);
+		repeat(auto-fit, minmax(100px, 1fr))
 `
 
 export const TableBodyRow = styled(StyledTableRow)`

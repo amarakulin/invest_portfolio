@@ -7,6 +7,9 @@ const TabeBodyCell = styled.div`
 	font-weight: normal;
 	font-size: 14px;
 	color: #272833;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 `
 
 
