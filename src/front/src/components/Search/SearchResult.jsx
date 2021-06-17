@@ -73,6 +73,8 @@ const SearchResult = (props) => {
 							<SearchResultListItem 
 								onMouseDown={() => {
 									props.setInputData(props.inputName, props.data[i].ticker);
+									props.setInputData('name', props.data[i].name);
+									props.setInputData('type', props.data[i].type);
 									props.setShowSearch(false);
 								}}
 								key={el.ticker + el.type}
