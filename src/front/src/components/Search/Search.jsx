@@ -5,10 +5,7 @@ import SearchResult from './SearchResult';
 import { getMatchAssets } from '../../redux/searchReduser';
 import { connect } from 'react-redux';
 import Label from '../Basic/Label/Label';
-
-const SearchWrapper = styled.div`
-	width: 70%;
-`
+import { SearchWrapper } from './SearchStyles';
 
 const onSearchInputChange = (input, setShowSearch, props) => (e) => {
 	const value = (e.currentTarget.value).toUpperCase();
