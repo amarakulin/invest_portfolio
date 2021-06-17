@@ -43,7 +43,7 @@ const Search = ({ input, meta, ...props }) => {
 					isFetching={props.isFetching}
 					setShowSearch={setShowSearch}
 					setInputData={props.mutators.setValue}
-					nessesary={props.nessesary}
+					nessesary={props.nessesaryField}
 			/>}
 		</SearchWrapper>
 	)

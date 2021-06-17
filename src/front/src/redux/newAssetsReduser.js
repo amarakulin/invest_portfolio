@@ -4,7 +4,8 @@ const REMOVE_NEW_ASSET = 'REMOVE_NEW_ASSET';
 const ADD_NEW_ASSET = 'ADD_NEW_ASSET';
 
 const initialState = {
-	newAssets: []
+	newAssets: [],
+	nessesaryField: ['ticker', 'name', 'type', 'amount']
 }
 
 const newAssetsReduser = (state = initialState, action) => {
