@@ -30,7 +30,6 @@ const AddNewAssetsForm = (props) => {
 			onSubmit={onSubmit}
 			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError}) => (
 				<form onSubmit={handleSubmit}>
-					{console.log(props.newAssets)}
 					<NewAsset form={form} />
 					<AddedAssets data={props.newAssets} />
 					

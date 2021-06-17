@@ -72,9 +72,9 @@ const SearchResult = (props) => {
 						return (
 							<SearchResultListItem 
 								onMouseDown={() => {
-									props.setInputData(props.inputName, props.data[i].ticker);
-									props.setInputData('name', props.data[i].name);
-									props.setInputData('type', props.data[i].type);
+									props.nessesary.forEach(el => {
+										props.setInputData(el, props.data[i][el])
+									})
 									props.setShowSearch(false);
 								}}
 								key={el.ticker + el.type}

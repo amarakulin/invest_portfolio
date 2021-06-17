@@ -11,7 +11,7 @@ const AddedAssets = ({ data }) => {
 					data.map((el, i) => {
 						return  (
 							<AddedAssetsListItem key={i}>
-								<strong>{el.search}</strong>
+								<strong>{el.ticker}</strong>
 								<span>{el.type}</span>
 								<span>{el.name}</span>
 								<span>{el.amount}</span>

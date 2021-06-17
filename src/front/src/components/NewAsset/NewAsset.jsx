@@ -14,14 +14,16 @@ const NewAssetContainer = styled.div`
 `
 
 const NewAsset = (props) => {
+	const nessesaryField = ['ticker', 'name', 'type', 'amount'];
+
 	return (
 		<NewAssetContainer>
 			<Field 
-				name={'search'}
+				name={'ticker'}
 				mutators={props.form.mutators}
 				validate={requiredField}
 			>
-				{props => <Search {...props} labelText='Выберите актив' />}
+				{props => <Search nessesary={nessesaryField} {...props} labelText='Выберите актив' />}
 			</Field>
 
 			<Field 
@@ -30,7 +32,11 @@ const NewAsset = (props) => {
 			>
 				{props => <NewAssetNumber labelText='Колличество' {...props} />}
 			</Field>
-			<AddNewAsset disabled={Object.values(props.form.getState().values).length != 4} values={props.form.getState().values} reset={props.form.reset}/>
+			<AddNewAsset 
+				disabled={Object.values(props.form.getState().values).length != nessesary.length}
+				values={props.form.getState().values}
+				reset={props.form.reset}
+			/>
 		</NewAssetContainer>
 	)
 }
