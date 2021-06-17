@@ -108,7 +108,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 			errorMessage = "{valid.asset.not_exist} : " + firstNotExistAsset.getTicker();
 		}
 		else if (assetAlreadyInTheInvestPortfolio != null){
-			errorMessage = "{valid.asset.in_invest_portfolio} : " + assetAlreadyInTheInvestPortfolio.getTicker();
+			errorMessage = "{valid.asset.in_portfolio} : " + assetAlreadyInTheInvestPortfolio.getTicker();
 		}
 		Integer resultCode = errorMessage.equals("") ? 0 : 1;
 

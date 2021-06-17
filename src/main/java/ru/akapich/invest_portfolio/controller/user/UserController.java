@@ -66,9 +66,9 @@ public class UserController {
 		User user = utilsUser.getUserInCurrentSession();
 
 		if (user == null) {
-			errorMessage = env.getProperty("valid.wrong.email_password");
+			errorMessage = env.getProperty("{valid.wrong.email_password}");
 			if (errorMessage == null){
-				errorMessage = "Неизвестная ошибка";
+				errorMessage = "{valid.unexpected_error}";
 			}
 			log.info("[-] (Get [/username]) - doesn't exist");
 		}
