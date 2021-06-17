@@ -1,15 +1,27 @@
+import styled from 'styled-components';
 import Input from '../Basic/Input/Input';
+import Label from '../Basic/Label/Label';
 
-const NewAssetAmount = ({input, meta, ...props}) => {
+const NewAssetAmountWrapper = styled.div`
+	width: 20%;
+`
+const NewAssetAmount = ({ input, meta, ...props }) => {
 	return (
-		<Input
-			{...input}
-			type='number'
-			placeholder='Количество'
-			width='20%'
-			autoComplete='off'
-			isError={meta.touched && meta.error}
-		/>
+		<NewAssetAmountWrapper>
+			<Label
+				htmlFor='amount'
+			>
+				{props.labelText}
+			</Label>
+			<Input
+				{...input}
+				id='amount'
+				type='number'
+				placeholder='Количество'
+				autoComplete='off'
+				isError={meta.touched && meta.error}
+			/>
+		</NewAssetAmountWrapper>
 	)
 }
 

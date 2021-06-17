@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { Field } from 'react-final-form';
 import Search from '../Search/Search';
 import NewAssetNumber from './NewAssetAmount';
-import RemoveInput from './RemoveInput';
+import AddNewAsset from './AddNewAsset';
 import { requiredField } from '../../utils/validators'
 
 const NewAssetContainer = styled.div`
 	display: flex;
-	align-items: center;
+	align-items: flex-end;
 	justify-content: space-between;
 	margin-bottom: 25px;
 	position: relative;
@@ -21,16 +21,16 @@ const NewAsset = (props) => {
 				mutators={props.form.mutators}
 				validate={requiredField}
 			>
-				{props => <Search {...props} />}
+				{props => <Search {...props} labelText='Выберите актив' />}
 			</Field>
 
 			<Field 
 				name={'amount-' + props.id}
 				validate={requiredField}
 			>
-				{props => <NewAssetNumber {...props} />}
+				{props => <NewAssetNumber labelText='Колличество' {...props} />}
 			</Field>
-			<RemoveInput reset={props.form.change} id={props.id}/>
+			<AddNewAsset />
 		</NewAssetContainer>
 	)
 }

@@ -51,19 +51,19 @@ export const AddAsset = styled(HeaderButton)`
 	}
 `
 
-export const AddInputStyled = styled(AddAsset)`
-	margin: 0 0 20px 0;
-	width: 35px;
-	height: 35px;
+export const AddAssetButton = styled(AddAsset)`
+	margin: 0;
+	width: 66px;
+	height: 66px;
 	padding: 0;
 	justify-content: center;
 	&:before {
-		font-size: 1em;
+		font-size: 20px;
 		margin-right: 0;
 	}
 `
 
-export const RemoveInputStyled = styled(AddInputStyled)`
+export const RemoveAssetButton = styled(AddAssetButton)`
 	margin: 0;
 	&:before {
 		content: '-';

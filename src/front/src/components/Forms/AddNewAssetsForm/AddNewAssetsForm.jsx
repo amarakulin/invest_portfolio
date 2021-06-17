@@ -3,7 +3,7 @@ import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader'
 import Button from '../../Basic/Button/Button';
-import AddInput from '../../NewAsset/AddInput';
+import AddInput from '../../NewAsset/AddNewAsset';
 import Error from '../../Basic/Error/Error';
 import { newAssetsDataConverter } from '../../../utils/newAssetsDataConverter';
 import { addNewAsset, postNewAssetsData } from '../../../redux/newAssetsReduser';
@@ -30,14 +30,8 @@ const AddNewAssetsForm = (props) => {
 			onSubmit={onSubmit}
 			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError}) => (
 				<form onSubmit={handleSubmit}>
-					{
-						props.newAssets.map(el => {
-							return el;
-						})
-					}
-					<AddInput
-						elem={ <NewAsset form={form} key={new Date().getTime()} id={new Date().getTime()} /> } 
-					/>
+
+					<NewAsset form={form} />
 					
 					{errors.identical && <Error> {errors.identical} </Error>}
 					{hasSubmitErrors && <Error> {submitError} </Error>}

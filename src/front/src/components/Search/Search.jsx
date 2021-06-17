@@ -1,19 +1,30 @@
+import styled from 'styled-components';
 import { useState } from 'react';
 import Input from '../Basic/Input/Input';
 import SearchResult from './SearchResult';
 import { getMatchAssets } from '../../redux/searchReduser';
 import { connect } from 'react-redux';
+import Label from '../Basic/Label/Label';
+
+const SearchWrapper = styled.div`
+	width: 70%;
+`
 
 const Search = ({ input, meta, ...props }) => {
 	const [showSearch, setShowSearch] = useState(false)
 
 	return (
-		<>
+		<SearchWrapper>
+			<Label
+				htmlFor='search'
+			> 
+				{props.labelText} 
+			</Label>
 			<Input
 				{...input}
+				id='search'
 				type='text'
-				placeholder='Поиск'
-				width='70%'
+				placeholder='Введите название актива'
 				autoComplete='off'
 				isError={meta.touched && meta.error}
 				onBlur={() => {
@@ -39,7 +50,7 @@ const Search = ({ input, meta, ...props }) => {
 					setInputData={props.mutators.setValue}
 					inputName={input.name}
 			/>}
-		</>
+		</SearchWrapper>
 	)
 }
 
