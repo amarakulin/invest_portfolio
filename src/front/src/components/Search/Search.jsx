@@ -10,6 +10,29 @@ const SearchWrapper = styled.div`
 	width: 70%;
 `
 
+const onSearchInputChange = (input, setShowSearch, props) => (e) => {
+	const value = (e.currentTarget.value).toUpperCase();
+
+	input.onChange(value);
+	props.getMatchAssets(value);
+	props.searchData.forEach((el, i) => {
+		if (el.ticker === value) {
+			props.nessesaryField.forEach(el => {
+				props.mutators.setValue(el, props.searchData[i][el])
+			})
+		}
+	})
+	if (!value)
+		setShowSearch(false);
+	else
+		setShowSearch(true);
+}
+
+const onSearchInputBlur = (input, setShowSearch) => () => {
+	input.onBlur();
+	setShowSearch(false);
+}
+
 const Search = ({ input, meta, ...props }) => {
 	const [showSearch, setShowSearch] = useState(false)
 
@@ -25,27 +48,8 @@ const Search = ({ input, meta, ...props }) => {
 				placeholder='Введите название актива'
 				autoComplete='off'
 				isError={meta.touched && meta.error}
-				onBlur={() => {
-					input.onBlur();
-					setShowSearch(false);
-				}}
-				onChange={e => {
-					const value = (e.currentTarget.value).toUpperCase();
-
-					input.onChange(value);
-					props.getMatchAssets(value);
-					props.searchData.forEach((el, i) => {
-						if (el.ticker === value) {
-							props.nessesaryField.forEach(el => {
-								props.mutators.setValue(el, props.searchData[i][el])
-							})
-						}
-					})
-					if (!value)
-						setShowSearch(false);
-					else
-						setShowSearch(true);
-				}}
+				onBlur={onSearchInputBlur(input, setShowSearch)}
+				onChange={onSearchInputChange(input, setShowSearch, props)}
 			/>
 			{showSearch &&
 				<SearchResult

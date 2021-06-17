@@ -73,7 +73,7 @@ const SearchResult = (props) => {
 							<SearchResultListItem 
 								onMouseDown={() => {
 									props.nessesary.forEach(el => {
-										props.setInputData(el, props.searchData[i][el]) //TODO aount set to 0
+										props.setInputData(el, props.searchData[i][el])
 									})
 									props.setShowSearch(false);
 								}}
