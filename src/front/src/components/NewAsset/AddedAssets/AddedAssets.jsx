@@ -15,7 +15,7 @@ const AddedAssets = ({ data }) => {
 								<span>{el.type}</span>
 								<span>{el.name}</span>
 								<span>{el.amount}</span>
-								<RemoveAsset />
+								<RemoveAsset id={el.ticker}/>
 							</AddedAssetsListItem>
 						)
 					})

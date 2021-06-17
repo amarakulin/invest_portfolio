@@ -10,14 +10,9 @@ const initialState = {
 const newAssetsReduser = (state = initialState, action) => {
 	switch (action.type) {
 		case REMOVE_NEW_ASSET: {
-			if (state.newAssets.filter((el) => el.props.id != action.id).length === 0) {
-				return {
-					...state
-				}
-			}
 			return {
 				...state,
-				newAssets: state.newAssets.filter((el) => el.props.id != action.id)
+				newAssets: state.newAssets.filter((el) => el.ticker != action.id)
 			}
 		}
 		case ADD_NEW_ASSET: {

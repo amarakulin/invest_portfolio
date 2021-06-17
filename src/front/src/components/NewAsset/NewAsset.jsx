@@ -33,7 +33,7 @@ const NewAsset = (props) => {
 				{props => <NewAssetNumber labelText='Колличество' {...props} />}
 			</Field>
 			<AddNewAsset 
-				disabled={Object.values(props.form.getState().values).length != nessesary.length}
+				disabled={Object.values(props.form.getState().values).length != nessesaryField.length}
 				values={props.form.getState().values}
 				reset={props.form.reset}
 			/>
