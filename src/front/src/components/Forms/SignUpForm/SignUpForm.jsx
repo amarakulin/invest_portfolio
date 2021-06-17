@@ -12,6 +12,7 @@ import { signUp } from '../../../redux/authReduser'
 import { composeValidators } from '../../../utils/validators'
 import { connect } from 'react-redux';
 import { FORM_ERROR } from 'final-form'
+import { signUpFormSubmit } from '../../../utils/formSubmit'
 
 const Container = styled.div`
 	width: 100%;
@@ -62,17 +63,9 @@ const Fields = [
 ]
 
 const SignUpForm = (props) => {
-
-	const onSubmit = async (formData) => {
-		const error = await props.signUp(formData)
-
-		if (error)
-			return { [FORM_ERROR]: error }
-	}
-
 	return (
 		<Form
-			onSubmit={onSubmit}
+			onSubmit={signUpFormSubmit(props.signUp)}
 			validate={validateRepasswordField}
 			render={({ handleSubmit, submitting, pristine, hasSubmitErrors, submitError }) => (
 				<Container>

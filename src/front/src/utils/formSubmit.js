@@ -2,7 +2,7 @@ import { FORM_ERROR } from 'final-form';
 
 export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async (data) => {
 	const formData = [];
-	
+
 	for (let el of newAssets) {
 		formData.push({
 			ticker: el.ticker,
@@ -17,4 +17,11 @@ export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async (d
 		return { [FORM_ERROR]: error }
 	}
 	//TODO после отправки нужно заново запросить данные пользователя
+}
+
+export const signUpFormSubmit = (signUp) => async (formData) => {
+	const error = await signUp(formData)
+
+	if (error)
+		return { [FORM_ERROR]: error }
 }
