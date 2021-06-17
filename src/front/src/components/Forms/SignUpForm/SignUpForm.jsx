@@ -26,11 +26,46 @@ const AlreadyExist = styled.h2`
 	color: #8692A6;
 `
 
+const Fields = [
+	{
+		id: 'name',
+		labelText: 'Ваше полное имя*',
+		placeholder: 'Введите имя',
+		name: 'name',
+		type: 'text',
+		validate: composeValidators(requiredField)
+	},
+	{
+		id: 'email',
+		labelText: 'E-mail*',
+		placeholder: 'Введите E-mail',
+		name: 'email',
+		type: 'email',
+		validate: composeValidators(requiredField, emailValidator)
+	},
+	{
+		id: 'password',
+		labelText: 'Пароль*',
+		placeholder: 'Введите пароль',
+		name: 'password',
+		type: 'password',
+		validate: composeValidators(requiredField)
+	},
+	{
+		id: 'rePassword',
+		labelText: 'Повторите пароль*',
+		placeholder: 'Введите пароль',
+		name: 'rePassword',
+		type: 'password',
+		validate: composeValidators(requiredField)
+	}
+]
+
 const SignUpForm = (props) => {
 
 	const onSubmit = async (formData) => {
 		const error = await props.signUp(formData)
-		
+
 		if (error)
 			return { [FORM_ERROR]: error }
 	}
@@ -39,57 +74,23 @@ const SignUpForm = (props) => {
 		<Form
 			onSubmit={onSubmit}
 			validate={validateRepasswordField}
-			render={({ handleSubmit, submitting, pristine, hasSubmitErrors, submitError}) => (
+			render={({ handleSubmit, submitting, pristine, hasSubmitErrors, submitError }) => (
 				<Container>
 					<form onSubmit={handleSubmit}>
 						<Title>Регистрация</Title>
 						<Subtitle>Пожалуйста, заполните все поля отмеченные *</Subtitle>
 						<hr></hr>
-
-						<Field
-							id="name" 
-							labelText="Ваше полное имя*"
-							placeholder="Введите имя"
-							name="name"
-							type="text"
-							validate={composeValidators(requiredField)}
-						>
-							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
-						</Field>
-
-						<Field
-							id="email" 
-							labelText="E-mail*"
-							placeholder="Введите E-mail"
-							name="email"
-							type="email"
-							validate={composeValidators(requiredField, emailValidator)}
-						>
-							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
-						</Field>
-
-						<Field
-							id="password"
-							labelText="Пароль*"
-							placeholder="Введите пароль"
-							name="password"
-							type="password"
-							validate={composeValidators(requiredField)}
-						>
-							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
-						</Field>
-
-						<Field
-							id="rePassword"
-							labelText="Повторите пароль*"
-							placeholder="Введите пароль"
-							name="rePassword"
-							type="password"
-							validate={composeValidators(requiredField)}
-						>
-							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
-						</Field>
-
+						{
+							Fields.map(el => {
+								return (
+									<Field
+										{...el}
+									>
+										{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
+									</Field>
+								)
+							})
+						}
 						{hasSubmitErrors && <Error> {submitError} </Error>}
 						<Button disabled={submitting || pristine}>{submitting ? <Preloader /> : 'Зарегистрироваться'}</Button>
 						<AlreadyExist>Уже есть аккаунт? <Link to='/login'>Войти</Link></AlreadyExist>

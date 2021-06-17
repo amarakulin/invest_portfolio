@@ -23,11 +23,30 @@ const Container = styled.div`
 	margin-left: 100px;
 `
 
+const Fields = [
+	{
+		id: 'email',
+		labelText: 'E-mail*',
+		placeholder: 'Введите e-mail',
+		name: 'email',
+		type: 'text',
+		validate: composeValidators(requiredField)
+	},
+	{
+		id: 'password',
+		labelText: 'Пароль*',
+		placeholder: 'Введите пароль',
+		name: 'password',
+		type: 'password',
+		validate: composeValidators(requiredField)
+	}
+]
+
 const AuthForm = (props) => {
 	const onSubmit = async (formData) => {
 
 		var params = new URLSearchParams();
-		for(let key in formData)
+		for (let key in formData)
 			params.append(key, formData[key]);
 
 		// const error = await props.login(formData.email, formData.password, formData.rememberMe)
@@ -45,29 +64,17 @@ const AuthForm = (props) => {
 						<Title>Вход</Title>
 						<Subtitle>Пожалуйста, заполните все поля</Subtitle>
 						<hr></hr>
-
-						<Field
-							id="email"
-							labelText="E-mail*"
-							placeholder="Введите e-mail"
-							name="email"
-							type="text"
-							validate={composeValidators(requiredField)}
-						>
-							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
-						</Field>
-
-						<Field
-							id="password"
-							labelText="Пароль*"
-							placeholder="Введите пароль"
-							name="password"
-							type="password"
-							validate={composeValidators(requiredField)}
-						>
-							{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
-						</Field>
-
+						{
+							Fields.map(el => {
+								return (
+									<Field
+										{...el}
+									>
+										{({ input, meta, ...props }) => <FormInput input={input} meta={meta} {...props} />}
+									</Field>
+								)
+							})
+						}
 						<Wrapper marginBottom={50}>
 							<Field
 								id="checkbox"
