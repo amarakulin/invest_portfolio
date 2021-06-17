@@ -6,10 +6,11 @@ export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async (d
 	for (let el of newAssets) {
 		formData.push({
 			ticker: el.ticker,
-			amount: el.amount
+			amount: el.amount,
+			type: el.type
 		})
 	}
-	
+	console.log(formData)
 	const error = await postNewAssetsData(formData);
 
 	if (error) {
