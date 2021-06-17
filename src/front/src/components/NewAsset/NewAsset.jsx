@@ -3,7 +3,6 @@ import { Field } from 'react-final-form';
 import Search from '../Search/Search';
 import NewAssetNumber from './NewAssetAmount';
 import AddNewAsset from './AddNewAsset';
-import { requiredField } from '../../utils/validators'
 import { validateIdenticalName } from '../../utils/validators';
 
 const NewAssetContainer = styled.div`
@@ -33,7 +32,7 @@ const NewAsset = (props) => {
 				{props => <NewAssetNumber labelText='Количество' {...props} />}
 			</Field>
 			<AddNewAsset 
-				disabled={Object.values(props.form.getState().values).length != nessesaryField.length}
+				disabled={Object.values(props.form.getState().values).length != nessesaryField.length || props.form.getState().invalid}
 				values={props.form.getState().values}
 				reset={props.form.reset}
 			/>

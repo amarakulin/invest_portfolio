@@ -34,10 +34,7 @@ const Search = ({ input, meta, ...props }) => {
 
 					input.onChange(value);
 					props.getMatchAssets(value);
-					if (!value.length)
-						setShowSearch(false);
-					else
-						setShowSearch(true);
+					setShowSearch(true);
 				}}
 			/>
 			{showSearch && 
