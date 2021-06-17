@@ -41,7 +41,10 @@ const Search = ({ input, meta, ...props }) => {
 							})
 						}
 					})
-					setShowSearch(true);
+					if (!value)
+						setShowSearch(false);
+					else
+						setShowSearch(true);
 				}}
 			/>
 			{showSearch &&
@@ -58,7 +61,6 @@ const Search = ({ input, meta, ...props }) => {
 
 const mapStateToProps = (state) => ({
 	isFetching: state.search.isFetching,
-	searchData: state.search.searchData,
 })
 
 export default connect(mapStateToProps, { getMatchAssets })(Search);

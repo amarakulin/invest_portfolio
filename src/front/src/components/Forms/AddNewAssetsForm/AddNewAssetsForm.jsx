@@ -14,9 +14,18 @@ const AddNewAssetsForm = (props) => {
 		<Form
 			mutators={{setValue}}
 			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData)}
+			validate={(value) => {
+				if (!value.ticker || !value.name || !value.amount || !value.type)
+					return 'Не валид'
+			}}
 			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError}) => (
 				<form onSubmit={handleSubmit}>
-					<NewAsset nessesaryField={props.nessesaryField} data={props.newAssets} form={form} />
+					<NewAsset 
+						searchData={props.searchData}
+						nessesaryField={props.nessesaryField}
+						newAssets={props.newAssets}
+						form={form}
+					/>
 					<AddedAssets data={props.newAssets} />
 					
 					{errors.identical && <Error> {errors.identical} </Error>}
@@ -30,7 +39,8 @@ const AddNewAssetsForm = (props) => {
 
 const mapStateToProps = (state) => ({
 	newAssets: state.newAssets.newAssets,
-	nessesaryField: state.newAssets.nessesaryField
+	nessesaryField: state.newAssets.nessesaryField,
+	searchData: state.search.searchData,
 })
 
 export default connect(mapStateToProps, {addNewAsset, postNewAssetsData})(AddNewAssetsForm);

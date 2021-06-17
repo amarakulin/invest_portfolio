@@ -1,5 +1,3 @@
-import { newAssetsDataConverter } from './newAssetsDataConverter'
-
 export const composeValidators = (...validators) => value =>
 	validators.reduce((error, validator) => error || validator(value), undefined)
 
@@ -30,9 +28,18 @@ export const validateIdenticalName = (data) => {
 	return (value) => {
 
 		for (let el of data) {
-			if (el.ticker == value)
+			if (el.ticker === value)
 				return 'Такой актив уже добавлен';
 		}
 		return undefined;
 	}
+}
+
+export const validateSearchUnknownTicker = (data) => (value) => {
+	console.log(value,data);
+	if (!value)
+		return undefined;
+	if (data.every(el => el.ticker !== value))
+		return 'Данный тикер не найден';
+	return undefined;
 }
