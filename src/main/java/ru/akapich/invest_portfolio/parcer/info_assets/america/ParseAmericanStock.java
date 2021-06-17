@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.parcer.america;
+package ru.akapich.invest_portfolio.parcer.info_assets.america;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.akapich.invest_portfolio.parcer.america.ParseAmericanStock;
+import ru.akapich.invest_portfolio.parcer.info_assets.america.ParseAmericanStock;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AllFinancialAssetImpl;
 
 import java.io.IOException;
@@ -37,5 +37,10 @@ public class GraphController {
 		allFinancialAsset.insertAllAssets(listAssets);
 
 		return "Parsed Stock";
+	}
+
+	@GetMapping("api/data/updateprice")
+	public String update(){
+
 	}
 }
