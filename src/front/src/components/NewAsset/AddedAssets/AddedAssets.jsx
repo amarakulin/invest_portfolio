@@ -1,4 +1,4 @@
-import { AddedAssetsTitle, AddedAssetsList, AddedAssetsListItem, AddedAssetsTicker, AddedAssetsCompany, AddedAssetsType } from './AddedAssetsStyles';
+import { AddedAssetsTitle, AddedAssetsList, AddedAssetsListItem } from './AddedAssetsStyles';
 import RemoveAsset from './RemoveAsset';
 
 const AddedAssets = ({ data }) => {
@@ -7,12 +7,19 @@ const AddedAssets = ({ data }) => {
 			<hr></hr>
 			<AddedAssetsTitle>Добавленные активы</AddedAssetsTitle>
 			<AddedAssetsList>
-				<AddedAssetsListItem>
-					<AddedAssetsTicker>AXC</AddedAssetsTicker>
-					<AddedAssetsCompany>Apple</AddedAssetsCompany>
-					<AddedAssetsType>акция</AddedAssetsType>
-					<RemoveAsset />
-				</AddedAssetsListItem>
+				{
+					data.map((el, i) => {
+						return  (
+							<AddedAssetsListItem key={i}>
+								<strong>{el.search}</strong>
+								<span>{el.type}</span>
+								<span>{el.name}</span>
+								<span>{el.amount}</span>
+								<RemoveAsset />
+							</AddedAssetsListItem>
+						)
+					})
+				}
 			</AddedAssetsList>
 		</>
 	)

@@ -2,7 +2,11 @@ import { RemoveAssetButton } from '../../Basic/Button/Button';
 
 const RemoveAsset = () => {
 	return (
-		<RemoveAssetButton />
+		<RemoveAssetButton
+			onClick={e => {
+				e.preventDefault();
+			}}
+		/>
 	)
 }
 

@@ -17,7 +17,7 @@ const NewAsset = (props) => {
 	return (
 		<NewAssetContainer>
 			<Field 
-				name={'search-' + props.id}
+				name={'search'}
 				mutators={props.form.mutators}
 				validate={requiredField}
 			>
@@ -25,12 +25,12 @@ const NewAsset = (props) => {
 			</Field>
 
 			<Field 
-				name={'amount-' + props.id}
+				name={'amount'}
 				validate={requiredField}
 			>
 				{props => <NewAssetNumber labelText='Колличество' {...props} />}
 			</Field>
-			<AddNewAsset />
+			<AddNewAsset disabled={Object.values(props.form.getState().values).length != 4} values={props.form.getState().values} reset={props.form.reset}/>
 		</NewAssetContainer>
 	)
 }

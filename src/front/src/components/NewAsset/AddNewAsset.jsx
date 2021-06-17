@@ -1,20 +1,15 @@
-import { useRef, useEffect } from 'react'
 import { addNewAsset } from '../../redux/newAssetsReduser';
 import { AddAssetButton } from '../Basic/Button/Button'
 import { connect } from 'react-redux';
 
 const AddNewAsset = (props) => {
-	const buttonRef = useRef(null);
-
-	useEffect(() => {
-		buttonRef.current.click();
-	}, [])
 	return (
 		<AddAssetButton
-			ref={buttonRef}
+			disabled={props.disabled}
 			onClick={(e) => {
 				e.preventDefault();
-				props.addNewAsset(props.elem)
+				props.addNewAsset(props.values);
+				props.reset();
 			}} 
 		/>
 	)

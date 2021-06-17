@@ -30,9 +30,9 @@ const AddNewAssetsForm = (props) => {
 			onSubmit={onSubmit}
 			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError}) => (
 				<form onSubmit={handleSubmit}>
-
+					{console.log(props.newAssets)}
 					<NewAsset form={form} />
-					<AddedAssets />
+					<AddedAssets data={props.newAssets} />
 					
 					{errors.identical && <Error> {errors.identical} </Error>}
 					{hasSubmitErrors && <Error> {submitError} </Error>}
@@ -43,4 +43,8 @@ const AddNewAssetsForm = (props) => {
 	)
 }
 
-export default connect(null, {addNewAsset, postNewAssetsData})(AddNewAssetsForm);
+const mapStateToProps = (state) => ({
+	newAssets: state.newAssets.newAssets
+})
+
+export default connect(mapStateToProps, {addNewAsset, postNewAssetsData})(AddNewAssetsForm);
