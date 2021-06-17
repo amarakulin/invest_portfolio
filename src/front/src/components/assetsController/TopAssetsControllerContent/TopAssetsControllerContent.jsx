@@ -4,7 +4,7 @@ import {Wrapper} from '../../Basic/Wrapper/Wrapper';
 
 const TopAssetsControllerContent = () => {
 	return (
-		<Wrapper>
+		<Wrapper marginBottom={72}>
 			<SmallTitle>Мои активы</SmallTitle>
 			<FunctionalAssetsControllerContent />
 		</Wrapper>

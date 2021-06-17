@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getTableData } from '../../../redux/tableReduser';
 import Preloader from '../../Basic/Preloader/Preloader'
-import Table from './TableComponents/Table'
+import Table from '../../Table/Table'
 
 const AssetsControllerTable = (props) => {
 
