@@ -1,4 +1,4 @@
-import { AddedAssetsTitle, AddedAssetsList, AddedAssetsListItem } from './AddedAssetsStyles';
+import { AddedAssetsTitle, AddedAssetsList, AddedAssetsListItem, AddedAssetsName } from './AddedAssetsStyles';
 import RemoveAsset from './RemoveAsset';
 
 const AddedAssets = ({ data }) => {
@@ -12,8 +12,8 @@ const AddedAssets = ({ data }) => {
 						return  (
 							<AddedAssetsListItem key={i}>
 								<strong>{el.ticker}</strong>
+								<AddedAssetsName>{el.name}</AddedAssetsName>
 								<span>{el.type}</span>
-								<span>{el.name}</span>
 								<span>{el.amount}</span>
 								<RemoveAsset id={el.ticker}/>
 							</AddedAssetsListItem>

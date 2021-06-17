@@ -22,11 +22,12 @@ const AddNewAssetsForm = (props) => {
 						newAssets={props.newAssets}
 						form={form}
 					/>
-					<AddedAssets data={props.newAssets} />
+					{props.newAssets.length ? <AddedAssets data={props.newAssets} /> : null}
+					
 					
 					{errors.identical && <Error> {errors.identical} </Error>}
 					{hasSubmitErrors && <Error> {submitError} </Error>}
-					<Button disabled={submitting || !valid}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
+					<Button disabled={submitting || !valid || !props.newAssets.length}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
 				</form>
 			)}
 		/>
