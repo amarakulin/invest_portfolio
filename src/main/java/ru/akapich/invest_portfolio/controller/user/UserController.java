@@ -12,7 +12,7 @@ import ru.akapich.invest_portfolio.model.forms.login.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.user.User;
 import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
-import ru.akapich.invest_portfolio.utils.UtilsUser;
+//import ru.akapich.invest_portfolio.utils.UtilsUser;
 import ru.akapich.invest_portfolio.validator.ValidatorController;
 import javax.validation.Valid;
 
@@ -28,8 +28,8 @@ import javax.validation.Valid;
 @PropertySource("classpath:message.properties")
 public class UserController {
 
-	@Autowired
-	private UtilsUser utilsUser;
+//	@Autowired
+//	private UtilsUser utilsUser;
 
 	@Autowired
 	Environment env;
@@ -63,7 +63,9 @@ public class UserController {
 	@ResponseBody
 	public LoginResponseForm currentUserName() {
 		String errorMessage = "";
-		User user = utilsUser.getUserInCurrentSession();
+//		User user = utilsUser.getUserInCurrentSession();
+		User user = userDetailsService.getUserInCurrentSession();
+
 
 		if (user == null) {
 			errorMessage = env.getProperty("{valid.wrong.email_password}");

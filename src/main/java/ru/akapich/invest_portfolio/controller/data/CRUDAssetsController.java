@@ -14,7 +14,7 @@ import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.FinancialAssetInUseRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AddingNewListFinancialAssetsImpl;
-import ru.akapich.invest_portfolio.utils.UtilsUser;
+import ru.akapich.invest_portfolio.service.user.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +46,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 	private FinancialAssetInUseRepository financialAssetInUseRepository;
 
 	@Autowired
-	private UtilsUser utilsUser;
+	private UserService userService;
 
 	@Override
 	public boolean isTickersUnique(List<NewAssetsForm> listNewAssetsForm) {
@@ -79,7 +79,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		NewAssetsForm assetInInvestPortfolio;
 
 		assetInInvestPortfolio = null;
-		InvestPortfolio userInvestPortfolio = utilsUser.getUserInCurrentSession().getInvestPortfolio();
+		InvestPortfolio userInvestPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		if (userInvestPortfolio == null){
 			log.info("User not in the session");
 		}

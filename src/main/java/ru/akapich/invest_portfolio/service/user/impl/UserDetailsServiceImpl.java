@@ -2,7 +2,9 @@ package ru.akapich.invest_portfolio.service.user.impl;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -78,5 +80,23 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 	@Override
 	public boolean isEmailExist(String email) {
 		return userRepository.getUserByEmail(email) != null;
+	}
+
+	@Override
+	public User getUserInCurrentSession() {
+		User user = null;
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null){
+
+			user = userRepository.getUserByName(authentication.getName());
+			if (user != null) {
+				log.info(String.format("[+] Current user: %s", user.getName()));
+			}
+			else{
+				log.info("[-] No user in the current session");
+			}
+		}
+		return user;
 	}
 }

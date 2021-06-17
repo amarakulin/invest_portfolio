@@ -11,7 +11,7 @@ import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Add
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.FinancialAssetInUseService;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.OwnedFinancialAssetService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
-import ru.akapich.invest_portfolio.utils.UtilsUser;
+import ru.akapich.invest_portfolio.service.user.UserService;
 
 import java.util.List;
 
@@ -36,12 +36,13 @@ public class AddingNewListFinancialAssetsImpl implements AddingNewListFinancialA
 	private HistoryAmountService historyAmountService;
 
 	@Autowired
-	private UtilsUser utilsUser;
+	private UserService userService;
 
 	@Override
 	public void addNewAssets(List<NewAssetsForm> listAssetsForm) {
 		log.info("Start addNewAssets !!!!!!!!!");
-		InvestPortfolio userInvestPortfolio = utilsUser.getUserInCurrentSession().getInvestPortfolio();
+		InvestPortfolio userInvestPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
+
 		if (userInvestPortfolio == null){
 			log.info("User not in the session");
 			return;

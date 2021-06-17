@@ -15,4 +15,6 @@ public interface UserService {
 	boolean isNameExist(String login);
 
 	boolean isEmailExist(String email);
+
+	User getUserInCurrentSession();
 }
