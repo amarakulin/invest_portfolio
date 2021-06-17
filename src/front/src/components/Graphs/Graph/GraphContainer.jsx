@@ -5,7 +5,7 @@ import GraphSlider from './GraphSlider/GraphSlider';
 import GraphToggler from './GraphToggler/GraphToggler'
 import Preloader from '../../Basic/Preloader/Preloader';
 import { setTotalGraphData, getGraphData } from '../../../redux/graphReduser';
-import { GraphPreloaderContainer } from './GraphUtils/GraphStyledUtils'
+import { GraphPreloaderContainer } from './GraphUtils/GraphUtilsStyles'
 import { toggleIsFetching } from '../../../redux/apiReduser'
 
 const GraphContainer = (props) => {

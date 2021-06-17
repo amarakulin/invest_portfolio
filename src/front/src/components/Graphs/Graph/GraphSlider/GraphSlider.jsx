@@ -1,6 +1,6 @@
 import React from 'react';
 import {GraphSliderContainer, LeftArrow, RightArrow, windowStyle, LeftEdgeStyle, RightEdgeStyle} from './StyledGraphSlider'
-import { GraphSliderCanvas } from '../GraphUtils/GraphStyledUtils';
+import { GraphSliderCanvas } from '../GraphUtils/GraphUtilsStyles';
 import { getYRatio, getXRatio, renderLines, calculateBounderies } from '../GraphUtils/utils'
 import { connect } from 'react-redux';
 import { setDataIndex, widthPercent, setSliderGraphData } from '../../../../redux/graphReduser';

@@ -3,7 +3,7 @@ import Tooltip from './Tooltip/Tooltip';
 import { connect } from 'react-redux';
 import { resetData, setData } from '../../../redux/graphReduser';
 import { getYRatio, getXRatio, toCoords, calculateBounderies, toDate, checkIsAllHidden } from './GraphUtils/utils'
-import { GraphCanvas, GraphContainer } from './GraphUtils/GraphStyledUtils'
+import { GraphCanvas, GraphContainer } from './GraphUtils/GraphUtilsStyles'
 
 class Graph extends React.Component {
 	constructor(props) {

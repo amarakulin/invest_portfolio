@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import Diagramm from './Diagramm';
 import { connect } from 'react-redux';
 import { getDiagrammData, setActiveCircle } from '../../../redux/diagrammReduser';
-import { GraphPreloaderContainer } from '../Graph/GraphUtils/GraphStyledUtils'
+import { GraphPreloaderContainer } from '../Graph/GraphUtils/GraphUtilsStyles'
 import Preloader from '../../Basic/Preloader/Preloader';
 
 const DiagrammContainer = (props) => {
