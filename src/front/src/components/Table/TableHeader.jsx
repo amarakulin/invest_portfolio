@@ -1,21 +1,26 @@
 import TableRow from './TableRow';
 import styled from "styled-components";
 
-const StyledTableHeader = styled.thead`
-	display: contents;
+const TableHeaderCell = styled.div`
+	padding: 12px;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 150%;
+	color: #272833;
 `
 
 const TableHeader = ({data}) => {
 	return (
-		<StyledTableHeader>
+		<div>
 			<TableRow>
 				{
 					data.map((el, i) => {
-						return <th key={i}>{el}</th>
+						return <TableHeaderCell key={i}>{el}</TableHeaderCell>
 					})
 				}
 			</TableRow>
-		</StyledTableHeader>
+		</div>
 	)
 }
 
