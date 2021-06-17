@@ -4,28 +4,16 @@ import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader'
 import Button from '../../Basic/Button/Button';
 import Error from '../../Basic/Error/Error';
-import { newAssetsDataConverter } from '../../../utils/newAssetsDataConverter';
 import { addNewAsset, postNewAssetsData } from '../../../redux/newAssetsReduser';
 import { setValue } from '../../../utils/mutators';
-import { FORM_ERROR } from 'final-form';
-import AddedAssets from '../../NewAsset/AddedAssets/AddedAssets'
+import AddedAssets from '../../NewAsset/AddedAssets/AddedAssets';
+import { addNewAssetsFormSubmit } from '../../../utils/formSubmit';
 
 const AddNewAssetsForm = (props) => {
-	const onSubmit = async (data) => {
-		const formData = newAssetsDataConverter(data);
-
-		const error = await props.postNewAssetsData(formData);
-		
-		if (error) {
-			return { [FORM_ERROR]: error }
-		}
-		//TODO после отправки нужно заново запросить данные пользователя
-	}
-
 	return (
 		<Form
 			mutators={{setValue}}
-			onSubmit={onSubmit}
+			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData)}
 			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError}) => (
 				<form onSubmit={handleSubmit}>
 					<NewAsset nessesaryField={props.nessesaryField} data={props.newAssets} form={form} />
