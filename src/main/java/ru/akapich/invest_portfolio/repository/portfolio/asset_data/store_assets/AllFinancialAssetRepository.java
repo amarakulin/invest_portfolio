@@ -16,5 +16,7 @@ import java.util.List;
 public interface AllFinancialAssetRepository extends JpaRepository<AllFinancialAsset, Integer> {
 
 	List<AllFinancialAsset> findTop10ByTickerStartingWithIgnoreCase(String ticker);
+	AllFinancialAsset findByTickerAndIdTypeAsset_Name(String ticker, String typeName);
 	AllFinancialAsset findByTicker(String ticker);
+	AllFinancialAsset findFirstByTicker(String ticker);
 }

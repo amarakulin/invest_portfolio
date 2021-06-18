@@ -20,5 +20,6 @@ import java.math.BigDecimal;
 public class NewAssetsForm {
 
 	private String ticker;
+	private String type;
 	private BigDecimal amount;
 }

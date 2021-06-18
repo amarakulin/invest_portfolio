@@ -64,7 +64,10 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 		firstNotExistAssets = null;
 		for (NewAssetsForm asset : listNewAssetsForm){
-			if (allFinancialAssetRepository.findByTicker(asset.getTicker()) == null){
+			System.out.println(String.format("notExistAsset search for ticker: %s",  asset.getTicker()));
+
+			if (allFinancialAssetRepository.findByTickerAndIdTypeAsset_Name(asset.getTicker(), asset.getType()) == null){
+
 				firstNotExistAssets = asset;
 				break;
 			}
