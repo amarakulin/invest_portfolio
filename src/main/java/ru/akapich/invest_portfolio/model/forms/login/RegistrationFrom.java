@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.model.forms;
+package ru.akapich.invest_portfolio.model.forms.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

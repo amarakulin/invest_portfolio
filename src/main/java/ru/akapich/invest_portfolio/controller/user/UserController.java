@@ -1,18 +1,18 @@
-package ru.akapich.invest_portfolio.controller;
+package ru.akapich.invest_portfolio.controller.user;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.akapich.invest_portfolio.model.forms.LoginResponseForm;
-import ru.akapich.invest_portfolio.model.forms.RegistrationFrom;
-import ru.akapich.invest_portfolio.model.User;
-import ru.akapich.invest_portfolio.repository.UserRepository;
-import ru.akapich.invest_portfolio.service.impl.UserDetailsServiceImpl;
+import ru.akapich.invest_portfolio.model.forms.login.LoginResponseForm;
+import ru.akapich.invest_portfolio.model.forms.login.RegistrationFrom;
+import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
+import ru.akapich.invest_portfolio.model.user.User;
+import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
+//import ru.akapich.invest_portfolio.utils.UtilsUser;
 import ru.akapich.invest_portfolio.validator.ValidatorController;
 import javax.validation.Valid;
 
@@ -28,14 +28,14 @@ import javax.validation.Valid;
 @PropertySource("classpath:message.properties")
 public class UserController {
 
+//	@Autowired
+//	private UtilsUser utilsUser;
+
 	@Autowired
 	Environment env;
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	private LoginResponseForm getLoginResponse(User user, String errorMessage){
 		//TODO Refactor
@@ -61,20 +61,21 @@ public class UserController {
 
 	@RequestMapping(value = "/api/username", method = RequestMethod.GET)
 	@ResponseBody
-	public LoginResponseForm currentUserName(Authentication authentication) {
+	public LoginResponseForm currentUserName() {
 		String errorMessage = "";
-		User user = null;
+//		User user = utilsUser.getUserInCurrentSession();
+		User user = userDetailsService.getUserInCurrentSession();
 
-		if (authentication == null) {
-			errorMessage = env.getProperty("valid.wrong.email_password");
+
+		if (user == null) {
+			errorMessage = env.getProperty("{valid.wrong.email_password}");
 			if (errorMessage == null){
-				errorMessage = "Неизвестная ошибка";
+				errorMessage = "{valid.unexpected_error}";
 			}
 			log.info("[-] (Get [/username]) - doesn't exist");
 		}
 		else{
-			user = userRepository.getUserByName(authentication.getName());
-			log.info(String.format("[+] Front ask for user: %s", authentication.getName()));
+			log.info(String.format("[+] Front ask for user: %s", user.getName()));
 		}
 		return getLoginResponse(user, errorMessage);
 	}
@@ -100,13 +101,14 @@ public class UserController {
 					form.getName(), errorMessage));
 		}
 		else {
-			user = User.builder().
-					name(form.getName()).
-					email(form.getEmail()).
-					password(form.getPassword()).
-					role("{role.user}").
-					enable(true).
-					build();
+			user = User.builder()
+					.name(form.getName())
+					.email(form.getEmail())
+					.password(form.getPassword())
+					.role("{role.user}")
+					.investPortfolio(new InvestPortfolio())
+					.enable(true)
+					.build();
 			userDetailsService.save(user);
 
 			log.info(String.format("[+] New User '%s' successfully register with email '%s'.",

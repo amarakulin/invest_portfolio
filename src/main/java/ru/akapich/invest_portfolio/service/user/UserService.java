@@ -1,6 +1,6 @@
-package ru.akapich.invest_portfolio.service;
+package ru.akapich.invest_portfolio.service.user;
 
-import ru.akapich.invest_portfolio.model.User;
+import ru.akapich.invest_portfolio.model.user.User;
 
 /**
  * Service class for {@link User}
@@ -12,7 +12,9 @@ public interface UserService {
 
 	void save(User user);
 
-	boolean isLoginExist(String login);
+	boolean isNameExist(String login);
 
 	boolean isEmailExist(String email);
+
+	User getUserInCurrentSession();
 }
