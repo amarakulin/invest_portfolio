@@ -3,7 +3,7 @@ import { Field } from 'react-final-form';
 import Search from '../Search/Search';
 import NewAssetNumber from './NewAssetAmount';
 import AddNewAsset from './AddAssetButtons/AddNewAsset';
-import { validateIdenticalName, amountValidator, validateSearchUnknownTicker, composeValidators } from '../../utils/validators';
+import { validateIdenticalName, amountValidator, validateSearchUnknownTicker, composeValidators, requiredField } from '../../utils/validators';
 
 const NewAssetContainer = styled.div`
 	display: flex;
@@ -28,7 +28,7 @@ const NewAssetFields = (props) => {
 				name={'ticker'}
 				searchData={props.searchData}
 				mutators={props.form.mutators}
-				validate={composeValidators(validateIdenticalName(props.newAssets), validateSearchUnknownTicker(props.searchData))}
+				validate={composeValidators(validateIdenticalName(props.newAssets), validateSearchUnknownTicker(props.searchData), requiredField)}
 				nessesaryField={props.nessesaryField}
 				labelText='Выберите актив'
 			>
@@ -37,12 +37,13 @@ const NewAssetFields = (props) => {
 
 			<Field 
 				name={'amount'}
-				validate={amountValidator}
+				validate={composeValidators(amountValidator, requiredField)}
 				labelText='Количество' 
 			>
 				{props => <NewAssetNumber {...props}/>}
 			</Field>
 			<AddNewAsset 
+				form={props.form}
 				disabled={disableAddNewAssetButton(props.form.getState().values, props.form.getState().invalid)}
 				values={props.form.getState().values}
 				reset={props.form.reset}

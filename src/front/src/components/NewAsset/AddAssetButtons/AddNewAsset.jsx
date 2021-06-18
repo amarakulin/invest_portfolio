@@ -9,6 +9,9 @@ const AddNewAsset = (props) => {
 			onClick={(e) => {
 				e.preventDefault();
 				props.addNewAsset(props.values);
+				for (let field in props.form.getState().dirtyFields) {
+					props.form.resetFieldState(field)
+				}
 				props.reset();
 			}} 
 		/>

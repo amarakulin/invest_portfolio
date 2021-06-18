@@ -1,4 +1,4 @@
-import NewAsset from '../../NewAsset/NewAsset';
+import NewAssetFields from '../../NewAsset/NewAssetFields';
 import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader'
@@ -14,9 +14,9 @@ const AddNewAssetsForm = (props) => {
 		<Form
 			mutators={{ setValue }}
 			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData, props.newAssets)}
-			render={({ handleSubmit, form, submitting, valid, errors, hasSubmitErrors, submitError }) => (
+			render={({ handleSubmit, form, submitting, errors, hasSubmitErrors, submitError }) => (
 				<form onSubmit={handleSubmit}>
-					<NewAsset
+					<NewAssetFields
 						searchData={props.searchData}
 						nessesaryField={props.nessesaryField}
 						newAssets={props.newAssets}
@@ -26,7 +26,7 @@ const AddNewAssetsForm = (props) => {
 
 					{errors.identical && <Error> {errors.identical} </Error>}
 					{hasSubmitErrors && <Error> {submitError} </Error>}
-					<Button disabled={submitting || !valid || !props.newAssets.length}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
+					<Button disabled={submitting || !props.newAssets.length}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
 				</form>
 			)}
 		/>
