@@ -48,10 +48,8 @@ const AuthForm = (props) => {
 		let params = new URLSearchParams();
 		for (let key in formData)
 			params.append(key, formData[key]);
-		console.log(params.toString());
 
 		const error = await props.login(params);
-		// const error = await props.login(formData.email, formData.password, formData.rememberMe)
 
 		if (error)
 			return { [FORM_ERROR]: error }

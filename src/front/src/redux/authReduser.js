@@ -30,10 +30,8 @@ export const setAuthUserData = (userID, email, name, isAuth) => ({ type: SET_AUT
 export const login = (params) => (dispatch) => {
 	return AuthAPI.login(params)
 		.then(res => {
-			if (res.resultCode === 0) {
-				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
-			} else {
-				return res.error;
+			if (res === 'ok') {
+				dispatch(setAuthUserData(res.userID, res.email, 'name', true)); //TODO getAuthUserData для получения информации залогиненого пользователя
 			}
 		})
 		.catch(err => {
@@ -46,8 +44,6 @@ export const logout = () => (dispatch) => {
 		.then(res => {
 			if (res.resultCode === 0) {
 				dispatch(setAuthUserData(null, null, null, false));
-
-				localStorage.removeItem('isAuth');
 			}
 		})
 		.catch(err => {
@@ -60,7 +56,6 @@ export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 		.then(res => {
 			if (res.resultCode === 0) {
 				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
-				localStorage.setItem('isAuth', true);
 			} else {
 				return res.error;
 			}
