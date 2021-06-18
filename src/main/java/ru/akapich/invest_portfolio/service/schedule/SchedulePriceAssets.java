@@ -21,7 +21,7 @@ public class SchedulePriceAssets {
 	private HistoryPriceService historyPriceService;
 
 	//Every Monday-Friday at 9:59, 10:59, ... 15:59
-	@Scheduled(cron = "0 59 9-15 ? * MON-FRI", zone = "UTC-5")
+	@Scheduled(cron = "0 59 9-15 ? * MON-FRI", zone = "GMT-5")
 	void updatePriceOfNYSEExchange() throws IOException, ParseException {
 		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
 
