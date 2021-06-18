@@ -53,8 +53,7 @@ public class AllFinancialAsset {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		AllFinancialAsset that = (AllFinancialAsset) o;
-		return Objects.equals(id, that.id) &&
-				Objects.equals(ticker, that.ticker) &&
+		return Objects.equals(ticker, that.ticker) &&
 				Objects.equals(name, that.name) &&
 				Objects.equals(idCurrency, that.idCurrency) &&
 				Objects.equals(idTypeAsset, that.idTypeAsset) &&
@@ -63,6 +62,6 @@ public class AllFinancialAsset {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, ticker, name, idCurrency, idTypeAsset, idExchange);
+		return Objects.hash(ticker, name, idCurrency, idTypeAsset, idExchange);
 	}
 }

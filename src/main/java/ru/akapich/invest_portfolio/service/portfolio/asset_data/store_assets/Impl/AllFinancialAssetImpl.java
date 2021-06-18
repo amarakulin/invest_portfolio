@@ -41,6 +41,10 @@ public class AllFinancialAssetImpl implements AllFinancialAssetService {
 		log.info("[...] Start loading data form American site to database");
 		Set<AllFinancialAsset> allFinancialAssets = new HashSet<>();
 		for (Map<String, String> asset : listAssets) {
+				if (allFinancialAssetRepository.findFirstByTicker(asset.get("symbol")) != null){
+					//The ticker already in the database
+					continue;
+				}
 				AllFinancialAsset assetToInsert = AllFinancialAsset.builder()
 						.ticker(asset.get("symbol"))
 						.name(asset.get("name"))
@@ -50,6 +54,9 @@ public class AllFinancialAssetImpl implements AllFinancialAssetService {
 						.build();
 				if (!allFinancialAssets.add(assetToInsert)) {
 					log.info(String.format("[-] Set! Try to add unique ticker '%s'", asset.get("symbol")));
+				}
+				else{
+					log.info(String.format("[+] Add new asset with ticker '%s'", asset.get("symbol")));
 				}
 		}
 		allFinancialAssetRepository.saveAllAndFlush(allFinancialAssets);
