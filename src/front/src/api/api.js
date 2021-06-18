@@ -5,11 +5,11 @@ const api = axios.create({
 });
 
 export const AuthAPI = {
-	login(email, password, rememberMe = false) {
-		return api.post('auth/login', {
-			email,
-			password,
-			rememberMe
+	login(params) {
+		return api.post('auth/login', params, {
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			  }
 		})
 		.then(res => res.data)
 	},

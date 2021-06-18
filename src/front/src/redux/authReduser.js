@@ -7,7 +7,7 @@ const initialState = {
 	name: null,
 	email: null,
 	userID: null,
-	isAuth: localStorage.getItem('isAuth') || true,
+	isAuth: localStorage.getItem('isAuth') || false,
 }
 
 const authReduser = (state = initialState, action) => {
@@ -27,17 +27,11 @@ const authReduser = (state = initialState, action) => {
 
 export const setAuthUserData = (userID, email, name, isAuth) => ({ type: SET_AUTH_USER_DATA, payload: {userID, email, name}, isAuth});
 
-export const login = (email, password, rememberMe) => (dispatch) => {
-	return AuthAPI.login(email, password, rememberMe)
+export const login = (params) => (dispatch) => {
+	return AuthAPI.login(params)
 		.then(res => {
 			if (res.resultCode === 0) {
 				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
-
-				if (rememberMe)
-					localStorage.setItem('isAuth', true);
-				else
-					localStorage.removeItem('isAuth');
-				
 			} else {
 				return res.error;
 			}

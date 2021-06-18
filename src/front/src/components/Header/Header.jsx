@@ -31,4 +31,4 @@ const mapStateToProps = (state) => ({
 	name: state.auth.name
 })
 
-export default connect(mapStateToProps, {logout, closeModal, openModal})(Header);
+export default connect(mapStateToProps, {logout})(Header);
