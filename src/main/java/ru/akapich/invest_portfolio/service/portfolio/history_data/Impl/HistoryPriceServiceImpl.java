@@ -43,6 +43,7 @@ public class HistoryPriceServiceImpl implements HistoryPriceService {
 	@Override
 	@Transactional
 	public void updatePriceAmericanAssetsByExchange(String exchange) throws IOException {
+		//TODO could handle only 120 symbols per request
 		System.out.println(String.format("updatePriceAmericanAssetsByExchange with exchange: %s", exchange));
 		Map<String, BigDecimal> infoAmericanPriceAssets = parseAmericanPriceAssets.getAllPriceAmericanAssets(exchange);
 		System.out.println(String.format("infoAmericanPriceAssets: %s", infoAmericanPriceAssets.toString()));
