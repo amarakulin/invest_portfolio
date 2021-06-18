@@ -59,7 +59,7 @@ public class UserController {
 		return response;
 	}
 
-	@RequestMapping(value = "/api/username", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/data/user", method = RequestMethod.GET)
 	@ResponseBody
 	public LoginResponseForm currentUserName() {
 		String errorMessage = "";
