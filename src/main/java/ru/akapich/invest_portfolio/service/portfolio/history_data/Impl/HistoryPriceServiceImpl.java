@@ -46,7 +46,7 @@ public class HistoryPriceServiceImpl implements HistoryPriceService {
 		System.out.println(String.format("updatePriceAmericanAssetsByExchange with exchange: %s", exchange));
 		Map<String, BigDecimal> infoAmericanPriceAssets = parseAmericanPriceAssets.getAllPriceAmericanAssets(exchange);
 		System.out.println(String.format("infoAmericanPriceAssets: %s", infoAmericanPriceAssets.toString()));
-		String currentDate = dateService.getCurrentDate();
+		String currentDate = dateService.getCurrentDateAsString();
 		System.out.println(String.format("currentDate: %s",currentDate));
 		for(Map.Entry<String, BigDecimal> asset : infoAmericanPriceAssets.entrySet()){
 			historyPriceRepository.save(

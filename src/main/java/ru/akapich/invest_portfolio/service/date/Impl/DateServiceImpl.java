@@ -5,10 +5,13 @@ import org.springframework.stereotype.Service;
 import ru.akapich.invest_portfolio.service.date.DateService;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Implementation of {@link DateService} interface
+ *
  * @author Aleksandr Marakulin
  **/
 
@@ -17,18 +20,16 @@ import java.util.Date;
 public class DateServiceImpl implements DateService {
 
 	@Override
-	public String getCurrentDate() {
+	public String getCurrentDateAsString() {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH");
 		Date date = new Date();
 		log.info(String.format("get time: %s", dateFormat.format(date)) );
 		return dateFormat.format(date);
 	}
+
+	@Override
+	public Date getCurrentDateAsObjectByString(String date) throws ParseException {//TODO workout exception
+		Date date1 = new SimpleDateFormat("yyyy/MM/dd HH").parse(date);
+		return null;
+	}
 }
-
-//	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm:ss");
-//	LocalDateTime now = LocalDateTime.now();
-//  System.out.println(dtf.format(now));
-
-//	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-//	Date date = new Date();
-//  System.out.println(dateFormat.format(date));

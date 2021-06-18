@@ -12,6 +12,7 @@ import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Imp
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,7 @@ public class GraphController {
 	}
 
 	@GetMapping("api/data/updateprice")
-	public String update() throws IOException {
+	public String update() throws IOException, ParseException {
 		System.out.println("Start api/data/updateprice");
 		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
 		return "Succes update";

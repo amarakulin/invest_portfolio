@@ -32,7 +32,7 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	@Transactional
 	public void addNewHistoryAmount(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount) {
 
-		String date = dateService.getCurrentDate();
+		String date = dateService.getCurrentDateAsString();
 		log.info(String.format("addNewHistoryAmount: ticker ownedFinancialAsset %s | amount %f | date %s",
 				ownedFinancialAsset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker(),
 				amount, date));
