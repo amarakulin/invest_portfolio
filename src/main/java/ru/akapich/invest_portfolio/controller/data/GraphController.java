@@ -43,8 +43,8 @@ public class GraphController {
 
 	@GetMapping("/api/data/graph")
 	public String graph() throws IOException {
-		List<Map<String, String>> listAssets= parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
-		allFinancialAsset.insertAllAssets(listAssets);
+//		List<Map<String, String>> listAssets= parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
+//		allFinancialAsset.insertAllAssets(listAssets);
 
 		return "Parsed Stock";
 	}
