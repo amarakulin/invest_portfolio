@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public interface HistoryPriceService {
 
-	void updatePriceAmericanAssets() throws IOException;
+	void updatePriceAmericanAssetsByExchange(String exchange) throws IOException;
 
-	String listTickersToUpdateByExchange(String exchange);
+	String stringTickersToUpdateByExchange(String exchange);
 }

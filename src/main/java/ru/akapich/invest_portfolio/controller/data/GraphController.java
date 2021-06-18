@@ -6,9 +6,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.akapich.invest_portfolio.parcer.info_assets.america.ParseAmericanStock;
-import ru.akapich.invest_portfolio.parcer.price_assets.america.ParseAmericanPriceAssets;
+import ru.akapich.invest_portfolio.parser.info_assets.america.ParseInfoAmericanStock;
+import ru.akapich.invest_portfolio.parser.price_assets.america.ParseAmericanPriceAssets;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AllFinancialAssetImpl;
+import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,13 +28,17 @@ import java.util.Map;
 public class GraphController {
 
 	@Autowired
-	private ParseAmericanStock parseAmericanStock;
+	private ParseInfoAmericanStock parseAmericanStock;
 
 	@Autowired
 	private AllFinancialAssetImpl allFinancialAsset;
 
 	@Autowired
 	private ParseAmericanPriceAssets parseAmericanPriceAssets;
+
+	@Autowired
+	private HistoryPriceService historyPriceService;
+
 
 	@GetMapping("/api/data/graph")
 	public String graph() throws IOException {
@@ -46,7 +51,7 @@ public class GraphController {
 	@GetMapping("api/data/updateprice")
 	public String update() throws IOException {
 		System.out.println("Start api/data/updateprice");
-		parseAmericanPriceAssets.getAllPriceAmericanAssets("NYSE");
+		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
 		return "Succes update";
 	}
 }

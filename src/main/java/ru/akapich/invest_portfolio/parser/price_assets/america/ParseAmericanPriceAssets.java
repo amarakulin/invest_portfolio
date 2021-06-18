@@ -1,10 +1,11 @@
-package ru.akapich.invest_portfolio.parcer.price_assets.america;
+package ru.akapich.invest_portfolio.parser.price_assets.america;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * Class to get a price of assets
+ * Class to get a price of {@link FinancialAssetInUse}
  *
  * @author Aleksandr Marakulin
  **/
@@ -30,17 +31,17 @@ public class ParseAmericanPriceAssets {
 	public Map<String, BigDecimal> getAllPriceAmericanAssets(String exchange) throws IOException {
 		//TODO refactor
 		System.out.println("Start getAllPriceAmericanAssets");
-//		String stringWithTickers = historyPriceService.listTickersToUpdateByExchange(exchange);
-//		System.out.println(String.format("Get string pf tickers: %s", stringWithTickers));
+		String stringWithTickers = historyPriceService.stringTickersToUpdateByExchange(exchange);
+		System.out.println(String.format("Get string of tickers: %s", stringWithTickers));
 //
-//		String REQUEST_URL = String.format("https://api.twelvedata.com/price?symbol=%s&apikey=%s", stringWithTickers, API_KEY );
-		String REQUEST_URL = String.format("https://api.twelvedata.com/price?symbol=AAPL,MCD&apikey=%s", API_KEY );
+		String REQUEST_URL = String.format("https://api.twelvedata.com/price?symbol=%s&apikey=%s", stringWithTickers, API_KEY );
+//		String REQUEST_URL = String.format("https://api.twelvedata.com/price?symbol=AAPL,MCD&apikey=%s", API_KEY );
 
 		URL requestURL = new URL(REQUEST_URL);
 		HttpURLConnection connection = (HttpURLConnection)requestURL.openConnection();
 		StringBuilder responseData = new StringBuilder();
 		ObjectMapper mapper = new ObjectMapper();
-		List<Map<String, String>> listAssets = new ArrayList<>();
+//		List<Map<String, String>> listAssets = new ArrayList<>();
 
 		Map<String, BigDecimal> mapAssetsPrice = new HashMap<>();
 
@@ -62,6 +63,7 @@ public class ParseAmericanPriceAssets {
 			String key = it.next();
 			mapAssetsPrice.put(key, BigDecimal.valueOf(allAsset.get(key).get("price").asDouble()));
 		}
+		System.out.println("mapAssetsPrice: ");
 		mapAssetsPrice.forEach((key, value) -> System.out.println(key + ":" + value));
 		return mapAssetsPrice;
 	}

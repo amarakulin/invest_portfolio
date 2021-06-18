@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.parcer.info_assets.america;
+package ru.akapich.invest_portfolio.parser.info_assets.america;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,15 +9,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFinancialAsset;
 
 /**
- *
+ * JavaBean object that parse a info data of all {@link AllFinancialAsset}
  *
  * @author Aleksandr Marakulin
  **/
 
 @Component
-public class ParseAmericanStock {
+public class ParseInfoAmericanStock {
 
 	//TODO encode !!
 	private static final String API_KEY = "1480cef042784c4ea6dc3cd0975ad6e5";

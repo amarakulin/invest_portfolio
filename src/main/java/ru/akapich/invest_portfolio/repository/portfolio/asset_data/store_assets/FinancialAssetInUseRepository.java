@@ -21,7 +21,7 @@ public interface FinancialAssetInUseRepository extends JpaRepository<FinancialAs
 	FinancialAssetInUse findFinancialAssetInUseById(Integer id);
 	FinancialAssetInUse findFinancialAssetInUseByIdAllFinancialAsset_Ticker(String ticker);
 
-	@Query("SELECT f FROM FinancialAssetInUse f WHERE f.idAllFinancialAsset.idExchange = ?1")
+	@Query("SELECT f FROM FinancialAssetInUse f WHERE f.idAllFinancialAsset.idExchange.name = ?1")
 	List<FinancialAssetInUse> getListTickersToUpdateByExchange(String exchange);
 
 }

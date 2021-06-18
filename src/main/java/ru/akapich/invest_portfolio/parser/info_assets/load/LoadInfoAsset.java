@@ -1,7 +1,7 @@
-package ru.akapich.invest_portfolio.parcer.info_assets.load;
+package ru.akapich.invest_portfolio.parser.info_assets.load;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.akapich.invest_portfolio.parcer.info_assets.america.ParseAmericanStock;
+import ru.akapich.invest_portfolio.parser.info_assets.america.ParseInfoAmericanStock;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AllFinancialAssetImpl;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class LoadInfoAsset {
 
 
 	@Autowired
-	private ParseAmericanStock parseAmericanStock;
+	private ParseInfoAmericanStock parseAmericanStock;
 
 	@Autowired
 	private AllFinancialAssetImpl allFinancialAsset;
