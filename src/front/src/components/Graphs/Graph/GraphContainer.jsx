@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import Graph from './Graph';
 import GraphSlider from './GraphSlider/GraphSlider';
@@ -8,21 +8,29 @@ import { setTotalGraphData, getGraphData } from '../../../redux/graphReduser';
 import { GraphPreloaderContainer } from './GraphUtils/GraphUtilsStyles'
 import { toggleIsFetching } from '../../../redux/apiReduser'
 
+const render = (props) => {
+	if (props.isFetching || !props.totalData) {
+		return <GraphPreloaderContainer> <Preloader color='black' /> </GraphPreloaderContainer>
+	} else if (props.totalData?.lines.length === 0) {
+		return 'Нет активов для отрисовки графика'
+	} else {
+		return (
+			<>
+				<Graph {...props} />
+				<GraphSlider data={props.totalData} />
+				<GraphToggler data={props.totalData} />
+			</>
+		)
+	}
+}
+
 const GraphContainer = (props) => {
 
 	useEffect(() => {
 		props.getGraphData();
 	}, [])
 
-	return (
-		props.isFetching || !props.totalData
-			? <GraphPreloaderContainer> <Preloader color='black'/> </GraphPreloaderContainer>
-			: <>
-				<Graph {...props}/>
-				<GraphSlider data={props.totalData}/>
-				<GraphToggler data={props.totalData}/>
-			</>
-	)
+	return render(props)
 }
 
 const mapStateToProps = (state) => ({
@@ -30,4 +38,4 @@ const mapStateToProps = (state) => ({
 	isFetching: state.api.isFetching,
 })
 
-export default connect(mapStateToProps, {setTotalGraphData, toggleIsFetching, getGraphData})(GraphContainer);
+export default connect(mapStateToProps, { setTotalGraphData, toggleIsFetching, getGraphData })(GraphContainer);
