@@ -24,7 +24,7 @@ import javax.validation.Valid;
 
 @Log4j2
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000/*", allowedHeaders = "*", maxAge = 3600)
 @PropertySource("classpath:message.properties")
 public class UserController {
 

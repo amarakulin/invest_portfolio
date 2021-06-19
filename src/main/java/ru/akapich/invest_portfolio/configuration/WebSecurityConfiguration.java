@@ -10,10 +10,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationFailureHandler;
@@ -31,7 +33,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer{
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
@@ -66,10 +68,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-				.allowedOrigins("http://localhost:3000")
-				.allowedMethods("*");
+				.allowedHeaders("*")
+				.allowedOriginPatterns("http://localhost:3000")
+				.allowedMethods("POST", "GET", "DELETE", "PUT")
+				.allowCredentials(true).maxAge(3600);
 	}
-
 
 	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
 	@Override
