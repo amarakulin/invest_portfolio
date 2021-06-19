@@ -14,6 +14,7 @@ import Error from '../../Basic/Error/Error';
 import { login } from '../../../redux/authReduser'
 import { connect } from 'react-redux';
 import { Field } from 'react-final-form'
+import { authFormSubmit } from '../../../utils/formSubmit'
 
 import { composeValidators } from '../../../utils/validators'
 
@@ -43,22 +44,9 @@ const Fields = [
 ]
 
 const AuthForm = (props) => {
-	const onSubmit = async (formData) => {
-
-		let params = new URLSearchParams();
-		for (let key in formData)
-			params.append(key, formData[key]);
-
-		try {
-			await props.login(params);
-		} catch (e) {
-			return { [FORM_ERROR]: e.message }
-		}
-	}
-
 	return (
 		<Form
-			onSubmit={onSubmit}
+			onSubmit={authFormSubmit(props.login)}
 			render={({ handleSubmit, submitting, pristine, hasSubmitErrors, submitError }) => (
 				<Container>
 					<form onSubmit={handleSubmit}>

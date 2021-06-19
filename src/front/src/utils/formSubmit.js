@@ -27,3 +27,16 @@ export const signUpFormSubmit = (signUp) => async (formData) => {
 		return { [FORM_ERROR]: e.message }
 	}
 }
+
+export const authFormSubmit = (login) => async (formData) => {
+	let params = new URLSearchParams();
+
+	for (let key in formData)
+		params.append(key, formData[key]);
+
+	try {
+		await login(params);
+	} catch (e) {
+		return { [FORM_ERROR]: e.message }
+	}
+}
