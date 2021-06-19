@@ -13,20 +13,19 @@ const TabeBodyCell = styled.div`
 `
 
 
-const TableBody = ({ data }) => {
+const TableBody = ({ data, order }) => {
 	return (
 		<div>
 			{
-				data.map((el, i) => {
+				data.map((_, dataIndex) => {
 					return (
 						<TableBodyRow
-							key={i}
+							key={dataIndex}
 							bordercolor='#F3F3FB'
-
 						>
 							{
-								el.map((el, i) => {
-									return <TabeBodyCell key={i}>{el}</TabeBodyCell>
+								order.map((el, i) => {
+									return <TabeBodyCell key={i}>{data[dataIndex][el]}</TabeBodyCell>
 								})
 							}
 						</TableBodyRow>

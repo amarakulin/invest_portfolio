@@ -53,14 +53,51 @@ export default tableReduser;
 
 function getTableDataTest() {
 	return {
-		header: [
-			'Название', 'Тикер', 'Тип актива', 'Биржа', 'Цена', 'Кол-во', 'Сумма'
-		],
+		header: {
+			name: 'Название',
+			ticker: 'Тикер',
+			type: 'Тип актива',
+			exchange: 'Биржа',
+			price: 'Цена.',
+			amount: 'Кол-во',
+			total: 'Сумма'
+		},
 		body: [
-			['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
-			['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
-			['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.'],
-			['Газпром', 'GAZP', 'акция', 'MOEX', '180руб.', '3 шт.', '540 руб.']
-		]
+			{
+				name: 'Газпром',
+				ticker: 'GAZP',
+				type: 'акция',
+				exchange: 'MOEX',
+				price: '180руб.',
+				amount: '3 шт.',
+				total: '540 руб.'
+			},
+			{
+				name: 'Газпром',
+				ticker: 'GAZP',
+				type: 'акция',
+				exchange: 'MOEX',
+				price: '180руб.',
+				amount: '3 шт.',
+				total: '540 руб.'
+			},
+			{
+				name: 'Газпром',
+				ticker: 'GAZP',
+				type: 'акция',
+				exchange: 'MOEX',
+				price: '180руб.',
+				amount: '3 шт.',
+				total: '540 руб.'
+			}
+			
+		],
+		options: {
+			delete: true,
+			change: 'amount'
+		},
+		order: [
+			'name', 'ticker', 'type', 'exchange', 'price', 'amount', 'total', 'delete'
+		],
 	}
 }

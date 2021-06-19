@@ -10,13 +10,13 @@ const TableHeaderCell = styled.div`
 	color: #272833;
 `
 
-const TableHeader = ({data}) => {
+const TableHeader = ({data, order}) => {
 	return (
 		<div>
 			<TableRow>
 				{
-					data.map((el, i) => {
-						return <TableHeaderCell key={i}>{el}</TableHeaderCell>
+					order.map((el, i) => {
+						return <TableHeaderCell key={i}>{data[el]}</TableHeaderCell>
 					})
 				}
 			</TableRow>
