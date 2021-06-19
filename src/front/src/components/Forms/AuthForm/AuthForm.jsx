@@ -49,10 +49,11 @@ const AuthForm = (props) => {
 		for (let key in formData)
 			params.append(key, formData[key]);
 
-		const error = await props.login(params);
-
-		if (error)
-			return { [FORM_ERROR]: error }
+		try {
+			await props.login(params);
+		} catch (e) {
+			return { [FORM_ERROR]: e.message }
+		}
 	}
 
 	return (

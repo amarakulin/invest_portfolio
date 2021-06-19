@@ -45,13 +45,13 @@ export const postNewAssetsData = (data) => (dispatch) => {
 	return DataAPI.postNewAssetsData(data)
 		.then(res => {
 			if (res.resultCode !== 0) {
-				return res.error
+				throw new Error(res.error)
 			} else {
 				dispatch(resetNewAssets());
 			}
 		})
 		.catch(err => {
-			return err.message
+			throw new Error(err)
 		})
 }
 

@@ -7,21 +7,23 @@ export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async (d
 		formData.push({
 			ticker: el.ticker,
 			amount: el.amount,
-			type: el.type
+			// type: el.type//TODO
 		})
 	}
-	console.log(formData)
-	const error = await postNewAssetsData(formData);
-
-	if (error) {
-		return { [FORM_ERROR]: error }
+	
+	try {
+		await postNewAssetsData(formData);
+	} catch (e) {
+		return { [FORM_ERROR]: e.message }
 	}
+
 	//TODO после отправки нужно заново запросить данные пользователя
 }
 
 export const signUpFormSubmit = (signUp) => async (formData) => {
-	const error = await signUp(formData)
-
-	if (error)
-		return { [FORM_ERROR]: error }
+	try {
+		await signUp(formData);
+	} catch (e) {
+		return { [FORM_ERROR]: e.message }
+	}
 }

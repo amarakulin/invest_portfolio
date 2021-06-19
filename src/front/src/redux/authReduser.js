@@ -7,7 +7,7 @@ const initialState = {
 	name: null,
 	email: null,
 	userID: null,
-	isAuth: localStorage.getItem('isAuth') || false,
+	isAuth: localStorage.getItem('isAuth') || true,
 }
 
 const authReduser = (state = initialState, action) => {
@@ -32,22 +32,19 @@ export const login = (params) => (dispatch) => {
 		.then(res => {
 			if (res === 'ok') {
 				dispatch(setAuthUserData(res.userID, res.email, 'name', true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+			} else {
+				throw new Error('Неверный e-mail или пароль');
 			}
 		})
 		.catch(err => {
-			return err.message
+			throw new Error(err.message);
 		})
 }
 
 export const logout = () => (dispatch) => {
-	return AuthAPI.logout()
-		.then(res => {
-			if (res.resultCode === 0) {
-				dispatch(setAuthUserData(null, null, null, false));
-			}
-		})
-		.catch(err => {
-			return err.message
+	AuthAPI.logout()
+		.then(() => {
+			dispatch(setAuthUserData(null, null, null, false));
 		})
 }
 
@@ -57,12 +54,12 @@ export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 			if (res.resultCode === 0) {
 				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
 			} else {
-				return res.error;
+				throw new Error(res.error);
 			}
 		})
 		.catch(err => {
-			return err.message
+			throw new Error(err.message);
 		})
 }
-
+// gcmsg "add throwing Error in request fail"
 export default authReduser;

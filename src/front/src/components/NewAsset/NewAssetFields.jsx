@@ -13,9 +13,7 @@ const NewAssetContainer = styled.div`
 	position: relative;
 `
 
-const disableAddNewAssetButton = (values, isInvalid) => {//TODO перенести
-	if (isInvalid)
-		return true;
+const disableAddNewAssetButton = (values) => {//TODO перенести
 	if (!values.ticker || !values.name || !values.amount || !values.type)
 		return true;
 	return false;
@@ -28,7 +26,7 @@ const NewAssetFields = (props) => {
 				name={'ticker'}
 				searchData={props.searchData}
 				mutators={props.form.mutators}
-				validate={composeValidators(validateIdenticalName(props.newAssets), validateSearchUnknownTicker(props.searchData), requiredField)}
+				validate={composeValidators(validateIdenticalName(props.newAssets), validateSearchUnknownTicker(props.searchData))}
 				nessesaryField={props.nessesaryField}
 				labelText='Выберите актив'
 			>
@@ -37,14 +35,14 @@ const NewAssetFields = (props) => {
 
 			<Field 
 				name={'amount'}
-				validate={composeValidators(amountValidator, requiredField)}
+				validate={composeValidators(amountValidator)}
 				labelText='Количество' 
 			>
 				{props => <NewAssetNumber {...props}/>}
 			</Field>
 			<AddNewAsset 
 				form={props.form}
-				disabled={disableAddNewAssetButton(props.form.getState().values, props.form.getState().invalid)}
+				disabled={disableAddNewAssetButton(props.form.getState().values)}
 				values={props.form.getState().values}
 				reset={props.form.reset}
 			/>
