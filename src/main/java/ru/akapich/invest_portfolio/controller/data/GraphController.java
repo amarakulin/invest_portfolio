@@ -29,35 +29,35 @@ import java.util.Map;
 @PropertySource("classpath:message.properties")
 public class GraphController {
 
-	@Autowired
-	private ParseInfoAmericanStock parseAmericanStock;
+//	@Autowired
+//	private ParseInfoAmericanStock parseAmericanStock;
+//
+//	@Autowired
+//	private AllFinancialAssetImpl allFinancialAsset;
+//
+//	@Autowired
+//	private ParseAmericanPriceAssets parseAmericanPriceAssets;
 
-	@Autowired
-	private AllFinancialAssetImpl allFinancialAsset;
-
-	@Autowired
-	private ParseAmericanPriceAssets parseAmericanPriceAssets;
-
-	@Autowired
-	private HistoryPriceService historyPriceService;
-
-	@Autowired
-	private HistoryAmountService historyAmountService;
+//	@Autowired
+//	private HistoryPriceService historyPriceService;
+//
+//	@Autowired
+//	private HistoryAmountService historyAmountService;
 
 
-	@GetMapping("/api/data/graph")
-	public String graph() throws IOException {
-//		List<Map<String, String>> listAssets= parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
-//		allFinancialAsset.insertAllAssets(listAssets);
+//	@GetMapping("/api/data/graph")
+//	public String graph() throws IOException {
+////		List<Map<String, String>> listAssets= parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
+////		allFinancialAsset.insertAllAssets(listAssets);
+//
+//		return "Parsed Stock";
+//	}
 
-		return "Parsed Stock";
-	}
-
-	@GetMapping("api/data/updateprice")
-	public String update() throws IOException, ParseException, CloneNotSupportedException {
-		System.out.println("Start api/data/updateprice");
-		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
-		historyAmountService.updateAllHistoryAmount();
-		return "Succes update";
-	}
+//	@GetMapping("api/data/updateprice")
+//	public String update() throws IOException, ParseException, CloneNotSupportedException {
+//		System.out.println("Start api/data/updateprice");
+//		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
+//		historyAmountService.updateAllHistoryAmount();
+//		return "Succes update";
+//	}
 }
