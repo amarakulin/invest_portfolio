@@ -7,7 +7,7 @@ const initialState = {
 	name: null,
 	email: null,
 	userID: null,
-	isAuth: localStorage.getItem('isAuth') || true,
+	isAuth: localStorage.getItem('token') || true,
 }
 
 const authReduser = (state = initialState, action) => {
@@ -25,13 +25,13 @@ const authReduser = (state = initialState, action) => {
 	}
 }
 
-export const setAuthUserData = (userID, email, name, isAuth) => ({ type: SET_AUTH_USER_DATA, payload: {userID, email, name}, isAuth});
+export const setAuthUserData = (name, isAuth) => ({ type: SET_AUTH_USER_DATA, payload: {name}, isAuth});
 
 export const login = (params) => (dispatch) => {
 	return AuthAPI.login(params)
 		.then(res => {
 			if (res === 'ok') {
-				dispatch(setAuthUserData(res.userID, res.email, 'name', true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+				dispatch(setAuthUserData('name', true)); //TODO getAuthUserData для получения информации залогиненого пользователя
 			} else {
 				throw new Error('Неверный e-mail или пароль');
 			}
@@ -44,7 +44,7 @@ export const login = (params) => (dispatch) => {
 export const logout = () => (dispatch) => {
 	AuthAPI.logout()
 		.then(() => {
-			dispatch(setAuthUserData(null, null, null, false));
+			dispatch(setAuthUserData(null, false));
 		})
 }
 
@@ -52,7 +52,7 @@ export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 	return AuthAPI.signUp(name, email, password, rePassword)
 		.then(res => {
 			if (res.resultCode === 0) {
-				dispatch(setAuthUserData(res.userID, res.email, res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+				dispatch(setAuthUserData(res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
 			} else {
 				throw new Error(res.error);
 			}
@@ -61,5 +61,5 @@ export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 			throw new Error(err.message);
 		})
 }
-// gcmsg "add throwing Error in request fail"
+
 export default authReduser;
