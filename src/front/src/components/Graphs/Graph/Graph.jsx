@@ -21,7 +21,7 @@ class Graph extends React.Component {
 		this.ctx = this.canvasRef.current.getContext('2d');
 
 		this.WIDTH = this.canvasRef.current.offsetWidth;
-		this.HEIGHT = this.canvasRef.current.offsetHeight;
+		this.HEIGHT = Math.round(window.innerHeight * 0.8);
 
 		this.DPI_WIDTH = this.WIDTH * 2;
 		this.DPI_HEIGHT = this.HEIGHT * 2;
