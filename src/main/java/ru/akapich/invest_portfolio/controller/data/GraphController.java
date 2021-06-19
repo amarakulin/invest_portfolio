@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.akapich.invest_portfolio.parser.info_assets.america.ParseInfoAmericanStock;
 import ru.akapich.invest_portfolio.parser.price_assets.america.ParseAmericanPriceAssets;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AllFinancialAssetImpl;
+import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;
 
 import java.io.IOException;
@@ -28,31 +29,35 @@ import java.util.Map;
 @PropertySource("classpath:message.properties")
 public class GraphController {
 
-	@Autowired
-	private ParseInfoAmericanStock parseAmericanStock;
+//	@Autowired
+//	private ParseInfoAmericanStock parseAmericanStock;
+//
+//	@Autowired
+//	private AllFinancialAssetImpl allFinancialAsset;
+//
+//	@Autowired
+//	private ParseAmericanPriceAssets parseAmericanPriceAssets;
 
-	@Autowired
-	private AllFinancialAssetImpl allFinancialAsset;
-
-	@Autowired
-	private ParseAmericanPriceAssets parseAmericanPriceAssets;
-
-	@Autowired
-	private HistoryPriceService historyPriceService;
+//	@Autowired
+//	private HistoryPriceService historyPriceService;
+//
+//	@Autowired
+//	private HistoryAmountService historyAmountService;
 
 
-	@GetMapping("/api/data/graph")
-	public String graph() throws IOException {
-//		List<Map<String, String>> listAssets= parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
-//		allFinancialAsset.insertAllAssets(listAssets);
+//	@GetMapping("/api/data/graph")
+//	public String graph() throws IOException {
+////		List<Map<String, String>> listAssets= parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
+////		allFinancialAsset.insertAllAssets(listAssets);
+//
+//		return "Parsed Stock";
+//	}
 
-		return "Parsed Stock";
-	}
-
-	@GetMapping("api/data/updateprice")
-	public String update() throws IOException, ParseException {
-		System.out.println("Start api/data/updateprice");
-		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
-		return "Succes update";
-	}
+//	@GetMapping("api/data/updateprice")
+//	public String update() throws IOException, ParseException, CloneNotSupportedException {
+//		System.out.println("Start api/data/updateprice");
+//		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
+//		historyAmountService.updateAllHistoryAmount();
+//		return "Succes update";
+//	}
 }
