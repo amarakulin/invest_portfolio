@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.controller.data;
+package ru.akapich.invest_portfolio.controller.modify_assets;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
