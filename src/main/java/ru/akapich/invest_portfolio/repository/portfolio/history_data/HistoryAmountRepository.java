@@ -22,5 +22,4 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 			"SELECT MAX(a2.id) FROM HistoryAmount a2 WHERE a2.ownedFinancialAsset = ?1) ")
 	HistoryAmount lastAmountByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
 
-
 }
