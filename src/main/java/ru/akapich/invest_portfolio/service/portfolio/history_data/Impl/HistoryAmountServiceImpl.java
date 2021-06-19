@@ -11,6 +11,9 @@ import ru.akapich.invest_portfolio.service.date.DateService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Implementation of {@link HistoryAmountService} interface.
@@ -43,5 +46,43 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 				.build();
 
 		historyAmountRepository.save(historyAmount);
+	}
+
+	@Override
+	public Set<HistoryAmount> getLastAmountForEachUniqueOwnedAsset() {
+		Set<HistoryAmount> setLastAmount = new HashSet<>();
+
+		List<OwnedFinancialAsset> uniqueOwnedAssets = historyAmountRepository.findAllUniqueOwnedAssets();
+		System.out.println("In getLastAmountForEachUniqueOwnedAsset()");
+		for (OwnedFinancialAsset asset : uniqueOwnedAssets){
+			System.out.println(String.format("findTopByOwnedFinancialAsset: %s", historyAmountRepository.findTopByOwnedFinancialAsset(asset)));
+			if (!setLastAmount.add(historyAmountRepository.findTopByOwnedFinancialAsset(asset))){
+				log.warn(String.format("Repeat value of OwnedFinancialAsset '%d' in unique order",  asset.getId()));
+			}
+		}
+		return setLastAmount;
+	}
+
+	@Override
+	@Transactional
+	public void updateAllHistoryAmount() throws CloneNotSupportedException {
+		HistoryAmount historyAmountCopy;
+		String currentDate  = dateService.getCurrentDateAsString();
+
+		Set<HistoryAmount> setLastAmount = getLastAmountForEachUniqueOwnedAsset();
+		for (HistoryAmount historyAmount: setLastAmount){
+			if (!historyAmount.getDate().equals(currentDate)){
+				historyAmountCopy = (HistoryAmount) historyAmount.clone();//TODO handle exception
+				historyAmountCopy.setDate(currentDate);
+				System.out.println(String.format("O: %s", historyAmount));
+				System.out.println(String.format("C: %s", historyAmountCopy));
+				historyAmountRepository.save(historyAmountCopy);
+			}
+		}
+	}
+
+	@Override
+	public void updateHistoryAmountByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset) {
+
 	}
 }

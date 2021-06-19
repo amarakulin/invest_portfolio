@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.akapich.invest_portfolio.parser.info_assets.america.ParseInfoAmericanStock;
 import ru.akapich.invest_portfolio.parser.price_assets.america.ParseAmericanPriceAssets;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AllFinancialAssetImpl;
+import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;
 
 import java.io.IOException;
@@ -40,6 +41,9 @@ public class GraphController {
 	@Autowired
 	private HistoryPriceService historyPriceService;
 
+	@Autowired
+	private HistoryAmountService historyAmountService;
+
 
 	@GetMapping("/api/data/graph")
 	public String graph() throws IOException {
@@ -50,9 +54,10 @@ public class GraphController {
 	}
 
 	@GetMapping("api/data/updateprice")
-	public String update() throws IOException, ParseException {
+	public String update() throws IOException, ParseException, CloneNotSupportedException {
 		System.out.println("Start api/data/updateprice");
 		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
+		historyAmountService.updateAllHistoryAmount();
 		return "Succes update";
 	}
 }
