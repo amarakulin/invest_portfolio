@@ -1,6 +1,5 @@
 package ru.akapich.invest_portfolio.repository.portfolio.history_data;
 
-import jdk.dynalink.linker.LinkerServices;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,18 +18,9 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 	@Query("SELECT DISTINCT h.ownedFinancialAsset FROM HistoryAmount h")
 	List<OwnedFinancialAsset> findAllUniqueOwnedAssets();
 
-	HistoryAmount findFirstByOrderByOwnedFinancialAssetDesc();
-
-	//TODO Сгрупировать по OwnedFinancialAsset -> сделать row_number ->  и из него взять последний
-
-	//To test
-	HistoryAmount findTopByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
-
-	@Query("SELECT DISTINCT a FROM HistoryAmount a WHERE a.ownedFinancialAsset = ?1")
+	@Query("SELECT a FROM HistoryAmount a WHERE a.id = (" +
+			"SELECT MAX(a2.id) FROM HistoryAmount a2 WHERE a2.ownedFinancialAsset = ?1) ")
 	HistoryAmount lastAmountByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
 
-
-//	@Query("SELECT ha ROW_NUMBER")
-//	List<HistoryAmount> listOfLastAmountByOwnedFinancialAsset();
 
 }

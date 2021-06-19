@@ -50,13 +50,13 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	@Override
 	public Set<HistoryAmount> getLastAmountForEachUniqueOwnedAsset() {
+		//TODO optimaze query !!!
 		Set<HistoryAmount> setLastAmount = new HashSet<>();
 
 		List<OwnedFinancialAsset> uniqueOwnedAssets = historyAmountRepository.findAllUniqueOwnedAssets();
 		System.out.println("In getLastAmountForEachUniqueOwnedAsset()");
 		for (OwnedFinancialAsset asset : uniqueOwnedAssets){
-			System.out.println(String.format("findTopByOwnedFinancialAsset: %s", historyAmountRepository.findTopByOwnedFinancialAsset(asset)));
-			if (!setLastAmount.add(historyAmountRepository.findTopByOwnedFinancialAsset(asset))){
+			if (!setLastAmount.add(historyAmountRepository.lastAmountByOwnedFinancialAsset(asset))){
 				log.warn(String.format("Repeat value of OwnedFinancialAsset '%d' in unique order",  asset.getId()));
 			}
 		}
@@ -74,9 +74,11 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 			if (!historyAmount.getDate().equals(currentDate)){
 				historyAmountCopy = (HistoryAmount) historyAmount.clone();//TODO handle exception
 				historyAmountCopy.setDate(currentDate);
-				System.out.println(String.format("O: %s", historyAmount));
-				System.out.println(String.format("C: %s", historyAmountCopy));
 				historyAmountRepository.save(historyAmountCopy);
+			}
+			else {
+				log.info(String.format("History amount with id '%d' already exist in the date '%s'",
+						historyAmount.getId(), historyAmount.getDate()));
 			}
 		}
 	}
