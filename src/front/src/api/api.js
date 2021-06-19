@@ -4,11 +4,12 @@ const API_URL = 'http://localhost:8081/api/'
 
 const api = axios.create({
 	baseURL: API_URL,
-	withCredentials: true
+	withCredentials: true,
 });
 
 api.interceptors.request.use(config => {
-	config.header.Authorization = `Bearer ${localStorage.getItem('token')}`
+	config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+	return config;
 })
 
 export const AuthAPI = {
