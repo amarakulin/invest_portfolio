@@ -39,4 +39,29 @@ public class HistoryAmount {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_owned_financial_asset", nullable = false)
 	private OwnedFinancialAsset ownedFinancialAsset;
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		HistoryAmount historyAmount = null;
+		try {
+			historyAmount = (HistoryAmount) super.clone();
+		}
+		catch (CloneNotSupportedException e){
+			historyAmount = HistoryAmount.builder()
+					.amount(this.amount)
+					.date(this.date)
+					.ownedFinancialAsset(this.ownedFinancialAsset)
+					.build();
+		}
+		return historyAmount;
+	}
 }
+
+// try {
+//		 user = (User) super.clone();
+//		 } catch (CloneNotSupportedException e) {
+//		 user = new User(
+//		 this.getFirstName(), this.getLastName(), this.getAddress());
+//		 }
+//		 user.address = (Address) this.address.clone();
+//		 return user;
