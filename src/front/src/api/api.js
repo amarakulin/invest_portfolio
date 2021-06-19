@@ -1,8 +1,15 @@
 import * as axios from 'axios';
 
+const API_URL = 'http://localhost:8081/api/'
+
 const api = axios.create({
-	baseURL: 'http://localhost:8081/api/'
+	baseURL: API_URL,
+	withCredentials: true
 });
+
+api.interceptors.request.use(config => {
+	config.header.Authorization = `Bearer ${localStorage.getItem('token')}`
+})
 
 export const AuthAPI = {
 	login(params) {
