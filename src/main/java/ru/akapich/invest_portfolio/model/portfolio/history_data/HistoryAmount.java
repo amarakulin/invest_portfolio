@@ -36,6 +36,9 @@ public class HistoryAmount {
 	@Column
 	private BigDecimal amount;
 
+	@Column
+	private BigDecimal total;
+
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_owned_financial_asset", nullable = false)
 	private OwnedFinancialAsset ownedFinancialAsset;
@@ -51,17 +54,9 @@ public class HistoryAmount {
 					.amount(this.amount)
 					.date(this.date)
 					.ownedFinancialAsset(this.ownedFinancialAsset)
+					.total(this.total)
 					.build();
 		}
 		return historyAmount;
 	}
 }
-
-// try {
-//		 user = (User) super.clone();
-//		 } catch (CloneNotSupportedException e) {
-//		 user = new User(
-//		 this.getFirstName(), this.getLastName(), this.getAddress());
-//		 }
-//		 user.address = (Address) this.address.clone();
-//		 return user;
