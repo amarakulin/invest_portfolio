@@ -4,9 +4,13 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import ru.akapich.invest_portfolio.service.date.DateService;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 /**
@@ -19,12 +23,20 @@ import java.util.Date;
 @Service
 public class DateServiceImpl implements DateService {
 
+	private static final String timeZone = "GMT-5";
+
 	@Override
-	public String getCurrentDateAsString() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH");
-		Date date = new Date();
-		log.info(String.format("get time: %s", dateFormat.format(date)) );
-		return dateFormat.format(date);
+	public LocalDateTime getCurrentTime(){
+
+		Instant nowUtc = Instant.now();
+		ZoneId asiaSingapore = ZoneId.of(timeZone);
+		ZonedDateTime currentTime = ZonedDateTime.ofInstant(nowUtc, asiaSingapore);
+//		ZonedDateTime truncatedCurrentTime = currentTime.truncatedTo(ChronoUnit.HOURS).toLocalDateTime();
+		LocalDateTime localDateTime = currentTime.truncatedTo(ChronoUnit.HOURS).toLocalDateTime();
+//		log.info(String.format("get currentTime[%s]: %s", timeZone, truncatedCurrentTime));
+		log.info(String.format("get Local[%s]: %s", timeZone, localDateTime));
+
+		return localDateTime;
 	}
 
 	@Override

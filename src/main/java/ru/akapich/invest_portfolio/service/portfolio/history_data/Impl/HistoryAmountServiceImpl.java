@@ -13,8 +13,8 @@ import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryPric
 import ru.akapich.invest_portfolio.service.date.DateService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 
-import javax.persistence.NonUniqueResultException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,15 +45,8 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 		FinancialAssetInUse financialAssetInUse = ownedFinancialAsset.getFinancialAssetInUse();
 		log.info(String.format("[+] getTotalPriceForOneAsset ticker '%s'", financialAssetInUse.getIdAllFinancialAsset().getTicker()));
-//		try {
-			historyPriceForOneAsset = historyPriceRepository.findByIdFinancialAssetInUse(financialAssetInUse);
-			log.info(String.format("[+] getTotalPriceForOneAsset history_price '%s'", historyPriceForOneAsset));
-//		}
-//		catch (NonUniqueResultException e){
-//			historyPriceForOneAsset = null;
-//			log.warn("[-] Several price value for one date in table HistoryPrice");
-//			log.warn(String.format("[-] Traceback '%s'", e.getMessage()));
-//		}
+		historyPriceForOneAsset = historyPriceRepository.findByIdFinancialAssetInUse(financialAssetInUse);
+		log.info(String.format("[+] getTotalPriceForOneAsset history_price '%s'", historyPriceForOneAsset));
 		if (historyPriceForOneAsset != null){
 			priceForOneAsset = historyPriceForOneAsset.getPrice();
 		}
@@ -64,8 +57,8 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	@Transactional
 	public void addNewHistoryAmount(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount) {
 
-		String date = dateService.getCurrentDateAsString();//FIXME Handle if date is not a work time of exchange
-
+		LocalDateTime date = dateService.getCurrentTime();//FIXME Handle if date is not a work time of exchange
+		log.info(String.format("Current date in addNewHistoryAmount '%s'", date));
 		BigDecimal totalPriceForOneAsset = getTotalPriceForOneAsset(ownedFinancialAsset, amount);
 
 		log.info(String.format("addNewHistoryAmount: ticker ownedFinancialAsset %s | amount %f | date %s | total %f",
@@ -100,8 +93,7 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	@Transactional
 	public void updateAllHistoryAmount() throws CloneNotSupportedException {
 		HistoryAmount historyAmountCopy;
-		String currentDate  = dateService.getCurrentDateAsString();
-
+		LocalDateTime currentDate  = dateService.getCurrentTime();
 		Set<HistoryAmount> setLastAmount = getLastAmountForEachUniqueOwnedAsset();
 		for (HistoryAmount historyAmount: setLastAmount){
 			if (!historyAmount.getDate().equals(currentDate)){

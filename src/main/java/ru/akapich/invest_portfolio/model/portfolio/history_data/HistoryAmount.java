@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
@@ -30,8 +34,8 @@ public class HistoryAmount {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column
-	private String date;
+	@Column(columnDefinition="TIMESTAMP WITH TIME ZONE")
+	private LocalDateTime date;
 
 	@Column
 	private BigDecimal amount;

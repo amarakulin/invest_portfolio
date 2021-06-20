@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.akapich.invest_portfolio.parser.info_assets.america.ParseInfoAmericanStock;
-import ru.akapich.invest_portfolio.parser.price_assets.america.ParseAmericanPriceAssets;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.AllFinancialAssetService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;

@@ -1,6 +1,7 @@
 package ru.akapich.invest_portfolio.service.date;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
 
 public interface DateService {
 
-	String getCurrentDateAsString();
-
 	Date getCurrentDateAsObjectByString(String date) throws ParseException;
+
+	LocalDateTime getCurrentTime();
 }

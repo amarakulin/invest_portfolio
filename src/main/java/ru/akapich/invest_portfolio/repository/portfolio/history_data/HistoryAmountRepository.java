@@ -8,6 +8,7 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.Owned
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -31,8 +32,8 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 			" p.ownedFinancialAsset = o " +
 			"AND o.investPortfolio = ?1 " +
 			"AND p.date = ?2")
-	BigDecimal getTotalPriceOfInvestPortfolio(InvestPortfolio investPortfolio, String date);
+	BigDecimal getTotalPriceOfInvestPortfolio(InvestPortfolio investPortfolio, LocalDateTime date);
 
-	Set<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndDate(InvestPortfolio investPortfolio, String date);
+	Set<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndDate(InvestPortfolio investPortfolio, LocalDateTime date);
 
 }

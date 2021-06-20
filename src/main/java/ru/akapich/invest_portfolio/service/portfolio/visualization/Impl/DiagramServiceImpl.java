@@ -12,11 +12,11 @@ import ru.akapich.invest_portfolio.model.forms.visualization.DiagramResponseForm
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
-import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.DiagramService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -30,9 +30,6 @@ import java.util.Set;
 @Log4j2
 @Service
 public class DiagramServiceImpl implements DiagramService{
-
-	@Autowired
-	private HistoryAmountService historyAmountService;
 
 	@Autowired
 	private UserService userService;
@@ -52,8 +49,7 @@ public class DiagramServiceImpl implements DiagramService{
 	public List<DiagramResponseForm> getListDiagramForms() {
 		List<DiagramResponseForm> listDiagramResponseForm = new ArrayList<>();
 		FinancialAssetInUse financialAssetInUse;
-		String date = dateService.getCurrentDateAsString();
-
+		LocalDateTime date = dateService.getCurrentTime();
 
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Creating diagram for user with investPortfolio '%d'", investPortfolio.getId()));
