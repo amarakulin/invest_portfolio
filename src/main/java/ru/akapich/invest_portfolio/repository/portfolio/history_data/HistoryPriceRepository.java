@@ -14,5 +14,5 @@ import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryPrice;
 @Repository
 public interface HistoryPriceRepository extends JpaRepository<HistoryPrice, Long> {
 
-	HistoryPrice findByDateAndIdFinancialAssetInUse(String date, FinancialAssetInUse financialAssetInUse);
+	HistoryPrice findByIdFinancialAssetInUse(FinancialAssetInUse financialAssetInUse);
 }

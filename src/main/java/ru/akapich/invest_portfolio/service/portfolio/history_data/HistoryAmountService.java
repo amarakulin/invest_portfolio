@@ -22,5 +22,5 @@ public interface HistoryAmountService {
 
 	void updateHistoryAmountByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
 
-	BigDecimal getTotalPriceForOneAsset(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount, String date);
+	BigDecimal getTotalPriceForOneAsset(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount);
 }

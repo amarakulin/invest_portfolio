@@ -9,7 +9,6 @@ import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryPrice;
 import ru.akapich.invest_portfolio.parser.price_assets.america.ParseAmericanPriceAssets;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.FinancialAssetInUseRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryPriceRepository;
-import ru.akapich.invest_portfolio.service.date.DateService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;
 
 import java.io.IOException;
@@ -35,28 +34,35 @@ public class HistoryPriceServiceImpl implements HistoryPriceService {
 	private ParseAmericanPriceAssets parseAmericanPriceAssets;
 
 	@Autowired
-	private DateService dateService;
-
-	@Autowired
 	private HistoryPriceRepository historyPriceRepository;
 
 	@Override
 	@Transactional
 	public void updatePriceAmericanAssetsByExchange(String exchange) throws IOException {
 		//TODO could handle only 120 symbols per request
+		FinancialAssetInUse financialAssetInUse;
 		System.out.println(String.format("updatePriceAmericanAssetsByExchange with exchange: %s", exchange));
 		Map<String, BigDecimal> infoAmericanPriceAssets = parseAmericanPriceAssets.getAllPriceAmericanAssets(exchange);
 		System.out.println(String.format("infoAmericanPriceAssets: %s", infoAmericanPriceAssets.toString()));
-		String currentDate = dateService.getCurrentDateAsString();
-		System.out.println(String.format("currentDate: %s",currentDate));
 		for(Map.Entry<String, BigDecimal> asset : infoAmericanPriceAssets.entrySet()){
-			historyPriceRepository.save(
-					HistoryPrice.builder()
-							.idFinancialAssetInUse(financialAssetInUseRepository.findFinancialAssetInUseByIdAllFinancialAsset_Ticker(asset.getKey()))
-							.price(asset.getValue())
-							.date(currentDate)
-							.build()
-			);
+			financialAssetInUse = financialAssetInUseRepository.findFinancialAssetInUseByIdAllFinancialAsset_Ticker(asset.getKey());
+			if (financialAssetInUse == null) {
+				log.warn(String.format("[-] Couldn't update price american assets on asset with ticker: '%s'", asset.getKey()));
+				return;
+			}
+			HistoryPrice historyPrice = historyPriceRepository.findByIdFinancialAssetInUse(financialAssetInUse);
+			if (historyPrice == null) {
+				historyPriceRepository.save(
+						HistoryPrice.builder()
+								.idFinancialAssetInUse(financialAssetInUseRepository.findFinancialAssetInUseByIdAllFinancialAsset_Ticker(asset.getKey()))
+								.price(asset.getValue())
+								.build()
+				);
+			}
+			else{
+				historyPrice.setPrice(asset.getValue());
+			}
+
 		}
 	}
 

@@ -1,7 +1,6 @@
 package ru.akapich.invest_portfolio.service.portfolio.history_data.Impl;
 
 import lombok.extern.log4j.Log4j2;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,19 +39,21 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	private DateService dateService;
 
 	@Override
-	public BigDecimal getTotalPriceForOneAsset(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount, String date) {
+	public BigDecimal getTotalPriceForOneAsset(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount) {
 		HistoryPrice historyPriceForOneAsset;
 		BigDecimal priceForOneAsset = BigDecimal.ZERO;
-		log.info("[+] getTotalPriceForOneAsset");
+
 		FinancialAssetInUse financialAssetInUse = ownedFinancialAsset.getFinancialAssetInUse();
-		try {
-			historyPriceForOneAsset = historyPriceRepository.findByDateAndIdFinancialAssetInUse(date, financialAssetInUse);
-		}
-		catch (NonUniqueResultException e){
-			historyPriceForOneAsset = null;
-			log.warn("[-] Several price value for one date in table HistoryPrice");
-			log.warn(String.format("[-] Traceback '%s'", e.getMessage()));
-		}
+		log.info(String.format("[+] getTotalPriceForOneAsset ticker '%s'", financialAssetInUse.getIdAllFinancialAsset().getTicker()));
+//		try {
+			historyPriceForOneAsset = historyPriceRepository.findByIdFinancialAssetInUse(financialAssetInUse);
+			log.info(String.format("[+] getTotalPriceForOneAsset history_price '%s'", historyPriceForOneAsset));
+//		}
+//		catch (NonUniqueResultException e){
+//			historyPriceForOneAsset = null;
+//			log.warn("[-] Several price value for one date in table HistoryPrice");
+//			log.warn(String.format("[-] Traceback '%s'", e.getMessage()));
+//		}
 		if (historyPriceForOneAsset != null){
 			priceForOneAsset = historyPriceForOneAsset.getPrice();
 		}
@@ -64,7 +65,8 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	public void addNewHistoryAmount(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount) {
 
 		String date = dateService.getCurrentDateAsString();//FIXME Handle if date is not a work time of exchange
-		BigDecimal totalPriceForOneAsset = getTotalPriceForOneAsset(ownedFinancialAsset, amount, date);
+
+		BigDecimal totalPriceForOneAsset = getTotalPriceForOneAsset(ownedFinancialAsset, amount);
 
 		log.info(String.format("addNewHistoryAmount: ticker ownedFinancialAsset %s | amount %f | date %s | total %f",
 				ownedFinancialAsset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker(),
@@ -105,12 +107,12 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 			if (!historyAmount.getDate().equals(currentDate)){
 				historyAmountCopy = (HistoryAmount) historyAmount.clone();//TODO handle exception
 				historyAmountCopy.setDate(currentDate);
-				historyAmountCopy.setTotal(getTotalPriceForOneAsset(historyAmount.getOwnedFinancialAsset(), historyAmount.getAmount(), currentDate));
+				historyAmountCopy.setTotal(getTotalPriceForOneAsset(historyAmount.getOwnedFinancialAsset(), historyAmount.getAmount()));
 				historyAmountRepository.save(historyAmountCopy);
 			}
 			else if(historyAmount.getTotal().compareTo(BigDecimal.ZERO) == 0){
 				//Updates the totalPrice of the asset because the exchange was not working at the time of adding it.
-				historyAmount.setTotal(getTotalPriceForOneAsset(historyAmount.getOwnedFinancialAsset(), historyAmount.getAmount(), currentDate));
+				historyAmount.setTotal(getTotalPriceForOneAsset(historyAmount.getOwnedFinancialAsset(), historyAmount.getAmount()));
 			}
 			else {
 				log.info(String.format("History amount with id '%d' already exist in the date '%s'",

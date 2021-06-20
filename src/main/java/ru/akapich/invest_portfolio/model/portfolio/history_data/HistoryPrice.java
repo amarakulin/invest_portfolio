@@ -8,7 +8,6 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.Finan
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * JavaBean domain object
@@ -29,9 +28,6 @@ public class HistoryPrice {
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@Column
-	private String date;
 
 	@Column
 	private BigDecimal price;
