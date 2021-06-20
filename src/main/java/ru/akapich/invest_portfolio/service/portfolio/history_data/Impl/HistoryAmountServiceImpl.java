@@ -14,6 +14,7 @@ import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryPric
 import ru.akapich.invest_portfolio.service.date.DateService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 
+import javax.persistence.NonUniqueResultException;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
@@ -40,11 +41,18 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	@Override
 	public BigDecimal getTotalPriceForOneAsset(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount, String date) {
-
-		BigDecimal priceForOneAsset = new BigDecimal(0);
-
+		HistoryPrice historyPriceForOneAsset;
+		BigDecimal priceForOneAsset = BigDecimal.ZERO;
+		log.info("[+] getTotalPriceForOneAsset");
 		FinancialAssetInUse financialAssetInUse = ownedFinancialAsset.getFinancialAssetInUse();
-		HistoryPrice historyPriceForOneAsset = historyPriceRepository.findByDateAndIdFinancialAssetInUse(date, financialAssetInUse);
+		try {
+			historyPriceForOneAsset = historyPriceRepository.findByDateAndIdFinancialAssetInUse(date, financialAssetInUse);
+		}
+		catch (NonUniqueResultException e){
+			historyPriceForOneAsset = null;
+			log.warn("[-] Several price value for one date in table HistoryPrice");
+			log.warn(String.format("[-] Traceback '%s'", e.getMessage()));
+		}
 		if (historyPriceForOneAsset != null){
 			priceForOneAsset = historyPriceForOneAsset.getPrice();
 		}
@@ -54,7 +62,6 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	@Override
 	@Transactional
 	public void addNewHistoryAmount(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount) {
-//		BigDecimal priceForOneAsset = new BigDecimal(0);
 
 		String date = dateService.getCurrentDateAsString();//FIXME Handle if date is not a work time of exchange
 		BigDecimal totalPriceForOneAsset = getTotalPriceForOneAsset(ownedFinancialAsset, amount, date);
@@ -100,6 +107,10 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 				historyAmountCopy.setDate(currentDate);
 				historyAmountCopy.setTotal(getTotalPriceForOneAsset(historyAmount.getOwnedFinancialAsset(), historyAmount.getAmount(), currentDate));
 				historyAmountRepository.save(historyAmountCopy);
+			}
+			else if(historyAmount.getTotal().compareTo(BigDecimal.ZERO) == 0){
+				//Updates the totalPrice of the asset because the exchange was not working at the time of adding it.
+				historyAmount.setTotal(getTotalPriceForOneAsset(historyAmount.getOwnedFinancialAsset(), historyAmount.getAmount(), currentDate));
 			}
 			else {
 				log.info(String.format("History amount with id '%d' already exist in the date '%s'",
