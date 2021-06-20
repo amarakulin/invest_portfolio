@@ -19,8 +19,8 @@ import java.util.List;
 
 @Log4j2
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @PropertySource("classpath:message.properties")
+@CrossOrigin(origins = "http://localhost:3000/*", allowedHeaders = "*", maxAge = 3600)
 public class MatchAssetsController {
 
 	@Autowired

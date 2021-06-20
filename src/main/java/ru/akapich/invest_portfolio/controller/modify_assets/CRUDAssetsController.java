@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @PropertySource("classpath:message.properties")
+@CrossOrigin(origins = "http://localhost:3000/*", allowedHeaders = "*", maxAge = 3600)
 public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 	//FIXME Set validation in separate class !!!!!!!!!
