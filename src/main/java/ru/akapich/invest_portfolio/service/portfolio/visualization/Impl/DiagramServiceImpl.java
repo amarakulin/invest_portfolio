@@ -49,12 +49,19 @@ public class DiagramServiceImpl implements DiagramService{
 	public List<DiagramResponseForm> getListDiagramForms() {
 		List<DiagramResponseForm> listDiagramResponseForm = new ArrayList<>();
 		FinancialAssetInUse financialAssetInUse;
+		BigDecimal totalPriceInvestPortfolio;
 		LocalDateTime date = dateService.getCurrentTime();
 
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Creating diagram for user with investPortfolio '%d'", investPortfolio.getId()));
 		Set<HistoryAmount> setOfAllAssets = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolioAndDate(investPortfolio, date);
-		BigDecimal totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceOfInvestPortfolio(investPortfolio, date).setScale(2, RoundingMode.CEILING);
+		try {
+			totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceOfInvestPortfolio(investPortfolio, date).setScale(2, RoundingMode.CEILING);
+		}
+		catch (NullPointerException e){
+			totalPriceInvestPortfolio = BigDecimal.ZERO;
+			log.info(String.format("[-] InvestPortfolio with id: '%d' Didn't has any assets yet", investPortfolio.getId()));
+		}
 		log.info(String.format("[+] Total price of the investPortfolio '%f'", totalPriceInvestPortfolio));
 		for (HistoryAmount asset : setOfAllAssets){
 			System.out.println(asset.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker());
