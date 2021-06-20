@@ -2,6 +2,7 @@ package ru.akapich.invest_portfolio.parser.price_assets.america;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;
@@ -19,6 +20,7 @@ import java.util.*;
  * @author Aleksandr Marakulin
  **/
 
+@Log4j2
 @Component
 public class ParseAmericanPriceAssets {
 	//TODO encode !!
@@ -59,9 +61,16 @@ public class ParseAmericanPriceAssets {
 		}
 		System.out.println(responseData.toString());
 		JsonNode allAsset = mapper.readTree(responseData.toString());
-		for (Iterator<String> it = allAsset.fieldNames(); it.hasNext(); ) {
-			String key = it.next();
-			mapAssetsPrice.put(key, BigDecimal.valueOf(allAsset.get(key).get("price").asDouble()));
+
+		if (stringWithTickers.length() != 0) {
+			for (Iterator<String> it = allAsset.fieldNames(); it.hasNext(); ) {
+				String key = it.next();
+				mapAssetsPrice.put(key, BigDecimal.valueOf(allAsset.get(key).get("price").asDouble()));
+			}
+		}
+		else {
+			log.info("[-] Get an error in getAllPriceAmericanAssets. Could't get a data from 'twelvedata.com'");
+			log.info(String.format("[-] Error code: '%s'", allAsset.findValue("status").asText()));
 		}
 		System.out.println("mapAssetsPrice: ");
 		mapAssetsPrice.forEach((key, value) -> System.out.println(key + ":" + value));
