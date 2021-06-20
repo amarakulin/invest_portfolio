@@ -35,8 +35,8 @@ public class SchedulePriceAssets {
 	@Autowired
 	private ParseInfoAmericanStock parseAmericanStock;
 
-	//Every Monday-Friday at 9:59, 10:59, ... 15:59
-	@Scheduled(cron = "0 59 9-15 ? * MON-FRI", zone = "GMT-5")
+	//Every Monday-Friday at 9:00, 10:00, ... 15:00
+	@Scheduled(cron = "0 0 9-15 ? * MON-FRI", zone = "GMT-5")
 	void updatePriceOfNYSEExchange() throws IOException, ParseException, CloneNotSupportedException {
 		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
 		historyAmountService.updateAllHistoryAmount();
