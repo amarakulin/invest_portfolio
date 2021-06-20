@@ -26,8 +26,15 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 
 //	List<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolio(InvestPortfolio investPortfolio);
 
-	@Query("SELECT SUM (p.total) FROM HistoryAmount p WHERE p.ownedFinancialAsset = (" +
-			"SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1)")
-	BigDecimal getTotalPriceOfInvestPortfolio(InvestPortfolio investPortfolio);
+//	@Query("SELECT SUM (p.total) FROM HistoryAmount p WHERE p.ownedFinancialAsset = (" +
+//			"SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1)")
+//	BigDecimal getTotalPriceOfInvestPortfolio(InvestPortfolio investPortfolio);
+
+
+	@Query("SELECT SUM (p.total) FROM HistoryAmount p, OwnedFinancialAsset o WHERE" +
+			" p.ownedFinancialAsset = o " +
+			"AND o.investPortfolio = ?1 " +
+			"AND p.date = ?2")
+	BigDecimal getTotalPriceOfInvestPortfolio(InvestPortfolio investPortfolio, String date);
 
 }
