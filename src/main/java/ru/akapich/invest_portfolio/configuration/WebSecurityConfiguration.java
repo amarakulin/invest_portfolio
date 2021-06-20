@@ -70,8 +70,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 		registry.addMapping("/**")
 				.allowedHeaders("*")
 				.allowedOriginPatterns("http://localhost:3000")
-				.allowedMethods("POST", "GET", "DELETE", "PUT")
-				.allowCredentials(true).maxAge(3600);
+				.allowedMethods("POST", "GET", "DELETE", "PUT");
+//				.allowCredentials(true).maxAge(3600);
 	}
 
 	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)

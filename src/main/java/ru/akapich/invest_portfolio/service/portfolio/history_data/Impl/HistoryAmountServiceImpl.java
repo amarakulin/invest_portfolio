@@ -1,15 +1,20 @@
 package ru.akapich.invest_portfolio.service.portfolio.history_data.Impl;
 
 import lombok.extern.log4j.Log4j2;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
+import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryPrice;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
+import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryPriceRepository;
 import ru.akapich.invest_portfolio.service.date.DateService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 
+import javax.persistence.NonUniqueResultException;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
@@ -29,19 +34,45 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	private HistoryAmountRepository historyAmountRepository;
 
 	@Autowired
+	private HistoryPriceRepository historyPriceRepository;
+
+	@Autowired
 	private DateService dateService;
+
+	@Override
+	public BigDecimal getTotalPriceForOneAsset(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount, String date) {
+		HistoryPrice historyPriceForOneAsset;
+		BigDecimal priceForOneAsset = BigDecimal.ZERO;
+		log.info("[+] getTotalPriceForOneAsset");
+		FinancialAssetInUse financialAssetInUse = ownedFinancialAsset.getFinancialAssetInUse();
+		try {
+			historyPriceForOneAsset = historyPriceRepository.findByDateAndIdFinancialAssetInUse(date, financialAssetInUse);
+		}
+		catch (NonUniqueResultException e){
+			historyPriceForOneAsset = null;
+			log.warn("[-] Several price value for one date in table HistoryPrice");
+			log.warn(String.format("[-] Traceback '%s'", e.getMessage()));
+		}
+		if (historyPriceForOneAsset != null){
+			priceForOneAsset = historyPriceForOneAsset.getPrice();
+		}
+		return amount.multiply(priceForOneAsset);
+	}
 
 	@Override
 	@Transactional
 	public void addNewHistoryAmount(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount) {
 
-		String date = dateService.getCurrentDateAsString();
-		log.info(String.format("addNewHistoryAmount: ticker ownedFinancialAsset %s | amount %f | date %s",
+		String date = dateService.getCurrentDateAsString();//FIXME Handle if date is not a work time of exchange
+		BigDecimal totalPriceForOneAsset = getTotalPriceForOneAsset(ownedFinancialAsset, amount, date);
+
+		log.info(String.format("addNewHistoryAmount: ticker ownedFinancialAsset %s | amount %f | date %s | total %f",
 				ownedFinancialAsset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker(),
-				amount, date));
+				amount, date, totalPriceForOneAsset));
 		HistoryAmount historyAmount = HistoryAmount.builder()
 				.ownedFinancialAsset(ownedFinancialAsset)
 				.amount(amount)
+				.total(totalPriceForOneAsset)
 				.date(date)
 				.build();
 
@@ -74,7 +105,12 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 			if (!historyAmount.getDate().equals(currentDate)){
 				historyAmountCopy = (HistoryAmount) historyAmount.clone();//TODO handle exception
 				historyAmountCopy.setDate(currentDate);
+				historyAmountCopy.setTotal(getTotalPriceForOneAsset(historyAmount.getOwnedFinancialAsset(), historyAmount.getAmount(), currentDate));
 				historyAmountRepository.save(historyAmountCopy);
+			}
+			else if(historyAmount.getTotal().compareTo(BigDecimal.ZERO) == 0){
+				//Updates the totalPrice of the asset because the exchange was not working at the time of adding it.
+				historyAmount.setTotal(getTotalPriceForOneAsset(historyAmount.getOwnedFinancialAsset(), historyAmount.getAmount(), currentDate));
 			}
 			else {
 				log.info(String.format("History amount with id '%d' already exist in the date '%s'",
@@ -85,6 +121,6 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	@Override
 	public void updateHistoryAmountByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset) {
-
+		//FIXME Handle if date is not a work time of exchange
 	}
 }

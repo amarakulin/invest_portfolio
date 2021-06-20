@@ -21,4 +21,7 @@ public interface OwnedFinancialAssetRepository extends JpaRepository<OwnedFinanc
 	OwnedFinancialAsset findExistTickerInInvestPortfolio(
 			InvestPortfolio investPortfolio,
 			FinancialAssetInUse financialAssetInUse);
+
+	@Query("SELECT o.FinancialAssetInUse FROM OwnedFinancialAsset o WHERE o = ?1")
+	FinancialAssetInUse findFinancialAssetInUseByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
 }
