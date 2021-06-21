@@ -34,6 +34,14 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 			"AND p.date = ?2")
 	BigDecimal getTotalPriceOfInvestPortfolio(InvestPortfolio investPortfolio, LocalDateTime date);
 
+	@Query("SELECT h.date, SUM (h.amount) FROM HistoryAmount h GROUP BY h.date HAVING h.ownedFinancialAsset.investPortfolio = ?1")
+	List<HistoryAmount> getAllHistoryAmountOfDateByInvestPortfolio(InvestPortfolio investPortfolio);
+
 	Set<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndDate(InvestPortfolio investPortfolio, LocalDateTime date);
+
+	List<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndOwnedFinancialAsset_FinancialAssetInUse_IdAllFinancialAsset_Ticker(
+						InvestPortfolio investPortfolio, String ticker);
+
+
 
 }
