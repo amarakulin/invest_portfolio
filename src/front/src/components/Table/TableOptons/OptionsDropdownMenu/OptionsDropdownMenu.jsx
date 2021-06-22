@@ -20,7 +20,15 @@ const OptionsDropdownMenu = (props) => {
 					props.setEditMode(props.ticker)
 				}}
 			>
-				Изменить
+				Купил
+			</OptionsDropdownItem>
+			<OptionsDropdownItem
+				onClick={() => {
+					props.toggleIsOpen(false);
+					props.setEditMode(props.ticker)
+				}}
+			>
+				Продал
 			</OptionsDropdownItem>
 		</OptionsDropdownList>
 	)

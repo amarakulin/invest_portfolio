@@ -1,8 +1,6 @@
-import { useState } from 'react';
-import TableRow from './TableRow';
-import styled from "styled-components";
-import TableOptions from './TableOptons/TableOptions';
-import EditAssetAmountForm from '../Forms/EditAssetAmountForm/EditAssetAmountForm'
+import TableOptions from '../TableOptons/TableOptions';
+import EditAssetAmountForm from '../../Forms/EditAssetAmountForm/EditAssetAmountForm'
+import styled from 'styled-components';
 
 const TabelBodyCell = styled.div`
 	padding: 20px 12px 20px 12px;
@@ -20,7 +18,7 @@ const TabelBodyCell = styled.div`
 	}}
 `
 
-const RowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex }) => {
+const BodyRowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex }) => {
 	const renderTableOptions = () => {
 		return <TableOptions
 			setEditMode={setEditMode}
@@ -56,31 +54,4 @@ const RowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex }) => 
 	)
 }
 
-const TableBody = ({ data, order }) => {
-	const [editModeByTicker, setEditMode] = useState(null);
-
-	return (
-		data.map((_, dataIndex) => {
-			return (
-				<TableRow
-					bodyRow={true}
-					cols={order.length}
-					key={data[dataIndex].ticker}
-					bordercolor='#F3F3FB'
-				>
-					{
-						<RowCells
-							data={data}
-							order={order}
-							dataIndex={dataIndex}
-							editModeByTicker={editModeByTicker}
-							setEditMode={setEditMode}
-						/>
-					}
-				</TableRow>
-			)
-		})
-	)
-}
-
-export default TableBody;
+export default BodyRowCells;

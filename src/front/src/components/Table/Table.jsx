@@ -1,4 +1,4 @@
-import TableBody from './TableBody'
+import TableBody from './TableBody/TableBody'
 import TableHeader from './TableHeader'
 import styled from "styled-components";
 
