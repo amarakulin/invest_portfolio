@@ -12,7 +12,7 @@ const SendButton = styled.button`
 	width: 25%;
 	display: block;
 	border-radius: 6px;
-	border: ${props => props.diabled ? '2px solid tomato' : '2px solid transparent'};
+	border: ${props => props.invalid ? '2px solid tomato' : '2px solid transparent'};
 	background: transparent url(${sendIcon}) center center / contain no-repeat;
 	padding-bottom: 15%;
 `
@@ -21,7 +21,7 @@ const EditAssetAmountForm = (props) => {
 	return (
 		<Form
 			onSubmit={editAssetAmountFormSubmit({value: props.value, ticker: props.ticker, type:props.type, editAsset: props.editAsset})}
-			render={({ handleSubmit, form, invalid, valid, values }) => (
+			render={({ handleSubmit, form, invalid, values }) => (
 				<form 
 					style={{width: '100%'}}
 					onSubmit={handleSubmit}
@@ -36,7 +36,7 @@ const EditAssetAmountForm = (props) => {
 							validate={amountValidator}
 							onBlur={() => props.setEditMode({ticker: null, type: null})}
 						/>
-						<SendButton diabled={invalid} onMouseDown={form.submit}/>
+						<SendButton diabled={invalid} invalid={Object.keys(values).length && invalid} onMouseDown={form.submit}/>
 					</Wrapper>
 				</form>
 			)}
