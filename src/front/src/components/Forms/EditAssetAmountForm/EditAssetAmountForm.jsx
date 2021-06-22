@@ -15,11 +15,16 @@ const SendButton = styled.button`
 `
 
 const EditAssetAmountForm = (props) => {
+	const initialValue = parseInt(props.value);
+
 	return (
 		<Form
-			initialValues={{amount: parseInt(props.value)}}
 			onSubmit={(formData) => {
-				props.editAsset(props.ticker, formData.amount);
+				if (props.type === 'buy') {
+					props.editAsset(props.ticker, +formData.amount + +initialValue);
+				} else if (props.type === 'sell') {
+					props.editAsset(props.ticker, +initialValue - +formData.amount);
+				}
 			}}
 			render={({ handleSubmit, form }) => (
 				<form 
@@ -34,7 +39,7 @@ const EditAssetAmountForm = (props) => {
 							autoFocus='on'
 							style={{maxWidth: '70%'}}
 							onBlur={() => {
-								props.setEditMode(null)
+								props.setEditMode({ticker: null, type: null})
 							}}
 						>
 						</Field>

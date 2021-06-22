@@ -17,7 +17,7 @@ const OptionsDropdownMenu = (props) => {
 			<OptionsDropdownItem
 				onClick={() => {
 					props.toggleIsOpen(false);
-					props.setEditMode(props.ticker)
+					props.setEditMode({ticker: props.ticker, type: 'buy'})
 				}}
 			>
 				Купил
@@ -25,7 +25,7 @@ const OptionsDropdownMenu = (props) => {
 			<OptionsDropdownItem
 				onClick={() => {
 					props.toggleIsOpen(false);
-					props.setEditMode(props.ticker)
+					props.setEditMode({ticker: props.ticker, type: 'sell'})
 				}}
 			>
 				Продал

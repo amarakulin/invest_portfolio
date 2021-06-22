@@ -3,7 +3,7 @@ import TableRow from '../TableRow';
 import BodyRowCells from './BodyRowCells';
 
 const TableBody = ({ data, order }) => {
-	const [editModeByTicker, setEditMode] = useState(null);
+	const [editModeByTicker, setEditMode] = useState({ticker: null, type: null});
 
 	return (
 		data.map((_, dataIndex) => {

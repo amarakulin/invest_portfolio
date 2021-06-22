@@ -32,11 +32,12 @@ const BodyRowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex })
 				return (
 					<TabelBodyCell key={i}>
 						{
-							editModeByTicker === data[dataIndex].ticker && el === 'amount'
+							editModeByTicker.ticker === data[dataIndex].ticker && el === 'amount'
 								? <EditAssetAmountForm
 									value={data[dataIndex][el]}
 									setEditMode={setEditMode}
 									ticker={data[dataIndex].ticker}
+									type={editModeByTicker.type}
 								/>
 								: data[dataIndex][el]
 						}
