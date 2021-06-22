@@ -1,6 +1,7 @@
 import { OptionsDropdownItem, OptionsDropdownList } from './OptionsDropdownMenuStyles';
 import { connect } from 'react-redux'; 
-import { deleteAsset } from '../../../../redux/assetsTableReduser'
+import { deleteAsset } from '../../../../redux/assetsTableReduser';
+import { TYPE_BUY, TYPE_SELL } from '../../../../redux/assetsTableReduser';
 
 const OptionsDropdownMenu = (props) => {
 
@@ -17,7 +18,7 @@ const OptionsDropdownMenu = (props) => {
 			<OptionsDropdownItem
 				onClick={() => {
 					props.toggleIsOpen(false);
-					props.setEditMode({ticker: props.ticker, type: 'buy'})
+					props.setEditMode({ticker: props.ticker, type: TYPE_BUY})
 				}}
 			>
 				Купил
@@ -25,7 +26,7 @@ const OptionsDropdownMenu = (props) => {
 			<OptionsDropdownItem
 				onClick={() => {
 					props.toggleIsOpen(false);
-					props.setEditMode({ticker: props.ticker, type: 'sell'})
+					props.setEditMode({ticker: props.ticker, type: TYPE_SELL})
 				}}
 			>
 				Продал

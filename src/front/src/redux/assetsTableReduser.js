@@ -1,6 +1,9 @@
 import { DataAPI, AssetsOptionsApi } from '../api/api';
 import { toggleIsFetching } from './apiReduser';
 
+export const TYPE_BUY = 'TYPE_BUY';
+export const TYPE_SELL = 'TYPE_SELL';
+
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const SET_TABLE_DATA = 'SET_TABLE_DATA';
 const DELETE_ASSET = 'DELETE_ASSET';

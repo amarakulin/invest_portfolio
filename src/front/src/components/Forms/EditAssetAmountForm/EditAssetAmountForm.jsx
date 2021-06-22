@@ -4,7 +4,8 @@ import { Wrapper } from '../../Basic/Wrapper/Wrapper'
 import styled from 'styled-components';
 import sendIcon from '../../../assets/send.png';
 import { connect } from 'react-redux';
-import { editAsset } from '../../../redux/assetsTableReduser'
+import { editAsset } from '../../../redux/assetsTableReduser';
+import { TYPE_BUY, TYPE_SELL } from '../../../redux/assetsTableReduser';
 
 const SendButton = styled.button`
 	width: 30%;
@@ -20,9 +21,9 @@ const EditAssetAmountForm = (props) => {
 	return (
 		<Form
 			onSubmit={(formData) => {
-				if (props.type === 'buy') {
+				if (props.type === TYPE_BUY) {
 					props.editAsset(props.ticker, +formData.amount + +initialValue);
-				} else if (props.type === 'sell') {
+				} else if (props.type === TYPE_SELL) {
 					props.editAsset(props.ticker, +initialValue - +formData.amount);
 				}
 			}}
