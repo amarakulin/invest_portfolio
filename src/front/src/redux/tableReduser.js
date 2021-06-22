@@ -61,7 +61,6 @@ function getTableDataTest() {
 			price: 'Цена.',
 			amount: 'Кол-во',
 			total: 'Сумма',
-			options: ''
 		},
 		body: [
 			{
@@ -72,7 +71,6 @@ function getTableDataTest() {
 				price: '180руб.',
 				amount: '3 шт.',
 				total: '540 руб.', 
-				options: ''
 			},
 			{
 				name: 'Газпром',
@@ -82,7 +80,6 @@ function getTableDataTest() {
 				price: '180руб.',
 				amount: '3 шт.',
 				total: '540 руб.',
-				options: ''
 			},
 			{
 				name: 'Газпром',
@@ -92,12 +89,11 @@ function getTableDataTest() {
 				price: '180руб.',
 				amount: '3 шт.',
 				total: '540 руб.',
-				options: ''
 			}
 			
 		],
 		order: [
-			'name', 'ticker', 'type', 'exchange', 'price', 'amount', 'total', 'options'
+			'name', 'ticker', 'type', 'exchange', 'price', 'amount', 'total'
 		],
 	}
 }
