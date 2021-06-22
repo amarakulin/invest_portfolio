@@ -19,7 +19,7 @@ export const validateRepasswordField = (values) => {
 }
 
 export const amountValidator = (value) => {
-	if (+value <= 0)
+	if (+value <= 0 || isNaN(+value))
 		return true
 	return undefined;
 }
