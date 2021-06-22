@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
-import ru.akapich.invest_portfolio.model.forms.visualization.FormGeneralGraphSQLQuery;
+import ru.akapich.invest_portfolio.model.forms.sql.FormDatePriceGraphSQLQuery;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -35,16 +35,17 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 			"AND p.date = ?2")
 	BigDecimal getTotalPriceOfInvestPortfolio(InvestPortfolio investPortfolio, LocalDateTime date);
 
-	@Query(value = "SELECT new ru.akapich.invest_portfolio.model.forms.visualization.FormGeneralGraphSQLQuery(h.date, SUM(h.total), h.ownedFinancialAsset.investPortfolio)  FROM HistoryAmount h WHERE h.ownedFinancialAsset.investPortfolio = ?1 GROUP BY h.date, h.ownedFinancialAsset.investPortfolio")
-	List<FormGeneralGraphSQLQuery> getAllHistoryAmountOfDateByInvestPortfolio(InvestPortfolio investPortfolio);
+	@Query(value = "SELECT new ru.akapich.invest_portfolio.model.forms.sql.FormDatePriceGraphSQLQuery(h.date, SUM(h.total), h.ownedFinancialAsset.investPortfolio)" +
+			" FROM HistoryAmount h WHERE h.ownedFinancialAsset.investPortfolio = ?1" +
+			" GROUP BY h.date, h.ownedFinancialAsset.investPortfolio")
+	List<FormDatePriceGraphSQLQuery> getGeneralDatePriceByInvestPortfolio(InvestPortfolio investPortfolio);
 
 	Set<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndDate(InvestPortfolio investPortfolio, LocalDateTime date);
 
-	@Query("SELECT h FROM HistoryAmount h WHERE " +
-			"h.ownedFinancialAsset.investPortfolio = ?1 " +
-			"AND h.ownedFinancialAsset.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2")
-	List<HistoryAmount> findAllByInvestPortfolioAndTicker(InvestPortfolio investPortfolio, String ticker);
-
-
+	@Query(value = "SELECT new ru.akapich.invest_portfolio.model.forms.sql.FormDatePriceGraphSQLQuery(h.date, h.total, h.ownedFinancialAsset.investPortfolio)" +
+			" FROM HistoryAmount h WHERE" +
+			" h.ownedFinancialAsset.investPortfolio = ?1" +
+			" AND h.ownedFinancialAsset.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2")
+	List<FormDatePriceGraphSQLQuery> getAllDatePriceValueByInvestPortfolioAndTicker(InvestPortfolio investPortfolio, String ticker);
 
 }

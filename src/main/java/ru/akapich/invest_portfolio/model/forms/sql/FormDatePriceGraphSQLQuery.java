@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.model.forms.visualization;
+package ru.akapich.invest_portfolio.model.forms.sql;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
+ * Form to get data from db for graph values
+ *
  * @author Aleksandr Marakulin
  **/
 
@@ -17,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FormGeneralGraphSQLQuery {
+public class FormDatePriceGraphSQLQuery {
 
 	private LocalDateTime date;
 	private BigDecimal total;
