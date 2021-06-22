@@ -3,13 +3,15 @@ import { toggleIsFetching } from './apiReduser';
 
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const SET_TABLE_DATA = 'SET_TABLE_DATA';
+const DELETE_ASSET = 'DELETE_ASSET';
+const EDIT_ASSET = 'EDIT_ASSET';
 
 const initialState = {
 	isFetching: false,
 	data: {}
 }
 
-const tableReduser = (state = initialState, action) => {
+const assetsTableReduser = (state = initialState, action) => {
 	switch (action.type) {
 		case TOGGLE_IS_FETCHING: {
 			return {
@@ -49,7 +51,7 @@ export const getTableData = () => (dispatch) => {
 		})
 }
 
-export default tableReduser;
+export default assetsTableReduser;
 
 function getTableDataTest() {
 	return {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getTableData } from '../../../redux/tableReduser';
+import { getTableData } from '../../../redux/assetsTableReduser';
 import Preloader from '../../Basic/Preloader/Preloader'
 import Table from '../../Table/Table'
 

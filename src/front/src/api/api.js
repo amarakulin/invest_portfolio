@@ -58,3 +58,9 @@ export const SearchAPI = {
 			.then(res => res.data);
 	}
 }
+
+export const AssetsOptionsApi = {
+	deleteAsset(ticker) {
+		return api.delete(`asset/delete?ticker=${ticker}`)
+	}
+}
