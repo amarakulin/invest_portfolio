@@ -1,5 +1,6 @@
 import TableRow from './TableRow';
 import styled from "styled-components";
+import TableOptions from './TableOptions';
 
 const TabeBodyCell = styled.div`
 	padding: 20px 12px 20px 12px;
@@ -10,6 +11,11 @@ const TabeBodyCell = styled.div`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	${props => {
+		return props.options && 'justify-content: center; padding: 0 12px;'
+	}}
 `
 
 
@@ -29,6 +35,9 @@ const TableBody = ({ data, order }) => {
 								order.map((el, i) => {
 									return <TabeBodyCell key={i}>{data[dataIndex][el]}</TabeBodyCell>
 								})
+							}
+							{
+								<TableOptions />
 							}
 						</TableRow>
 					)

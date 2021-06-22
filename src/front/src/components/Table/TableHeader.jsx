@@ -18,6 +18,9 @@ const TableHeader = ({ data, order }) => {
 					return <TableHeaderCell key={i}>{data[el]}</TableHeaderCell>
 				})
 			}
+			{
+				<TableHeaderCell>Опции</TableHeaderCell>
+			}
 		</TableRow>
 	)
 }
