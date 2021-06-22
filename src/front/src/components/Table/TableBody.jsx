@@ -1,6 +1,6 @@
 import TableRow from './TableRow';
 import styled from "styled-components";
-import TableOptions from './TableOptions';
+import TableOptions from './TableOptons/TableOptions';
 
 const TabeBodyCell = styled.div`
 	padding: 20px 12px 20px 12px;

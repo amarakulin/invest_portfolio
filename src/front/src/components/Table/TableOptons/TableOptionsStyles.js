@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { CenterWrapper as Wrapper } from '../Basic/Wrapper/Wrapper';
+import { CenterWrapper as Wrapper } from '../../Basic/Wrapper/Wrapper';
 
-const Dots = styled.span`
+export const Dots = styled.span`
 	position: relative;
 	width: 5px;
 	height: 5px;
@@ -24,7 +24,8 @@ const Dots = styled.span`
 	}
 `
 
-const DotsWrapper = styled(Wrapper)`
+export const DotsWrapper = styled(Wrapper)`
+	position: relative;
 	&:hover ${Dots} {
 		background-color: #343A40;
 		&:before,
@@ -33,13 +34,3 @@ const DotsWrapper = styled(Wrapper)`
 		}
 	}
 `
-
-const TableOptions = (props) => {
-	return (
-		<DotsWrapper>
-			<Dots />
-		</DotsWrapper>
-	);
-}
-
-export default TableOptions;
