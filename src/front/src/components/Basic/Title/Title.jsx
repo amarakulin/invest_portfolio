@@ -17,6 +17,7 @@ export const SmallTitle = styled.h2`
 	line-height: 36px;
 	color: #343A40;
 	margin: 0;
+	margin-bottom: ${props => props.marginBottom}px;
 `
 
 

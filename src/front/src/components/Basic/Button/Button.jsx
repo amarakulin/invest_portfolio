@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const Button = styled.button`
 	padding: 21px 118px;
-	width: 100%;
+	width: ${props => props.width || '100'}%;
 	background-color: #89D7AB;
 	border: none;
 	border-radius: 6px;
