@@ -5,7 +5,7 @@ import { Wrapper } from '../Basic/Wrapper/Wrapper';
 import Button from '../Basic/Button/Button';
 
 const Confirm = (props) => {
-	const [isModalOpen, toggleIsModal] = useState(true);
+	const [isModalOpen, toggleIsModal] = useState(props.showConfirm);
 
 	return (
 		<Modal closeModal={toggleIsModal} display={isModalOpen}>
