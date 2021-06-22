@@ -8,7 +8,7 @@ const EDIT_ASSET = 'EDIT_ASSET';
 
 const initialState = {
 	isFetching: false,
-	data: {}
+	data: {},
 }
 
 const assetsTableReduser = (state = initialState, action) => {
@@ -31,7 +31,21 @@ const assetsTableReduser = (state = initialState, action) => {
 				data: {
 					...state.data,
 					body: state.data.body.filter(el => {
-						return el.ticker != action.ticker
+						return el.ticker !== action.ticker
+					})
+				}
+			}
+		}
+		case EDIT_ASSET: {
+			return {
+				...state,
+				data: {
+					...state.data,
+					body: state.data.body.map(el => {
+						if (el.ticker === action.ticker) {
+							el.amount = `${action.amount} шт.`
+						}
+						return el;
 					})
 				}
 			}
@@ -45,6 +59,16 @@ const assetsTableReduser = (state = initialState, action) => {
 const setTableData = (data) => ({type: SET_TABLE_DATA, data})
 
 const deleteAssetFromState = (ticker) => ({type: DELETE_ASSET, ticker})
+
+export const editAssetInState = (ticker, amount) => ({type: EDIT_ASSET, ticker, amount})
+
+export const editAsset = (ticker, amount) => (dispatch) => {
+	AssetsOptionsApi.editAsset(ticker, amount)
+		.then(() => {
+			dispatch(editAssetInState(ticker, amount));
+		})
+		.finally(() => dispatch(editAssetInState(ticker, amount)))
+}
 
 export const deleteAsset = (ticker) => (dispatch) => {
 	AssetsOptionsApi.deleteAsset(ticker)
