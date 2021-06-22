@@ -1,22 +1,6 @@
 import TableOptions from '../TableOptons/TableOptions';
-import EditAssetAmountForm from '../../Forms/EditAssetAmountForm/EditAssetAmountForm'
-import styled from 'styled-components';
-
-const TabelBodyCell = styled.div`
-	padding: 20px 12px 20px 12px;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	color: #272833;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	display: flex;
-	align-items: center;
-	${props => {
-		return props.options && 'justify-content: center; padding: 0 12px;'
-	}}
-`
+import EditAssetAmountForm from '../../Forms/EditAssetAmountForm/EditAssetAmountForm';
+import { TabelBodyCell } from './tableBodyStyles'
 
 const BodyRowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex }) => {
 	const getTableBodyRowCells = () => {
