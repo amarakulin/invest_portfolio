@@ -60,7 +60,8 @@ function getTableDataTest() {
 			exchange: 'Биржа',
 			price: 'Цена.',
 			amount: 'Кол-во',
-			total: 'Сумма'
+			total: 'Сумма',
+			options: ''
 		},
 		body: [
 			{
@@ -70,7 +71,8 @@ function getTableDataTest() {
 				exchange: 'MOEX',
 				price: '180руб.',
 				amount: '3 шт.',
-				total: '540 руб.'
+				total: '540 руб.', 
+				options: ''
 			},
 			{
 				name: 'Газпром',
@@ -79,7 +81,8 @@ function getTableDataTest() {
 				exchange: 'MOEX',
 				price: '180руб.',
 				amount: '3 шт.',
-				total: '540 руб.'
+				total: '540 руб.',
+				options: ''
 			},
 			{
 				name: 'Газпром',
@@ -88,16 +91,13 @@ function getTableDataTest() {
 				exchange: 'MOEX',
 				price: '180руб.',
 				amount: '3 шт.',
-				total: '540 руб.'
+				total: '540 руб.',
+				options: ''
 			}
 			
 		],
-		options: {
-			delete: true,
-			change: 'amount'
-		},
 		order: [
-			'name', 'ticker', 'type', 'exchange', 'price', 'amount', 'total', 'delete'
+			'name', 'ticker', 'type', 'exchange', 'price', 'amount', 'total', 'options'
 		],
 	}
 }

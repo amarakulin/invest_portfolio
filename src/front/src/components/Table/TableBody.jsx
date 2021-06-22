@@ -1,4 +1,4 @@
-import { TableBodyRow } from './TableRow';
+import TableRow from './TableRow';
 import styled from "styled-components";
 
 const TabeBodyCell = styled.div`
@@ -19,7 +19,9 @@ const TableBody = ({ data, order }) => {
 			{
 				data.map((_, dataIndex) => {
 					return (
-						<TableBodyRow
+						<TableRow
+							bodyRow={true}
+							cols={order.length}
 							key={dataIndex}
 							bordercolor='#F3F3FB'
 						>
@@ -28,7 +30,7 @@ const TableBody = ({ data, order }) => {
 									return <TabeBodyCell key={i}>{data[dataIndex][el]}</TabeBodyCell>
 								})
 							}
-						</TableBodyRow>
+						</TableRow>
 					)
 				})
 			}

@@ -5,22 +5,22 @@ const StyledTableRow = styled.div`
 	display: grid;
 	grid-template-columns: 
 		minmax(150px, 22%)
-		repeat(auto-fit, minmax(100px, 1fr))
-`
-
-export const TableBodyRow = styled(StyledTableRow)`
-	border: 1px solid #F3F3FB;
-	border-radius: 6px;
-	transition: all 0.2s ease;
-	cursor: pointer;
-	&:hover {
-		background-color: #F3F3FB;
+		repeat(${props => props.cols - 2}, minmax(50px, 1fr))
+		minmax(50px, 5%);
+	${props => props.bodyRow &&
+	`border: 1px solid #F3F3FB;
+		border-radius: 6px;
+		transition: all 0.2s ease;
+		cursor: pointer;
+		&:hover {
+			background-color: #F3F3FB;
+		}`
 	}
 `
 
 const TableRow = (props) => {
 	return (
-		<StyledTableRow>
+		<StyledTableRow {...props}>
 			{props.children}
 		</StyledTableRow>
 	)
