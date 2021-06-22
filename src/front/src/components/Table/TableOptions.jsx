@@ -8,13 +8,6 @@ const Dots = styled.span`
 	background-color: #8692A6;
 	border-radius: 50%;
 	transition: all 0.s ease;
-	&:hover {
-		background-color: #343A40;
-		&:after,
-		&:before {
-			background-color: #343A40;
-		}
-	}
 	&:after,
 	&:before {
 		content: '';
@@ -31,11 +24,21 @@ const Dots = styled.span`
 	}
 `
 
+const DotsWrapper = styled(Wrapper)`
+	&:hover ${Dots} {
+		background-color: #343A40;
+		&:before,
+		&:after {
+			background-color: #343A40;
+		}
+	}
+`
+
 const TableOptions = (props) => {
 	return (
-		<Wrapper>
+		<DotsWrapper>
 			<Dots />
-		</Wrapper>
+		</DotsWrapper>
 	);
 }
 
