@@ -4,7 +4,7 @@ import styled from "styled-components";
 import TableOptions from './TableOptons/TableOptions';
 import EditAssetAmountForm from '../Forms/EditAssetAmountForm/EditAssetAmountForm'
 
-const TabeBodyCell = styled.div`
+const TabelBodyCell = styled.div`
 	padding: 20px 12px 20px 12px;
 	font-style: normal;
 	font-weight: normal;
@@ -20,48 +20,66 @@ const TabeBodyCell = styled.div`
 	}}
 `
 
+const RowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex }) => {
+	const renderTableOptions = () => {
+		return <TableOptions
+			setEditMode={setEditMode}
+			ticker={data[dataIndex].ticker}
+		/>
+	}
+
+	const renderBodyCells = () => {
+		return (
+			order.map((el, i) => {
+				return (
+					<TabelBodyCell key={i}>
+						{
+							editModeByTicker === data[dataIndex].ticker && el === 'amount'
+								? <EditAssetAmountForm
+									value={data[dataIndex][el]}
+									setEditMode={setEditMode}
+									ticker={data[dataIndex].ticker}
+								/>
+								: data[dataIndex][el]
+						}
+					</TabelBodyCell>
+				)
+			})
+		)
+	}
+
+	return (
+		<>
+			{renderBodyCells()}
+			{renderTableOptions()}
+		</>
+	)
+}
+
 const TableBody = ({ data, order }) => {
 	const [editModeByTicker, setEditMode] = useState(null);
 
 	return (
-		<div>
-			{
-				data.map((_, dataIndex) => {
-					return (
-						<TableRow
-							bodyRow={true}
-							cols={order.length}
-							key={data[dataIndex].ticker}
-							bordercolor='#F3F3FB'
-						>
-							{
-								order.map((el, i) => {
-									return (
-										<TabeBodyCell key={i}>
-											{
-												editModeByTicker === data[dataIndex].ticker && el === 'amount'
-													? <EditAssetAmountForm 
-														value={data[dataIndex][el]}
-														setEditMode={setEditMode}
-														ticker={data[dataIndex].ticker}
-													/>
-													: data[dataIndex][el]
-											}
-										</TabeBodyCell>
-									)
-								})
-							}
-							{
-								<TableOptions
-									setEditMode={setEditMode}
-									ticker={data[dataIndex].ticker}
-								/>
-							}
-						</TableRow>
-					)
-				})
-			}
-		</div>
+		data.map((_, dataIndex) => {
+			return (
+				<TableRow
+					bodyRow={true}
+					cols={order.length}
+					key={data[dataIndex].ticker}
+					bordercolor='#F3F3FB'
+				>
+					{
+						<RowCells
+							data={data}
+							order={order}
+							dataIndex={dataIndex}
+							editModeByTicker={editModeByTicker}
+							setEditMode={setEditMode}
+						/>
+					}
+				</TableRow>
+			)
+		})
 	)
 }
 
