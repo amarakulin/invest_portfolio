@@ -16,11 +16,9 @@ const SendButton = styled.button`
 `
 
 const EditAssetAmountForm = (props) => {
-	
-
 	return (
 		<Form
-			onSubmit={editAssetAmountForm({value: props.value, ticker: props.ticker, type:props.type, editAsset: props.editAsset})}
+			onSubmit={editAssetAmountFormSubmit({value: props.value, ticker: props.ticker, type:props.type, editAsset: props.editAsset})}
 			render={({ handleSubmit, form }) => (
 				<form 
 					style={{width: '100%'}}

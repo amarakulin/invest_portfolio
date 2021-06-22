@@ -19,40 +19,42 @@ const TabelBodyCell = styled.div`
 `
 
 const BodyRowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex }) => {
-	const renderTableOptions = () => {
-		return <TableOptions
-			setEditMode={setEditMode}
-			ticker={data[dataIndex].ticker}
-		/>
-	}
+	const getTableBodyRowCells = () => {
+		const TableBodyRow = () => {
+			return <TableOptions
+				setEditMode={setEditMode}
+				ticker={data[dataIndex].ticker}
+			/>
+		}
 
-	const renderBodyCells = () => {
-		return (
-			order.map((el, i) => {
-				return (
-					<TabelBodyCell key={i}>
-						{
-							editModeByTicker.ticker === data[dataIndex].ticker && el === 'amount'
-								? <EditAssetAmountForm
-									value={data[dataIndex][el]}
-									setEditMode={setEditMode}
-									ticker={data[dataIndex].ticker}
-									type={editModeByTicker.type}
-								/>
-								: data[dataIndex][el]
-						}
-					</TabelBodyCell>
-				)
-			})
+		const getBodyCurrectTableBodyCell = (el ,i) => {
+			if (editModeByTicker.ticker === data[dataIndex].ticker && el === 'amount') {
+				return <EditAssetAmountForm
+					value={data[dataIndex][el]}
+					setEditMode={setEditMode}
+					ticker={data[dataIndex].ticker}
+					type={editModeByTicker.type}
+				/>
+			} else {
+				return data[dataIndex][el]
+			}
+		}
+
+		const renderTableBodyCell = (el, i) => (
+			<TabelBodyCell key={i}>
+				{getBodyCurrectTableBodyCell(el, i)}
+			</TabelBodyCell>
 		)
+
+		return (
+			<>
+				{order.map(renderTableBodyCell)}
+				{TableBodyRow()}
+			</>
+		);
 	}
 
-	return (
-		<>
-			{renderBodyCells()}
-			{renderTableOptions()}
-		</>
-	)
+	return getTableBodyRowCells()
 }
 
 export default BodyRowCells;
