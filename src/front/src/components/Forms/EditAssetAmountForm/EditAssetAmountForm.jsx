@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import sendIcon from '../../../assets/send.png';
 import { connect } from 'react-redux';
 import { editAsset } from '../../../redux/assetsTableReduser';
-import { TYPE_BUY, TYPE_SELL } from '../../../redux/assetsTableReduser';
+import { editAssetAmountFormSubmit } from '../../../utils/formSubmit'
 
 const SendButton = styled.button`
 	width: 30%;
@@ -16,17 +16,11 @@ const SendButton = styled.button`
 `
 
 const EditAssetAmountForm = (props) => {
-	const initialValue = parseInt(props.value);
+	
 
 	return (
 		<Form
-			onSubmit={(formData) => {
-				if (props.type === TYPE_BUY) {
-					props.editAsset(props.ticker, +formData.amount + +initialValue);
-				} else if (props.type === TYPE_SELL) {
-					props.editAsset(props.ticker, +initialValue - +formData.amount);
-				}
-			}}
+			onSubmit={editAssetAmountForm({value: props.value, ticker: props.ticker, type:props.type, editAsset: props.editAsset})}
 			render={({ handleSubmit, form }) => (
 				<form 
 					style={{width: '100%'}}

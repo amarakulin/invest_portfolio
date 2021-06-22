@@ -70,7 +70,6 @@ export const editAsset = (ticker, amount) => (dispatch) => {
 		.then(() => {
 			dispatch(editAssetInState(ticker, amount));
 		})
-		.finally(() => dispatch(editAssetInState(ticker, amount)))
 }
 
 export const deleteAsset = (ticker) => (dispatch) => {
