@@ -11,6 +11,10 @@ export const StartWrapper = styled(Wrapper)`
 	justify-content: start;
 `
 
+export const CenterWrapper = styled(Wrapper)`
+	justify-content: center;
+`
+
 export const AlignEndWrapper = styled(Wrapper)`
 	align-items: flex-end;
 `
