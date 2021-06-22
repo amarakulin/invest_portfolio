@@ -69,8 +69,7 @@ public class ParseAmericanPriceAssets {
 			}
 		}
 		else {
-			log.info("[-] Get an error in getAllPriceAmericanAssets. Could't get a data from 'twelvedata.com'");
-			log.info(String.format("[-] Error code: '%s'", allAsset.findValue("status").asText()));
+			log.info("[-] Get an error in getAllPriceAmericanAssets. Could't get a data from 'twelvedata.com'. No one tickers!");
 		}
 		System.out.println("mapAssetsPrice: ");
 		mapAssetsPrice.forEach((key, value) -> System.out.println(key + ":" + value));
