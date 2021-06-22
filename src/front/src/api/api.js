@@ -62,5 +62,11 @@ export const SearchAPI = {
 export const AssetsOptionsApi = {
 	deleteAsset(ticker) {
 		return api.delete(`asset/delete?ticker=${ticker}`)
+	},
+	editAsset(ticker, amount) {
+		return api.put('asset/edit', {
+			ticker,
+			amount
+		})
 	}
 }
