@@ -1,12 +1,22 @@
 import { OptionsDropdownItem, OptionsDropdownList } from './OptionsDropdownMenuStyles';
+import { connect } from 'react-redux'; 
+import { deleteAsset } from '../../../../redux/assetsTableReduser'
 
 const OptionsDropdownMenu = (props) => {
+
 	return (
 		<OptionsDropdownList isOpen={props.isOpen}>
-			<OptionsDropdownItem>Удалить</OptionsDropdownItem>
+			<OptionsDropdownItem
+				onClick={() => {
+					props.toggleIsOpen(false);
+					props.deleteAsset(props.ticker)
+				}}
+			>
+				Удалить
+			</OptionsDropdownItem>
 			<OptionsDropdownItem>Изменить</OptionsDropdownItem>
 		</OptionsDropdownList>
 	)
 }
 
-export default OptionsDropdownMenu;
+export default connect(null, {deleteAsset})(OptionsDropdownMenu);

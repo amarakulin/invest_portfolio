@@ -28,7 +28,7 @@ const TableBody = ({ data, order }) => {
 						<TableRow
 							bodyRow={true}
 							cols={order.length}
-							key={dataIndex}
+							key={data[dataIndex].ticker}
 							bordercolor='#F3F3FB'
 						>
 							{
@@ -37,7 +37,7 @@ const TableBody = ({ data, order }) => {
 								})
 							}
 							{
-								<TableOptions />
+								<TableOptions ticker={data[dataIndex].ticker}/>
 							}
 						</TableRow>
 					)

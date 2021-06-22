@@ -1,4 +1,4 @@
-import { DataAPI } from '../api/api';
+import { DataAPI, AssetsOptionsApi } from '../api/api';
 import { toggleIsFetching } from './apiReduser';
 
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
@@ -25,6 +25,17 @@ const assetsTableReduser = (state = initialState, action) => {
 				data: {...action.data}
 			}
 		}
+		case DELETE_ASSET: {
+			return {
+				...state,
+				data: {
+					...state.data,
+					body: state.data.body.filter(el => {
+						return el.ticker != action.ticker
+					})
+				}
+			}
+		}
 		default: {
 			return state;
 		}
@@ -32,6 +43,13 @@ const assetsTableReduser = (state = initialState, action) => {
 }
 
 const setTableData = (data) => ({type: SET_TABLE_DATA, data})
+
+const deleteAssetFromState = (ticker) => ({type: DELETE_ASSET, ticker})
+
+export const deleteAsset = (ticker) => (dispatch) => {
+	AssetsOptionsApi.deleteAsset(ticker)
+		.then(() => dispatch(deleteAssetFromState(ticker)))
+}
 
 export const getTableData = () => (dispatch) => {
 	dispatch(toggleIsFetching(true));
@@ -76,7 +94,7 @@ function getTableDataTest() {
 			},
 			{
 				name: 'Газпром',
-				ticker: 'GAZP',
+				ticker: 'MAG',
 				type: 'акция',
 				exchange: 'MOEX',
 				price: '180руб.',
@@ -85,7 +103,7 @@ function getTableDataTest() {
 			},
 			{
 				name: 'Газпром',
-				ticker: 'GAZP',
+				ticker: 'ZOP',
 				type: 'акция',
 				exchange: 'MOEX',
 				price: '180руб.',
