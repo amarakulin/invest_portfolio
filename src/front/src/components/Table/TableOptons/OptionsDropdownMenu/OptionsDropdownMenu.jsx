@@ -14,7 +14,14 @@ const OptionsDropdownMenu = (props) => {
 			>
 				Удалить
 			</OptionsDropdownItem>
-			<OptionsDropdownItem>Изменить</OptionsDropdownItem>
+			<OptionsDropdownItem
+				onClick={() => {
+					props.toggleIsOpen(false);
+					props.setEditMode(props.ticker)
+				}}
+			>
+				Изменить
+			</OptionsDropdownItem>
 		</OptionsDropdownList>
 	)
 }

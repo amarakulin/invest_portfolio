@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import TableRow from './TableRow';
 import styled from "styled-components";
 import TableOptions from './TableOptons/TableOptions';
+import EditAssetAmountForm from '../Forms/EditAssetAmountForm/EditAssetAmountForm'
 
 const TabeBodyCell = styled.div`
 	padding: 20px 12px 20px 12px;
@@ -18,8 +20,9 @@ const TabeBodyCell = styled.div`
 	}}
 `
 
-
 const TableBody = ({ data, order }) => {
+	const [editModeByTicker, setEditMode] = useState(null);
+
 	return (
 		<div>
 			{
@@ -33,11 +36,26 @@ const TableBody = ({ data, order }) => {
 						>
 							{
 								order.map((el, i) => {
-									return <TabeBodyCell key={i}>{data[dataIndex][el]}</TabeBodyCell>
+									return (
+										<TabeBodyCell key={i}>
+											{
+												editModeByTicker === data[dataIndex].ticker && el === 'amount'
+													? <EditAssetAmountForm 
+														value={data[dataIndex][el]}
+														setEditMode={setEditMode}
+														ticker={data[dataIndex].ticker}
+													/>
+													: data[dataIndex][el]
+											}
+										</TabeBodyCell>
+									)
 								})
 							}
 							{
-								<TableOptions ticker={data[dataIndex].ticker}/>
+								<TableOptions
+									setEditMode={setEditMode}
+									ticker={data[dataIndex].ticker}
+								/>
 							}
 						</TableRow>
 					)
