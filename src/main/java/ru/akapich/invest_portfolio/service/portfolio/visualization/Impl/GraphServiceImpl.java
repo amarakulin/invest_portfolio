@@ -61,8 +61,7 @@ public class GraphServiceImpl implements GraphService{
 	@Override
 	public List<List<BigDecimal>> getValuesGraphByTickerAndInvestPortfolio(String ticker, InvestPortfolio investPortfolio) {
 		List<HistoryAmount> allHistoryAmount = historyAmountRepository
-			.findAllByOwnedFinancialAsset_InvestPortfolioAndOwnedFinancialAsset_FinancialAssetInUse_IdAllFinancialAsset_Ticker(
-					investPortfolio, ticker);
+			.findAllByInvestPortfolioAndTicker(investPortfolio, ticker);
 
 		return getListWithCoordinatesDatePrice(allHistoryAmount);
 	}

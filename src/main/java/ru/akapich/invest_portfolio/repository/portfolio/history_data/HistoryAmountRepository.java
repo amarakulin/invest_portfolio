@@ -39,8 +39,10 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 
 	Set<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndDate(InvestPortfolio investPortfolio, LocalDateTime date);
 
-	List<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndOwnedFinancialAsset_FinancialAssetInUse_IdAllFinancialAsset_Ticker(
-						InvestPortfolio investPortfolio, String ticker);
+	@Query("SELECT h FROM HistoryAmount h WHERE " +
+			"h.ownedFinancialAsset.investPortfolio = ?1 " +
+			"AND h.ownedFinancialAsset.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2")
+	List<HistoryAmount> findAllByInvestPortfolioAndTicker(InvestPortfolio investPortfolio, String ticker);
 
 
 
