@@ -4,7 +4,7 @@ export const useDropdown = (ref) => {
 	const [isOpen, toggleIsOpen] = useState(false);
 
 	const observeClick = (e) => {
-		if (!ref.current.contains(e.target)) {
+		if (ref.current && !ref.current.contains(e.target)) {
 			toggleIsOpen(false);
 		}
 	}
@@ -14,7 +14,7 @@ export const useDropdown = (ref) => {
 		return () => {
 			document.removeEventListener('click', observeClick);
 		}
-	}, [])
+	}, [ref])
 
 	return [isOpen, toggleIsOpen];
 }
