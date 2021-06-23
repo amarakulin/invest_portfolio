@@ -8,10 +8,16 @@ const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const SET_TABLE_DATA = 'SET_TABLE_DATA';
 const DELETE_ASSET = 'DELETE_ASSET';
 const EDIT_ASSET = 'EDIT_ASSET';
+const SET_SELECTED_ASSET = 'SET_SELECTED_ASSET';
+const RESET_SELECTED_ASSET = 'RESET_SELECTED_ASSET';
 
 const initialState = {
 	isFetching: false,
 	data: {},
+	selectedAsset: {
+		ticker: null,
+		type: null
+	}
 }
 
 const assetsTableReduser = (state = initialState, action) => {
@@ -53,6 +59,18 @@ const assetsTableReduser = (state = initialState, action) => {
 				}
 			}
 		}
+		case SET_SELECTED_ASSET: {
+			return {
+				...state,
+				selectedAsset: {...action.selectedAsset}
+			}
+		}
+		case RESET_SELECTED_ASSET: {
+			return {
+				...state,
+				selectedAsset: {...initialState.selectedAsset}
+			}
+		}
 		default: {
 			return state;
 		}
@@ -63,7 +81,11 @@ const setTableData = (data) => ({type: SET_TABLE_DATA, data})
 
 const deleteAssetFromState = (ticker) => ({type: DELETE_ASSET, ticker})
 
-export const editAssetInState = (ticker, amount) => ({type: EDIT_ASSET, ticker, amount})
+const editAssetInState = (ticker, amount) => ({type: EDIT_ASSET, ticker, amount})
+
+export const setSelectedAsset = (selectedAsset) => ({type: SET_SELECTED_ASSET, selectedAsset})
+
+export const resetSelectedAsset = () => ({type: RESET_SELECTED_ASSET})
 
 export const editAsset = (ticker, amount) => (dispatch) => {
 	AssetsOptionsApi.editAsset(ticker, amount)
