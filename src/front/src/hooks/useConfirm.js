@@ -1,12 +1,10 @@
 import { useState } from 'react';
 
-const useConfirm = () => {
-	const [isOpen, toggleIsOpen] = useState(true);
-	const [hasConfirmed, setConfirmed] = useState(false);
+const useConfirm = (confirmCallback) => {
+	const [isOpen, toggleIsOpen] = useState(false);
 
 	return {
 		isOpen,
-		hasConfirmed,
 		open() {
 			toggleIsOpen(true);
 		},
@@ -14,10 +12,11 @@ const useConfirm = () => {
 			toggleIsOpen(false);
 		},
  		confirm() {
-			setConfirmed(true);
+			this.close();
+			confirmCallback();
 		},
 		cancel() {
-			setConfirmed(false);
+			this.close();
 		}
 	}
 }
