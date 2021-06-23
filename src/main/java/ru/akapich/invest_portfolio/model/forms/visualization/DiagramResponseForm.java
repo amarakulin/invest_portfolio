@@ -23,4 +23,5 @@ public class DiagramResponseForm {
 	private String ticker;
 	private BigDecimal percent;
 	private BigDecimal value;
+	private String color;
 }

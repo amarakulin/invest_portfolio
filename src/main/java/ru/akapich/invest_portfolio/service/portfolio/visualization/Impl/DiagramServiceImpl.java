@@ -7,6 +7,7 @@ import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
 import ru.akapich.invest_portfolio.service.date.DateService;
 import ru.akapich.invest_portfolio.service.user.UserService;
+import ru.akapich.invest_portfolio.utils.ColorUtils;
 import ru.akapich.invest_portfolio.utils.MathUtils;
 import ru.akapich.invest_portfolio.model.forms.visualization.DiagramResponseForm;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
@@ -43,7 +44,8 @@ public class DiagramServiceImpl implements DiagramService{
 	@Autowired
 	private DateService dateService;
 
-
+	@Autowired
+	private ColorUtils colorUtils;
 
 	@Override
 	public List<DiagramResponseForm> getListDiagramForms() {
@@ -74,6 +76,7 @@ public class DiagramServiceImpl implements DiagramService{
 						.ticker(financialAssetInUse.getIdAllFinancialAsset().getTicker())
 						.value(asset.getTotal())
 						.percent(MathUtils.getPercent(totalPriceInvestPortfolio, asset.getTotal()))
+						.color(financialAssetInUse.getColor())
 						.build()
 			);
 		}
