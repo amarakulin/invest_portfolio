@@ -11,7 +11,7 @@ const BodyRowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex })
 			/>
 		}
 
-		const getBodyCurrectTableBodyCell = (el ,i) => {
+		const getBodyCurrectTableBodyCell = (el) => {
 			if (editModeByTicker.ticker === data[dataIndex].ticker && el === 'amount') {
 				return <EditAssetAmountForm
 					value={data[dataIndex][el]}
@@ -26,7 +26,7 @@ const BodyRowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex })
 
 		const renderTableBodyCell = (el, i) => (
 			<TabelBodyCell key={i}>
-				{getBodyCurrectTableBodyCell(el, i)}
+				{getBodyCurrectTableBodyCell(el)}
 			</TabelBodyCell>
 		)
 
