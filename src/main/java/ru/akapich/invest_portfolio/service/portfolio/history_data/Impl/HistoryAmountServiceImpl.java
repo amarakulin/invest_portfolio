@@ -8,6 +8,7 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.Finan
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryPrice;
+import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryPriceRepository;
 import ru.akapich.invest_portfolio.service.date.DateService;
@@ -34,6 +35,9 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	@Autowired
 	private HistoryPriceRepository historyPriceRepository;
+
+	@Autowired
+	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
 
 	@Autowired
 	private DateService dateService;
@@ -79,7 +83,7 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		//TODO optimaze query !!!
 		Set<HistoryAmount> setLastAmount = new HashSet<>();
 
-		List<OwnedFinancialAsset> uniqueOwnedAssets = historyAmountRepository.findAllUniqueOwnedAssets();
+		List<OwnedFinancialAsset> uniqueOwnedAssets = ownedFinancialAssetRepository.findAllUniqueOwnedAssets();
 		System.out.println("In getLastAmountForEachUniqueOwnedAsset()");
 		for (OwnedFinancialAsset asset : uniqueOwnedAssets){
 			if (!setLastAmount.add(historyAmountRepository.lastAmountByOwnedFinancialAsset(asset))){

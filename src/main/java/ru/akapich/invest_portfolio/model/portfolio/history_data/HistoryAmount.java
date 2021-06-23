@@ -5,14 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.UpdateTimestamp;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
 
 /**
  * JavaBean domain object
@@ -35,6 +32,7 @@ public class HistoryAmount {
 	private Long id;
 
 	@Column(columnDefinition="TIMESTAMP WITH TIME ZONE")
+	@Type(type = "java.time.LocalDateTime")
 	private LocalDateTime date;
 
 	@Column
