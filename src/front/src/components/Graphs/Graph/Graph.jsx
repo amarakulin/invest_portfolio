@@ -71,6 +71,7 @@ class Graph extends React.Component {
 
 		this.yRatio = getYRatio(this.VIEW_HEIGHT, this.yMax, this.yMin);
 		this.xRatio = getXRatio(this.VIEW_WIDTH, this.partData[0].length);
+		this.totalXRatio = getXRatio(this.VIEW_WIDTH, this.props.totalData.lines[0].length);
 
 		this.yData = this.partData.filter(line => this.props.totalData.types[line[0]] === 'line');
 		this.xData = this.partData.filter(line => this.props.totalData.types[line[0]] !== 'line')[0];
@@ -91,20 +92,13 @@ class Graph extends React.Component {
 		this.ctx.clearRect(0, 0, this.DPI_WIDTH, this.DPI_HEIGHT)
 	}
 
-	renderLine = (coords, color = '#000', startTime = 0) => {
-		let iterator = 1;
-		
+	renderLine = (coords, color = '#000') => {
 		this.ctx.beginPath();
 		this.ctx.lineWidth = 4;
 		this.ctx.strokeStyle = color;
 		this.ctx.lineJoin = 'bevel';
 		for (const [x, y] of coords) {
-			if (this.xData[iterator] < startTime) {
-				iterator++;
-				continue;
-			}
 			this.ctx.lineTo(x, y);
-			iterator++;
 		}
 		this.ctx.stroke();
 		this.ctx.closePath();
@@ -112,14 +106,16 @@ class Graph extends React.Component {
 
 	renderLines = () => {
 		this.yData.forEach(line => {
+			const startTime = this.props.totalData.purchaseDate[line[0]];
+
+			const index = this.xData.indexOf(startTime);
+			console.log(index)
 			const coords = line.map((y, i) => toCoords(y, i, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.yMin, this.offsetX)).filter((_, i) => i !== 0);
 
-			this.renderLine(coords, this.props.totalData.color[line[0]], this.props.totalData.purchaseDate[line[0]]);
+			this.renderLine(coords, this.props.totalData.color[line[0]]);
 
 			for (const [x, y] of coords) {
 				if (this.isOver(x - this.offsetX, coords.length)) {
-					if (y === null)
-						break;
 					this.circle(x, y, this.props.totalData.color[line[0]]);
 					break;
 				}
