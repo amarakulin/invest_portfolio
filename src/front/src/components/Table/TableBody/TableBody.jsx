@@ -1,10 +1,7 @@
-import { useState } from 'react';
 import TableRow from '../TableRow';
 import BodyRowCells from './BodyRowCells';
 
 const TableBody = ({ data, order }) => {
-	const [editModeByTicker, setEditMode] = useState({ticker: null, type: null});
-
 	return (
 		data.map((_, dataIndex) => {
 			return (
@@ -19,8 +16,6 @@ const TableBody = ({ data, order }) => {
 							data={data}
 							order={order}
 							dataIndex={dataIndex}
-							editModeByTicker={editModeByTicker}
-							setEditMode={setEditMode}
 						/>
 					}
 				</TableRow>

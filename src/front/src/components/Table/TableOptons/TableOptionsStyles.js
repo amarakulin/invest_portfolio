@@ -24,7 +24,7 @@ export const Dots = styled.span`
 	}
 `
 
-export const DotsWrapper = styled(Wrapper)`
+export const OptionsDropdownMenuWrapper = styled(Wrapper)`
 	position: relative;
 	&:hover ${Dots} {
 		background-color: #343A40;

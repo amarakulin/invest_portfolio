@@ -15,14 +15,14 @@ const dropdownItems = [
 		title: 'Купил',
 		onclick: (props) => {
 			props.toggleIsOpen(false);
-			props.setEditMode({ticker: props.ticker, type: TYPE_BUY})
+			props.setSelectedAsset({ticker: props.ticker, type: TYPE_BUY})
 		}
 	},
 	{
 		title: 'Продал',
 		onclick: (props) => {
 			props.toggleIsOpen(false);
-			props.setEditMode({ticker: props.ticker, type: TYPE_SELL})
+			props.setSelectedAsset({ticker: props.ticker, type: TYPE_SELL})
 		}
 	}
 ]

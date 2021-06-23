@@ -1,22 +1,22 @@
 import { useRef } from 'react';
 import { useDropdown } from '../../../hooks/useDropdown'
 import OptionsDropdownMenu from './OptionsDropdownMenu/OptionsDropdownMenu'
-import { Dots, DotsWrapper } from './TableOptionsStyles';
+import { Dots, OptionsDropdownMenuWrapper } from './TableOptionsStyles';
 
 const TableOptions = (props) => {
 	const optionsButtonRef = useRef();
 	const [isOpen, toggleIsOpen] = useDropdown(optionsButtonRef);
 
 	return (
-		<DotsWrapper ref={optionsButtonRef} onClick={() => toggleIsOpen(true)}>
+		<OptionsDropdownMenuWrapper ref={optionsButtonRef} onClick={() => toggleIsOpen(true)}>
 			<Dots />
 			<OptionsDropdownMenu
-				setEditMode={props.setEditMode}
+				setSelectedAsset={props.setSelectedAsset}
 				isOpen={isOpen}
 				toggleIsOpen={toggleIsOpen}
 				ticker={props.ticker}
 			/>
-		</DotsWrapper>
+		</OptionsDropdownMenuWrapper>
 	)
 }
 

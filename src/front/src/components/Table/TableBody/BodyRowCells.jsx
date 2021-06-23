@@ -1,23 +1,25 @@
 import TableOptions from '../TableOptons/TableOptions';
 import EditAssetAmountForm from '../../Forms/EditAssetAmountForm/EditAssetAmountForm';
-import { TabelBodyCell } from './tableBodyStyles'
+import { TabelBodyCell } from './tableBodyStyles';
+import { connect } from 'react-redux';
+import { setSelectedAsset, resetSelectedAsset } from '../../../redux/assetsTableReduser';
 
-const BodyRowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex }) => {
+const BodyRowCells = ({ data, order, dataIndex, ...props }) => {
 	const getTableBodyRowCells = () => {
 		const TableBodyRow = () => {
 			return <TableOptions
-				setEditMode={setEditMode}
+				setSelectedAsset={props.setSelectedAsset}
 				ticker={data[dataIndex].ticker}
 			/>
 		}
 
 		const getBodyCurrectTableBodyCell = (el) => {
-			if (editModeByTicker.ticker === data[dataIndex].ticker && el === 'amount') {
+			if (props.selectedAsset.ticker === data[dataIndex].ticker && el === 'amount') {
 				return <EditAssetAmountForm
 					value={data[dataIndex][el]}
-					setEditMode={setEditMode}
+					resetSelectedAsset={props.resetSelectedAsset}
 					ticker={data[dataIndex].ticker}
-					type={editModeByTicker.type}
+					type={props.selectedAsset.type}
 				/>
 			} else {
 				return data[dataIndex][el]
@@ -41,4 +43,8 @@ const BodyRowCells = ({ data, order, editModeByTicker, setEditMode, dataIndex })
 	return getTableBodyRowCells()
 }
 
-export default BodyRowCells;
+const mapStateToProps = (state) => ({
+	selectedAsset: state.table.selectedAsset
+})
+
+export default connect(mapStateToProps, {setSelectedAsset, resetSelectedAsset})(BodyRowCells);

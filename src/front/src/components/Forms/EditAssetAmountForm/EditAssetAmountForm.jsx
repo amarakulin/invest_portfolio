@@ -34,7 +34,7 @@ const EditAssetAmountForm = (props) => {
 							autoFocus='on'
 							style={{maxWidth: '70%'}}
 							validate={amountValidator}
-							onBlur={() => props.setEditMode({ticker: null, type: null})}
+							onBlur={() => props.resetSelectedAsset()}
 						/>
 						<SendButton diabled={invalid} invalid={Object.keys(values).length && invalid} onMouseDown={form.submit}/>
 					</Wrapper>
