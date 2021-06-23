@@ -2,44 +2,51 @@ import { OptionsDropdownItem, OptionsDropdownList } from './OptionsDropdownMenuS
 import { connect } from 'react-redux'; 
 import { deleteAsset } from '../../../../redux/assetsTableReduser';
 import { TYPE_BUY, TYPE_SELL } from '../../../../redux/assetsTableReduser';
+import useConfirm from '../../../../hooks/useConfirm';
+import Confirm from '../../../Confirm/Confirm';
 
 const dropdownItems = [
 	{
 		title: 'Удалить',
-		onclick: (props) => {
-			props.toggleIsOpen(false);
-			props.deleteAsset(props.ticker)
+		onclick: (props, open) => {
+			open();
 		}
 	},
 	{
 		title: 'Купил',
 		onclick: (props) => {
-			props.toggleIsOpen(false);
 			props.setSelectedAsset({ticker: props.ticker, type: TYPE_BUY})
 		}
 	},
 	{
 		title: 'Продал',
 		onclick: (props) => {
-			props.toggleIsOpen(false);
 			props.setSelectedAsset({ticker: props.ticker, type: TYPE_SELL})
 		}
 	}
 ]
 
 const OptionsDropdownMenu = (props) => {
+	const confirm = useConfirm(props.deleteAsset.bind(null, props.ticker));
 
 	return (
-		<OptionsDropdownList isOpen={props.isOpen}>
-			{
-				dropdownItems.map(el => <OptionsDropdownItem 
-						key={el.title} 
-						onClick={() => el.onclick(props)}
-					> 
-						{el.title}
-					</OptionsDropdownItem>)
-			}
-		</OptionsDropdownList>
+		<>
+			<Confirm {...confirm} />
+			<OptionsDropdownList isOpen={props.isOpen}>
+				{
+					dropdownItems.map(el => <OptionsDropdownItem 
+							key={el.title} 
+							onClick={(e) => {
+								e.stopPropagation();
+								props.toggleIsOpen(false);
+								el.onclick(props, confirm.open)
+							}}
+						> 
+							{el.title}
+						</OptionsDropdownItem>)
+				}
+			</OptionsDropdownList>
+		</>
 	)
 }
 
