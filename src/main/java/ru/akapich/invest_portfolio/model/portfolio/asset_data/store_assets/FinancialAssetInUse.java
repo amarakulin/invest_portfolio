@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.awt.Color;
 
 /**
  * JavaBean domain object that represents a assets that has all users.
@@ -25,6 +27,9 @@ public class FinancialAssetInUse {
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column
+	private String color;//FIXME add unique
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_financial_asset", nullable = false)
