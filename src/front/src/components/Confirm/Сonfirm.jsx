@@ -3,12 +3,12 @@ import Modal from '../Modal/Modal';
 import { SmallTitle } from '../Basic/Title/Title';
 import { Wrapper } from '../Basic/Wrapper/Wrapper';
 import Button from '../Basic/Button/Button';
+import { connect } from 'react-redux';
+import { confirmInterface } from '../../redux/confirmReduser'
 
 const Confirm = (props) => {
-	const [isModalOpen, toggleIsModal] = useState(props.showConfirm);
-
 	return (
-		<Modal closeModal={toggleIsModal} display={isModalOpen}>
+		<Modal closeModal={props.close} display={props.isOpen}>
 			<SmallTitle marginBottom='40'>Подтвердите действие</SmallTitle>
 			<Wrapper>
 				<Button width='40'>Подтвердить</Button>
@@ -18,4 +18,9 @@ const Confirm = (props) => {
 	)
 }
 
-export default Confirm;
+const mapStateToProps = (state) => ({
+	isOpen: state.confirm.isOpen,
+	hasConfirmed: state.confirm.hasConfirmed
+})
+
+export default connect(mapStateToProps, {...confirmInterface})(Confirm);
