@@ -44,15 +44,13 @@ public class DiagramServiceImpl implements DiagramService{
 	@Autowired
 	private DateService dateService;
 
-	@Autowired
-	private ColorUtils colorUtils;
-
 	@Override
 	public List<DiagramResponseForm> getListDiagramForms() {
 		List<DiagramResponseForm> listDiagramResponseForm = new ArrayList<>();
 		FinancialAssetInUse financialAssetInUse;
 		BigDecimal totalPriceInvestPortfolio;
 		LocalDateTime date = dateService.getCurrentTime();
+		//FIXME set last date form HistoryAmount by the user
 
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Creating diagram for user with investPortfolio '%d'", investPortfolio.getId()));
