@@ -91,15 +91,20 @@ class Graph extends React.Component {
 		this.ctx.clearRect(0, 0, this.DPI_WIDTH, this.DPI_HEIGHT)
 	}
 
-	renderLine = (coords, color = '#000') => {
+	renderLine = (coords, color = '#000', startTime = 0) => {
+		let iterator = 1;
+		
 		this.ctx.beginPath();
 		this.ctx.lineWidth = 4;
 		this.ctx.strokeStyle = color;
 		this.ctx.lineJoin = 'bevel';
 		for (const [x, y] of coords) {
-			if (y === null)
+			if (this.xData[iterator] < startTime) {
+				iterator++;
 				continue;
+			}
 			this.ctx.lineTo(x, y);
+			iterator++;
 		}
 		this.ctx.stroke();
 		this.ctx.closePath();
@@ -109,7 +114,7 @@ class Graph extends React.Component {
 		this.yData.forEach(line => {
 			const coords = line.map((y, i) => toCoords(y, i, this.xRatio, this.yRatio, this.DPI_HEIGHT, this.PADDING, this.yMin, this.offsetX)).filter((_, i) => i !== 0);
 
-			this.renderLine(coords, this.props.totalData.color[line[0]]);
+			this.renderLine(coords, this.props.totalData.color[line[0]], this.props.totalData.purchaseDate[line[0]]);
 
 			for (const [x, y] of coords) {
 				if (this.isOver(x - this.offsetX, coords.length)) {

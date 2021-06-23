@@ -14,15 +14,22 @@ export const toCoords = (y, i, xRatio, yRatio, DPI_HEIGHT, PADDING, yMin, offset
 }
 
 export const renderLines = (ctx, yData, xRatio, yRatio, DPI_HEIGHT, PADDING, data, yMin, offsetX) => {
-	const renderLine = (coords, color = '#000') => {
+	const xData = data.lines[0];
+
+	const renderLine = (coords, color = '#000', startTime = 0) => {
+		let iterator = 1;
+
 		ctx.beginPath();
 		ctx.lineWidth = 4;
 		ctx.strokeStyle = color;
 		ctx.lineJoin = 'bevel';
 		for (const [x, y] of coords) {
-			if (y === null)
-					continue;
+			if (xData[iterator] < startTime) {
+				iterator++;
+				continue;
+			}
 			ctx.lineTo(x, y);
+			iterator++;
 		}
 		ctx.stroke();
 		ctx.closePath();
@@ -32,7 +39,7 @@ export const renderLines = (ctx, yData, xRatio, yRatio, DPI_HEIGHT, PADDING, dat
 	yData.forEach(line => {
 		const coords = line.map((y, i) => toCoords(y, i, xRatio, yRatio, DPI_HEIGHT, PADDING, yMin, offsetX)).filter((_, i) => i !== 0);
 		
-		renderLine(coords, data.color[line[0]]);
+		renderLine(coords, data.color[line[0]], data.purchaseDate[line[0]]);
 	})
 }
 
