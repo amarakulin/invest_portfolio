@@ -3,6 +3,7 @@ package ru.akapich.invest_portfolio.service.portfolio.visualization.Impl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.akapich.invest_portfolio.model.forms.sql.FormDatePriceGraphSQLQuery;
 import ru.akapich.invest_portfolio.model.forms.sql.FormPurchaseDate;
 import ru.akapich.invest_portfolio.model.forms.visualization.FormGraph;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
@@ -14,10 +15,10 @@ import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmou
 import ru.akapich.invest_portfolio.service.portfolio.visualization.GraphService;
 import ru.akapich.invest_portfolio.service.user.UserService;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 
@@ -46,7 +47,7 @@ public class GraphServiceImpl implements GraphService{
 		System.out.println("getLineTime:");
 		LinkedList<LocalDateTime> uniqueDate = historyAmountRepository.getUniqueTime(investPortfolio);
 		LinkedList<String> uniqueDateStringList = uniqueDate.stream()
-				.map(u -> Timestamp.valueOf(u).toString())
+				.map(u -> String.valueOf(Timestamp.valueOf(u).getTime()))
 				.collect(Collectors.toCollection(LinkedList::new));
 		uniqueDateStringList.addFirst("time");
 		System.out.println(uniqueDateStringList);
@@ -71,6 +72,12 @@ public class GraphServiceImpl implements GraphService{
 			tickersValues.addFirst(ticker);
 			values.add(tickersValues);
 		}
+		LinkedList<FormDatePriceGraphSQLQuery> totalValues = historyAmountRepository.getGeneralDatePriceByInvestPortfolio(investPortfolio);
+		LinkedList<String> totalValuesString = totalValues.stream()
+				.map(v -> v.getTotal().toPlainString()).collect(Collectors.toCollection(LinkedList::new));
+		totalValuesString.addFirst("total");
+		values.add(totalValuesString);
+
 		System.out.println(values);
 		return values;
 	}
@@ -144,7 +151,7 @@ public class GraphServiceImpl implements GraphService{
 		List<FormPurchaseDate> historyAmountWithPurchaseDate = historyAmountRepository.getAllPurchaseDateByInvestPortfolio(investPortfolio);
 		mapPurchaseDate = historyAmountWithPurchaseDate.stream()
 				.collect(Collectors.toMap(k -> k.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker()
-						, v -> Timestamp.valueOf(v.getDate()).toString()));
+						, v -> String.valueOf(Timestamp.valueOf(v.getDate()).getTime())));
 		System.out.println(mapPurchaseDate);
 		return mapPurchaseDate;
 	}

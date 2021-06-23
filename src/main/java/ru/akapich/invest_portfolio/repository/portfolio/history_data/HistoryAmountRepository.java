@@ -40,7 +40,7 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 	@Query(value = "SELECT new ru.akapich.invest_portfolio.model.forms.sql.FormDatePriceGraphSQLQuery(h.date, SUM(h.total), h.ownedFinancialAsset.investPortfolio)" +
 			" FROM HistoryAmount h WHERE h.ownedFinancialAsset.investPortfolio = ?1" +
 			" GROUP BY h.date, h.ownedFinancialAsset.investPortfolio")
-	List<FormDatePriceGraphSQLQuery> getGeneralDatePriceByInvestPortfolio(InvestPortfolio investPortfolio);
+	LinkedList<FormDatePriceGraphSQLQuery> getGeneralDatePriceByInvestPortfolio(InvestPortfolio investPortfolio);
 
 	Set<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndDate(InvestPortfolio investPortfolio, LocalDateTime date);
 
