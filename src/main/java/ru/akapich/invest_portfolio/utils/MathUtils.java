@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
+ * External mathematics methods
+ *
  * @author Aleksandr Marakulin
  **/
 

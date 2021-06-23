@@ -6,14 +6,14 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.akapich.invest_portfolio.model.forms.visualization.FormGraph;
+import ru.akapich.invest_portfolio.service.portfolio.visualization.GraphService;
 
-import ru.akapich.invest_portfolio.model.forms.visualization.DiagramResponseForm;
-import ru.akapich.invest_portfolio.service.portfolio.visualization.DiagramService;
-
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Controller for {@link DiagramResponseForm}
+ * Controller that get data of graph to front
  *
  * @author Aleksandr Marakulin
  **/
@@ -22,16 +22,14 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000/*", allowedHeaders = "*", maxAge = 3600)
 @PropertySource("classpath:message.properties")
-public class DiagramController {
+public class GraphController {
 
 	@Autowired
-	private DiagramService diagramService;
+	private GraphService graphService;
 
-	@GetMapping("/api/data/diagram")
-	public List<DiagramResponseForm> diagram(){
-		System.out.println("In /api/graph/diagram");
-		List<DiagramResponseForm> listDiagramResponseForm = diagramService.getListDiagramForms();
-		System.out.println(listDiagramResponseForm);
-		return listDiagramResponseForm;
+	@GetMapping("/api/data/graph")
+	public FormGraph graph(){
+		return graphService.getGraph();
 	}
+
 }

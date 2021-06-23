@@ -4,6 +4,8 @@ import ru.akapich.invest_portfolio.service.portfolio.history_data.Impl.HistoryPr
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Interface of {@link HistoryPriceServiceImpl}
@@ -13,7 +15,7 @@ import java.text.ParseException;
 
 public interface HistoryPriceService {
 
-	void updatePriceAmericanAssetsByExchange(String exchange) throws IOException, ParseException;
+	void updatePriceAmericanAssetsByExchange(String exchange) throws IOException, ParseException, InterruptedException;
 
-	String stringTickersToUpdateByExchange(String exchange);
+	LinkedList<String> getListTickersToUpdateByExchange(String exchange);
 }
