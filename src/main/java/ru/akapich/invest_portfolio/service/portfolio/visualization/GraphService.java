@@ -1,12 +1,12 @@
 package ru.akapich.invest_portfolio.service.portfolio.visualization;
 
-import ru.akapich.invest_portfolio.model.forms.sql.FormDatePriceGraphSQLQuery;
-import ru.akapich.invest_portfolio.model.forms.visualization.FormGraphAllAsserts;
+import ru.akapich.invest_portfolio.model.forms.visualization.FormGraph;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.Impl.GraphServiceImpl;
 
-import java.math.BigDecimal;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface of {@link GraphServiceImpl}
@@ -16,11 +16,28 @@ import java.util.List;
 
 public interface GraphService {
 
-	List<List<BigDecimal>> getValuesGeneralGraph();
+//	List<List<BigDecimal>> getValuesGeneralGraph();
+//
+//	List<List<BigDecimal>> getValuesGraphByTickerAndInvestPortfolio(String ticker, InvestPortfolio investPortfolio);
+//
+//	List<List<BigDecimal>> getListWithCoordinatesDatePrice(List<FormDatePriceGraphSQLQuery> listFormGraphValues);
+//
+//	List<FormGraph> getAllAssetsGraph();
 
-	List<List<BigDecimal>> getValuesGraphByTickerAndInvestPortfolio(String ticker, InvestPortfolio investPortfolio);
+	LinkedList<String> getLineTime(InvestPortfolio investPortfolio);
 
-	List<List<BigDecimal>> getListWithCoordinatesDatePrice(List<FormDatePriceGraphSQLQuery> listFormGraphValues);
+	List<LinkedList<String>> getLinesValuesAssets(InvestPortfolio investPortfolio);
 
-	List<FormGraphAllAsserts> getAllAssetsGraph();
+	List<List<String>> getLines(InvestPortfolio investPortfolio);
+
+	Map<String, String> getTypes(InvestPortfolio investPortfolio);
+
+	Map<String, String> getNames(InvestPortfolio investPortfolio);
+
+	Map<String, String> getColors(InvestPortfolio investPortfolio);
+
+	Map<String, String> getPurchaseDate(InvestPortfolio investPortfolio);
+
+
+	FormGraph getGraph();
 }

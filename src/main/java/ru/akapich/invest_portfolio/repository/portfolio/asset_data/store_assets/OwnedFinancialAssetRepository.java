@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
+import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
 
 import java.util.List;
 
@@ -29,4 +30,9 @@ public interface OwnedFinancialAssetRepository extends JpaRepository<OwnedFinanc
 
 	@Query("SELECT o.FinancialAssetInUse.idAllFinancialAsset.ticker FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1")
 	List<String> findAllTickersByInvestPortfolio(InvestPortfolio investPortfolio);
+
+	List<OwnedFinancialAsset> findAllByInvestPortfolio(InvestPortfolio investPortfolio);
+
+//	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1")
+//	List<OwnedFinancialAsset> getAllUniqueOwnedAssetsByInvestPortfolio(InvestPortfolio investPortfolio);
 }

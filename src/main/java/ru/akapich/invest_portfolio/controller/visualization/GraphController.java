@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.akapich.invest_portfolio.model.forms.visualization.FormGraphAllAsserts;
+import ru.akapich.invest_portfolio.model.forms.visualization.FormGraph;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.GraphService;
 
 import java.math.BigDecimal;
@@ -27,13 +27,9 @@ public class GraphController {
 	@Autowired
 	private GraphService graphService;
 
-	@GetMapping("/api/graph/general")
-	public List<List<BigDecimal>> graphGeneral(){
-		return graphService.getValuesGeneralGraph();
+	@GetMapping("/api/data/graph")
+	public FormGraph graph(){
+		return graphService.getGraph();
 	}
 
-	@GetMapping("/api/graph/allasset")
-	public List<FormGraphAllAsserts> graphAllAsset(){
-		return graphService.getAllAssetsGraph();
-	}
 }

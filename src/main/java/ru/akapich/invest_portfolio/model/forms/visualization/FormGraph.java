@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -19,15 +18,20 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class FormGraphAllAsserts {
+public class FormGraph {
 
 	//the info with timestamp and price
 	private List<List<String>> lines;
 
-	//the info with type of line
+	//the info with type of each line
 	private Map<String, String> type;
 
+	//the info with name of each line
+	private Map<String, String> names;
 
-	private String ticker;
-	private List<List<BigDecimal>> values;
+	//the info with color for each line(except line with timestamp)
+	private Map<String, String> color;
+
+	//the info with timestamp bought
+	private Map<String, String> purchaseDate;
 }
