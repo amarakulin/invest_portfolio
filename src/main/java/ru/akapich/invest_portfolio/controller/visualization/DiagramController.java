@@ -29,9 +29,8 @@ public class DiagramController {
 
 	@GetMapping("/api/data/diagram")
 	public List<DiagramResponseForm> diagram(){
-		System.out.println("In /api/graph/diagram");
 		List<DiagramResponseForm> listDiagramResponseForm = diagramService.getListDiagramForms();
-		System.out.println(listDiagramResponseForm);
+		log.info(String.format("Data diagram: %s", listDiagramResponseForm));
 		return listDiagramResponseForm;
 	}
 }

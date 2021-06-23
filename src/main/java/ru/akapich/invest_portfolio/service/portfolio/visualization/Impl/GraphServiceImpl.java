@@ -54,7 +54,7 @@ public class GraphServiceImpl implements GraphService{
 	@Override
 	public List<LinkedList<String>> getLinesValuesAssets(InvestPortfolio investPortfolio) {
 		List<LinkedList<String>> values = new ArrayList<>();
-
+		//All values
 		LinkedList<HistoryAmount> allHistoryAmount = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolio(investPortfolio);
 		List<String> listTickers = ownedFinancialAssetRepository.findAllTickersByInvestPortfolio(investPortfolio);
 		for (String ticker : listTickers){
@@ -66,6 +66,8 @@ public class GraphServiceImpl implements GraphService{
 			tickersValues.addFirst(ticker);
 			values.add(tickersValues);
 		}
+
+		//Total values
 		LinkedList<FormDatePriceGraphSQLQuery> totalValues = historyAmountRepository.getGeneralDatePriceByInvestPortfolio(investPortfolio);
 		LinkedList<String> totalValuesString = totalValues.stream()
 				.map(v -> v.getTotal().toPlainString()).collect(Collectors.toCollection(LinkedList::new));
@@ -92,7 +94,7 @@ public class GraphServiceImpl implements GraphService{
 				.map(h -> h.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker())
 				.collect(Collectors.toList());
 		mapTypes = listTickers.stream().collect(Collectors.toMap(k -> k, v -> "line"));
-		mapTypes.put("total", "total");
+		mapTypes.put("total", "line");
 		mapTypes.put("time", "time");
 		return mapTypes;
 	}
@@ -138,11 +140,13 @@ public class GraphServiceImpl implements GraphService{
 		log.info(String.format("[+] Collecting graph data for user with investPortfolioI: %d", investPortfolio.getId()));
 		FormGraph formGraph = FormGraph.builder()
 				.lines(getLines(investPortfolio))
-				.type(getTypes(investPortfolio))
+				.types(getTypes(investPortfolio))
 				.names(getNames(investPortfolio))
 				.color(getColors(investPortfolio))
 				.purchaseDate(getPurchaseDate(investPortfolio))
 				.build();
+
+		log.info(String.format("FormGraph: %s", formGraph));
 		return formGraph;
 	}
 }
