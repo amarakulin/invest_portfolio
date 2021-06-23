@@ -24,7 +24,7 @@ public class FormGraph {
 	private List<List<String>> lines;
 
 	//the info with type of each line
-	private Map<String, String> type;
+	private Map<String, String> types;
 
 	//the info with name of each line
 	private Map<String, String> names;
