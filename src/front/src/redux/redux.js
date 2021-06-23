@@ -3,7 +3,6 @@ import authReduser from './authReduser.js';
 import graphReduser from './graphReduser.js';
 import diagrammReduser from './diagrammReduser.js';
 import searchReduser from './searchReduser.js';
-import confirmReduser from './confirmReduser.js';
 import assetsTableReduser from './assetsTableReduser.js';
 import apiReduser from './apiReduser.js';
 import newAssetsReduser from './newAssetsReduser.js';
@@ -16,7 +15,6 @@ const reduser = combineReducers({
 	search: searchReduser,
 	newAssets: newAssetsReduser,
 	table: assetsTableReduser,
-	confirm: confirmReduser,
 	api: apiReduser
 });
 
