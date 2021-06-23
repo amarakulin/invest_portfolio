@@ -28,9 +28,9 @@ import java.util.stream.Collectors;
 public class ParseAmericanPriceAssets {
 	//TODO encode !!
 	private static final String API_KEY = "1480cef042784c4ea6dc3cd0975ad6e5";
-	private static final int LIMIT_TICKERS_PER_ONE_REQUEST = 8;
+	private static final int LIMIT_TICKERS_PER_ONE_REQUEST = 7;
 	private static final String URL_FORM = "https://api.twelvedata.com/price?symbol=%s&apikey=%s";
-	private static final long TIME_TO_WAIT = 10000;
+	private static final long TIME_TO_WAIT = 60000;
 
 	@Autowired
 	private HistoryPriceService historyPriceService;
@@ -87,7 +87,7 @@ public class ParseAmericanPriceAssets {
 		listTickers = historyPriceService.getListTickersToUpdateByExchange(exchange);
 		System.out.println(String.format("Get list of tickers: %s", listTickers));
 		timesForRequest = listTickers.size()/ LIMIT_TICKERS_PER_ONE_REQUEST;
-		//TODO handle situation then assets in use more the  8tickers * 60minutes !!!
+		//TODO handle situation then assets in use more the  LIMIT_TICKERS_PER_ONE_REQUEST tickers * TIME_TO_WAIT minutes !!!
 		do {
 			listTickersForURL = listTickers.stream().limit(LIMIT_TICKERS_PER_ONE_REQUEST).collect(Collectors.toList());
 			listTickers.removeAll(listTickersForURL);
@@ -97,8 +97,10 @@ public class ParseAmericanPriceAssets {
 			System.out.println(String.format("The string for url %s", requestUrl));
 			responseData = getResponseData(requestUrl);
 			parsedOutputWithTickerAndPrice.putAll(parseData(responseData));
-			TimeUnit.MILLISECONDS.sleep(TIME_TO_WAIT * 10);
 			i++;
+			if (i <= timesForRequest) {
+				TimeUnit.MILLISECONDS.sleep(TIME_TO_WAIT);
+			}
 		} while (i <= timesForRequest);
 
 		return parsedOutputWithTickerAndPrice;
