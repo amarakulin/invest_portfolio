@@ -1,4 +1,5 @@
 import { AuthAPI } from '../api/api';
+import { getCookie } from '../utils/cookie'
 
 export const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
 
@@ -32,6 +33,7 @@ export const login = (params) => (dispatch) => {
 		.then(res => {
 			if (res === 'ok') {
 				dispatch(setAuthUserData('name', true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+				localStorage.setItem('token', getCookie('JSESSIONID'));
 			} else {
 				throw new Error('Неверный e-mail или пароль');
 			}
@@ -44,6 +46,7 @@ export const login = (params) => (dispatch) => {
 export const logout = () => (dispatch) => {
 	AuthAPI.logout()
 		.then(() => {
+			localStorage.removeItem('token');
 			dispatch(setAuthUserData(null, false));
 		})
 }
