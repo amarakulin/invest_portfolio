@@ -26,4 +26,10 @@ public class MathUtils {
 	public static BigDecimal divideBigDecimalWithTwoPrecision(BigDecimal numerator, BigDecimal denominator){
 		return numerator.divide(denominator, 2, RoundingMode.CEILING);
 	}
+
+	public static boolean isIntegerValue(BigDecimal bigDecimal){
+		return  (bigDecimal.scale() <= 0
+				|| bigDecimal.signum() == 0
+				|| bigDecimal.stripTrailingZeros().scale() <= 0);
+	}
 }
