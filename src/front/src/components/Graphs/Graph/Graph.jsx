@@ -67,7 +67,8 @@ class Graph extends React.Component {
 			return true;
 		});
 
-		[this.yMin, this.yMax] = calculateBounderies(this.partData);
+		if (this.partData.length > 1)
+			[this.yMin, this.yMax] = calculateBounderies(this.partData);
 
 		this.yRatio = getYRatio(this.VIEW_HEIGHT, this.yMax, this.yMin);
 		this.xRatio = getXRatio(this.VIEW_WIDTH, this.partData[0].length);
