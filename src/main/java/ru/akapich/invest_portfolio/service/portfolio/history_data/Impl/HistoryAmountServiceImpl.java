@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.info_assets.TypeAsset;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
@@ -70,7 +69,7 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	@Override
 	@Transactional
-	public String updateTickerWithAmount(String ticker, BigDecimal amount) {
+	public String updateAssetByTickerWithAmount(String ticker, BigDecimal amount) {
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Ticker: '%s' updating with amount: '%f' by invest portfolio: %s", ticker, amount, investPortfolio.getId()));
 		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
