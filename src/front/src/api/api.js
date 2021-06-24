@@ -32,6 +32,10 @@ export const AuthAPI = {
 			rePassword
 		})
 		.then(res => res.data)
+	},
+	getToken() {
+		return api.get('auth/token')
+			.then(res => res.data)
 	}
 }
 

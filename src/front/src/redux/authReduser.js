@@ -1,5 +1,4 @@
 import { AuthAPI } from '../api/api';
-import { getCookie } from '../utils/cookie'
 
 export const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
 
@@ -32,8 +31,11 @@ export const login = (params) => (dispatch) => {
 	return AuthAPI.login(params)
 		.then(res => {
 			if (res === 'ok') {
-				dispatch(setAuthUserData('name', true)); //TODO getAuthUserData для получения информации залогиненого пользователя
-				localStorage.setItem('token', getCookie('JSESSIONID'));
+				AuthAPI.getToken().then(res => {
+					dispatch(setAuthUserData(res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+					localStorage.setItem('token', res.token);
+				})
+
 			} else {
 				throw new Error('Неверный e-mail или пароль');
 			}
@@ -55,7 +57,10 @@ export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 	return AuthAPI.signUp(name, email, password, rePassword)
 		.then(res => {
 			if (res.resultCode === 0) {
-				dispatch(setAuthUserData(res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+				dispatch(setAuthUserData(name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+				AuthAPI.getToken().then(res => {
+					localStorage.setItem('token', res.token);
+				})
 			} else {
 				throw new Error(res.error);
 			}

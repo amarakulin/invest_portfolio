@@ -36,14 +36,12 @@ export const getMatchAssets = (text) => (dispatch) => {
 	dispatch(toggleIsFetching(true));
 	SearchAPI.getMatchAssets(text)
 		.then(res => {
-			if (res.resultCode === 0) {
-				dispatch(setMatchAssets(res));
-			}
+			dispatch(setMatchAssets(res));
 			dispatch(toggleIsFetching(false));
 		})
 		.finally(() => {
 			dispatch(toggleIsFetching(false));
-			dispatch(setMatchAssets(res)); //! DELETE
+			// dispatch(setMatchAssets(res)); //! DELETE
 		})
 }
 
