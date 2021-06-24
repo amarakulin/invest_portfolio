@@ -13,9 +13,12 @@ import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.AllFinancialAssetRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.FinancialAssetInUseRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
+import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AddingNewListFinancialAssetsImpl;
+import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.user.UserService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +47,9 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 	@Autowired
 	private FinancialAssetInUseRepository financialAssetInUseRepository;
+
+	@Autowired
+	private HistoryAmountService historyAmountService;
 
 	@Autowired
 	private UserService userService;
@@ -135,5 +141,13 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		}
 		log.info("End: setNewAssets");
 		return assetsResponseForm;
+	}
+
+	@PutMapping("/api/data/update")
+	@ResponseBody
+	public String updateAsset(@RequestParam(name="ticker") String ticker,
+							@RequestParam(name="amount") BigDecimal amount){
+		String response = historyAmountService.updateTickerWithAmount(ticker, amount);
+		return response;
 	}
 }

@@ -20,7 +20,7 @@ public interface HistoryAmountService {
 
 	void updateAllHistoryAmount() throws CloneNotSupportedException;
 
-	void updateHistoryAmountByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
-
 	BigDecimal getTotalPriceForOneAsset(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount);
+
+	String updateTickerWithAmount(String ticker, BigDecimal amount);
 }

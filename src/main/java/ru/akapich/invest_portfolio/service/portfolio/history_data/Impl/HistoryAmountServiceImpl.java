@@ -4,6 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.info_assets.TypeAsset;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
@@ -13,6 +15,8 @@ import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmou
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryPriceRepository;
 import ru.akapich.invest_portfolio.service.date.DateService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
+import ru.akapich.invest_portfolio.service.user.UserService;
+import ru.akapich.invest_portfolio.utils.MathUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -40,6 +44,9 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
 
 	@Autowired
+	private UserService userService;
+
+	@Autowired
 	private DateService dateService;
 
 	@Override
@@ -55,6 +62,30 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 			priceForOneAsset = historyPriceForOneAsset.getPrice();
 		}
 		return amount.multiply(priceForOneAsset);
+	}
+
+	private boolean isValidateAmountByTypeOfAsset(String typeAsset, BigDecimal amount){
+		return !typeAsset.equals("{type.crypto}") && MathUtils.isIntegerValue(amount);
+	}
+
+	@Override
+	@Transactional
+	public String updateTickerWithAmount(String ticker, BigDecimal amount) {
+		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
+		log.info(String.format("[+] Ticker: '%s' updating with amount: '%f' by invest portfolio: %s", ticker, amount, investPortfolio.getId()));
+		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
+
+		String typeAsset = historyAmount.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getIdTypeAsset().getName();
+		HistoryPrice historyPriceOfAsset = historyPriceRepository.findByIdFinancialAssetInUse(historyAmount.getOwnedFinancialAsset().getFinancialAssetInUse());
+
+		if (!isValidateAmountByTypeOfAsset(typeAsset, amount)){
+			log.info(String.format("[-] Ticker: '%s' failed on validation by invest portfolio: %s", ticker, investPortfolio.getId()));
+			return String.format("Failed on validation: ticker: '%s' with amount: '%f'", ticker, amount);
+		}
+		historyAmount.setAmount(amount);
+		historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(amount));
+		log.info(String.format("[+] Ticker: '%s' successfully update by invest portfolio: %s", ticker, investPortfolio.getId()));
+		return String.format("Success update ticker: '%s' with amount: '%f'", ticker, amount);
 	}
 
 	@Override
@@ -115,10 +146,5 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 						historyAmount.getId(), historyAmount.getDate()));
 			}
 		}
-	}
-
-	@Override
-	public void updateHistoryAmountByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset) {
-		//FIXME Handle if date is not a work time of exchange
 	}
 }
