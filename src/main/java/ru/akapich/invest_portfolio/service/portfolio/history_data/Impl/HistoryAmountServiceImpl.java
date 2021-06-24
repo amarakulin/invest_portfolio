@@ -94,7 +94,7 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		log.info(String.format("[+] Ticker: '%s' deleting by invest portfolio: %s", ticker, investPortfolio.getId()));
 		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
 		historyAmount.setAmount(BigDecimal.ZERO);
-		//TODO delete from OwnedFinancialAsset!!!!!!!!!!!!!
+		ownedFinancialAssetRepository.delete(historyAmount.getOwnedFinancialAsset());
 		//TODO delete asset from FinancialAssetInUse if no one has it anymore!
 		return String.format("Success delete ticker: %s", ticker);
 	}
