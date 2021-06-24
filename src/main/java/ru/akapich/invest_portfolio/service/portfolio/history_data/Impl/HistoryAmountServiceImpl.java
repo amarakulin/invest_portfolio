@@ -89,6 +89,18 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	@Override
 	@Transactional
+	public String deleteAssetByTicker(String ticker) {
+		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
+		log.info(String.format("[+] Ticker: '%s' deleting by invest portfolio: %s", ticker, investPortfolio.getId()));
+		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
+		historyAmount.setAmount(BigDecimal.ZERO);
+		//TODO delete from OwnedFinancialAsset!!!!!!!!!!!!!
+		//TODO delete asset from FinancialAssetInUse if no one has it anymore!
+		return String.format("Success delete ticker: %s", ticker);
+	}
+
+	@Override
+	@Transactional
 	public void addNewHistoryAmount(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount) {
 
 		LocalDateTime date = dateService.getCurrentTime();//FIXME Handle if date is not a work time of exchange
@@ -112,11 +124,15 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	public Set<HistoryAmount> getLastAmountForEachUniqueOwnedAsset() {
 		//TODO optimaze query !!!
 		Set<HistoryAmount> setLastAmount = new HashSet<>();
-
-		List<OwnedFinancialAsset> uniqueOwnedAssets = ownedFinancialAssetRepository.findAllUniqueOwnedAssets();
+		HistoryAmount tmpHistoryAmount;
 		System.out.println("In getLastAmountForEachUniqueOwnedAsset()");
+		List<OwnedFinancialAsset> uniqueOwnedAssets = ownedFinancialAssetRepository.findAllUniqueOwnedAssets();
 		for (OwnedFinancialAsset asset : uniqueOwnedAssets){
-			if (!setLastAmount.add(historyAmountRepository.lastAmountByOwnedFinancialAsset(asset))){
+			tmpHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(asset);
+			if (tmpHistoryAmount.getAmount().compareTo(BigDecimal.ZERO) == 0){
+				log.warn(String.format("Ticker: '%s' has been deleted for ownedAsset with id: '%d'", asset.getFinancialAssetInUse().getIdAllFinancialAsset().getName(), asset.getId()));
+			}
+			else if (!setLastAmount.add(tmpHistoryAmount)){
 				log.warn(String.format("Repeat value of OwnedFinancialAsset '%d' in unique order",  asset.getId()));
 			}
 		}

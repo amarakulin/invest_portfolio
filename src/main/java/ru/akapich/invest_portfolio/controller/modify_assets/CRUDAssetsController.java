@@ -149,4 +149,11 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		String response = historyAmountService.updateAssetByTickerWithAmount(ticker, amount);
 		return response;
 	}
+
+	@DeleteMapping("/api/asset/delete")
+	@ResponseBody
+	public String deleteAsset(@RequestParam(name="ticker") String ticker){
+		String response = historyAmountService.deleteAssetByTicker(ticker);
+		return response;
+	}
 }

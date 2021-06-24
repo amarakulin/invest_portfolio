@@ -2,7 +2,6 @@ package ru.akapich.invest_portfolio.repository.portfolio.history_data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QuerydslUtils;
 import org.springframework.stereotype.Repository;
 import ru.akapich.invest_portfolio.model.forms.sql.FormPurchaseDate;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;

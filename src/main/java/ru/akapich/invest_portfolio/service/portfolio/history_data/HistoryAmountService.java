@@ -23,4 +23,6 @@ public interface HistoryAmountService {
 	BigDecimal getTotalPriceForOneAsset(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount);
 
 	String updateAssetByTickerWithAmount(String ticker, BigDecimal amount);
+
+	String deleteAssetByTicker(String ticker);
 }
