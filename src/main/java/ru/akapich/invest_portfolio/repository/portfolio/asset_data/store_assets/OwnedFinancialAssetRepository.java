@@ -11,7 +11,7 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.Owned
 import java.util.List;
 
 /**
- * JavaBean object that interaction with Database for {@link }
+ * JavaBean object that interaction with Database for {@link OwnedFinancialAsset}
  *
  * @author Aleksandr Marakulin
  **/
