@@ -22,7 +22,7 @@ export const AuthAPI = {
 		.then(res => res.data)
 	},
 	logout() {
-		return api.delete('auth/login')
+		return api.delete('auth/logout')
 	},
 	signUp(name, email, password, rePassword) {
 		return api.post('auth/signup', {
