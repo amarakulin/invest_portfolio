@@ -9,8 +9,6 @@ const SET_TOTAL_GRAPH_DATA = 'SET_TOTAL_GRAPH_DATA';
 const SET_HIDDEN_GRAPH_NAME = 'SET_HIDDEN_GRAPH_NAME';
 const REMOVE_HIDDEN_GRAPH_NAME = 'REMOVE_HIDDEN_GRAPH_NAME'
 
-export const widthPercent = 30;
-
 const initialState = {
 	tooltip: {
 		top: null,

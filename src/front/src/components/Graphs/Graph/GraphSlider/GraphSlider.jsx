@@ -3,7 +3,7 @@ import {GraphSliderContainer, LeftArrow, RightArrow, windowStyle, LeftEdgeStyle,
 import { GraphSliderCanvas } from '../GraphUtils/GraphUtilsStyles';
 import { getYRatio, getXRatio, renderLines, calculateBounderies } from '../GraphUtils/utils'
 import { connect } from 'react-redux';
-import { setDataIndex, widthPercent, setSliderGraphData } from '../../../../redux/graphReduser';
+import { setDataIndex, setSliderGraphData } from '../../../../redux/graphReduser';
 
 
 
@@ -26,10 +26,14 @@ class GraphSlider extends React.Component {
 		this.MIN_WIDTH = this.WIDTH * 0.05;
 		this.PADDING = this.DPI_HEIGHT * 0.05;
 
-		this.defoultWidth = this.WIDTH - (this.WIDTH * widthPercent / 100);
+		this.widthPercent = 30;
+		if (this.props.data.lines[0].length < 25)
+			this.widthPercent = 80;
+
+		this.defoultWidth = this.WIDTH - (this.WIDTH * this.widthPercent / 100);
 		this.setPosition(this.defoultWidth, 0);
 
-		this.props.setDataIndex((100 - widthPercent), 100);
+		this.props.setDataIndex((100 - this.widthPercent), 100);
 		
 
 		this.VIEW_HEIGHT = this.DPI_HEIGHT - this.PADDING * 2;
