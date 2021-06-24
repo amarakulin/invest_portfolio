@@ -19,7 +19,7 @@ const Legend = (props) => {
 				{
 					props.data.map((el, i) => {
 						return <LegendListItem 
-								color={props.colorArr[i]}
+								color={props.data[i].color}
 								key={el.name}
 								onMouseEnter={() => props.mouseEnterHandler(i)}
 								onMouseLeave={() => props.mouseLeaveHandler()}

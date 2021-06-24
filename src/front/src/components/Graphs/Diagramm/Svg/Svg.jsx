@@ -28,7 +28,7 @@ const Svg = (props) => {
 						r='15.9'
 						cx='50%'
 						cy='50%'
-						stroke={props.colorArr[i]}
+						stroke={props.data[i].color}
 						strokeDasharray={`${el.percent} 100`}
 						strokeDashoffset={getStrokeDashoffset(i)}
 						key={el.name}
