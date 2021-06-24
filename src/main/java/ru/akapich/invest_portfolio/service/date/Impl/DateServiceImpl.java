@@ -31,17 +31,9 @@ public class DateServiceImpl implements DateService {
 		Instant nowUtc = Instant.now();
 		ZoneId asiaSingapore = ZoneId.of(timeZone);
 		ZonedDateTime currentTime = ZonedDateTime.ofInstant(nowUtc, asiaSingapore);
-//		ZonedDateTime truncatedCurrentTime = currentTime.truncatedTo(ChronoUnit.HOURS).toLocalDateTime();
 		LocalDateTime localDateTime = currentTime.truncatedTo(ChronoUnit.HOURS).toLocalDateTime();
-//		log.info(String.format("get currentTime[%s]: %s", timeZone, truncatedCurrentTime));
 		log.info(String.format("get Local[%s]: %s", timeZone, localDateTime));
 
 		return localDateTime;
-	}
-
-	@Override
-	public Date getCurrentDateAsObjectByString(String date) throws ParseException {//TODO workout exception
-		Date date1 = new SimpleDateFormat("yyyy/MM/dd HH").parse(date);
-		return null;
 	}
 }

@@ -49,10 +49,10 @@ public class DiagramServiceImpl implements DiagramService{
 		List<DiagramResponseForm> listDiagramResponseForm = new ArrayList<>();
 		FinancialAssetInUse financialAssetInUse;
 		BigDecimal totalPriceInvestPortfolio;
-		LocalDateTime date = dateService.getCurrentTime();
-		//FIXME set last date form HistoryAmount by the user
+//		LocalDateTime date = dateService.getCurrentTime();//FIXME set last date form HistoryAmount by the user
 
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
+		LocalDateTime date = historyAmountRepository.getLastTimeUpdateAssetsByInvestPortfolio(investPortfolio);
 		log.info(String.format("[+] Creating diagram for user with investPortfolio '%d'", investPortfolio.getId()));
 		Set<HistoryAmount> setOfAllAssets = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolioAndDate(investPortfolio, date);
 		try {

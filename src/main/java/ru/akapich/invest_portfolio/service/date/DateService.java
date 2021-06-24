@@ -12,7 +12,5 @@ import java.util.Date;
 
 public interface DateService {
 
-	Date getCurrentDateAsObjectByString(String date) throws ParseException;
-
 	LocalDateTime getCurrentTime();
 }
