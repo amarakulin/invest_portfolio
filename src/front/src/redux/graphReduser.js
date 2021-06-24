@@ -145,12 +145,34 @@ export const getGraphData = () => (dispatch) => {
 			
 		})
 		.finally(res => {
-			dispatch(setTotalGraphData(getChartData())) //! DELETE
+			dispatch(setTotalGraphData(converter())) //! DELETE
 			dispatch(toggleIsFetching(false));
 		})
 }
 
 export default graphReduser;
+
+const converter = () => {
+	let data = getChartData();
+	const len = data.lines[0].length;
+
+	data.lines = data.lines.map((line, i) => {
+		if (i ===  0)
+			return line;
+		let arr = new Array(len).fill(null);
+		const purchaseDate = data.purchaseDate[line[0]];
+		const index = data.lines[0].indexOf(purchaseDate) - 1;
+		
+		let iterator = 1;
+
+		while (index + iterator < len)
+			arr[index + iterator] = line[iterator++]
+
+		arr[0] = line[0];
+		return arr
+	})
+	return data;
+}
 
 export function getChartData() {
 	return {
@@ -270,9 +292,6 @@ export function getChartData() {
 				1551916800000,
 				1552003200000,
 			],
-			// [
-			// 	'y0', 0, 30, 
-			// ]
 			[
 				'y0',
 				51,
@@ -282,7 +301,6 @@ export function getChartData() {
 				70,
 				95,
 				70,
-				50,
 				68,
 				63,
 				66,
@@ -292,22 +310,10 @@ export function getChartData() {
 				109,
 				121,
 				53,
-				36,
-				71,
-				96,
-				55,
-				58,
-				29,
-				31,
-				55,
-				52,
-				44,
-				126,
 				191,
 				73,
 				87,
 				255,
-				278,
 				219,
 				170,
 				129,
@@ -470,7 +476,7 @@ export function getChartData() {
 		},
 		purchaseDate: {
 			y0: 1547769600000,
-			y1: 1543881600000
+			y1: 1542412800000
 		}
 	}
 }
