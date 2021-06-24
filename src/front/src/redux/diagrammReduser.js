@@ -152,16 +152,14 @@ export const getDiagrammData = () => (dispatch) => {
 	dispatch(toggleIsFetching(true));
 	DataAPI.getDiagrammData()
 		.then(res => {
-			if (res.resultCode === 0) {
-				dispatch(setTotalDiagrammData(res.data));
-			}
+			dispatch(setTotalDiagrammData(res.data));
 			dispatch(toggleIsFetching(false));
 		})
 		.catch(err => {
 
 		})
 		.finally(() => {
-			dispatch(setTotalDiagrammData(getChartData())); //!DELETE
+			// dispatch(setTotalDiagrammData(getChartData())); //!DELETE
 			dispatch(toggleIsFetching(false));
 		})
 }

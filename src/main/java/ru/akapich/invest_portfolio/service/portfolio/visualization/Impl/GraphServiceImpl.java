@@ -131,6 +131,11 @@ public class GraphServiceImpl implements GraphService{
 		mapPurchaseDate = historyAmountWithPurchaseDate.stream()
 				.collect(Collectors.toMap(k -> k.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker()
 						, v -> String.valueOf(Timestamp.valueOf(v.getDate()).getTime())));
+		LocalDateTime purchaseDateTotal = historyAmountWithPurchaseDate.stream()
+				.map(FormPurchaseDate::getDate).min(Comparator.comparing(LocalDateTime::getNano)).get();//Fix me needs is Present
+
+		mapPurchaseDate.put("total", String.valueOf(Timestamp.valueOf(purchaseDateTotal).getTime()));
+
 		return mapPurchaseDate;
 	}
 

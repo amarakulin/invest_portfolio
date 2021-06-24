@@ -18,12 +18,12 @@ public class MathUtils {
 
 	public static BigDecimal getPercent(BigDecimal total, BigDecimal value){
 		if (total.compareTo(BigDecimal.ZERO) != 0) {
-			return divideBigDecimalWithTwoPrecision(value, total).multiply(ONE_HUNDRED);
+			return divideBigDecimalWithTwoPrecision(value, total).multiply(ONE_HUNDRED);// TAKE only Integer part
 		}
 		return BigDecimal.ZERO;
 	}
 
 	public static BigDecimal divideBigDecimalWithTwoPrecision(BigDecimal numerator, BigDecimal denominator){
-		return numerator.divide(denominator, 2, RoundingMode.CEILING);
+		return numerator.divide(denominator, 2, RoundingMode.HALF_EVEN);
 	}
 }

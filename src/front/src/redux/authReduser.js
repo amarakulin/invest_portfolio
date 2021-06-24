@@ -7,7 +7,7 @@ const initialState = {
 	name: null,
 	email: null,
 	userID: null,
-	isAuth: localStorage.getItem('token') || true,
+	isAuth: localStorage.getItem('token') || false,
 }
 
 const authReduser = (state = initialState, action) => {

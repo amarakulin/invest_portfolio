@@ -40,7 +40,7 @@ export const DataAPI = {
 		return api.get('data/graph')
 	},
 	getDiagrammData() {
-		return api.get('data/diagramm')
+		return api.get('data/diagram')
 	},
 	postNewAssetsData(data) {
 		return api.post('data/newassets', data)

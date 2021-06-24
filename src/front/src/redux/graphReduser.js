@@ -134,16 +134,14 @@ export const getGraphData = () => (dispatch) => {
 	dispatch(toggleIsFetching(true));
 	DataAPI.getGraphData()
 		.then(res => {
-			if (res.resulCode === 0) {
-				dispatch(setTotalGraphData(graphDataConverter(res.data)));
-			}
+			dispatch(setTotalGraphData(graphDataConverter(res.data)));
 			dispatch(toggleIsFetching(false));
 		})
 		.catch(err => {
 			
 		})
 		.finally(res => {
-			dispatch(setTotalGraphData(graphDataConverter(getChartData()))) //! DELETE
+			// dispatch(setTotalGraphData(graphDataConverter(getChartData()))) //! DELETE
 			dispatch(toggleIsFetching(false));
 		})
 }
