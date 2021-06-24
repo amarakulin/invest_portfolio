@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.akapich.invest_portfolio.model.forms.assets.AssetsResponseForm;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
@@ -63,13 +64,23 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		return amount.multiply(priceForOneAsset);
 	}
 
-	private boolean isValidateAmountByTypeOfAsset(String typeAsset, BigDecimal amount){
-		return !typeAsset.equals("{type.crypto}") && MathUtils.isIntegerValue(amount);
+	private String stringValidateAmountByTypeOfAsset(String typeAsset, BigDecimal amount){
+		String resultError = "";
+		if (!typeAsset.equals("{type.crypto}") && !MathUtils.isIntegerValue(amount)){
+			resultError = "{valid.amount.not_integer}";
+		}
+		else if (amount.compareTo(BigDecimal.ZERO) < 0){
+			resultError = "{valid.amount.negative}";
+		}
+		else if (amount.compareTo(BigDecimal.ZERO) == 0){
+			resultError = "{valid.amount.cant_delete}";
+		}
+		return resultError;
 	}
 
 	@Override
 	@Transactional
-	public String updateAssetByTickerWithAmount(String ticker, BigDecimal amount) {
+	public AssetsResponseForm updateAssetByTickerWithAmount(String ticker, BigDecimal amount) {
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Ticker: '%s' updating with amount: '%f' by invest portfolio: %s", ticker, amount, investPortfolio.getId()));
 		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
@@ -77,14 +88,21 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		String typeAsset = historyAmount.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getIdTypeAsset().getName();
 		HistoryPrice historyPriceOfAsset = historyPriceRepository.findByIdFinancialAssetInUse(historyAmount.getOwnedFinancialAsset().getFinancialAssetInUse());
 
-		if (!isValidateAmountByTypeOfAsset(typeAsset, amount)){
+		String errorMessage = stringValidateAmountByTypeOfAsset(typeAsset, amount);
+		int resultCode = 0;
+		if (!errorMessage.equals("")){
+			resultCode = 1;
 			log.info(String.format("[-] Ticker: '%s' failed on validation by invest portfolio: %s", ticker, investPortfolio.getId()));
-			return String.format("Failed on validation: ticker: '%s' with amount: '%f'", ticker, amount);
 		}
-		historyAmount.setAmount(amount);
-		historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(amount));
-		log.info(String.format("[+] Ticker: '%s' successfully update by invest portfolio: %s", ticker, investPortfolio.getId()));
-		return String.format("Success update ticker: '%s' with amount: '%f'", ticker, amount);
+		else{
+			historyAmount.setAmount(amount);
+			historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(amount));
+			log.info(String.format("[+] Ticker: '%s' successfully update by invest portfolio: %s", ticker, investPortfolio.getId()));
+		}
+		return AssetsResponseForm.builder()
+				.error(errorMessage)
+				.resultCode(resultCode)
+				.build();
 	}
 
 	@Override

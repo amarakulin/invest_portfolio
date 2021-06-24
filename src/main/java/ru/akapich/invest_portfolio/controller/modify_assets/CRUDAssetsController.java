@@ -144,16 +144,19 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 	@PutMapping("/api/asset/edit")
 	@ResponseBody
-	public String updateAsset(@RequestParam(name="ticker") String ticker,
+	public AssetsResponseForm updateAsset(@RequestParam(name="ticker") String ticker,
 							@RequestParam(name="amount") BigDecimal amount){
-		String response = historyAmountService.updateAssetByTickerWithAmount(ticker, amount);
+		AssetsResponseForm response = historyAmountService.updateAssetByTickerWithAmount(ticker, amount);
 		return response;
 	}
 
 	@DeleteMapping("/api/asset/delete")
 	@ResponseBody
-	public String deleteAsset(@RequestParam(name="ticker") String ticker){
+	public AssetsResponseForm deleteAsset(@RequestParam(name="ticker") String ticker){
 		String response = historyAmountService.deleteAssetByTicker(ticker);
-		return response;
+		return AssetsResponseForm.builder()
+				.error("")
+				.resultCode(0)
+				.build();
 	}
 }
