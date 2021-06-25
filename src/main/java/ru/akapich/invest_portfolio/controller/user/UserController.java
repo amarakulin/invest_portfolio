@@ -113,16 +113,17 @@ public class UserController {
 			log.info(String.format("[+] New User '%s' successfully register with email '%s'.",
 								user.getName(), user.getEmail()));
 		}
-
+		//FIXME email and ID and Name not needed!!!!!!!!!!!!
 		return getLoginResponse(user, errorMessage);
 	}
 
 	@GetMapping("/api/auth/token")
 	public Map<String,String> token(HttpSession session) {
+		//TODO Create cookie with name of the user!!!!!!!!!!
 		Map<String,String> result = new java.util.HashMap<>(Collections.singletonMap("token", session.getId()));
 		System.out.println(String.format("Tocker: %s",  Collections.singletonMap("token", session.getId())));
 		User user = userDetailsService.getUserInCurrentSession();
-		result.put("name", user.getName());
+		result.put("name", user.getName());//TODO Create cookie with name of the user!!!!!!!!!!
 		return result;
 	}
 }
