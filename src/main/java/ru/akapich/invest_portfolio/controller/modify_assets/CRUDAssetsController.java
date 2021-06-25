@@ -171,11 +171,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 	@DeleteMapping("/api/asset/delete")
 	@ResponseBody
-	public AssetsResponseForm deleteAsset(@RequestParam(name="ticker") String ticker){
-		String response = historyAmountService.deleteAssetByTicker(ticker);
-		return AssetsResponseForm.builder()
-				.error("")
-				.resultCode(0)
-				.build();
+	public void deleteAsset(@RequestParam(name="ticker") String ticker){
+		historyAmountService.deleteAssetByTicker(ticker);
 	}
 }

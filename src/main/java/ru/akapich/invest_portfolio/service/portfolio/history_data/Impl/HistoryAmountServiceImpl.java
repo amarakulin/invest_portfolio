@@ -107,14 +107,12 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	@Override
 	@Transactional
-	public String deleteAssetByTicker(String ticker) {
+	public void deleteAssetByTicker(String ticker) {
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Ticker: '%s' deleting by invest portfolio: %s", ticker, investPortfolio.getId()));
 		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
 		historyAmount.setAmount(BigDecimal.ZERO);
 		ownedFinancialAssetRepository.delete(historyAmount.getOwnedFinancialAsset());
-		//TODO delete asset from FinancialAssetInUse if no one has it anymore!
-		return String.format("Success delete ticker: %s", ticker);
 	}
 
 	@Override
