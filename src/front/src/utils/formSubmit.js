@@ -2,21 +2,22 @@ import { FORM_ERROR } from 'final-form';
 import { TYPE_BUY, TYPE_SELL } from '../redux/assetsTableReduser';
 import createURLSearchParam from './createURLSearchParam'
 
-export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async () => {
+export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets, showAlert) => async () => {
 	const formData = [];
 
 	for (let el of newAssets) {
 		formData.push({
 			ticker: el.ticker,
 			amount: el.amount,
-			// type: el.type//TODO
+			type: el.type
 		})
 	}
 	
 	try {
 		await postNewAssetsData(formData);
+		showAlert('success', 'Актив успешно добавлен');
 	} catch (e) {
-		return { [FORM_ERROR]: e.message }
+		showAlert('danger', e.message);
 	}
 
 	//TODO после отправки нужно заново запросить данные пользователя

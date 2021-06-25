@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { Container } from '../Basic/Wrapper/Wrapper';
 import Greeting from './HeaderComponents/Greeting';
 import HeaderFooter from './HeaderComponents/HeaderFooter';
-import Modal from '../Modal/Modal';
 import {connect} from 'react-redux';
 import {logout} from '../../redux/authReduser';
-import AddNewAssetsForm from '../Forms/AddNewAssetsForm/AddNewAssetsForm';
 import { StyledHeader } from './HeaderComponents/HeaderStyles';
+import NewAsset from '../NewAsset/NewAsset';
 
 const Header = (props) => {
 	const [isModalOpen, toggleIsModal] = useState(false);
@@ -14,9 +13,7 @@ const Header = (props) => {
 	return (
 		<StyledHeader>
 			<Container>
-				<Modal closeModal={toggleIsModal} display={isModalOpen}>
-					<AddNewAssetsForm />
-				</Modal>
+				<NewAsset closeModal={toggleIsModal} display={isModalOpen}/>
 				<Greeting name={props.name} />
 				<HeaderFooter 
 					openModal={toggleIsModal}

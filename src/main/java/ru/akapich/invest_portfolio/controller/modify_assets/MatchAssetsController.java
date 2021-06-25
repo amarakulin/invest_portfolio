@@ -31,7 +31,7 @@ public class MatchAssetsController {
 	public List<MatchAssetForm> matchAssets(@RequestParam(name="ticker") String ticker){
 		List<MatchAssetForm> listMatchAssetsForm = new ArrayList<>();
 
-		List<AllFinancialAsset> listMatchesTickers = allFinancialAssetRepository.findTop10ByTickerStartingWithIgnoreCase(ticker);
+		List<AllFinancialAsset> listMatchesTickers = allFinancialAssetRepository.findTop10ByTickerStartingWithIgnoreCaseOrderByTicker(ticker);
 		log.info(String.format("[+] Get response for match asset with ticker - '%s'", ticker));
 		for (var asset :listMatchesTickers){
 			listMatchAssetsForm.add(

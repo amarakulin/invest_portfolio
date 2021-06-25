@@ -13,8 +13,8 @@ const AddNewAssetsForm = (props) => {
 	return (
 		<Form
 			mutators={{ setValue }}
-			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData, props.newAssets)}
-			render={({ handleSubmit, form, submitting, errors, hasSubmitErrors, submitError }) => (
+			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData, props.newAssets, props.showAlert)}
+			render={({ handleSubmit, form, submitting }) => (
 				<form onSubmit={handleSubmit}>
 					<NewAssetFields
 						searchData={props.searchData}
@@ -24,8 +24,6 @@ const AddNewAssetsForm = (props) => {
 					/>
 					{props.newAssets.length ? <AddedAssets data={props.newAssets} /> : null}
 
-					{errors.identical && <Error> {errors.identical} </Error>}
-					{hasSubmitErrors && <Error> {submitError} </Error>}
 					<Button disabled={submitting || !props.newAssets.length}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
 				</form>
 			)}

@@ -25,5 +25,5 @@ public interface HistoryAmountService {
 
 	AssetsResponseForm updateAssetByTickerWithAmount(String ticker, BigDecimal amount);
 
-	String deleteAssetByTicker(String ticker);
+	void deleteAssetByTicker(String ticker);
 }

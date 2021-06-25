@@ -1,5 +1,6 @@
 import { createStore , combineReducers, applyMiddleware } from 'redux';
 import authReduser from './authReduser.js';
+import alertReduser from './alertReduser.js';
 import graphReduser from './graphReduser.js';
 import diagrammReduser from './diagrammReduser.js';
 import searchReduser from './searchReduser.js';
@@ -15,6 +16,7 @@ const reduser = combineReducers({
 	search: searchReduser,
 	newAssets: newAssetsReduser,
 	table: assetsTableReduser,
+	alert: alertReduser,
 	api: apiReduser
 });
 
