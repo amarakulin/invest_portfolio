@@ -13,7 +13,7 @@ const AddNewAssetsForm = (props) => {
 	return (
 		<Form
 			mutators={{ setValue }}
-			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData, props.newAssets)}
+			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData, props.newAssets, props.showAlert)}
 			render={({ handleSubmit, form, submitting, errors, hasSubmitErrors, submitError }) => (
 				<form onSubmit={handleSubmit}>
 					<NewAssetFields
