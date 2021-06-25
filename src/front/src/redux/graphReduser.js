@@ -141,37 +141,32 @@ export const getGraphData = () => (dispatch) => {
 			
 		})
 		.finally(res => {
-			// dispatch(setTotalGraphData(graphDataConverter(getChartData()))) //! DELETE
+			dispatch(setTotalGraphData(graphDataConverter(getChartData()))) //! DELETE
 			dispatch(toggleIsFetching(false));
 		})
 }
 
 export default graphReduser;
 
-const graphDataConverter = (data) => {
+export const graphDataConverter = (data) => {
 	const len = data.lines[0].length;
 
-	data.lines = data.lines.map((line, i) => {
-		if (i === 0) {
-			line = line.map((el, i) => {
-				if (i === 0)
-					return el;
-				return parseInt(el);
-			})
-			return line;
-		}
+	const getNewLineData = (line) => {
+		const arr = new Array(len - line.length)
+			.fill(null)
+			.concat(...line.filter((_, i) => i !== 0));
 		
-		let arr = new Array(len).fill(null);
-		const purchaseDate = data.purchaseDate[line[0]].toString();
-		const startIndex = data.lines[0].indexOf(purchaseDate) - 1;
-		
-		let iterator = 1;
-
-		arr[0] = line[0];
-		while (startIndex + iterator < len)
-			arr[startIndex + iterator] = parseInt(line[iterator++])
-
+		arr.unshift(line[0]);
 		return arr;
+	}
+
+	data.lines = data.lines.map(line => {
+		line = line.map(el => isNaN(parseInt(el)) ? el : parseInt(el));
+
+		if (data.types[line[0]] !== 'line')
+			return line;
+		
+		return getNewLineData(line);
 	})
 	return data;
 }
@@ -348,7 +343,7 @@ export function getChartData() {
 				'64',
 			],
 			[
-				'y1',
+				'total',
 				'22',
 				'0',
 				'30',
@@ -465,20 +460,20 @@ export function getChartData() {
 		],
 		types: {
 			y0: 'line',
-			y1: 'line',
+			total: 'line',
 			time: 'time',
 		},
 		names: {
 			y0: '#0',
-			y1: '#1',
+			total: 'total',
 		},
 		color: {
 			y0: '#ffac17',
-			y1: '#19f3f2'
+			total: '#19f3f2'
 		},
 		purchaseDate: {
 			y0: 1547769600000,
-			y1: 1542412800000
+			total: 1542412800000
 		}
 	}
 }
