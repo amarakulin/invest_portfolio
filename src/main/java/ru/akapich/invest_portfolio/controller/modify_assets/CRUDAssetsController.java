@@ -16,6 +16,7 @@ import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AddingNewListFinancialAssetsImpl;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.user.UserService;
+import ru.akapich.invest_portfolio.utils.MathUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -54,6 +55,21 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 	private UserService userService;
 
 	@Override
+	public NewAssetsForm firstFloatNumberAsset(List<NewAssetsForm> listNewAssetsForm) {
+		NewAssetsForm firstFloatNumberAsset;
+
+		firstFloatNumberAsset = null;
+		for(NewAssetsForm assetsForm : listNewAssetsForm){
+			System.out.println(String.format("New Asset: %s", assetsForm));
+			if (!assetsForm.getType().equals("{type.crypto}") && !MathUtils.isIntegerValue(assetsForm.getAmount())){
+				firstFloatNumberAsset = assetsForm;
+				break;
+			}
+		}
+		return firstFloatNumberAsset;
+	}
+
+	@Override
 	public boolean isTickersUnique(List<NewAssetsForm> listNewAssetsForm) {
 
 		int sizeUniqueAssets = listNewAssetsForm.stream()
@@ -71,7 +87,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		for (NewAssetsForm asset : listNewAssetsForm){
 			System.out.println(String.format("notExistAsset search for ticker: %s",  asset.getTicker()));
 
-			if (allFinancialAssetRepository.findByTickerAndIdTypeAsset_Name(asset.getTicker(), asset.getType()) == null){
+			if (allFinancialAssetRepository.findByTicker(asset.getTicker()) == null){
 
 				firstNotExistAssets = asset;
 				break;
@@ -103,12 +119,12 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		return assetInInvestPortfolio;
 	}
 
-
 	private AssetsResponseForm getAssetsResponseForm(List<NewAssetsForm> listAssetsForm){
 		String errorMessage = "";
 
 		NewAssetsForm firstNotExistAsset = notExistAsset(listAssetsForm);
 		NewAssetsForm assetAlreadyInTheInvestPortfolio = assetAlreadyInTheInvestPortfolio(listAssetsForm);
+		NewAssetsForm firstFloatNumberAsset = firstFloatNumberAsset(listAssetsForm);
 		if (!isTickersUnique(listAssetsForm)){
 			errorMessage = "{valid.assets.repeat}";
 		}
@@ -117,6 +133,9 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		}
 		else if (assetAlreadyInTheInvestPortfolio != null){
 			errorMessage = "{valid.asset.in_portfolio} : " + assetAlreadyInTheInvestPortfolio.getTicker();
+		}
+		else if (firstFloatNumberAsset != null){
+			errorMessage = "{valid.asset.not_integer} : " + firstFloatNumberAsset.getTicker();
 		}
 		Integer resultCode = errorMessage.equals("") ? 0 : 1;
 
@@ -152,11 +171,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 	@DeleteMapping("/api/asset/delete")
 	@ResponseBody
-	public AssetsResponseForm deleteAsset(@RequestParam(name="ticker") String ticker){
-		String response = historyAmountService.deleteAssetByTicker(ticker);
-		return AssetsResponseForm.builder()
-				.error("")
-				.resultCode(0)
-				.build();
+	public void deleteAsset(@RequestParam(name="ticker") String ticker){
+		historyAmountService.deleteAssetByTicker(ticker);
 	}
 }

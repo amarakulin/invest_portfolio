@@ -17,13 +17,22 @@ public class MathUtils {
 	public static final BigDecimal ONE_HUNDRED = new BigDecimal(100);
 
 	public static BigDecimal getPercent(BigDecimal total, BigDecimal value){
+		BigDecimal percent;
 		if (total.compareTo(BigDecimal.ZERO) != 0) {
-			return divideBigDecimalWithTwoPrecision(value, total).multiply(ONE_HUNDRED);// TAKE only Integer part
+			percent = divideBigDecimalWithFourPrecisionUp(value, total).multiply(ONE_HUNDRED);
 		}
-		return BigDecimal.ZERO;
+		else{
+			percent = BigDecimal.ZERO;
+		}
+
+		return percent;
 	}
 
-	public static BigDecimal divideBigDecimalWithTwoPrecision(BigDecimal numerator, BigDecimal denominator){
+	public static BigDecimal divideBigDecimalWithFourPrecisionUp(BigDecimal numerator, BigDecimal denominator){
+		return numerator.divide(denominator, 4, RoundingMode.UP);
+	}
+
+	public static BigDecimal divideBigDecimalWithTwoPrecisionHalf(BigDecimal numerator, BigDecimal denominator){
 		return numerator.divide(denominator, 2, RoundingMode.HALF_EVEN);
 	}
 
