@@ -9,7 +9,6 @@ export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async ()
 		formData.push({
 			ticker: el.ticker,
 			amount: el.amount,
-			// type: el.type//TODO
 		})
 	}
 	
