@@ -29,7 +29,7 @@ public class DiagramController {
 
 	@GetMapping("/api/data/diagram")
 	public List<DiagramResponseForm> diagram(){
-		List<DiagramResponseForm> listDiagramResponseForm = diagramService.getListDiagramForms();
+		List<DiagramResponseForm> listDiagramResponseForm = diagramService.getListDiagramForms();//TODO sort the diagram by percent
 		return listDiagramResponseForm;//FIXME get a correct number of %
 	}
 }
