@@ -30,6 +30,6 @@ public class DiagramController {
 	@GetMapping("/api/data/diagram")
 	public List<DiagramResponseForm> diagram(){
 		List<DiagramResponseForm> listDiagramResponseForm = diagramService.getListDiagramForms();
-		return listDiagramResponseForm;
+		return listDiagramResponseForm;//FIXME get a correct number of %
 	}
 }

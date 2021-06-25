@@ -16,6 +16,7 @@ import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AddingNewListFinancialAssetsImpl;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.user.UserService;
+import ru.akapich.invest_portfolio.utils.MathUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -52,6 +53,21 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 	@Autowired
 	private UserService userService;
+
+	@Override
+	public NewAssetsForm firstFloatNumberAsset(List<NewAssetsForm> listNewAssetsForm) {
+		NewAssetsForm firstFloatNumberAsset;
+
+		firstFloatNumberAsset = null;
+		for(NewAssetsForm assetsForm : listNewAssetsForm){
+			System.out.println(String.format("New Asset: %s", assetsForm));
+			if (!assetsForm.getType().equals("{type.crypto}") && !MathUtils.isIntegerValue(assetsForm.getAmount())){
+				firstFloatNumberAsset = assetsForm;
+				break;
+			}
+		}
+		return firstFloatNumberAsset;
+	}
 
 	@Override
 	public boolean isTickersUnique(List<NewAssetsForm> listNewAssetsForm) {
@@ -103,12 +119,12 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		return assetInInvestPortfolio;
 	}
 
-
 	private AssetsResponseForm getAssetsResponseForm(List<NewAssetsForm> listAssetsForm){
 		String errorMessage = "";
 
 		NewAssetsForm firstNotExistAsset = notExistAsset(listAssetsForm);
 		NewAssetsForm assetAlreadyInTheInvestPortfolio = assetAlreadyInTheInvestPortfolio(listAssetsForm);
+		NewAssetsForm firstFloatNumberAsset = firstFloatNumberAsset(listAssetsForm);
 		if (!isTickersUnique(listAssetsForm)){
 			errorMessage = "{valid.assets.repeat}";
 		}
@@ -117,7 +133,10 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		}
 		else if (assetAlreadyInTheInvestPortfolio != null){
 			errorMessage = "{valid.asset.in_portfolio} : " + assetAlreadyInTheInvestPortfolio.getTicker();
-		}//TODO add errorMessage if amount with '.' and TypeAsset not a crypto
+		}
+		else if (firstFloatNumberAsset != null){
+			errorMessage = "{valid.asset.not_integer} : " + firstFloatNumberAsset.getTicker();
+		}
 		Integer resultCode = errorMessage.equals("") ? 0 : 1;
 
 		return AssetsResponseForm.builder()
