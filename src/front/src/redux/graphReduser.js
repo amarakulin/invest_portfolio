@@ -149,6 +149,8 @@ export const getGraphData = () => (dispatch) => {
 export default graphReduser;
 
 export const graphDataConverter = (data) => {
+	if (data.lines === null)
+		return data
 	const len = data.lines[0].length;
 
 	const getNewLineData = (line) => {
