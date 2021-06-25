@@ -60,7 +60,7 @@ public class TableServiceImpl implements TableService {
 						.ticker(tmpInfoAsset.getTicker())
 						.type(tmpInfoAsset.getIdTypeAsset().getName())
 						.exchange(tmpInfoAsset.getIdExchange().getName())
-						.price(MathUtils.divideBigDecimalWithTwoPrecision(tmpHistoryAmount.getTotal(), tmpHistoryAmount.getAmount()))
+						.price(MathUtils.divideBigDecimalWithTwoPrecisionHalf(tmpHistoryAmount.getTotal(), tmpHistoryAmount.getAmount()))
 						.amount(tmpHistoryAmount.getAmount())
 						.total(tmpHistoryAmount.getTotal())
 						.build());
