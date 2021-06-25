@@ -13,11 +13,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationFailureHandler;
 import ru.akapich.invest_portfolio.configuration.handlers.MyAuthenticationSuccessHandler;
+import ru.akapich.invest_portfolio.configuration.handlers.MyLogoutSuccessHandler;
 import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -58,6 +60,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 		return new MyAuthenticationFailureHandler() ;
 	}
 
+	private LogoutSuccessHandler logoutSuccessHandler(){
+		return new MyLogoutSuccessHandler();
+	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
@@ -92,6 +98,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter imple
 				.successHandler(successHandler())
 				.failureHandler(failureHandler())
 					.and()
-				.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
+				.logout().logoutUrl("/api/auth/logout").logoutSuccessHandler(logoutSuccessHandler())
+				.invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 	}
 }

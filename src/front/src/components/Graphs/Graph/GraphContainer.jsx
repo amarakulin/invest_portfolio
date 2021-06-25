@@ -11,8 +11,8 @@ import { toggleIsFetching } from '../../../redux/apiReduser'
 const render = (props) => {
 	if (props.isFetching || !props.totalData) {
 		return <GraphPreloaderContainer> <Preloader color='black' /> </GraphPreloaderContainer>
-	} else if (props.totalData?.lines.length === 0) {
-		return 'Нет активов для отрисовки графика'
+	} else if (props.totalData?.lines === null) {
+		return <div>Нет активов для отрисовки графика</div>
 	} else {
 		return (
 			<>

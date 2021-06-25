@@ -24,7 +24,7 @@ public class TableController {
 	@Autowired
 	private TableService tableService;
 
-	@GetMapping("/api/data/table")
+	@GetMapping("/api/data/tableassets")
 	public FormTable table(){
 		return tableService.getTable();
 	}

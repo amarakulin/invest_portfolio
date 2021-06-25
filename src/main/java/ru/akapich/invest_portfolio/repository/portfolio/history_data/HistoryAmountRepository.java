@@ -2,7 +2,6 @@ package ru.akapich.invest_portfolio.repository.portfolio.history_data;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QuerydslUtils;
 import org.springframework.stereotype.Repository;
 import ru.akapich.invest_portfolio.model.forms.sql.FormPurchaseDate;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
@@ -54,4 +53,10 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 	@Query("SELECT h1.date FROM HistoryAmount h1 WHERE h1.id = (" +
 			"SELECT MAX(h2.id) FROM HistoryAmount h2 WHERE h2.ownedFinancialAsset.investPortfolio = ?1 AND h2.amount <> 0)")
 	LocalDateTime getLastTimeUpdateAssetsByInvestPortfolio(InvestPortfolio investPortfolio);
+
+	@Query("SELECT h1 FROM HistoryAmount h1 WHERE h1.id = (" +
+			"SELECT MAX(h2.id) FROM HistoryAmount h2 " +
+			"WHERE h2.ownedFinancialAsset.investPortfolio = ?1 " +
+			"AND h2.ownedFinancialAsset.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2)")
+	HistoryAmount getLastHistoryAmountByInvestPortfolioAndTicker(InvestPortfolio investPortfolio, String ticker);
 }

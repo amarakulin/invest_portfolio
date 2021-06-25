@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class LoginResponseForm {
-
+	//FIXME email and ID and Name not needed!!!!!!!!!!!!
 	private String error;
 	private Integer resultCode;
 	private Long userID;

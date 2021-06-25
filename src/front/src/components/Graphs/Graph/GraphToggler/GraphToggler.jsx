@@ -27,7 +27,7 @@ const GraphToggler = (props) => {
 					return <ToggleLi 
 								onClick={onClickHandler} 
 								data-name={name} 
-								color={props.data.color[line[0]]}
+								color={props.data.color[line[0]] || '#000'}
 								className={checkIsActive(name) && 'active'}
 								key={i} 
 							> 

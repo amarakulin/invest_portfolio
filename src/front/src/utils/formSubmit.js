@@ -1,7 +1,8 @@
 import { FORM_ERROR } from 'final-form';
 import { TYPE_BUY, TYPE_SELL } from '../redux/assetsTableReduser';
+import createURLSearchParam from './createURLSearchParam'
 
-export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async (data) => {
+export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async () => {
 	const formData = [];
 
 	for (let el of newAssets) {
@@ -30,13 +31,8 @@ export const signUpFormSubmit = (signUp) => async (formData) => {
 }
 
 export const authFormSubmit = (login) => async (formData) => {
-	let params = new URLSearchParams();
-
-	for (let key in formData)
-		params.append(key, formData[key]);
-
 	try {
-		await login(params);
+		await login(createURLSearchParam(formData));
 	} catch (e) {
 		return { [FORM_ERROR]: e.message }
 	}
