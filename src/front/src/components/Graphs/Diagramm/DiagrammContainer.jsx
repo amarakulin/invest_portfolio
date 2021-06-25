@@ -18,7 +18,7 @@ const render = (props) => {
 	if (props.isFetching || !props.data) {
 		return <GraphPreloaderContainer> <Preloader color='black' /> </GraphPreloaderContainer>
 	} else if (props.data.length === 0) {
-		return 'Нет активов для отрисовки диаграммы'
+		return <div>Нет активов для отрисовки диаграммы</div>
 	} else {
 		return (
 			<Diagramm 

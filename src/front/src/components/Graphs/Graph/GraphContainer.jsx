@@ -12,7 +12,7 @@ const render = (props) => {
 	if (props.isFetching || !props.totalData) {
 		return <GraphPreloaderContainer> <Preloader color='black' /> </GraphPreloaderContainer>
 	} else if (props.totalData?.lines === null) {
-		return 'Нет активов для отрисовки графика'
+		return <div>Нет активов для отрисовки графика</div>
 	} else {
 		return (
 			<>

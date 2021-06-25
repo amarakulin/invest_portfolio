@@ -2,7 +2,7 @@ import { FORM_ERROR } from 'final-form';
 import { TYPE_BUY, TYPE_SELL } from '../redux/assetsTableReduser';
 import createURLSearchParam from './createURLSearchParam'
 
-export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async (data) => {
+export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets) => async () => {
 	const formData = [];
 
 	for (let el of newAssets) {
