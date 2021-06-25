@@ -9,6 +9,7 @@ export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets, showAlert) 
 		formData.push({
 			ticker: el.ticker,
 			amount: el.amount,
+			type: el.type
 		})
 	}
 	
