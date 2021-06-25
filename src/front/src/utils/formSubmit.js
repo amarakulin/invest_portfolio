@@ -16,7 +16,7 @@ export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets, showAlert) 
 		await postNewAssetsData(formData);
 		showAlert('success', 'Актив успешно добавлен');
 	} catch (e) {
-		return { [FORM_ERROR]: e.message }
+		showAlert('danger', e.message);
 	}
 
 	//TODO после отправки нужно заново запросить данные пользователя

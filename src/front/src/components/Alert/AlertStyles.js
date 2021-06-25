@@ -36,7 +36,7 @@ export const AlertContainer = styled.div`
 				color =  'F8CD7A';
 				break ;
 			case 'danger':
-				color =  'FD6440';
+				color =  'FFA08E';
 				break ;
 		}
 
