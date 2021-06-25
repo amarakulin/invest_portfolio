@@ -5,7 +5,7 @@ export const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
 
 
 const initialState = {
-	name: null,
+	name: localStorage.getItem('name'),
 	isAuth: localStorage.getItem('token') || false,
 }
 
@@ -31,8 +31,9 @@ const processingLogin = (params, dispatch) => {
 	.then(res => {
 		if (res === 'ok') {
 			AuthAPI.getToken().then(res => {
-				dispatch(setAuthUserData(res.name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+				dispatch(setAuthUserData(res.name, true));
 				localStorage.setItem('token', res.token);
+				localStorage.setItem('name', res.name);
 			})
 
 		} else {
@@ -40,6 +41,7 @@ const processingLogin = (params, dispatch) => {
 		}
 	})
 	.catch(err => {
+		//TODO обработать 401 ошибку
 		throw new Error(err.message);
 	})
 }
@@ -52,6 +54,7 @@ export const logout = () => (dispatch) => {
 	AuthAPI.logout()
 		.then(() => {
 			localStorage.removeItem('token');
+			localStorage.removeItem('name');
 			dispatch(setAuthUserData(null, false));
 		})
 }
@@ -61,10 +64,6 @@ export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 		.then(async res => {
 			if (res.resultCode === 0) {
 				await processingLogin(createURLSearchParam({email, password}), dispatch);
-				// dispatch(setAuthUserData(name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
-				// AuthAPI.getToken().then(res => {
-				// 	localStorage.setItem('token', res.token);
-				// })
 			} else {
 				throw new Error(res.error);
 			}
