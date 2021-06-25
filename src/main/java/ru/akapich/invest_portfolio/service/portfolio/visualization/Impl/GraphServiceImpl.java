@@ -43,11 +43,14 @@ public class GraphServiceImpl implements GraphService{
 
 	@Override
 	public LinkedList<String> getLineTime(InvestPortfolio investPortfolio) {
+		LinkedList<String> uniqueDateStringList = new LinkedList<>();
 		LinkedList<LocalDateTime> uniqueDate = historyAmountRepository.getUniqueTime(investPortfolio);
-		LinkedList<String> uniqueDateStringList = uniqueDate.stream()
-				.map(u -> String.valueOf(Timestamp.valueOf(u).getTime()))
-				.collect(Collectors.toCollection(LinkedList::new));
-		uniqueDateStringList.addFirst("time");
+		if (uniqueDate.size() != 0) {
+			uniqueDateStringList = uniqueDate.stream()
+					.map(u -> String.valueOf(Timestamp.valueOf(u).getTime()))
+					.collect(Collectors.toCollection(LinkedList::new));
+			uniqueDateStringList.addFirst("time");
+		}
 		return uniqueDateStringList;
 	}
 
@@ -56,23 +59,25 @@ public class GraphServiceImpl implements GraphService{
 		List<LinkedList<String>> values = new ArrayList<>();
 		//All values
 		LinkedList<HistoryAmount> allHistoryAmount = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolio(investPortfolio);
-		List<String> listTickers = ownedFinancialAssetRepository.findAllTickersByInvestPortfolio(investPortfolio);
-		for (String ticker : listTickers){
-			LinkedList<String> tickersValues = allHistoryAmount.stream()
-					.filter(t -> t.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker().equals(ticker))
-					.map(v -> v.getTotal().toPlainString())
-					.collect(Collectors.toCollection(LinkedList::new));
+		if (allHistoryAmount.size() != 0){
+			List<String> listTickers = ownedFinancialAssetRepository.findAllTickersByInvestPortfolio(investPortfolio);
+			for (String ticker : listTickers){
+				LinkedList<String> tickersValues = allHistoryAmount.stream()
+						.filter(t -> t.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker().equals(ticker))
+						.map(v -> v.getTotal().toPlainString())
+						.collect(Collectors.toCollection(LinkedList::new));
 
-			tickersValues.addFirst(ticker);
-			values.add(tickersValues);
+				tickersValues.addFirst(ticker);
+				values.add(tickersValues);
+			}
+
+			//Total values
+			LinkedList<FormDatePriceGraphSQLQuery> totalValues = historyAmountRepository.getGeneralDatePriceByInvestPortfolio(investPortfolio);
+			LinkedList<String> totalValuesString = totalValues.stream()
+					.map(v -> v.getTotal().toPlainString()).collect(Collectors.toCollection(LinkedList::new));
+			totalValuesString.addFirst("total");
+			values.add(totalValuesString);
 		}
-
-		//Total values
-		LinkedList<FormDatePriceGraphSQLQuery> totalValues = historyAmountRepository.getGeneralDatePriceByInvestPortfolio(investPortfolio);
-		LinkedList<String> totalValuesString = totalValues.stream()
-				.map(v -> v.getTotal().toPlainString()).collect(Collectors.toCollection(LinkedList::new));
-		totalValuesString.addFirst("total");
-		values.add(totalValuesString);
 		return values;
 	}
 
@@ -86,38 +91,40 @@ public class GraphServiceImpl implements GraphService{
 	}
 
 	@Override
-	public Map<String, String> getTypes(InvestPortfolio investPortfolio) {
-		Map<String, String> mapTypes;
+	public Map<String, String> getTypes(List<OwnedFinancialAsset> allOwnedFinancialAsset) {
+		Map<String, String> mapTypes = new HashMap<>();
 
-		List<OwnedFinancialAsset> allHistoryAmount = ownedFinancialAssetRepository.findAllByInvestPortfolio(investPortfolio);
-		List<String> listTickers = allHistoryAmount.stream()
-				.map(h -> h.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker())
-				.collect(Collectors.toList());
-		mapTypes = listTickers.stream().collect(Collectors.toMap(k -> k, v -> "line"));
-		mapTypes.put("total", "line");
-		mapTypes.put("time", "time");
+		if (allOwnedFinancialAsset.size() != 0){
+			List<String> listTickers = allOwnedFinancialAsset.stream()
+					.map(h -> h.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker())
+					.collect(Collectors.toList());
+			mapTypes = listTickers.stream().collect(Collectors.toMap(k -> k, v -> "line"));
+			mapTypes.put("total", "line");
+			mapTypes.put("time", "time");
+		}
 		return mapTypes;
 	}
 
 	@Override
-	public Map<String, String> getNames(InvestPortfolio investPortfolio) {
-		Map<String, String> mapNames;
+	public Map<String, String> getNames(List<OwnedFinancialAsset> allOwnedFinancialAsset) {
+		Map<String, String> mapNames = new HashMap<>();
 
-		List<OwnedFinancialAsset> allHistoryAmount = ownedFinancialAssetRepository.findAllByInvestPortfolio(investPortfolio);
-		List<AllFinancialAsset> listTickers = allHistoryAmount.stream()
-				.map(h -> h.getFinancialAssetInUse().getIdAllFinancialAsset())
-				.collect(Collectors.toList());
-		mapNames = listTickers.stream().collect(Collectors.toMap(AllFinancialAsset::getTicker, AllFinancialAsset::getTicker));
-		mapNames.put("total", "total");
+		if (allOwnedFinancialAsset.size() != 0){
+			List<AllFinancialAsset> listTickers = allOwnedFinancialAsset.stream()
+					.map(h -> h.getFinancialAssetInUse().getIdAllFinancialAsset())
+					.collect(Collectors.toList());
+			mapNames = listTickers.stream().collect(Collectors.toMap(AllFinancialAsset::getTicker, AllFinancialAsset::getTicker));
+			mapNames.put("total", "total");
+		}
 		return mapNames;
 	}
 
 	@Override
-	public Map<String, String> getColors(InvestPortfolio investPortfolio) {
-		Map<String, String> mapColors;
+	public Map<String, String> getColors(List<OwnedFinancialAsset> allOwnedFinancialAsset) {
+		Map<String, String> mapColors = new HashMap<>();
 
-		List<OwnedFinancialAsset> historyAmountWithUniqueAssets = ownedFinancialAssetRepository.findAllByInvestPortfolio(investPortfolio);
-		mapColors = historyAmountWithUniqueAssets.stream()
+		if (allOwnedFinancialAsset.size() != 0)
+		mapColors = allOwnedFinancialAsset.stream()
 				.collect(Collectors.toMap(k -> k.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker()
 						, v -> v.getFinancialAssetInUse().getColor()));
 		return mapColors;
@@ -125,33 +132,45 @@ public class GraphServiceImpl implements GraphService{
 
 	@Override
 	public Map<String, String> getPurchaseDate(InvestPortfolio investPortfolio) {
-		Map<String, String> mapPurchaseDate;
+		Map<String, String> mapPurchaseDate = new HashMap<>();
 
 		List<FormPurchaseDate> historyAmountWithPurchaseDate = historyAmountRepository.getAllPurchaseDateByInvestPortfolio(investPortfolio);
-		mapPurchaseDate = historyAmountWithPurchaseDate.stream()
-				.collect(Collectors.toMap(k -> k.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker()
-						, v -> String.valueOf(Timestamp.valueOf(v.getDate()).getTime())));
-		LocalDateTime purchaseDateTotal = historyAmountWithPurchaseDate.stream()
-				.map(FormPurchaseDate::getDate).min(Comparator.comparing(LocalDateTime::getNano)).get();//Fix me needs is Present
+		if (historyAmountWithPurchaseDate.size() != 0) {
+			mapPurchaseDate = historyAmountWithPurchaseDate.stream()
+					.collect(Collectors.toMap(k -> k.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker()
+							, v -> String.valueOf(Timestamp.valueOf(v.getDate()).getTime())));
+			LocalDateTime purchaseDateTotal = historyAmountWithPurchaseDate.stream()
+					.map(FormPurchaseDate::getDate).min(Comparator.comparing(LocalDateTime::getNano)).get();//Fix me needs is Present
 
-		mapPurchaseDate.put("total", String.valueOf(Timestamp.valueOf(purchaseDateTotal).getTime()));
-
+			mapPurchaseDate.put("total", String.valueOf(Timestamp.valueOf(purchaseDateTotal).getTime()));
+		}
 		return mapPurchaseDate;
 	}
 
 	@Override
 	public FormGraph getGraph() {
+		FormGraph formGraph;
+		if (userService.getUserInCurrentSession() == null){
+			return null;
+		}
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Collecting graph data for user with investPortfolioI: %d", investPortfolio.getId()));
-		FormGraph formGraph = FormGraph.builder()
-				.lines(getLines(investPortfolio))
-				.types(getTypes(investPortfolio))
-				.names(getNames(investPortfolio))
-				.color(getColors(investPortfolio))
-				.purchaseDate(getPurchaseDate(investPortfolio))
-				.build();
+		List<OwnedFinancialAsset> allOwnedFinancialAssets = ownedFinancialAssetRepository.findAllByInvestPortfolio(investPortfolio);
+		if (allOwnedFinancialAssets.size() == 0){
+			formGraph = FormGraph.builder().build();
+		}
+		else {
+			formGraph = FormGraph.builder()
+					.lines(getLines(investPortfolio))
+					.types(getTypes(allOwnedFinancialAssets))
+					.names(getNames(allOwnedFinancialAssets))
+					.color(getColors(allOwnedFinancialAssets))
+					.purchaseDate(getPurchaseDate(investPortfolio))
+					.build();
+		}
+		System.out.println(String.format("FormGraph: %s", formGraph));
+		log.info(String.format("[+] Finish collect GRAPH for user with investPortfolio '%d'", investPortfolio.getId()));
 
-		log.info(String.format("FormGraph: %s", formGraph));
 		return formGraph;
 	}
 }

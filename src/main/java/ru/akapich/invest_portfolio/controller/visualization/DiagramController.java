@@ -30,7 +30,6 @@ public class DiagramController {
 	@GetMapping("/api/data/diagram")
 	public List<DiagramResponseForm> diagram(){
 		List<DiagramResponseForm> listDiagramResponseForm = diagramService.getListDiagramForms();
-		log.info(String.format("Data diagram: %s", listDiagramResponseForm));
 		return listDiagramResponseForm;
 	}
 }
