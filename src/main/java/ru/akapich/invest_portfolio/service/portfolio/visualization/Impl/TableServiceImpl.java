@@ -51,21 +51,22 @@ public class TableServiceImpl implements TableService {
 		HistoryAmount tmpHistoryAmount;
 
 		List<OwnedFinancialAsset> listAssetsByInvestPortfolio = ownedFinancialAssetRepository.findAllByInvestPortfolio(investPortfolio);
-
-		for (OwnedFinancialAsset asset : listAssetsByInvestPortfolio){
-			tmpInfoAsset = asset.getFinancialAssetInUse().getIdAllFinancialAsset();
-			tmpHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(asset);
-			body.add(BodyTable.builder()
-					.name(tmpInfoAsset.getName())
-					.ticker(tmpInfoAsset.getTicker())
-					.type(tmpInfoAsset.getIdTypeAsset().getName())
-					.exchange(tmpInfoAsset.getIdExchange().getName())
-					.price(MathUtils.divideBigDecimalWithTwoPrecision(tmpHistoryAmount.getTotal(), tmpHistoryAmount.getAmount()))
-					.amount(tmpHistoryAmount.getAmount())
-					.total(tmpHistoryAmount.getTotal())
-					.build());
+		if (listAssetsByInvestPortfolio.size() != 0){
+			for (OwnedFinancialAsset asset : listAssetsByInvestPortfolio){
+				tmpInfoAsset = asset.getFinancialAssetInUse().getIdAllFinancialAsset();
+				tmpHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(asset);
+				body.add(BodyTable.builder()
+						.name(tmpInfoAsset.getName())
+						.ticker(tmpInfoAsset.getTicker())
+						.type(tmpInfoAsset.getIdTypeAsset().getName())
+						.exchange(tmpInfoAsset.getIdExchange().getName())
+						.price(MathUtils.divideBigDecimalWithTwoPrecision(tmpHistoryAmount.getTotal(), tmpHistoryAmount.getAmount()))
+						.amount(tmpHistoryAmount.getAmount())
+						.total(tmpHistoryAmount.getTotal())
+						.build());
+			}
+			System.out.println(String.format("The body: %s", body));
 		}
-		System.out.println(String.format("The body: %s", body));
 		return body;
 	}
 

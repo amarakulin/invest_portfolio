@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
-import ru.akapich.invest_portfolio.service.date.DateService;
 import ru.akapich.invest_portfolio.service.user.UserService;
-import ru.akapich.invest_portfolio.utils.ColorUtils;
 import ru.akapich.invest_portfolio.utils.MathUtils;
 import ru.akapich.invest_portfolio.model.forms.visualization.DiagramResponseForm;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
@@ -41,18 +39,25 @@ public class DiagramServiceImpl implements DiagramService{
 	@Autowired
 	private HistoryAmountRepository historyAmountRepository;
 
-	@Autowired
-	private DateService dateService;
-
 	@Override
 	public List<DiagramResponseForm> getListDiagramForms() {
+		//TODO Refactor!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		List<DiagramResponseForm> listDiagramResponseForm = new ArrayList<>();
 		FinancialAssetInUse financialAssetInUse;
 		BigDecimal totalPriceInvestPortfolio;
-//		LocalDateTime date = dateService.getCurrentTime();//FIXME set last date form HistoryAmount by the user
 
+		if (userService.getUserInCurrentSession() == null){
+			System.out.println("Here!");
+			return listDiagramResponseForm;
+		}
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
+		log.info(String.format("[+] Collecting graph data for user with investPortfolio: %d", investPortfolio.getId()));
 		LocalDateTime date = historyAmountRepository.getLastTimeUpdateAssetsByInvestPortfolio(investPortfolio);
+		System.out.println(String.format("Last time update diagram: %s", date));
+		if (date == null){
+			System.out.println(String.format("Data Diagram: %s", listDiagramResponseForm));
+			return listDiagramResponseForm;
+		}
 		log.info(String.format("[+] Creating diagram for user with investPortfolio '%d'", investPortfolio.getId()));
 		Set<HistoryAmount> setOfAllAssets = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolioAndDate(investPortfolio, date);
 		try {
@@ -78,7 +83,8 @@ public class DiagramServiceImpl implements DiagramService{
 						.build()
 			);
 		}
-		log.info(String.format("[+] Finish data of diagram for user with investPortfolio '%d'", investPortfolio.getId()));
+		log.info(String.format("[+] Finish collect DIAGRAM for user with investPortfolio '%d'", investPortfolio.getId()));
+		System.out.println(String.format("Data Diagram: %s", listDiagramResponseForm));
 		return listDiagramResponseForm;
 	}
 }
