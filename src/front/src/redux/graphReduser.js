@@ -161,7 +161,7 @@ export const graphDataConverter = (data) => {
 	}
 
 	data.lines = data.lines.map(line => {
-		line = line.map(el => isNaN(parseInt(el)) ? el : parseInt(el));
+		line = line.map(el => isNaN(parseFloat(el)) ? el : parseFloat(el));
 
 		if (data.types[line[0]] !== 'line')
 			return line;
@@ -452,10 +452,10 @@ export function getChartData() {
 				'336',
 				'27',
 				'54',
-				'89',
-				'50',
-				'73',
-				'52',
+				'89.97',
+				'50.45',
+				'73.98',
+				'52.15',
 			],
 		],
 		types: {
