@@ -71,7 +71,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		for (NewAssetsForm asset : listNewAssetsForm){
 			System.out.println(String.format("notExistAsset search for ticker: %s",  asset.getTicker()));
 
-			if (allFinancialAssetRepository.findByTickerAndIdTypeAsset_Name(asset.getTicker(), asset.getType()) == null){
+			if (allFinancialAssetRepository.findByTicker(asset.getTicker()) == null){
 
 				firstNotExistAssets = asset;
 				break;
@@ -117,7 +117,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		}
 		else if (assetAlreadyInTheInvestPortfolio != null){
 			errorMessage = "{valid.asset.in_portfolio} : " + assetAlreadyInTheInvestPortfolio.getTicker();
-		}
+		}//TODO add errorMessage if amount with '.' and TypeAsset not a crypto
 		Integer resultCode = errorMessage.equals("") ? 0 : 1;
 
 		return AssetsResponseForm.builder()
