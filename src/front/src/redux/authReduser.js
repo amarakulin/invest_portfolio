@@ -1,4 +1,5 @@
 import { AuthAPI } from '../api/api';
+import createURLSearchParam from '../utils/createURLSearchParam'
 
 export const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA';
 
@@ -57,10 +58,11 @@ export const signUp = ({name, email, password, rePassword}) => (dispatch) => {
 	return AuthAPI.signUp(name, email, password, rePassword)
 		.then(res => {
 			if (res.resultCode === 0) {
-				dispatch(setAuthUserData(name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
-				AuthAPI.getToken().then(res => {
-					localStorage.setItem('token', res.token);
-				})
+				login(createURLSearchParam({email, password}));
+				// dispatch(setAuthUserData(name, true)); //TODO getAuthUserData для получения информации залогиненого пользователя
+				// AuthAPI.getToken().then(res => {
+				// 	localStorage.setItem('token', res.token);
+				// })
 			} else {
 				throw new Error(res.error);
 			}
