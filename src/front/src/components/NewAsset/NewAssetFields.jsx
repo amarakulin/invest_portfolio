@@ -16,6 +16,8 @@ const NewAssetContainer = styled.div`
 const disableAddNewAssetButton = (values) => {//TODO перенести
 	if (!values.ticker || !values.name || !values.amount || !values.type)
 		return true;
+	if (parseInt(values.amount) <= 0)
+		return true
 	return false;
 }
 
