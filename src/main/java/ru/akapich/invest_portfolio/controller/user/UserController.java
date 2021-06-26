@@ -71,7 +71,7 @@ public class UserController {
 		}
 		return BaseResponseForm.builder()
 				.error(errorMessage)
-				.resultCode(errorMessage.equals("") ? 0 : 1)
+				.resultCode("".equals(errorMessage) ? 0 : 1)
 				.build();
 	}
 
