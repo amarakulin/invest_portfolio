@@ -30,7 +30,7 @@ const NewAssetFields = (props) => {
 				name={'ticker'}
 				searchData={props.searchData}
 				mutators={props.form.mutators}
-				validate={composeValidators(validateIdenticalName(props.newAssets), validateSearchUnknownTicker(props.searchData))}
+				validate={composeValidators(validateIdenticalName(props.newAssets))}
 				nessesaryField={props.nessesaryField}
 				labelText='Выберите актив'
 			>
