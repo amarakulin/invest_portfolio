@@ -25,3 +25,9 @@ export const Container = styled.div`
 	max-width: 1440px;
 `
 
+export const GridWrapper = styled.div`
+	display: grid;
+	gap: 20px 10px;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+	margin-bottom: 40px;
+`
