@@ -1,7 +1,9 @@
 package ru.akapich.invest_portfolio.service.portfolio.history_data.Impl;
 
+import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
@@ -35,6 +37,9 @@ import java.util.Set;
 public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	@Autowired
+	private Environment env;
+
+	@Autowired
 	private HistoryAmountRepository historyAmountRepository;
 
 	@Autowired
@@ -66,14 +71,14 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	private String stringValidateAmountByTypeOfAsset(String typeAsset, BigDecimal amount){
 		String resultError = "";
-		if (!typeAsset.equals("{type.crypto}") && !MathUtils.isIntegerValue(amount)){
-			resultError = "{valid.amount.not_integer}";
+		if (!typeAsset.equals(env.getProperty("type.crypto")) && !MathUtils.isIntegerValue(amount)){
+			resultError = env.getProperty("valid.not_integer");
 		}
 		else if (amount.compareTo(BigDecimal.ZERO) < 0){
-			resultError = "{valid.amount.negative}";
+			resultError = env.getProperty("valid.amount.negative");
 		}
 		else if (amount.compareTo(BigDecimal.ZERO) == 0){
-			resultError = "{valid.amount.cant_delete}";
+			resultError = env.getProperty("valid.amount.cant_delete");
 		}
 		return resultError;
 	}

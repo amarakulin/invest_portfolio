@@ -3,6 +3,7 @@ package ru.akapich.invest_portfolio.controller.user;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,9 @@ import java.util.Map;
 public class UserController {
 
 	@Autowired
+	private Environment env;
+
+	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
 	@CrossOrigin(origins = "http://localhost:3000/signup")
@@ -56,7 +60,7 @@ public class UserController {
 					.name(form.getName())
 					.email(form.getEmail())
 					.password(form.getPassword())
-					.role("{role.user}")
+					.role(env.getProperty("role.user"))
 					.investPortfolio(new InvestPortfolio())
 					.enable(true)
 					.build();
