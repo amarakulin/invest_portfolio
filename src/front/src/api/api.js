@@ -12,14 +12,18 @@ api.interceptors.request.use(config => {
 	return config;
 })
 
+api.interceptors.response.use(undefined, error => {
+	return error;
+});
+
 export const AuthAPI = {
 	login(params) {
 		return api.post('auth/login', params, {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
-			  }
+			}
 		})
-		.then(res => res.data)
+			.then(res => res.data)
 	},
 	logout() {
 		return api.delete('auth/logout')
@@ -31,7 +35,7 @@ export const AuthAPI = {
 			password,
 			rePassword
 		})
-		.then(res => res.data)
+			.then(res => res.data)
 	},
 	getToken() {
 		return api.get('auth/token')
