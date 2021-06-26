@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
-import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.AddingNewListFinancialAsset;
+import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 import ru.akapich.invest_portfolio.model.user.User;
 import javax.persistence.*;
 

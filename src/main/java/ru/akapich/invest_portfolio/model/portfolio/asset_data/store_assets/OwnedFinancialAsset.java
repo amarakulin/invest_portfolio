@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
-import ru.akapich.invest_portfolio.model.portfolio.Category;
+import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 
 import javax.persistence.*;
 import java.util.List;
@@ -37,8 +37,5 @@ public class OwnedFinancialAsset {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_in_use_financial_asset", nullable = false)
 	private FinancialAssetInUse FinancialAssetInUse;
-
-	@ManyToMany(mappedBy = "idOwnedFinancialAssets")
-	private List<Category> idCategories;
 
 }

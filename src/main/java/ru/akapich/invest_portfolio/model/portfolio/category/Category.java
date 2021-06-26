@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.model.portfolio;
+package ru.akapich.invest_portfolio.model.portfolio.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,12 +25,12 @@ public class Category {
 	@Column
 	private String name;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "meta_category",
-			joinColumns = @JoinColumn(name = "id_category"),
-			inverseJoinColumns = @JoinColumn(name = "id_owner_financial_asset"))
-	private List<OwnedFinancialAsset> idOwnedFinancialAssets;
+//	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	@JoinTable(
+//			name = "meta_category",
+//			joinColumns = @JoinColumn(name = "id_category"),
+//			inverseJoinColumns = @JoinColumn(name = "id_owner_financial_asset"))
+//	private List<OwnedFinancialAsset> idOwnedFinancialAssets;
 
 
 //	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
