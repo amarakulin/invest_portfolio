@@ -2,9 +2,11 @@ import { CategoryApi } from '../api/api';
 
 const ADD_CATEGORY = 'ADD_CATEGORY';
 const SET_CATEGORIES = 'SET_CATEGORIES';
+const SET_SETTED_CATEGORY = 'SET_SETTED_CATEGORY';
 
 const initialState = {
-	categories: []
+	categories: [],
+	setedCategory: null
 }
 
 const categoryResuser = (state = initialState, action) => {
@@ -21,18 +23,33 @@ const categoryResuser = (state = initialState, action) => {
 				categories: [...action.categories]
 			}
 		}
+		case SET_SETTED_CATEGORY: {
+			return {
+				...state,
+				setedCategory: action.setedCategory
+			}
+		}
 		default: {
 			return state;
 		}
 	}
 }
 
-const addCategory = (category) => ({type: ADD_CATEGORY, category})
+const addCategory = (category) => ({type: ADD_CATEGORY, category});
 
-const setCategories = (categories) => ({type: ADD_CATEGORY, categories})
+const setCategories = (categories) => ({type: ADD_CATEGORY, categories});
+
+const setSettedCategory = (setedCategory) => ({type: SET_SETTED_CATEGORY, setedCategory});
+
+export const getSettedCategory = () => (dispatch) => {
+	CategoryApi.getSettedCategory()
+		.then(res => {
+			dispatch(setSettedCategory(res.category));
+		})
+}
 
 export const getCategories = () => (dispatch) => {//TODO добавить в init app
-	return CategoryApi.getCategories()
+	CategoryApi.getCategories()
 		.then(res => {
 			dispatch(setCategories(res.categories))
 		})
@@ -47,7 +64,7 @@ export const createCategory = (data) => () => {
 }
 
 export const setCategory = (category) => () => {
-	return CategoryApi.setCategory(category);
+	CategoryApi.setCategory(category);
 }
 
 export default categoryResuser;

@@ -99,5 +99,9 @@ export const CategoryApi = {
 	getCategories() {
 		return api.get('category/categories')
 			.then(res => res.data);
+	},
+	getSettedCategory() {
+		return api.get('category/ssetted')
+			.then(res => res.data);
 	}
 }
