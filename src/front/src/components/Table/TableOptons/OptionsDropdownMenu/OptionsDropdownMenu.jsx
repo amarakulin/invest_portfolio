@@ -13,13 +13,13 @@ const dropdownItems = [
 		}
 	},
 	{
-		title: 'Купил',
+		title: 'Купить',
 		onclick: (props) => {
 			props.setSelectedAsset({ticker: props.ticker, type: TYPE_BUY})
 		}
 	},
 	{
-		title: 'Продал',
+		title: 'Продать',
 		onclick: (props) => {
 			props.setSelectedAsset({ticker: props.ticker, type: TYPE_SELL})
 		}

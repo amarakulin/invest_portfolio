@@ -3,6 +3,7 @@ import EditAssetAmountForm from '../../Forms/EditAssetAmountForm/EditAssetAmount
 import { TabelBodyCell } from './tableBodyStyles';
 import { connect } from 'react-redux';
 import { setSelectedAsset, resetSelectedAsset } from '../../../redux/assetsTableReduser';
+import { showAlert } from '../../../redux/alertReduser';
 
 const BodyRowCells = ({ data, order, dataIndex, ...props }) => {
 	const getTableBodyRowCells = () => {
@@ -20,6 +21,7 @@ const BodyRowCells = ({ data, order, dataIndex, ...props }) => {
 					resetSelectedAsset={props.resetSelectedAsset}
 					ticker={data[dataIndex].ticker}
 					type={props.selectedAsset.type}
+					showAlert={props.showAlert}
 				/>
 			} else {
 				return data[dataIndex][el]
@@ -47,4 +49,4 @@ const mapStateToProps = (state) => ({
 	selectedAsset: state.table.selectedAsset
 })
 
-export default connect(mapStateToProps, {setSelectedAsset, resetSelectedAsset})(BodyRowCells);
+export default connect(mapStateToProps, {setSelectedAsset, resetSelectedAsset, showAlert})(BodyRowCells);

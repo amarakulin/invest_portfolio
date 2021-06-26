@@ -88,9 +88,16 @@ export const setSelectedAsset = (selectedAsset) => ({type: SET_SELECTED_ASSET, s
 export const resetSelectedAsset = () => ({type: RESET_SELECTED_ASSET})
 
 export const editAsset = (ticker, amount) => (dispatch) => {
-	AssetsOptionsApi.editAsset(ticker, amount)
-		.then(() => {
-			dispatch(editAssetInState(ticker, amount));
+	return AssetsOptionsApi.editAsset(ticker, amount)
+		.then((data) => {
+			if (data.resultCode === 0) {
+				dispatch(editAssetInState(ticker, amount));
+			} else {
+				throw new Error(data.error);
+			}
+		})
+		.catch(err => {
+			throw new Error(err.message);
 		})
 }
 
@@ -109,50 +116,3 @@ export const getTableData = () => (dispatch) => {
 }
 
 export default assetsTableReduser;
-
-function getTableDataTest() { //! DELETE
-	return {
-		header: {
-			name: 'Название',
-			ticker: 'Тикер',
-			type: 'Тип актива',
-			exchange: 'Биржа',
-			price: 'Цена.',
-			amount: 'Кол-во',
-			total: 'Сумма',
-		},
-		body: [
-			{
-				name: 'Газпром',
-				ticker: 'GAZP',
-				type: 'акция',
-				exchange: 'MOEX',
-				price: '180руб.',
-				amount: '3 шт.',
-				total: '540 руб.', 
-			},
-			{
-				name: 'Газпром',
-				ticker: 'MAG',
-				type: 'акция',
-				exchange: 'MOEX',
-				price: '180руб.',
-				amount: '3 шт.',
-				total: '540 руб.',
-			},
-			{
-				name: 'Газпром',
-				ticker: 'ZOP',
-				type: 'акция',
-				exchange: 'MOEX',
-				price: '180руб.',
-				amount: '3 шт.',
-				total: '540 руб.',
-			}
-			
-		],
-		order: [
-			'name', 'ticker', 'type', 'exchange', 'price', 'amount', 'total'
-		],
-	}
-}

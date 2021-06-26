@@ -76,5 +76,6 @@ export const AssetsOptionsApi = {
 			ticker,
 			amount
 		})
+		.then(res => res.data);
 	}
 }

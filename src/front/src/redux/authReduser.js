@@ -28,22 +28,20 @@ export const setAuthUserData = (name, isAuth) => ({ type: SET_AUTH_USER_DATA, pa
 
 const processingLogin = (params, dispatch) => {
 	return AuthAPI.login(params)
-	.then(res => {
-		if (res === 'ok') {
-			AuthAPI.getToken().then(res => {
-				dispatch(setAuthUserData(res.name, true));
-				localStorage.setItem('token', res.token);
-				localStorage.setItem('name', res.name);
-			})
-
-		} else {
-			throw new Error('Неверный e-mail или пароль');
-		}
-	})
-	.catch(err => {
-		//TODO обработать 401 ошибку
-		throw new Error(err.message);
-	})
+		.then(res => {
+			if (res === 'ok') {
+				AuthAPI.getToken().then(res => {
+					dispatch(setAuthUserData(res.name, true));
+					localStorage.setItem('token', res.token);
+					localStorage.setItem('name', res.name);
+				})
+			} else {
+				throw new Error('Неверный e-mail или пароль');
+			}
+		})
+		.catch(err => {
+			throw new Error(err.message);
+		})
 }
 
 export const login = (params) => (dispatch) => {
