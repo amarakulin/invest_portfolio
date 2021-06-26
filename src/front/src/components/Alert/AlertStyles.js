@@ -26,18 +26,20 @@ export const AlertContainer = styled.div`
 	padding: .75rem 1.25rem;
 	z-index: 100;
 	${props => {
-		let color = 'F8CD7A';
+		let color = '';
 
 		switch (props.type) {
 			case 'success':
-				color =  'A1F9C7';
+				color = 'A1F9C7';
 				break ;
 			case 'warning':
-				color =  'F8CD7A';
+				color = 'F8CD7A';
 				break ;
 			case 'danger':
-				color =  'FFA08E';
+				color = 'FFA08E';
 				break ;
+			default: 
+				color = 'F8CD7A'
 		}
 
 		return `background-color: #${color};`
