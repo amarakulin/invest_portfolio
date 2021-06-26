@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AssetsResponseForm {
+public class BaseResponseForm {
 
 	private String error;
 	private Integer resultCode;

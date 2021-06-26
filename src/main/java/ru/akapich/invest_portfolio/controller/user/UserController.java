@@ -3,11 +3,10 @@ package ru.akapich.invest_portfolio.controller.user;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.akapich.invest_portfolio.model.forms.login.LoginResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.login.RegistrationFrom;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.user.User;
@@ -32,59 +31,12 @@ import java.util.Map;
 public class UserController {
 
 	@Autowired
-	Environment env;
-
-	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
-
-	private LoginResponseForm getLoginResponse(User user, String errorMessage){
-		//TODO Refactor
-		LoginResponseForm response;
-		if (errorMessage.equals("")){
-			response = LoginResponseForm.builder().
-					error(errorMessage).
-					resultCode(0).
-					userID(user.getId()).
-					email(user.getEmail()).
-					name(user.getName()).build();
-		}
-		else{
-			response = LoginResponseForm.builder().
-					error(errorMessage).
-					resultCode(1).
-					userID(null).
-					email(null).
-					name(null).build();
-		}
-		return response;
-	}
-
-	@RequestMapping(value = "/api/data/user", method = RequestMethod.GET)
-	@ResponseBody
-	public LoginResponseForm currentUserName() {
-		String errorMessage = "";
-		User user = userDetailsService.getUserInCurrentSession();
-
-
-		if (user == null) {
-			errorMessage = env.getProperty("{valid.wrong.email_password}");
-			if (errorMessage == null){
-				errorMessage = "{valid.unexpected_error}";
-			}
-			log.info("[-] (Get [/username]) - doesn't exist");
-		}
-		else{
-			log.info(String.format("[+] Front ask for user: %s", user.getName()));
-		}
-		return getLoginResponse(user, errorMessage);
-	}
-
 
 	@CrossOrigin(origins = "http://localhost:3000/signup")
 	@PostMapping("/api/auth/signup")
-	public LoginResponseForm registration(@Valid @RequestBody RegistrationFrom form,
+	public BaseResponseForm registration(@Valid @RequestBody RegistrationFrom form,
 											BindingResult bindingResult, Model model) {
-		User user = null;
 		String errorMessage = "";
 
 		if (bindingResult.hasErrors()) {
@@ -100,7 +52,7 @@ public class UserController {
 					form.getName(), errorMessage));
 		}
 		else {
-			user = User.builder()
+			User user = User.builder()
 					.name(form.getName())
 					.email(form.getEmail())
 					.password(form.getPassword())
@@ -113,17 +65,18 @@ public class UserController {
 			log.info(String.format("[+] New User '%s' successfully register with email '%s'.",
 								user.getName(), user.getEmail()));
 		}
-		//FIXME email and ID and Name not needed!!!!!!!!!!!!
-		return getLoginResponse(user, errorMessage);
+		return BaseResponseForm.builder()
+				.error(errorMessage)
+				.resultCode(errorMessage.equals("") ? 0 : 1)
+				.build();
 	}
 
 	@GetMapping("/api/auth/token")
 	public Map<String,String> token(HttpSession session) {
-		//TODO Create cookie with name of the user!!!!!!!!!!
 		Map<String,String> result = new java.util.HashMap<>(Collections.singletonMap("token", session.getId()));
-		System.out.println(String.format("Tocker: %s",  Collections.singletonMap("token", session.getId())));
+		System.out.println(String.format("Token: %s",  Collections.singletonMap("token", session.getId())));
 		User user = userDetailsService.getUserInCurrentSession();
-		result.put("name", user.getName());//TODO Create cookie with name of the user!!!!!!!!!!
+		result.put("name", user.getName());
 		return result;
 	}
 }

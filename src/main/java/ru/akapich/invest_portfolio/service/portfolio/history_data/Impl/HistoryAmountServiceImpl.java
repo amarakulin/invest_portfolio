@@ -4,7 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.akapich.invest_portfolio.model.forms.assets.AssetsResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
@@ -80,7 +80,7 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	@Override
 	@Transactional
-	public AssetsResponseForm updateAssetByTickerWithAmount(String ticker, BigDecimal amount) {
+	public BaseResponseForm updateAssetByTickerWithAmount(String ticker, BigDecimal amount) {
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Ticker: '%s' updating with amount: '%f' by invest portfolio: %s", ticker, amount, investPortfolio.getId()));
 		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
@@ -99,7 +99,7 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 			historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(amount));
 			log.info(String.format("[+] Ticker: '%s' successfully update by invest portfolio: %s", ticker, investPortfolio.getId()));
 		}
-		return AssetsResponseForm.builder()
+		return BaseResponseForm.builder()
 				.error(errorMessage)
 				.resultCode(resultCode)
 				.build();

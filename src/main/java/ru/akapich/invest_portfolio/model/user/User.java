@@ -5,7 +5,6 @@ import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 /**
  * JavaBean domain object that represents a User.
@@ -27,7 +26,7 @@ public class User {
 	private Long id;
 
 	@Column
-	@Size(min = 2, max = 10)//FIXME set max to 32
+	@Size(min = 2, max = 32)
 	private String name;
 	@Column
 	private String email;
@@ -36,10 +35,6 @@ public class User {
 	@Column
 	private String role;
 
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)//TODO why is Set???
-//	private Set<InvestPortfolio> idInvestPortfolio;
-//	private InvestPortfolio idInvestPortfolio;//TODO try with
-// OR
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_invest_portfolio")
 	private InvestPortfolio investPortfolio;

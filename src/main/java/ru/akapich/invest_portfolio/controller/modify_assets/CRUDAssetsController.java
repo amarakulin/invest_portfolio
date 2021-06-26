@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.akapich.invest_portfolio.model.forms.assets.AssetsResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 import ru.akapich.invest_portfolio.model.forms.ValidateCRUDAssetsInterface;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
@@ -119,7 +119,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		return assetInInvestPortfolio;
 	}
 
-	private AssetsResponseForm getAssetsResponseForm(List<NewAssetsForm> listAssetsForm){
+	private BaseResponseForm getAssetsResponseForm(List<NewAssetsForm> listAssetsForm){
 		String errorMessage = "";
 
 		NewAssetsForm firstNotExistAsset = notExistAsset(listAssetsForm);
@@ -139,7 +139,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		}
 		Integer resultCode = errorMessage.equals("") ? 0 : 1;
 
-		return AssetsResponseForm.builder()
+		return BaseResponseForm.builder()
 				.error(errorMessage)
 				.resultCode(resultCode)
 				.build();
@@ -148,24 +148,23 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 
 	@RequestMapping(value = "/api/data/newassets", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public AssetsResponseForm setNewAssets(@RequestBody List<NewAssetsForm> listAssetsForm, Model model){
+	public BaseResponseForm setNewAssets(@RequestBody List<NewAssetsForm> listAssetsForm, Model model){
 		log.info("Start: setNewAssets");
 		log.info(String.format("get list with: %s", listAssetsForm.toString()));
-		AssetsResponseForm assetsResponseForm = getAssetsResponseForm(listAssetsForm);
-		log.info(String.format("Get a result of response error: %s", assetsResponseForm.getError()));
-////		//FIXME May be check if user in the session
-		if(assetsResponseForm.getResultCode() == 0){
+		BaseResponseForm baseResponseForm = getAssetsResponseForm(listAssetsForm);
+		log.info(String.format("Get a result of response error: %s", baseResponseForm.getError()));
+		if(baseResponseForm.getResultCode() == 0){
 			addingNewListFinancialAsset.addNewAssets(listAssetsForm);
 		}
 		log.info("End: setNewAssets");
-		return assetsResponseForm;
+		return baseResponseForm;
 	}
 
 	@PutMapping("/api/asset/edit")
 	@ResponseBody
-	public AssetsResponseForm updateAsset(@RequestParam(name="ticker") String ticker,
-							@RequestParam(name="amount") BigDecimal amount){
-		AssetsResponseForm response = historyAmountService.updateAssetByTickerWithAmount(ticker, amount);
+	public BaseResponseForm updateAsset(@RequestParam(name="ticker") String ticker,
+	                                    @RequestParam(name="amount") BigDecimal amount){
+		BaseResponseForm response = historyAmountService.updateAssetByTickerWithAmount(ticker, amount);
 		return response;
 	}
 
