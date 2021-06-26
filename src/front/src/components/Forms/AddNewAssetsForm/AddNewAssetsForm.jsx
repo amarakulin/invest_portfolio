@@ -3,7 +3,6 @@ import { Form } from 'react-final-form';
 import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader'
 import Button from '../../Basic/Button/Button';
-import Error from '../../Basic/Error/Error';
 import { addNewAsset, postNewAssetsData } from '../../../redux/newAssetsReduser';
 import { setValue } from '../../../utils/mutators';
 import AddedAssets from '../../NewAsset/AddedAssets/AddedAssets';
