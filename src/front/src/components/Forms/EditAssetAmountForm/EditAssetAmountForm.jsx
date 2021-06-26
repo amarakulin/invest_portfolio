@@ -24,7 +24,10 @@ const EditAssetAmountForm = (props) => {
 			render={({ handleSubmit, form, invalid, values }) => (
 				<form 
 					style={{width: '100%'}}
-					onSubmit={handleSubmit}
+					onSubmit={() => {
+						handleSubmit();
+						form.blur();
+					}}
 				>
 					<Wrapper>
 						<Field
