@@ -1,10 +1,13 @@
 package ru.akapich.invest_portfolio.service.portfolio.history_data.Impl;
 
+import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.EditAssetForm;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
@@ -33,6 +36,9 @@ import java.util.Set;
 @Log4j2
 @Service
 public class HistoryAmountServiceImpl implements HistoryAmountService {
+
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private HistoryAmountRepository historyAmountRepository;
@@ -66,38 +72,38 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	private String stringValidateAmountByTypeOfAsset(String typeAsset, BigDecimal amount){
 		String resultError = "";
-		if (!typeAsset.equals("{type.crypto}") && !MathUtils.isIntegerValue(amount)){
-			resultError = "{valid.amount.not_integer}";
+		if (!typeAsset.equals(env.getProperty("type.crypto")) && !MathUtils.isIntegerValue(amount)){
+			resultError = env.getProperty("valid.not_integer");
 		}
 		else if (amount.compareTo(BigDecimal.ZERO) < 0){
-			resultError = "{valid.amount.negative}";
+			resultError = env.getProperty("valid.amount.negative");
 		}
 		else if (amount.compareTo(BigDecimal.ZERO) == 0){
-			resultError = "{valid.amount.cant_delete}";
+			resultError = env.getProperty("valid.amount.cant_delete");
 		}
 		return resultError;
 	}
 
 	@Override
 	@Transactional
-	public BaseResponseForm updateAssetByTickerWithAmount(String ticker, BigDecimal amount) {
+	public BaseResponseForm updateAssetByTickerWithAmount(EditAssetForm editAssetForm) {
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
-		log.info(String.format("[+] Ticker: '%s' updating with amount: '%f' by invest portfolio: %s", ticker, amount, investPortfolio.getId()));
-		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
+		log.info(String.format("[+] Ticker: '%s' updating with amount: '%f' by invest portfolio: %s", editAssetForm.getTicker(), editAssetForm.getAmount(), investPortfolio.getId()));
+		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, editAssetForm.getTicker());
 
 		String typeAsset = historyAmount.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getIdTypeAsset().getName();
 		HistoryPrice historyPriceOfAsset = historyPriceRepository.findByIdFinancialAssetInUse(historyAmount.getOwnedFinancialAsset().getFinancialAssetInUse());
 
-		String errorMessage = stringValidateAmountByTypeOfAsset(typeAsset, amount);
+		String errorMessage = stringValidateAmountByTypeOfAsset(typeAsset, editAssetForm.getAmount());
 		int resultCode = 0;
 		if (!errorMessage.equals("")){
 			resultCode = 1;
-			log.info(String.format("[-] Ticker: '%s' failed on validation by invest portfolio: %s", ticker, investPortfolio.getId()));
+			log.info(String.format("[-] Ticker: '%s' failed on validation by invest portfolio: %s", editAssetForm.getTicker(), investPortfolio.getId()));
 		}
 		else{
-			historyAmount.setAmount(amount);
-			historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(amount));
-			log.info(String.format("[+] Ticker: '%s' successfully update by invest portfolio: %s", ticker, investPortfolio.getId()));
+			historyAmount.setAmount(editAssetForm.getAmount());
+			historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(editAssetForm.getAmount()));
+			log.info(String.format("[+] Ticker: '%s' successfully update by invest portfolio: %s", editAssetForm.getTicker(), investPortfolio.getId()));
 		}
 		return BaseResponseForm.builder()
 				.error(errorMessage)

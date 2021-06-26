@@ -3,10 +3,12 @@ package ru.akapich.invest_portfolio.controller.modify_assets;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.EditAssetForm;
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 import ru.akapich.invest_portfolio.model.forms.ValidateCRUDAssetsInterface;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
@@ -54,6 +56,9 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private Environment env;
+
 	@Override
 	public NewAssetsForm firstFloatNumberAsset(List<NewAssetsForm> listNewAssetsForm) {
 		NewAssetsForm firstFloatNumberAsset;
@@ -61,7 +66,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		firstFloatNumberAsset = null;
 		for(NewAssetsForm assetsForm : listNewAssetsForm){
 			System.out.println(String.format("New Asset: %s", assetsForm));
-			if (!assetsForm.getType().equals("{type.crypto}") && !MathUtils.isIntegerValue(assetsForm.getAmount())){
+			if (!assetsForm.getType().equals(env.getProperty("type.crypto")) && !MathUtils.isIntegerValue(assetsForm.getAmount())){
 				firstFloatNumberAsset = assetsForm;
 				break;
 			}
@@ -126,16 +131,16 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		NewAssetsForm assetAlreadyInTheInvestPortfolio = assetAlreadyInTheInvestPortfolio(listAssetsForm);
 		NewAssetsForm firstFloatNumberAsset = firstFloatNumberAsset(listAssetsForm);
 		if (!isTickersUnique(listAssetsForm)){
-			errorMessage = "{valid.assets.repeat}";
+			errorMessage = String.format("%s", env.getProperty("valid.assets.repeat"));
 		}
 		else if (firstNotExistAsset != null){
-			errorMessage = "{valid.asset.not_exist} : " + firstNotExistAsset.getTicker();
+			errorMessage = String.format("%s: %s", env.getProperty("valid.asset.not_exist"), firstNotExistAsset.getTicker());
 		}
 		else if (assetAlreadyInTheInvestPortfolio != null){
-			errorMessage = "{valid.asset.in_portfolio} : " + assetAlreadyInTheInvestPortfolio.getTicker();
+			errorMessage = String.format("%s: %s", env.getProperty("valid.asset.in_portfolio"), assetAlreadyInTheInvestPortfolio.getTicker());
 		}
 		else if (firstFloatNumberAsset != null){
-			errorMessage = "{valid.asset.not_integer} : " + firstFloatNumberAsset.getTicker();
+			errorMessage = String.format("%s: %s", env.getProperty("valid.not_integer"), firstFloatNumberAsset.getTicker());
 		}
 		Integer resultCode = errorMessage.equals("") ? 0 : 1;
 
@@ -162,9 +167,8 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 	@PutMapping("/api/asset/edit")
 	@ResponseBody
-	public BaseResponseForm updateAsset(@RequestParam(name="ticker") String ticker,
-	                                    @RequestParam(name="amount") BigDecimal amount){
-		BaseResponseForm response = historyAmountService.updateAssetByTickerWithAmount(ticker, amount);
+	public BaseResponseForm updateAsset(@RequestBody EditAssetForm editAssetForm){
+		BaseResponseForm response = historyAmountService.updateAssetByTickerWithAmount(editAssetForm);
 		return response;
 	}
 

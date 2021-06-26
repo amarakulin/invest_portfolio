@@ -1,6 +1,7 @@
 package ru.akapich.invest_portfolio.service.portfolio.history_data;
 
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.EditAssetForm;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.Impl.HistoryAmountServiceImpl;
@@ -23,7 +24,7 @@ public interface HistoryAmountService {
 
 	BigDecimal getTotalPriceForOneAsset(OwnedFinancialAsset ownedFinancialAsset, BigDecimal amount);
 
-	BaseResponseForm updateAssetByTickerWithAmount(String ticker, BigDecimal amount);
+	BaseResponseForm updateAssetByTickerWithAmount(EditAssetForm editAssetForm);
 
 	void deleteAssetByTicker(String ticker);
 }

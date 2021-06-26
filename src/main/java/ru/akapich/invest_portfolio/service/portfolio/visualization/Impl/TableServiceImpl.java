@@ -17,6 +17,7 @@ import ru.akapich.invest_portfolio.service.portfolio.visualization.TableService;
 import ru.akapich.invest_portfolio.service.user.UserService;
 import ru.akapich.invest_portfolio.utils.MathUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -55,15 +56,17 @@ public class TableServiceImpl implements TableService {
 			for (OwnedFinancialAsset asset : listAssetsByInvestPortfolio){
 				tmpInfoAsset = asset.getFinancialAssetInUse().getIdAllFinancialAsset();
 				tmpHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(asset);
-				body.add(BodyTable.builder()
-						.name(tmpInfoAsset.getName())
-						.ticker(tmpInfoAsset.getTicker())
-						.type(tmpInfoAsset.getIdTypeAsset().getName())
-						.exchange(tmpInfoAsset.getIdExchange().getName())
-						.price(MathUtils.divideBigDecimalWithTwoPrecisionHalf(tmpHistoryAmount.getTotal(), tmpHistoryAmount.getAmount()))
-						.amount(tmpHistoryAmount.getAmount())
-						.total(tmpHistoryAmount.getTotal())
-						.build());
+				if (tmpHistoryAmount.getAmount().compareTo(BigDecimal.ZERO) != 0) {
+					body.add(BodyTable.builder()
+							.name(tmpInfoAsset.getName())
+							.ticker(tmpInfoAsset.getTicker())
+							.type(tmpInfoAsset.getIdTypeAsset().getName())
+							.exchange(tmpInfoAsset.getIdExchange().getName())
+							.price(MathUtils.divideBigDecimalWithTwoPrecisionHalf(tmpHistoryAmount.getTotal(), tmpHistoryAmount.getAmount()))
+							.amount(tmpHistoryAmount.getAmount())
+							.total(tmpHistoryAmount.getTotal())
+							.build());
+				}
 			}
 			System.out.println(String.format("The body: %s", body));
 		}
