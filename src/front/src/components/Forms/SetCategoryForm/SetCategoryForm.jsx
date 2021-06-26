@@ -6,24 +6,18 @@ import Checkbox from '../../Basic/Checkbox/Checkbox';
 import { setCategory } from '../../../redux/categoryReduser';
 import { SetCategoryFormSubmit } from '../../../utils/formSubmit';
 import { SmallTitle } from '../../Basic/Title/Title';
-
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-	display: grid;
-	gap: 20px 10px;
-	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-	margin-bottom: 40px;
-`
+import { setValue } from '../../../utils/mutators';
+import { GridWrapper, Wrapper } from '../../Basic/Wrapper/Wrapper';
 
 const SetCategoryForm = (props) => {
 	return (
 		<Form
+			mutators={{ setValue }}
 			onSubmit={SetCategoryFormSubmit(props.setCategory)}
-			render={({ handleSubmit, submitting }) => (
+			render={({ handleSubmit, submitting, form }) => (
 				<form onSubmit={handleSubmit}>
 					<SmallTitle marginBottom={40}>Выберите категорию для отображения</SmallTitle>
-					<Wrapper>
+					<GridWrapper>
 						{
 							props.categories.length
 							? props.categories.map(el => {
@@ -40,9 +34,21 @@ const SetCategoryForm = (props) => {
 							})
 							: <p>У вас еще нет ни одной категории</p>
 						}
-					</Wrapper>
+					</GridWrapper>
 
-					<Button disabled={submitting || !props.categories.length}>{submitting ? <Preloader /> : 'Выбрать'}</Button>
+					<Wrapper>
+						<Button
+							width={45}
+							disabled={submitting || !props.categories.length}
+							onClick={() => {
+								form.mutators.setValue('name', 'total');
+								form.submit();
+							}}
+						>
+							{submitting ? <Preloader /> : 'Сбросить'}
+						</Button>
+						<Button width={45} disabled={submitting}>{submitting ? <Preloader /> : 'Выбрать'}</Button>
+					</Wrapper>
 				</form>
 			)}
 		/>

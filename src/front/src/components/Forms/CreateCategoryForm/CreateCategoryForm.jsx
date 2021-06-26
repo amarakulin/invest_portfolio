@@ -7,17 +7,8 @@ import FormInput from '../../Basic/FormInput/FormInput';
 import { createCategory } from '../../../redux/categoryReduser';
 import { CreateCategoryFormSubmit } from '../../../utils/formSubmit';
 import { showAlert } from '../../../redux/alertReduser';
-import { StartWrapper } from '../../Basic/Wrapper/Wrapper';
+import { GridWrapper } from '../../Basic/Wrapper/Wrapper';
 import { SmallTitle } from '../../Basic/Title/Title';
-
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-	display: grid;
-	gap: 20px 10px;
-	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-	margin-bottom: 40px;
-`
 
 const CreateCategoryForm = (props) => {
 
@@ -30,7 +21,7 @@ const CreateCategoryForm = (props) => {
 			render={({ handleSubmit, submitting }) => (
 				<form onSubmit={handleSubmit}>
 					<SmallTitle marginBottom={40}>Выберите активы для новой категории</SmallTitle>
-					<Wrapper>
+					<GridWrapper>
 						{
 							props.assetsData.map(el => {
 								return <Field
@@ -44,7 +35,7 @@ const CreateCategoryForm = (props) => {
 								</Field>
 							})
 						}
-					</Wrapper>
+					</GridWrapper>
 					<Field
 						placeholder='Введите название новой категории'
 						labelText='Придумайте название новой категории'
