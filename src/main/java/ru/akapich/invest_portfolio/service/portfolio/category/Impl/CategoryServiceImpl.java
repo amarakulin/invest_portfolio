@@ -46,16 +46,16 @@ public class CategoryServiceImpl implements CategoryService {
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		Category firstExistCategory = categoryRepository.getCategoryByNameAndInvestPortfolio(investPortfolio, categoryCreateForm.getName());
 		if (firstExistCategory != null){
-			errorMessage = env.getProperty("valid.exist.category");
+			errorMessage = env.getProperty("valid.category.exist");
+		}
+		else if ("total".equals(categoryCreateForm.getName())){
+			errorMessage = env.getProperty("valid.category.main");
 		}
 		else{
 			List<OwnedFinancialAsset> ownedFinancialAssets = ownedFinancialAssetRepository
 					.getOwnedFinancialAssetsByListTickersAndInvestPortfolio(investPortfolio, categoryCreateForm.getValues());//Could be error
 			System.out.println(String.format("owned financial asset EXPECTED: %s", categoryCreateForm.getValues()));
 			System.out.println(String.format("owned financial asset GET: %s", ownedFinancialAssets));
-//			List<OwnedFinancialAsset> ownedFinancialAssets = ownedFinancialAssetRepository
-//					.findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAssetTicker(categoryCreateForm.getTickers());
-			System.out.println("Before creating category");
 			Category category = Category.builder()
 					.name(categoryCreateForm.getName())
 					.idOwnedFinancialAssets(ownedFinancialAssets)
@@ -64,7 +64,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 			categoryRepository.save(category);
 		}
-		System.out.println("Before return");
 		return BaseResponseForm.builder()
 				.error(errorMessage)
 				.resultCode("".equals(errorMessage) ? 0 : 1)
