@@ -54,7 +54,7 @@ const CreateCategoryForm = (props) => {
 						{props => <FormInput {...props} />}
 					</Field>
 
-					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
+					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Создать'}</Button>
 				</form>
 			)}
 		/>
