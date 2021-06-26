@@ -79,3 +79,21 @@ export const AssetsOptionsApi = {
 		.then(res => res.data);
 	}
 }
+
+export const CategoryApi = {
+	createCategory(name, value) {
+		return api.post('category/create', {
+			name,
+			value
+		})
+		.then(res => res.data);
+	},
+	deleteCategory(name) {
+		return api.delete(`category/delete?name=${name}`);
+	},
+	setCategory(name) {
+		return api.put(`category/set`, {
+			name
+		});
+	}
+}
