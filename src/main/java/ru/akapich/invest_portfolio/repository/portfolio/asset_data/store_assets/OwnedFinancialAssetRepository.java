@@ -36,7 +36,10 @@ public interface OwnedFinancialAssetRepository extends JpaRepository<OwnedFinanc
 	@Query("SELECT DISTINCT o FROM OwnedFinancialAsset o")
 	List<OwnedFinancialAsset> findAllUniqueOwnedAssets();
 
-	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAssetTicker(List<String> tickers);
-	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAsset_Ticker(List<String> tickers);
+//	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAssetTicker(List<String> tickers);
+//	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAsset_Ticker(List<String> tickers);
+
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 AND o.FinancialAssetInUse.idAllFinancialAsset.ticker IN ?2")
+	List<OwnedFinancialAsset> getOwnedFinancialAssetsByListTickersAndInvestPortfolio(InvestPortfolio investPortfolio, List<String> tickers);
 
 }

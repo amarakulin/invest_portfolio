@@ -34,9 +34,6 @@ public class CategoryServiceImpl implements CategoryService {
 	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
 
 	@Autowired
-	private InvestPortfolioRepository investPortfolioRepository;
-
-	@Autowired
 	private UserService userService;
 
 	@Autowired
@@ -46,24 +43,28 @@ public class CategoryServiceImpl implements CategoryService {
 	@Transactional
 	public BaseResponseForm addNewCategory(CategoryCreateForm categoryCreateForm) {
 		String errorMessage = "";
-		Category firstExistCategory = categoryRepository.findFirstByName(categoryCreateForm.getName());
+		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
+		Category firstExistCategory = categoryRepository.getCategoryByNameAndInvestPortfolio(investPortfolio, categoryCreateForm.getName());
 		if (firstExistCategory != null){
 			errorMessage = env.getProperty("valid.exist.category");
 		}
 		else{
 			List<OwnedFinancialAsset> ownedFinancialAssets = ownedFinancialAssetRepository
-					.findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAssetTicker(categoryCreateForm.getTickers());//Could be error
-			System.out.println(String.format("owned financial asset EXPECTED: %s", categoryCreateForm.getTickers()));
+					.getOwnedFinancialAssetsByListTickersAndInvestPortfolio(investPortfolio, categoryCreateForm.getValues());//Could be error
+			System.out.println(String.format("owned financial asset EXPECTED: %s", categoryCreateForm.getValues()));
 			System.out.println(String.format("owned financial asset GET: %s", ownedFinancialAssets));
 //			List<OwnedFinancialAsset> ownedFinancialAssets = ownedFinancialAssetRepository
 //					.findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAssetTicker(categoryCreateForm.getTickers());
+			System.out.println("Before creating category");
 			Category category = Category.builder()
 					.name(categoryCreateForm.getName())
 					.idOwnedFinancialAssets(ownedFinancialAssets)
 					.build();
+			System.out.println(String.format("Create category: %s", category));
+
 			categoryRepository.save(category);
 		}
-
+		System.out.println("Before return");
 		return BaseResponseForm.builder()
 				.error(errorMessage)
 				.resultCode("".equals(errorMessage) ? 0 : 1)
@@ -79,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService {
 			category = null;
 		}
 		else{
-			category = categoryRepository.findFirstByName(nameCategory);
+			category = categoryRepository.getCategoryByNameAndInvestPortfolio(investPortfolio, nameCategory);
 		}
 		investPortfolio.setCategory(category);
 	}

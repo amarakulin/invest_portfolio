@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.category.CategoryCreateForm;
 import ru.akapich.invest_portfolio.service.portfolio.category.CategoryService;
 
@@ -22,12 +23,11 @@ import ru.akapich.invest_portfolio.service.portfolio.category.CategoryService;
 @PropertySource("classpath:message.properties")
 public class CategoryController {
 
-
 	@Autowired
 	private CategoryService categoryService;
 
 	@PostMapping("/api/category/create")
-	public void createCategory(@RequestBody CategoryCreateForm categoryCreateForm){
-		categoryService.addNewCategory(categoryCreateForm);
+	public BaseResponseForm createCategory(@RequestBody CategoryCreateForm categoryCreateForm){
+		return categoryService.addNewCategory(categoryCreateForm);
 	}
 }
