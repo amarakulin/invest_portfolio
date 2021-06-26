@@ -12,4 +12,8 @@ import ru.akapich.invest_portfolio.model.portfolio.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+	Category findFirstByName(String name);
+
+
 }

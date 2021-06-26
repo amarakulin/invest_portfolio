@@ -9,6 +9,7 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.Finan
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * JavaBean object that interaction with Database for {@link OwnedFinancialAsset}
@@ -34,4 +35,8 @@ public interface OwnedFinancialAssetRepository extends JpaRepository<OwnedFinanc
 
 	@Query("SELECT DISTINCT o FROM OwnedFinancialAsset o")
 	List<OwnedFinancialAsset> findAllUniqueOwnedAssets();
+
+	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAssetTicker(List<String> tickers);
+	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAsset_Ticker(List<String> tickers);
+
 }
