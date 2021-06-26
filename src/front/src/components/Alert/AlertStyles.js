@@ -26,7 +26,7 @@ export const AlertContainer = styled.div`
 	padding: .75rem 1.25rem;
 	z-index: 100;
 	${props => {
-		let color = '';
+		let color = 'F8CD7A';
 
 		switch (props.type) {
 			case 'success':
