@@ -95,5 +95,9 @@ export const CategoryApi = {
 		return api.put(`category/set`, {
 			name
 		});
+	},
+	getCategories() {
+		return api.get('category/categories')
+			.then(res => res.data);
 	}
 }
