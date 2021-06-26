@@ -101,7 +101,7 @@ export const CategoryApi = {
 			.then(res => res.data);
 	},
 	getSettedCategory() {
-		return api.get('category/ssetted')
+		return api.get('category/setted')
 			.then(res => res.data);
 	}
 }
