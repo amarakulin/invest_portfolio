@@ -27,7 +27,10 @@ const dropdownItems = [
 ]
 
 const OptionsDropdownMenu = (props) => {
-	const confirm = useConfirm(props.deleteAsset.bind(null, props.ticker));
+	const confirm = useConfirm(() => {
+		props.deleteAsset(props.ticker);
+		props.showAlert('success', 'Актив успешно изменен');
+	});
 
 	return (
 		<>

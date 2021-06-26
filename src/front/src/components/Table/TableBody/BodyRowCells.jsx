@@ -11,6 +11,7 @@ const BodyRowCells = ({ data, order, dataIndex, ...props }) => {
 			return <TableOptions
 				setSelectedAsset={props.setSelectedAsset}
 				ticker={data[dataIndex].ticker}
+				showAlert={props.showAlert}
 			/>
 		}
 
