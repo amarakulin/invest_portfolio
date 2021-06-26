@@ -31,7 +31,13 @@ const assetsTableReduser = (state = initialState, action) => {
 		case SET_TABLE_DATA: {
 			return {
 				...state,
-				data: {...action.data}
+				data: {
+					...action.data,
+					body: action.data.body.map(el => {
+						el.amount = `${el.amount} шт.`
+						return el;
+					})
+				}
 			}
 		}
 		case DELETE_ASSET: {
