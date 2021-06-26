@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.EditAssetForm;
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 import ru.akapich.invest_portfolio.model.forms.ValidateCRUDAssetsInterface;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
@@ -166,9 +167,8 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 	@PutMapping("/api/asset/edit")
 	@ResponseBody
-	public BaseResponseForm updateAsset(@RequestParam(name="ticker") String ticker,
-	                                    @RequestParam(name="amount") BigDecimal amount){
-		BaseResponseForm response = historyAmountService.updateAssetByTickerWithAmount(ticker, amount);
+	public BaseResponseForm updateAsset(@RequestBody EditAssetForm editAssetForm){
+		BaseResponseForm response = historyAmountService.updateAssetByTickerWithAmount(editAssetForm);
 		return response;
 	}
 
