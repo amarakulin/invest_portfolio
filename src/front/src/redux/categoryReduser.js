@@ -46,4 +46,8 @@ export const createCategory = (data) => () => {
 		})
 }
 
+export const setCategory = (category) => () => {
+	return CategoryApi.setCategory(category);
+}
+
 export default categoryResuser;

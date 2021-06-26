@@ -3,17 +3,17 @@ import { HeaderButton } from '../../Basic/Button/Button';
 import CreateCategory from './CreateCategory';
 
 const CreateCategoryContainer = () => {
-	const [isModalOpen, toggleIsModal] = useState(false);
+	const [isModalOpen, toggleIsOpen] = useState(false);
 
 	return (
 		<>
 			<HeaderButton
 				marginRight={20}
-				onClick={() => toggleIsModal(true)}
+				onClick={() => toggleIsOpen(true)}
 			>
 				Создать категорию
 			</HeaderButton>
-			<CreateCategory isOpen={isModalOpen} close={() => toggleIsModal(false)}/>
+			<CreateCategory isOpen={isModalOpen} close={() => toggleIsOpen(false)}/>
 		</>
 	)
 }

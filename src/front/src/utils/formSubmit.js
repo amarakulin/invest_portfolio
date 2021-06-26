@@ -73,3 +73,7 @@ export const CreateCategoryFormSubmit = (createCategory, showAlert) => async (fo
 		showAlert('danger', e.message);
 	}
 }
+
+export const SetCategoryFormSubmit = (setCategory) => async (formData) => {
+	await setCategory(formData);
+}
