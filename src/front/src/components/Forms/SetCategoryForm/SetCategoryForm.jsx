@@ -10,9 +10,11 @@ import { setValue } from '../../../utils/mutators';
 import { GridWrapper, Wrapper } from '../../Basic/Wrapper/Wrapper';
 
 const SetCategoryForm = (props) => {
+	console.log(props)
 	return (
 		<Form
 			mutators={{ setValue }}
+			initialValues={{name: props.settedCategory}}
 			onSubmit={SetCategoryFormSubmit(props.setCategory)}
 			render={({ handleSubmit, submitting, form }) => (
 				<form onSubmit={handleSubmit}>
@@ -56,7 +58,8 @@ const SetCategoryForm = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-	categories: state.category.categories
+	categories: state.category.categories,
+	settedCategory: state.category.settedCategory
 })
 
 export default connect(mapStateToProps, { setCategory })(SetCategoryForm);

@@ -5,8 +5,8 @@ const SET_CATEGORIES = 'SET_CATEGORIES';
 const SET_SETTED_CATEGORY = 'SET_SETTED_CATEGORY';
 
 const initialState = {
-	categories: [],
-	setedCategory: null
+	categories: ['1', '2', '3', '4'],
+	settedCategory: '4'
 }
 
 const categoryResuser = (state = initialState, action) => {
