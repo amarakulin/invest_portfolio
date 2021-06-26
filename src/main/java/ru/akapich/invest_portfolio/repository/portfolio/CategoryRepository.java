@@ -2,7 +2,7 @@ package ru.akapich.invest_portfolio.repository.portfolio;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.akapich.invest_portfolio.model.portfolio.Statistic;
+import ru.akapich.invest_portfolio.model.portfolio.Category;
 
 /**
  * JavaBean object that interaction with Database.
@@ -11,5 +11,5 @@ import ru.akapich.invest_portfolio.model.portfolio.Statistic;
  **/
 
 @Repository
-public interface StatisticRepository extends JpaRepository<Statistic, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 }

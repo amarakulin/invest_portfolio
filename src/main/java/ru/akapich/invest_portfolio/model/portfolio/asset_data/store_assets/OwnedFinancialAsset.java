@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
-import ru.akapich.invest_portfolio.model.portfolio.Statistic;
+import ru.akapich.invest_portfolio.model.portfolio.Category;
 
 import javax.persistence.*;
 import java.util.List;
@@ -39,6 +39,6 @@ public class OwnedFinancialAsset {
 	private FinancialAssetInUse FinancialAssetInUse;
 
 	@ManyToMany(mappedBy = "idOwnedFinancialAssets")
-	private List<Statistic> idStatistics;
+	private List<Category> idCategories;
 
 }

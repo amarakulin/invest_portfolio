@@ -3,18 +3,17 @@ package ru.akapich.invest_portfolio.model.portfolio;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="t_statistic")
+@Table(name="t_category")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Statistic {
+public class Category {
 
 	@Id
 	@Column
@@ -26,8 +25,8 @@ public class Statistic {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
-			name = "meta_statistics",
-			joinColumns = @JoinColumn(name = "id_statistic"),
+			name = "meta_category",
+			joinColumns = @JoinColumn(name = "id_category"),
 			inverseJoinColumns = @JoinColumn(name = "id_owner_financial_asset"))
 	private List<OwnedFinancialAsset> idOwnedFinancialAssets;
 
