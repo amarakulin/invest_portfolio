@@ -11,6 +11,7 @@ import ru.akapich.invest_portfolio.model.forms.assets.EditAssetForm;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
+import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryPrice;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
@@ -22,6 +23,7 @@ import ru.akapich.invest_portfolio.service.user.UserService;
 import ru.akapich.invest_portfolio.utils.MathUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -119,6 +121,36 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
 		historyAmount.setAmount(BigDecimal.ZERO);
 		ownedFinancialAssetRepository.delete(historyAmount.getOwnedFinancialAsset());
+	}
+
+	@Override
+	public List<HistoryAmount> getAllByDateAndInvestPortfolioDependsCategory(InvestPortfolio investPortfolio, LocalDateTime date) {
+		List<HistoryAmount> listHistoryAmount;
+		if (investPortfolio.getCategory() == null){
+			listHistoryAmount = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolioAndDate(investPortfolio, date);
+		}
+		else{
+			listHistoryAmount = historyAmountRepository.getAllByCategoryAndDate(investPortfolio.getCategory(), date);
+		}
+		return listHistoryAmount;
+	}
+
+	@Override
+	public BigDecimal getTotalPriceByDateAndInvestPortfolioDependsCategory(InvestPortfolio investPortfolio, LocalDateTime date) {
+		BigDecimal totalPriceInvestPortfolio;
+		try {
+			if (investPortfolio.getCategory() == null) {
+				totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceOfInvestPortfolio(investPortfolio, date);
+			}
+			else{
+				totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceByCategoryAndDate(investPortfolio.getCategory(), date);
+			}
+		}
+		catch (NullPointerException e){
+			totalPriceInvestPortfolio = BigDecimal.ZERO;
+			log.info(String.format("[-] InvestPortfolio with id: '%d' Didn't has any assets yet", investPortfolio.getId()));
+		}
+		return totalPriceInvestPortfolio.setScale(2, RoundingMode.CEILING);//TODO check if BigDecimal.ZIRO
 	}
 
 	@Override

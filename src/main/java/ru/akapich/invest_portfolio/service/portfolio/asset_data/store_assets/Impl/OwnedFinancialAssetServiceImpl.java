@@ -8,7 +8,10 @@ import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
+import ru.akapich.invest_portfolio.repository.portfolio.category.OwnedCategoryRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.OwnedFinancialAssetService;
+
+import java.util.List;
 
 /**
  * @author Aleksandr Marakulin
@@ -21,6 +24,9 @@ public class OwnedFinancialAssetServiceImpl implements OwnedFinancialAssetServic
 	@Autowired
 	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
 
+	@Autowired
+	private OwnedCategoryRepository ownedCategoryRepository;
+
 	@Override
 	@Transactional
 	public OwnedFinancialAsset getAndAddNewOwnedAssetsUser(InvestPortfolio investPortfolio, FinancialAssetInUse financialAssetInUse) {
@@ -31,5 +37,18 @@ public class OwnedFinancialAssetServiceImpl implements OwnedFinancialAssetServic
 				.build();
 		ownedFinancialAssetRepository.save(ownedFinancialAsset);
 		return ownedFinancialAsset;
+	}
+
+	@Override
+	public List<OwnedFinancialAsset> getAllOwnedAssetByInvestPortfolioDependsCategory(InvestPortfolio investPortfolio) {
+		List<OwnedFinancialAsset> allOwnedFinancialAssets;
+
+		if (investPortfolio.getCategory() == null){
+			allOwnedFinancialAssets = ownedFinancialAssetRepository.findAllByInvestPortfolio(investPortfolio);
+		}
+		else{
+			allOwnedFinancialAssets = ownedCategoryRepository.getAllOwnedFinancialAssetByCategory(investPortfolio.getCategory());
+		}
+		return allOwnedFinancialAssets;
 	}
 }

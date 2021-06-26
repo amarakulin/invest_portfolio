@@ -12,6 +12,7 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.Owned
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
+import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.OwnedFinancialAssetService;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.GraphService;
 import ru.akapich.invest_portfolio.service.user.UserService;
 
@@ -35,10 +36,13 @@ public class GraphServiceImpl implements GraphService{
 	private HistoryAmountRepository historyAmountRepository;
 
 	@Autowired
+	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
+
+	@Autowired
 	private UserService userService;
 
 	@Autowired
-	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
+	private OwnedFinancialAssetService ownedFinancialAssetService;
 
 
 	@Override
@@ -150,12 +154,15 @@ public class GraphServiceImpl implements GraphService{
 	@Override
 	public FormGraph getGraph() {
 		FormGraph formGraph;
+
+
 		if (userService.getUserInCurrentSession() == null){
 			return null;
 		}
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Collecting graph data for user with investPortfolioI: %d", investPortfolio.getId()));
-		List<OwnedFinancialAsset> allOwnedFinancialAssets = ownedFinancialAssetRepository.findAllByInvestPortfolio(investPortfolio);
+		List<OwnedFinancialAsset> allOwnedFinancialAssets = ownedFinancialAssetService.getAllOwnedAssetByInvestPortfolioDependsCategory(investPortfolio);
+
 		if (allOwnedFinancialAssets.size() == 0){
 			formGraph = FormGraph.builder().build();
 		}
