@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader';
 import Button from '../../Basic/Button/Button';
 import Checkbox from '../../Basic/Checkbox/Checkbox';
-import Input from '../../Basic/Input/Input';
+import FormInput from '../../Basic/FormInput/FormInput';
 import { createCategory } from '../../../redux/categoryReduser';
 import { CreateCategoryFormSubmit } from '../../../utils/formSubmit';
 import { showAlert } from '../../../redux/alertReduser';
@@ -33,10 +33,11 @@ const CreateCategoryForm = (props) => {
 					}
 					<Field
 						placeholder='Введите название новой категории'
+						labelText='Придумайте название новой категории'
 						name='name'
 						type='text'
 					>
-						{props => <Input {...{ ...props.input, ...props.meta, ...props }} />}
+						{props => <FormInput {...props} />}
 					</Field>
 
 					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
