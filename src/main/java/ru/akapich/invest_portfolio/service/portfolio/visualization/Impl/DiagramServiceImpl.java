@@ -72,16 +72,17 @@ public class DiagramServiceImpl implements DiagramService{
 			System.out.println(asset.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker());
 			financialAssetInUse = ownedFinancialAssetRepository.findFinancialAssetInUseByOwnedFinancialAsset(
 												asset.getOwnedFinancialAsset());
-
-			listDiagramResponseForm.add(
-				DiagramResponseForm.builder()
-						.name(financialAssetInUse.getIdAllFinancialAsset().getName())
-						.ticker(financialAssetInUse.getIdAllFinancialAsset().getTicker())
-						.value(asset.getTotal())
-						.percent(MathUtils.getPercent(totalPriceInvestPortfolio, asset.getTotal()))
-						.color(financialAssetInUse.getColor())
-						.build()
-			);
+			if (asset.getAmount().compareTo(BigDecimal.ZERO) != 0) {
+				listDiagramResponseForm.add(
+						DiagramResponseForm.builder()
+								.name(financialAssetInUse.getIdAllFinancialAsset().getName())
+								.ticker(financialAssetInUse.getIdAllFinancialAsset().getTicker())
+								.value(asset.getTotal())
+								.percent(MathUtils.getPercent(totalPriceInvestPortfolio, asset.getTotal()))
+								.color(financialAssetInUse.getColor())
+								.build()
+				);
+			}
 		}
 		log.info(String.format("[+] Finish collect DIAGRAM for user with investPortfolio '%d'", investPortfolio.getId()));
 		System.out.println(String.format("Data Diagram: %s", listDiagramResponseForm));
