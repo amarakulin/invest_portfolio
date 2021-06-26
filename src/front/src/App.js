@@ -5,6 +5,7 @@ import NotFound from './components/NotFound/NotFound'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import AuthForm from './components/Forms/AuthForm/AuthForm'
 import SignUpForm from './components/Forms/SignUpForm/SignUpForm'
+import Alert from './components/Alert/Alert';
 
 function App() {
 	return (
@@ -32,6 +33,7 @@ function App() {
 					component={NotFound}
 				/>
 			</Switch>
+			<Alert />
 		</Router>
 	);
 }

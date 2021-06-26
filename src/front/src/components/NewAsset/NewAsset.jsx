@@ -10,7 +10,6 @@ const NewAsset = (props) => {
 			<Modal closeModal={props.closeModal} display={props.display}>
 				<AddNewAssetsForm showAlert={props.showAlert} />
 			</Modal>
-			<Alert />
 		</>
 	)
 }
