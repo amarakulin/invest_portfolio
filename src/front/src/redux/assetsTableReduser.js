@@ -33,7 +33,7 @@ const assetsTableReduser = (state = initialState, action) => {
 				...state,
 				data: {
 					...action.data,
-					body: action.data.body.map(el => {
+					body: action.data?.body.map(el => {
 						el.amount = `${el.amount} шт.`
 						return el;
 					})
