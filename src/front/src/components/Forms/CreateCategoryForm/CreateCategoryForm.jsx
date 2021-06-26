@@ -3,17 +3,19 @@ import { connect } from 'react-redux';
 import Preloader from '../../Basic/Preloader/Preloader';
 import Button from '../../Basic/Button/Button';
 import Checkbox from '../../Basic/Checkbox/Checkbox';
-import Input from '../../Basic/Input/Input'
+import Input from '../../Basic/Input/Input';
+import { createCategory } from '../../../redux/categoryReduser';
+import { CreateCategoryFormSubmit } from '../../../utils/formSubmit';
+import { showAlert } from '../../../redux/alertReduser';
 
 const CreateCategoryForm = (props) => {
-	
+
 	if (!props.assetsData)
 		return null
-	
-	console.log(props.assetsData)
+
 	return (
 		<Form
-			onSubmit={(data) => console.log(data)}
+			onSubmit={CreateCategoryFormSubmit(props.createCategory, props.showAlert)}
 			render={({ handleSubmit, submitting }) => (
 				<form onSubmit={handleSubmit}>
 					{
@@ -21,19 +23,20 @@ const CreateCategoryForm = (props) => {
 							return <Field
 								labelText={el.ticker}
 								name={el.ticker}
+								type='checkbox'
 								id={el.ticker}
 								key={el.ticker}
 							>
-								{props => <Checkbox {...props}/>}
+								{props => <Checkbox {...props} />}
 							</Field>
 						})
 					}
 					<Field
 						placeholder='Введите название новой категории'
-						name={'asd'}
-						type="text"
+						name='name'
+						type='text'
 					>
-						{props => <Input {...props} />}
+						{props => <Input {...{ ...props.input, ...props.meta, ...props }} />}
 					</Field>
 
 					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Сохранить'}</Button>
@@ -47,4 +50,4 @@ const mapStateToProps = (state) => ({
 	assetsData: state.table.data.body
 })
 
-export default connect(mapStateToProps, {})(CreateCategoryForm);
+export default connect(mapStateToProps, { createCategory, showAlert })(CreateCategoryForm);

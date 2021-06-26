@@ -1,6 +1,6 @@
 import { FORM_ERROR } from 'final-form';
 import { TYPE_BUY, TYPE_SELL } from '../redux/assetsTableReduser';
-import createURLSearchParam from './createURLSearchParam'
+import createURLSearchParam from './createURLSearchParam';
 
 export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets, showAlert) => async () => {
 	const formData = [];
@@ -50,7 +50,26 @@ export const editAssetAmountFormSubmit = ({value, ticker, type, editAsset}, show
 		}
 		showAlert('success', 'Актив успешно изменен');
 	} catch (e) {
-		showAlert('danger', e.message)
+		showAlert('danger', e.message);
 	}
 	
+}
+
+export const CreateCategoryFormSubmit = (createCategory, showAlert) => async (formData) => {
+	const data = {
+		name: formData.name,
+		value: []
+	};
+
+	for (let key in formData) {
+		if (key !== 'name')
+			data.value.push(key);
+	}
+
+	try {
+		await createCategory(data);
+		showAlert('success', 'Категория успешно создана');
+	} catch (e) {
+		showAlert('danger', e.message);
+	}
 }
