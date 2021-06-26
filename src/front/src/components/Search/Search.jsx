@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import Input from '../Basic/Input/Input';
 import SearchResult from './SearchResult';

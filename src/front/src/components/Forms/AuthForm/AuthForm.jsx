@@ -7,7 +7,6 @@ import Button from '../../Basic/Button/Button'
 import { Wrapper } from '../../Basic/Wrapper/Wrapper'
 import { CkeckBoxLink } from '../../Basic/Link/Link'
 import { Form } from 'react-final-form'
-import { FORM_ERROR } from 'final-form'
 import { requiredField } from '../../../utils/validators'
 import Preloader from '../../Basic/Preloader/Preloader';
 import Error from '../../Basic/Error/Error';

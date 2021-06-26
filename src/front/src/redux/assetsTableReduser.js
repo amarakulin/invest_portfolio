@@ -102,24 +102,15 @@ export const deleteAsset = (ticker) => (dispatch) => {
 export const getTableData = () => (dispatch) => {
 	dispatch(toggleIsFetching(true));
 	DataAPI.getTableData()
-		.then(res => {
-			if (res.resulCode === 0) {
-				dispatch(setTableData(res.data))
-			}
-			dispatch(toggleIsFetching(false));
-		})
-		.catch(err => {
-			
-		})
-		.finally(() => {
-			dispatch(setTableData(getTableDataTest())) //! DELETE
+		.then(data => {
+			dispatch(setTableData(data))
 			dispatch(toggleIsFetching(false));
 		})
 }
 
 export default assetsTableReduser;
 
-function getTableDataTest() {
+function getTableDataTest() { //! DELETE
 	return {
 		header: {
 			name: 'Название',
