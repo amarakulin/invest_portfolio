@@ -1,13 +1,12 @@
 import Modal from '../Modal/Modal';
 import AddNewAssetsForm from '../Forms/AddNewAssetsForm/AddNewAssetsForm';
-import Alert from '../Alert/Alert';
 import { connect } from 'react-redux';
 import { showAlert } from '../../redux/alertReduser';
 
 const NewAsset = (props) => {
 	return (
 		<>
-			<Modal closeModal={props.closeModal} display={props.display}>
+			<Modal close={props.close} isOpen={props.isOpen}>
 				<AddNewAssetsForm showAlert={props.showAlert} />
 			</Modal>
 		</>

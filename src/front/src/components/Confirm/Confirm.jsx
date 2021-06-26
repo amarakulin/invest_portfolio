@@ -5,7 +5,7 @@ import Button from '../Basic/Button/Button';
 
 const Confirm = (props) => {
 	return (
-		<Modal closeModal={props.close} display={props.isOpen}>
+		<Modal close={props.close} isOpen={props.isOpen}>
 			<SmallTitle marginBottom='40'>Подтвердите действие</SmallTitle>
 			<Wrapper>
 				<Button

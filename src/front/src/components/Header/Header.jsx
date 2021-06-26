@@ -13,7 +13,7 @@ const Header = (props) => {
 	return (
 		<StyledHeader>
 			<Container>
-				<NewAsset closeModal={toggleIsModal} display={isModalOpen}/>
+				<NewAsset close={() => toggleIsModal(false)} isOpen={isModalOpen}/>
 				<Greeting name={props.name} />
 				<HeaderFooter 
 					openModal={toggleIsModal}
