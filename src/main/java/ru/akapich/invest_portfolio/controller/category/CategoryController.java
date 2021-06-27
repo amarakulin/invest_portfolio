@@ -8,6 +8,7 @@ import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.category.CategoryCreateForm;
 import ru.akapich.invest_portfolio.service.portfolio.category.CategoryService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,5 +36,11 @@ public class CategoryController {
 		if (name.get("name") != null) {
 			categoryService.setCategory(name.get("name"));
 		}
+	}
+
+	@GetMapping("/api/category/categories")
+	public List<String> getAllCategories(){
+
+		return categoryService.getListNameCategories();
 	}
 }

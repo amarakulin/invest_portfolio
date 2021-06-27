@@ -18,6 +18,7 @@ import ru.akapich.invest_portfolio.service.portfolio.category.CategoryService;
 import ru.akapich.invest_portfolio.service.portfolio.category.OwnedCategoryService;
 import ru.akapich.invest_portfolio.service.user.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,6 +82,17 @@ public class CategoryServiceImpl implements CategoryService {
 				.error(errorMessage)
 				.resultCode("".equals(errorMessage) ? 0 : 1)
 				.build();
+	}
+
+	@Override
+	public List<String> getListNameCategories() {
+		List<String> listNameCategories;
+		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
+		listNameCategories = ownedCategoryRepository.getAllNamesCategoriesByInvestPortfolio(investPortfolio);
+		if (listNameCategories == null){
+			listNameCategories = new ArrayList<>();
+		}
+		return listNameCategories;
 	}
 
 	@Override

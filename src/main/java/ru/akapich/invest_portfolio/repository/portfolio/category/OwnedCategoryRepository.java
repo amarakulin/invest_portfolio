@@ -9,6 +9,7 @@ import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 import ru.akapich.invest_portfolio.model.portfolio.category.OwnedCategory;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * JavaBean object that interaction with Database.
@@ -23,4 +24,7 @@ public interface OwnedCategoryRepository  extends JpaRepository<OwnedCategory, L
 
 	@Query("SELECT c.ownedFinancialAsset FROM OwnedCategory c WHERE c.category = ?1")
 	LinkedList<OwnedFinancialAsset> getAllOwnedFinancialAssetByCategory(Category category);
+
+	@Query("SELECT DISTINCT c.category.name FROM OwnedCategory c WHERE c.ownedFinancialAsset.investPortfolio = ?1")
+	List<String> getAllNamesCategoriesByInvestPortfolio(InvestPortfolio investPortfolio);
 }
