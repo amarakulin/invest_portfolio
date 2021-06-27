@@ -31,11 +31,20 @@ public class OwnedFinancialAssetServiceImpl implements OwnedFinancialAssetServic
 	@Transactional
 	public OwnedFinancialAsset getAndAddNewOwnedAssetsUser(InvestPortfolio investPortfolio, FinancialAssetInUse financialAssetInUse) {
 		log.info(String.format("getAndAddNewOwnedAssetsUser add with InvPort: %d | ticker financialInUse: %s", investPortfolio.getId(), financialAssetInUse.getIdAllFinancialAsset().getTicker()));
-		OwnedFinancialAsset ownedFinancialAsset = OwnedFinancialAsset.builder()
-				.investPortfolio(investPortfolio)
-				.FinancialAssetInUse(financialAssetInUse)
-				.build();
-		ownedFinancialAssetRepository.save(ownedFinancialAsset);
+		OwnedFinancialAsset ownedFinancialAsset = ownedFinancialAssetRepository
+			.findByInvestPortfolioAndTickerDeleteTrue(investPortfolio, financialAssetInUse.getIdAllFinancialAsset().getTicker());
+		if (ownedFinancialAsset == null)
+		{
+			ownedFinancialAsset = OwnedFinancialAsset.builder()
+					.investPortfolio(investPortfolio)
+					.FinancialAssetInUse(financialAssetInUse)
+					.isDelete(false)
+					.build();
+			ownedFinancialAssetRepository.save(ownedFinancialAsset);
+		}
+		else{
+			ownedFinancialAsset.setDelete(false);
+		}
 		return ownedFinancialAsset;
 	}
 
@@ -49,7 +58,6 @@ public class OwnedFinancialAssetServiceImpl implements OwnedFinancialAssetServic
 		else{
 			allOwnedFinancialAssets = ownedCategoryRepository.getAllOwnedFinancialAssetByCategory(investPortfolio.getCategory());
 		}
-		System.out.printf(String.format("allOwnedFinancialAssets: %s", allOwnedFinancialAssets));
 		return allOwnedFinancialAssets;
 	}
 }

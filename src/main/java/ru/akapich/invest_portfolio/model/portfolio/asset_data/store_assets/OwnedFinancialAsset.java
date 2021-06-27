@@ -5,10 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
-import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * JavaBean domain object that represents asset for a special {@link InvestPortfolio}
@@ -38,4 +36,6 @@ public class OwnedFinancialAsset {
 	@JoinColumn(name = "id_in_use_financial_asset", nullable = false)
 	private FinancialAssetInUse FinancialAssetInUse;
 
+	@Column
+	private boolean isDelete;
 }

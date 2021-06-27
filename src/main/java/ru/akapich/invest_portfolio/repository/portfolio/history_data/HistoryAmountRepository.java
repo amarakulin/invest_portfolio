@@ -25,7 +25,7 @@ import java.util.List;
 public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Long> {
 
 	@Query("SELECT h FROM HistoryAmount h WHERE h.id = (" +
-			"SELECT MAX(h2.id) FROM HistoryAmount h2 WHERE h2.ownedFinancialAsset = ?1) ")
+			"SELECT MAX(h2.id) FROM HistoryAmount h2 WHERE h2.ownedFinancialAsset = ?1 AND h2.ownedFinancialAsset.isDelete = false ) ")
 	HistoryAmount lastAmountByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
 
 	@Query("SELECT SUM (h.total) FROM HistoryAmount h, OwnedFinancialAsset o WHERE" +
@@ -70,7 +70,7 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 
 	@Query("SELECT new ru.akapich.invest_portfolio.model.forms.sql.FormPurchaseDate(h.ownedFinancialAsset,  MIN(h.date), h.ownedFinancialAsset.investPortfolio)" +
 			" FROM HistoryAmount h WHERE h.ownedFinancialAsset.investPortfolio = ?1 AND h.ownedFinancialAsset IN ?2" +
-			" GROUP BY h.ownedFinancialAsset, h.ownedFinancialAsset.investPortfolio")
+			" GROUP BY h.ownedFinancialAsset, h.ownedFinancialAsset.investPortfolio")//FIXME if user delete and after half year buy the same asset what is a purchase date?
 	List<FormPurchaseDate> getAllPurchaseDateByInvestPortfolio(InvestPortfolio investPortfolio, LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
 
 	@Query("SELECT h1.date FROM HistoryAmount h1 WHERE h1.id = (" +

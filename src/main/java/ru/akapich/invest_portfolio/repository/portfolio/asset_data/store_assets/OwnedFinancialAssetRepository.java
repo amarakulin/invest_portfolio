@@ -20,26 +20,44 @@ import java.util.List;
 @Repository
 public interface OwnedFinancialAssetRepository extends JpaRepository<OwnedFinancialAsset, Integer> {
 
-	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 and o.FinancialAssetInUse = ?2")
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 AND o.FinancialAssetInUse = ?2 AND o.isDelete = false ")
 	OwnedFinancialAsset findExistTickerInInvestPortfolio(
 			InvestPortfolio investPortfolio,
 			FinancialAssetInUse financialAssetInUse);
 
-	@Query("SELECT o.FinancialAssetInUse FROM OwnedFinancialAsset o WHERE o = ?1")
+	@Query("SELECT o.FinancialAssetInUse FROM OwnedFinancialAsset o WHERE o = ?1 AND o.isDelete = false")
 	FinancialAssetInUse findFinancialAssetInUseByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
 
-	@Query("SELECT o.FinancialAssetInUse.idAllFinancialAsset.ticker FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1")
-	List<String> findAllTickersByInvestPortfolio(InvestPortfolio investPortfolio);
+//	@Query("SELECT o.FinancialAssetInUse.idAllFinancialAsset.ticker FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1")
+//	List<String> findAllTickersByInvestPortfolio(InvestPortfolio investPortfolio);
 
 	LinkedList<OwnedFinancialAsset> findAllByInvestPortfolio(InvestPortfolio investPortfolio);
 
-	@Query("SELECT DISTINCT o FROM OwnedFinancialAsset o")
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 AND o.isDelete = false ")
+	LinkedList<OwnedFinancialAsset> findAllByInvestPortfolioDeleteFalse(InvestPortfolio investPortfolio);
+
+	@Query("SELECT DISTINCT o FROM OwnedFinancialAsset o WHERE o.isDelete = false")
 	List<OwnedFinancialAsset> findAllUniqueOwnedAssets();
+
+
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.isDelete = false " +
+			"AND o.investPortfolio = ?1 " +
+			"AND o.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2")
+	OwnedFinancialAsset findByInvestPortfolioAndTickerDeleteFalse(InvestPortfolio investPortfolio, String ticker);
+
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.isDelete = true " +
+			"AND o.investPortfolio = ?1 " +
+			"AND o.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2")
+	OwnedFinancialAsset findByInvestPortfolioAndTickerDeleteTrue(InvestPortfolio investPortfolio, String ticker);
+
+//	OwnedFinancialAsset findByInvestPortfolioAndFinancialAssetInUse_IdAllFinancialAsset_TickerAndDeleteFalse(InvestPortfolio investPortfolio, String ticker);
+//
+//	OwnedFinancialAsset findByInvestPortfolioAndFinancialAssetInUse_IdAllFinancialAsset_TickerAndDeleteTrue(InvestPortfolio investPortfolio, String ticker);
 
 //	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAssetTicker(List<String> tickers);
 //	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAsset_Ticker(List<String> tickers);
 
-	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 AND o.FinancialAssetInUse.idAllFinancialAsset.ticker IN ?2")
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 AND o.isDelete = false AND o.FinancialAssetInUse.idAllFinancialAsset.ticker IN ?2")
 	List<OwnedFinancialAsset> getOwnedFinancialAssetsByListTickersAndInvestPortfolio(InvestPortfolio investPortfolio, List<String> tickers);
 
 }

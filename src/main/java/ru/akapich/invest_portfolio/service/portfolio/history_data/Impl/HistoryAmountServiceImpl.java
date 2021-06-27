@@ -1,6 +1,5 @@
 package ru.akapich.invest_portfolio.service.portfolio.history_data.Impl;
 
-import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -11,7 +10,6 @@ import ru.akapich.invest_portfolio.model.forms.assets.EditAssetForm;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
-import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryPrice;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
@@ -120,6 +118,9 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		log.info(String.format("[+] Ticker: '%s' deleting by invest portfolio: %s", ticker, investPortfolio.getId()));
 		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
 		historyAmount.setAmount(BigDecimal.ZERO);
+		OwnedFinancialAsset ownedFinancialAssetToDelete = ownedFinancialAssetRepository
+				.findByInvestPortfolioAndTickerDeleteFalse(investPortfolio, ticker);
+		ownedFinancialAssetToDelete.setDelete(true);
 		ownedFinancialAssetRepository.delete(historyAmount.getOwnedFinancialAsset());
 	}
 
@@ -165,14 +166,22 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		log.info(String.format("addNewHistoryAmount: ticker ownedFinancialAsset %s | amount %f | date %s | total %f",
 				ownedFinancialAsset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker(),
 				amount, date, totalPriceForOneAsset));
-		HistoryAmount historyAmount = HistoryAmount.builder()
-				.ownedFinancialAsset(ownedFinancialAsset)
-				.amount(amount)
-				.total(totalPriceForOneAsset)
-				.date(date)
-				.build();
+		HistoryAmount lastHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(ownedFinancialAsset);
+		if (lastHistoryAmount == null) {
+			HistoryAmount historyAmount = HistoryAmount.builder()
+					.ownedFinancialAsset(ownedFinancialAsset)
+					.amount(amount)
+					.total(totalPriceForOneAsset)
+					.date(date)
+					.build();
 
-		historyAmountRepository.save(historyAmount);
+			historyAmountRepository.save(historyAmount);
+		}
+		else{
+			lastHistoryAmount.setAmount(amount);
+			lastHistoryAmount.setTotal(totalPriceForOneAsset);
+			lastHistoryAmount.setDate(date);
+		}
 	}
 
 	@Override
