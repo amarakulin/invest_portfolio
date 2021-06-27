@@ -39,9 +39,6 @@ public class TableServiceImpl implements TableService {
 	private OwnedFinancialAssetService ownedFinancialAssetService;
 
 	@Autowired
-	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
-
-	@Autowired
 	private HistoryAmountRepository historyAmountRepository;
 
 	@Override
@@ -55,7 +52,7 @@ public class TableServiceImpl implements TableService {
 		AllFinancialAsset tmpInfoAsset;
 		HistoryAmount tmpHistoryAmount;
 
-		List<OwnedFinancialAsset> allOwnedFinancialAssets = ownedFinancialAssetService.getAllOwnedAssetByInvestPortfolioDependsCategory(investPortfolio);
+		LinkedList<OwnedFinancialAsset> allOwnedFinancialAssets = ownedFinancialAssetService.getAllOwnedAssetByInvestPortfolioDependsCategory(investPortfolio);
 
 		if (allOwnedFinancialAssets.size() != 0){
 			for (OwnedFinancialAsset asset : allOwnedFinancialAssets){
