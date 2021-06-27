@@ -145,12 +145,13 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 			else{
 				totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceByCategoryAndDate(investPortfolio.getCategory(), date);
 			}
+			totalPriceInvestPortfolio = totalPriceInvestPortfolio.setScale(2, RoundingMode.CEILING);
 		}
 		catch (NullPointerException e){
 			totalPriceInvestPortfolio = BigDecimal.ZERO;
 			log.info(String.format("[-] InvestPortfolio with id: '%d' Didn't has any assets yet", investPortfolio.getId()));
 		}
-		return totalPriceInvestPortfolio.setScale(2, RoundingMode.CEILING);//TODO check if BigDecimal.ZIRO
+		return totalPriceInvestPortfolio;
 	}
 
 	@Override
