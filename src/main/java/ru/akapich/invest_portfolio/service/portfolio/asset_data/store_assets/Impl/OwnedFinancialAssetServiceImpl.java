@@ -11,7 +11,7 @@ import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.
 import ru.akapich.invest_portfolio.repository.portfolio.category.OwnedCategoryRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.OwnedFinancialAssetService;
 
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * @author Aleksandr Marakulin
@@ -40,8 +40,8 @@ public class OwnedFinancialAssetServiceImpl implements OwnedFinancialAssetServic
 	}
 
 	@Override
-	public List<OwnedFinancialAsset> getAllOwnedAssetByInvestPortfolioDependsCategory(InvestPortfolio investPortfolio) {
-		List<OwnedFinancialAsset> allOwnedFinancialAssets;
+	public LinkedList<OwnedFinancialAsset> getAllOwnedAssetByInvestPortfolioDependsCategory(InvestPortfolio investPortfolio) {
+		LinkedList<OwnedFinancialAsset> allOwnedFinancialAssets;
 
 		if (investPortfolio.getCategory() == null){
 			allOwnedFinancialAssets = ownedFinancialAssetRepository.findAllByInvestPortfolio(investPortfolio);
@@ -49,6 +49,7 @@ public class OwnedFinancialAssetServiceImpl implements OwnedFinancialAssetServic
 		else{
 			allOwnedFinancialAssets = ownedCategoryRepository.getAllOwnedFinancialAssetByCategory(investPortfolio.getCategory());
 		}
+		System.out.printf(String.format("allOwnedFinancialAssets: %s", allOwnedFinancialAssets));
 		return allOwnedFinancialAssets;
 	}
 }

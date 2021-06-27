@@ -10,7 +10,6 @@ import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFinancialAsset;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
-import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.OwnedFinancialAssetService;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.GraphService;
@@ -36,9 +35,6 @@ public class GraphServiceImpl implements GraphService{
 	private HistoryAmountRepository historyAmountRepository;
 
 	@Autowired
-	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
-
-	@Autowired
 	private UserService userService;
 
 	@Autowired
@@ -46,9 +42,10 @@ public class GraphServiceImpl implements GraphService{
 
 
 	@Override
-	public LinkedList<String> getLineTime(InvestPortfolio investPortfolio) {
+	public LinkedList<String> getLineTime(LinkedList<OwnedFinancialAsset> ownedFinancialAssets) {
 		LinkedList<String> uniqueDateStringList = new LinkedList<>();
-		LinkedList<LocalDateTime> uniqueDate = historyAmountRepository.getUniqueTime(investPortfolio);
+		LinkedList<LocalDateTime> uniqueDate = historyAmountRepository.getUniqueTime(ownedFinancialAssets);
+		Collections.sort(uniqueDate);//FIXME when total a time list is reversed from biggest to lower
 		if (uniqueDate.size() != 0) {
 			uniqueDateStringList = uniqueDate.stream()
 					.map(u -> String.valueOf(Timestamp.valueOf(u).getTime()))
@@ -59,15 +56,18 @@ public class GraphServiceImpl implements GraphService{
 	}
 
 	@Override
-	public List<LinkedList<String>> getLinesValuesAssets(InvestPortfolio investPortfolio) {
+	public List<LinkedList<String>> getLinesValuesAssets(LinkedList<OwnedFinancialAsset> ownedFinancialAssets) {
 		List<LinkedList<String>> values = new ArrayList<>();
+		LinkedList<FormDatePriceGraphSQLQuery> totalValues;
 		//All values
-		LinkedList<HistoryAmount> allHistoryAmount = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolio(investPortfolio);
+
+		LinkedList<HistoryAmount> allHistoryAmount = historyAmountRepository.getAllByListOwnedFinancialAssets(ownedFinancialAssets);
 		if (allHistoryAmount.size() != 0){
-			List<String> listTickers = ownedFinancialAssetRepository.findAllTickersByInvestPortfolio(investPortfolio);
-			for (String ticker : listTickers){
+			for (OwnedFinancialAsset asset : ownedFinancialAssets){
+				String ticker = asset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker();
 				LinkedList<String> tickersValues = allHistoryAmount.stream()
-						.filter(t -> t.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker().equals(ticker))
+						.filter(t -> t.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset()
+								.getTicker().equals(ticker))
 						.map(v -> v.getTotal().toPlainString())
 						.collect(Collectors.toCollection(LinkedList::new));
 
@@ -76,7 +76,7 @@ public class GraphServiceImpl implements GraphService{
 			}
 
 			//Total values
-			LinkedList<FormDatePriceGraphSQLQuery> totalValues = historyAmountRepository.getGeneralDatePriceByInvestPortfolio(investPortfolio);
+			totalValues = historyAmountRepository.getGeneralDatePriceByCategory(ownedFinancialAssets.get(0).getInvestPortfolio(), ownedFinancialAssets);
 			LinkedList<String> totalValuesString = totalValues.stream()
 					.map(v -> v.getTotal().toPlainString()).collect(Collectors.toCollection(LinkedList::new));
 			totalValuesString.addFirst("total");
@@ -86,16 +86,16 @@ public class GraphServiceImpl implements GraphService{
 	}
 
 	@Override
-	public List<List<String>> getLines(InvestPortfolio investPortfolio) {
+	public List<List<String>> getLines(LinkedList<OwnedFinancialAsset> ownedFinancialAssets) {
 		List<List<String>> lines = new ArrayList<>();
 
-		lines.add(getLineTime(investPortfolio));
-		lines.addAll(getLinesValuesAssets(investPortfolio));
+		lines.add(getLineTime(ownedFinancialAssets));
+		lines.addAll(getLinesValuesAssets(ownedFinancialAssets));
 		return lines;
 	}
 
 	@Override
-	public Map<String, String> getTypes(List<OwnedFinancialAsset> allOwnedFinancialAsset) {
+	public Map<String, String> getTypes(LinkedList<OwnedFinancialAsset> allOwnedFinancialAsset) {
 		Map<String, String> mapTypes = new HashMap<>();
 
 		if (allOwnedFinancialAsset.size() != 0){
@@ -110,7 +110,7 @@ public class GraphServiceImpl implements GraphService{
 	}
 
 	@Override
-	public Map<String, String> getNames(List<OwnedFinancialAsset> allOwnedFinancialAsset) {
+	public Map<String, String> getNames(LinkedList<OwnedFinancialAsset> allOwnedFinancialAsset) {
 		Map<String, String> mapNames = new HashMap<>();
 
 		if (allOwnedFinancialAsset.size() != 0){
@@ -124,7 +124,7 @@ public class GraphServiceImpl implements GraphService{
 	}
 
 	@Override
-	public Map<String, String> getColors(List<OwnedFinancialAsset> allOwnedFinancialAsset) {
+	public Map<String, String> getColors(LinkedList<OwnedFinancialAsset> allOwnedFinancialAsset) {
 		Map<String, String> mapColors = new HashMap<>();
 
 		if (allOwnedFinancialAsset.size() != 0)
@@ -135,16 +135,16 @@ public class GraphServiceImpl implements GraphService{
 	}
 
 	@Override
-	public Map<String, String> getPurchaseDate(InvestPortfolio investPortfolio) {
+	public Map<String, String> getPurchaseDate(LinkedList<OwnedFinancialAsset> ownedFinancialAssets) {
 		Map<String, String> mapPurchaseDate = new HashMap<>();
 
-		List<FormPurchaseDate> historyAmountWithPurchaseDate = historyAmountRepository.getAllPurchaseDateByInvestPortfolio(investPortfolio);
+		List<FormPurchaseDate> historyAmountWithPurchaseDate = historyAmountRepository.getAllPurchaseDateByInvestPortfolio(ownedFinancialAssets.get(0).getInvestPortfolio(), ownedFinancialAssets);
 		if (historyAmountWithPurchaseDate.size() != 0) {
 			mapPurchaseDate = historyAmountWithPurchaseDate.stream()
 					.collect(Collectors.toMap(k -> k.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker()
 							, v -> String.valueOf(Timestamp.valueOf(v.getDate()).getTime())));
 			LocalDateTime purchaseDateTotal = historyAmountWithPurchaseDate.stream()
-					.map(FormPurchaseDate::getDate).min(Comparator.comparing(LocalDateTime::getNano)).get();//Fix me needs is Present
+					.map(FormPurchaseDate::getDate).min(Comparator.comparing(LocalDateTime::getNano)).get();//FIXME needs is Present
 
 			mapPurchaseDate.put("total", String.valueOf(Timestamp.valueOf(purchaseDateTotal).getTime()));
 		}
@@ -161,18 +161,18 @@ public class GraphServiceImpl implements GraphService{
 		}
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Collecting graph data for user with investPortfolioI: %d", investPortfolio.getId()));
-		List<OwnedFinancialAsset> allOwnedFinancialAssets = ownedFinancialAssetService.getAllOwnedAssetByInvestPortfolioDependsCategory(investPortfolio);
+		LinkedList<OwnedFinancialAsset> allOwnedFinancialAssets = ownedFinancialAssetService.getAllOwnedAssetByInvestPortfolioDependsCategory(investPortfolio);
 
 		if (allOwnedFinancialAssets.size() == 0){
 			formGraph = FormGraph.builder().build();
 		}
 		else {
 			formGraph = FormGraph.builder()
-					.lines(getLines(investPortfolio))
+					.lines(getLines(allOwnedFinancialAssets))
 					.types(getTypes(allOwnedFinancialAssets))
 					.names(getNames(allOwnedFinancialAssets))
 					.color(getColors(allOwnedFinancialAssets))
-					.purchaseDate(getPurchaseDate(investPortfolio))
+					.purchaseDate(getPurchaseDate(allOwnedFinancialAssets))
 					.build();
 		}
 		System.out.println(String.format("FormGraph: %s", formGraph));
