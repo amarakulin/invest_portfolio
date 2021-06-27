@@ -58,7 +58,7 @@ public class TableServiceImpl implements TableService {
 			for (OwnedFinancialAsset asset : allOwnedFinancialAssets){
 				tmpInfoAsset = asset.getFinancialAssetInUse().getIdAllFinancialAsset();
 				tmpHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(asset);
-				if (tmpHistoryAmount.getAmount().compareTo(BigDecimal.ZERO) != 0) {
+				if (tmpHistoryAmount != null && tmpHistoryAmount.getAmount().compareTo(BigDecimal.ZERO) != 0) {
 					body.add(BodyTable.builder()
 							.name(tmpInfoAsset.getName())
 							.ticker(tmpInfoAsset.getTicker())

@@ -44,8 +44,11 @@ public class GraphServiceImpl implements GraphService{
 	@Override
 	public LinkedList<String> getLineTime(LinkedList<OwnedFinancialAsset> ownedFinancialAssets) {
 		LinkedList<String> uniqueDateStringList = new LinkedList<>();
-		LinkedList<LocalDateTime> uniqueDate = historyAmountRepository.getUniqueTime(ownedFinancialAssets);
-		Collections.sort(uniqueDate);//FIXME when total a time list is reversed from biggest to lower
+		List<LocalDateTime> uniqueDate = historyAmountRepository.getUniqueTime(ownedFinancialAssets);
+		uniqueDate.sort((c1, c2) -> {
+			if (c1.isBefore(c2)) return -1;
+			else return 1;
+		});
 		if (uniqueDate.size() != 0) {
 			uniqueDateStringList = uniqueDate.stream()
 					.map(u -> String.valueOf(Timestamp.valueOf(u).getTime()))

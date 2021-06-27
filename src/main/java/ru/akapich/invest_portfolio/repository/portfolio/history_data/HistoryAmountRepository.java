@@ -61,7 +61,7 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 	List<HistoryAmount> getAllByCategoryAndDate(Category category, LocalDateTime date);
 
 	@Query("SELECT h.date FROM HistoryAmount h WHERE h.ownedFinancialAsset IN ?1 GROUP BY h.date")
-	LinkedList<LocalDateTime> getUniqueTime(LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
+	List<LocalDateTime> getUniqueTime(LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
 
 //	LinkedList<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolio(InvestPortfolio investPortfolio);
 
