@@ -17,7 +17,10 @@ import ru.akapich.invest_portfolio.service.portfolio.visualization.DiagramServic
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link DiagramService} interface
@@ -82,8 +85,13 @@ public class DiagramServiceImpl implements DiagramService{
 				);
 			}
 		}
+
+		List<DiagramResponseForm> sortedListDiagramResponseForm = listDiagramResponseForm.stream()
+				.sorted(Comparator.comparing(DiagramResponseForm::getValue).reversed())
+				.collect(Collectors.toList());
+
 		log.info(String.format("[+] Finish collect DIAGRAM for user with investPortfolio '%d'", investPortfolio.getId()));
-		System.out.println(String.format("Data Diagram: %s", listDiagramResponseForm));
-		return listDiagramResponseForm;
+		System.out.println(String.format("Data Diagram: %s", sortedListDiagramResponseForm));
+		return sortedListDiagramResponseForm;
 	}
 }
