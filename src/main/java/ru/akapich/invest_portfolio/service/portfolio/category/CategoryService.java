@@ -5,6 +5,7 @@ import ru.akapich.invest_portfolio.model.forms.category.CategoryCreateForm;
 import ru.akapich.invest_portfolio.service.portfolio.category.Impl.CategoryServiceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interface of {@link CategoryServiceImpl}
@@ -21,4 +22,6 @@ public interface CategoryService {
 	void setCategory(String nameCategory);
 
 	void deleteCategory(String nameCategory);
+
+	Map<String, String> getCurrentCategory();
 }

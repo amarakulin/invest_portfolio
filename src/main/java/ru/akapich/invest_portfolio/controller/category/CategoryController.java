@@ -1,6 +1,7 @@
 package ru.akapich.invest_portfolio.controller.category;
 
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.annotations.GeneratorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +43,11 @@ public class CategoryController {
 	public List<String> getAllCategories(){
 
 		return categoryService.getListNameCategories();
+	}
+
+	@GetMapping("/api/category/setted")
+	public Map<String, String> getCurrentCategory(){
+
+		return categoryService.getCurrentCategory();
 	}
 }

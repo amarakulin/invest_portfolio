@@ -19,7 +19,9 @@ import ru.akapich.invest_portfolio.service.portfolio.category.OwnedCategoryServi
 import ru.akapich.invest_portfolio.service.user.UserService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Aleksandr Marakulin
@@ -124,5 +126,13 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public void deleteCategory(String nameCategory) {
 
+	}
+
+	@Override
+	public Map<String, String> getCurrentCategory() {
+		Category category = userService.getUserInCurrentSession().getInvestPortfolio().getCategory();
+		Map<String, String> categoryName = new HashMap<>();
+		categoryName.put("category", category == null ? "total" : category.getName());
+		return categoryName;
 	}
 }
