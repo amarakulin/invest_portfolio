@@ -15,11 +15,9 @@ import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.
 import ru.akapich.invest_portfolio.service.portfolio.visualization.DiagramService;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Implementation of {@link DiagramService} interface
@@ -64,11 +62,11 @@ public class DiagramServiceImpl implements DiagramService{
 		}
 		log.info(String.format("[+] Creating diagram for user with investPortfolio '%d'", investPortfolio.getId()));
 
-		List<HistoryAmount> setOfAllAssets = historyAmountService.getAllByDateAndInvestPortfolioDependsCategory(investPortfolio, date);
+		List<HistoryAmount> listHistoryAmount = historyAmountService.getAllByDateAndInvestPortfolioDependsCategory(investPortfolio, date);
 		BigDecimal totalPriceInvestPortfolio = historyAmountService.getTotalPriceByDateAndInvestPortfolioDependsCategory(investPortfolio, date);
 
 		log.info(String.format("[+] Total price of the investPortfolio '%f'", totalPriceInvestPortfolio));
-		for (HistoryAmount asset : setOfAllAssets){
+		for (HistoryAmount asset : listHistoryAmount){
 			System.out.println(asset.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker());
 			financialAssetInUse = ownedFinancialAssetRepository.findFinancialAssetInUseByOwnedFinancialAsset(
 												asset.getOwnedFinancialAsset());

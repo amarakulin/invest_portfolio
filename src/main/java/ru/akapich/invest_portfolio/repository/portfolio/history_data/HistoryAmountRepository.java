@@ -54,7 +54,10 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 
 	List<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndDate(InvestPortfolio investPortfolio, LocalDateTime date);
 
-	@Query("SELECT h FROM HistoryAmount h WHERE h.ownedFinancialAsset.investPortfolio.category = ?1 AND h.date = ?2")
+	@Query("SELECT h FROM HistoryAmount h, OwnedCategory o" +
+			" WHERE h.ownedFinancialAsset = o.ownedFinancialAsset" +
+			" AND o.category = ?1" +
+			" AND h.date = ?2")
 	List<HistoryAmount> getAllByCategoryAndDate(Category category, LocalDateTime date);
 
 	@Query("SELECT h.date FROM HistoryAmount h WHERE h.ownedFinancialAsset IN ?1 GROUP BY h.date")
