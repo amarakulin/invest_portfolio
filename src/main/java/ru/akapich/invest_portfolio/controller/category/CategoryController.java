@@ -32,6 +32,8 @@ public class CategoryController {
 
 	@PutMapping("/api/category/set")
 	public void setCategory(@RequestBody Map<String, String> name){
-		categoryService.setCategory(name.get("name"));
+		if (name.get("name") != null) {
+			categoryService.setCategory(name.get("name"));
+		}
 	}
 }
