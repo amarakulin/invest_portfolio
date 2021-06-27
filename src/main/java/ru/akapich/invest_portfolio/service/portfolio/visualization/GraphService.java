@@ -1,7 +1,6 @@
 package ru.akapich.invest_portfolio.service.portfolio.visualization;
 
 import ru.akapich.invest_portfolio.model.forms.visualization.FormGraph;
-import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.Impl.GraphServiceImpl;
 
@@ -17,19 +16,19 @@ import java.util.Map;
 
 public interface GraphService {
 
-	LinkedList<String> getLineTime(InvestPortfolio investPortfolio);
+	LinkedList<String> getLineTime(LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
 
-	List<LinkedList<String>> getLinesValuesAssets(InvestPortfolio investPortfolio);
+	List<LinkedList<String>> getLinesValuesAssets(LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
 
-	List<List<String>> getLines(InvestPortfolio investPortfolio);
+	List<List<String>> getLines(LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
 
-	Map<String, String> getTypes(List<OwnedFinancialAsset> allOwnedFinancialAsset);
+	Map<String, String> getTypes(LinkedList<OwnedFinancialAsset> allOwnedFinancialAsset);
 
-	Map<String, String> getNames(List<OwnedFinancialAsset> allOwnedFinancialAsset);
+	Map<String, String> getNames(LinkedList<OwnedFinancialAsset> allOwnedFinancialAsset);
 
-	Map<String, String> getColors(List<OwnedFinancialAsset> allOwnedFinancialAsset);
+	Map<String, String> getColors(LinkedList<OwnedFinancialAsset> allOwnedFinancialAsset);
 
-	Map<String, String> getPurchaseDate(InvestPortfolio investPortfolio);
+	Map<String, String> getPurchaseDate(LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
 
 	FormGraph getGraph();
 }

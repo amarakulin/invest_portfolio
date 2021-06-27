@@ -8,6 +8,7 @@ import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,8 +31,15 @@ public interface OwnedFinancialAssetRepository extends JpaRepository<OwnedFinanc
 	@Query("SELECT o.FinancialAssetInUse.idAllFinancialAsset.ticker FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1")
 	List<String> findAllTickersByInvestPortfolio(InvestPortfolio investPortfolio);
 
-	List<OwnedFinancialAsset> findAllByInvestPortfolio(InvestPortfolio investPortfolio);
+	LinkedList<OwnedFinancialAsset> findAllByInvestPortfolio(InvestPortfolio investPortfolio);
 
 	@Query("SELECT DISTINCT o FROM OwnedFinancialAsset o")
 	List<OwnedFinancialAsset> findAllUniqueOwnedAssets();
+
+//	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAssetTicker(List<String> tickers);
+//	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAsset_Ticker(List<String> tickers);
+
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 AND o.FinancialAssetInUse.idAllFinancialAsset.ticker IN ?2")
+	List<OwnedFinancialAsset> getOwnedFinancialAssetsByListTickersAndInvestPortfolio(InvestPortfolio investPortfolio, List<String> tickers);
+
 }
