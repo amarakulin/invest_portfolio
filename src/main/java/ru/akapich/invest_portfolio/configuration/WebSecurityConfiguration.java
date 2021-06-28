@@ -35,12 +35,14 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter implements WebMvcConfigurer{
 
+	private static final int STRENGTH_PASSWORD = 10;
+
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
 	@Bean
 	public  BCryptPasswordEncoder bCryptPasswordEncoder(){
-		return new BCryptPasswordEncoder(10);
+		return new BCryptPasswordEncoder(STRENGTH_PASSWORD);
 	}
 
 	@Bean
