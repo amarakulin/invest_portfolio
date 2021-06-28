@@ -61,6 +61,10 @@ export const DataAPI = {
 	getTotalAssets() {
 		return api.get('data/allassets')
 			.then(res => res.data)
+	},
+	getTotalPrice() {
+		return api.get('data/totalprice')
+			.then(res => res.data)
 	}
 }
 
