@@ -5,11 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.assets.MatchAssetForm;
+import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFinancialAsset;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.AllFinancialAssetRepository;
+import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
+import ru.akapich.invest_portfolio.service.user.UserService;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The Class needs for search a new asset
@@ -25,6 +31,12 @@ public class UtilsAssetsController {
 
 	@Autowired
 	private AllFinancialAssetRepository allFinancialAssetRepository;
+
+	@Autowired
+	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
+
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/api/data/matchassets")
 	@ResponseBody
@@ -43,6 +55,20 @@ public class UtilsAssetsController {
 			);
 		}
 		return listMatchAssetsForm;
+	}
+
+	@GetMapping("/api/data/allassets")
+	public List<String> getAllTickersOfUser(){
+		List<String> allTickersOfUser = new ArrayList<>();
+		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
+		LinkedList<OwnedFinancialAsset> listOwnedFinancialAssetLinked = ownedFinancialAssetRepository
+				.findAllByInvestPortfolioDeleteFalse(investPortfolio);
+		if (listOwnedFinancialAssetLinked != null && listOwnedFinancialAssetLinked.size() != 0){
+			allTickersOfUser = listOwnedFinancialAssetLinked.stream()
+					.map(o -> o.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker())
+					.collect(Collectors.toList());
+		}
+		return allTickersOfUser;
 	}
 
 }
