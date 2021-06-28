@@ -51,7 +51,7 @@ export const getSettedCategory = () => (dispatch) => {
 export const getCategories = () => (dispatch) => {//TODO добавить в init app
 	CategoryApi.getCategories()
 		.then(res => {
-			dispatch(setCategories(res.categories))
+			dispatch(setCategories(res))
 		})
 }
 
