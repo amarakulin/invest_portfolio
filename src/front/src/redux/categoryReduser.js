@@ -26,7 +26,7 @@ const categoryResuser = (state = initialState, action) => {
 		case SET_SETTED_CATEGORY: {
 			return {
 				...state,
-				setedCategory: action.setedCategory
+				settedCategory: action.settedCategory
 			}
 		}
 		default: {
@@ -39,11 +39,12 @@ const addCategory = (category) => ({type: ADD_CATEGORY, category});
 
 export const setCategories = (categories) => ({type: SET_CATEGORIES, categories});
 
-export const setSettedCategory = (setedCategory) => ({type: SET_SETTED_CATEGORY, setedCategory});
+export const setSettedCategory = (settedCategory) => ({type: SET_SETTED_CATEGORY, settedCategory});
 
 export const getSettedCategory = () => (dispatch) => {
 	CategoryApi.getSettedCategory()
 		.then(res => {
+			console.log(res.category);
 			dispatch(setSettedCategory(res.category));
 		})
 }
