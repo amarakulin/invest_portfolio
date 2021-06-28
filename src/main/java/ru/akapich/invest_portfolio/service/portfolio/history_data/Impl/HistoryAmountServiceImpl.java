@@ -75,10 +75,7 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		if (!typeAsset.equals(env.getProperty("type.crypto")) && !MathUtils.isIntegerValue(amount)){
 			resultError = env.getProperty("valid.not_integer");
 		}
-		else if (amount.compareTo(BigDecimal.ZERO) < 0){
-			resultError = env.getProperty("valid.amount.negative");
-		}
-		else if (amount.compareTo(BigDecimal.ZERO) == 0){
+		else if (amount.compareTo(BigDecimal.ZERO) <= 0){
 			resultError = env.getProperty("valid.amount.cant_delete");
 		}
 		return resultError;
