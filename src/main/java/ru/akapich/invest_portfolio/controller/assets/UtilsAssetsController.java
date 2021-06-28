@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.controller.modify_assets;
+package ru.akapich.invest_portfolio.controller.assets;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @PropertySource("classpath:message.properties")
 @CrossOrigin(origins = "http://localhost:3000/*", allowedHeaders = "*", maxAge = 3600)
-public class MatchAssetsController {
+public class UtilsAssetsController {
 
 	@Autowired
 	private AllFinancialAssetRepository allFinancialAssetRepository;

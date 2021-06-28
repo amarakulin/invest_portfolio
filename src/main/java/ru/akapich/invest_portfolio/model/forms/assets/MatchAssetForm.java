@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Form response for {@link ru.akapich.invest_portfolio.controller.modify_assets.MatchAssetsController}
+ * Form response for {@link ru.akapich.invest_portfolio.controller.assets.UtilsAssetsController}
  *
  * @author Aleksandr Marakulin
  **/
