@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class RegistrationFrom {
+public class RegistrationForm {
 
 	@NotBlank(message = "{valid.empty.name}")
 	@Size(min = 2, max = 32, message = "{valid.size.name}")
