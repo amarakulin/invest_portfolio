@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.hibernate.annotations.GeneratorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.category.CategoryCreateForm;
@@ -28,7 +29,7 @@ public class CategoryController {
 	private CategoryService categoryService;
 
 	@PostMapping("/api/category/create")
-	public BaseResponseForm createCategory(@RequestBody CategoryCreateForm categoryCreateForm){
+	public BaseResponseForm createCategory(@RequestBody CategoryCreateForm categoryCreateForm, Model model){
 		return categoryService.addNewCategory(categoryCreateForm);
 	}
 

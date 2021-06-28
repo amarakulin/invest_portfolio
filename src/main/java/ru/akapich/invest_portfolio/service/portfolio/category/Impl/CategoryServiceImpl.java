@@ -59,8 +59,8 @@ public class CategoryServiceImpl implements CategoryService {
 		OwnedCategory firstOwnedExistCategory = ownedCategoryRepository.findFirstByOwnedFinancialAsset_InvestPortfolioAndCategory_Name(investPortfolio, categoryCreateForm.getName());
 		System.out.println(String.format("firstOwnedExistCategory: %s", firstOwnedExistCategory));
 		List<OwnedFinancialAsset> ownedFinancialAssets = ownedFinancialAssetRepository
-				.getOwnedFinancialAssetsByListTickersAndInvestPortfolio(investPortfolio, categoryCreateForm.getValues());
-		System.out.println(String.format("owned financial asset EXPECTED: %s", categoryCreateForm.getValues()));
+				.getOwnedFinancialAssetsByListTickersAndInvestPortfolio(investPortfolio, categoryCreateForm.getValue());
+		System.out.println(String.format("owned financial asset EXPECTED: %s", categoryCreateForm.getValue()));
 		System.out.println(String.format("owned financial asset GET: %s", ownedFinancialAssets));
 
 		if (firstOwnedExistCategory != null){

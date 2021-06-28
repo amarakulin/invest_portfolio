@@ -20,6 +20,6 @@ import java.util.List;
 public class CategoryCreateForm {
 
 	private String name;
-	private List<String> values;
+	private List<String> value;
 
 }
