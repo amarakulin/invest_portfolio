@@ -10,7 +10,7 @@ const dropdownItems = [
 		onclick: (props) => {
 			props.openConfirm(props.ticker, () => {
 				props.deleteAsset(props.ticker);
-				props.showAlert('success', 'Актив успешно изменен');
+				props.showAlert('success', 'Актив успешно удален');
 			});
 		}
 	},
