@@ -91,7 +91,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		for (NewAssetsForm asset : listNewAssetsForm){
 			System.out.println(String.format("notExistAsset search for ticker: %s",  asset.getTicker()));
 
-			if (allFinancialAssetRepository.findByTicker(asset.getTicker()) == null){
+			if (allFinancialAssetRepository.findByTicker(asset.getTicker()) == null){// FIXME Not unique exception(VCF)
 
 				firstNotExistAssets = asset;
 				break;
