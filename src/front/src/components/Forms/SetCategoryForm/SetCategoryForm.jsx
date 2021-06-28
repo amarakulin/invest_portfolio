@@ -10,7 +10,6 @@ import { setValue } from '../../../utils/mutators';
 import { GridWrapper, Wrapper } from '../../Basic/Wrapper/Wrapper';
 
 const SetCategoryForm = (props) => {
-	console.log(props)
 	return (
 		<Form
 			mutators={{ setValue }}
@@ -42,14 +41,11 @@ const SetCategoryForm = (props) => {
 						<Button
 							width={45}
 							disabled={submitting || !props.categories.length}
-							onClick={() => {
-								form.mutators.setValue('name', 'total');
-								form.submit();
-							}}
+							onClick={() => form.mutators.setValue('name', 'total')}
 						>
 							{submitting ? <Preloader /> : 'Сбросить'}
 						</Button>
-						<Button width={45} disabled={submitting}>{submitting ? <Preloader /> : 'Выбрать'}</Button>
+						<Button width={45} disabled={submitting || !props.categories.length}>{submitting ? <Preloader /> : 'Выбрать'}</Button>
 					</Wrapper>
 				</form>
 			)}
