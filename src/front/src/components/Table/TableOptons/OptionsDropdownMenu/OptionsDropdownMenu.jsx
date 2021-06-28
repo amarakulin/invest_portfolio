@@ -2,14 +2,16 @@ import { OptionsDropdownItem, OptionsDropdownList } from './OptionsDropdownMenuS
 import { connect } from 'react-redux'; 
 import { deleteAsset } from '../../../../redux/assetsTableReduser';
 import { TYPE_BUY, TYPE_SELL } from '../../../../redux/assetsTableReduser';
-import useConfirm from '../../../../hooks/useConfirm';
-import Confirm from '../../../Confirm/Confirm';
+import { openConfirm, closeConfirm } from '../../../../redux/confirmReduser'
 
 const dropdownItems = [
 	{
 		title: 'Удалить',
-		onclick: (props, open) => {
-			open();
+		onclick: (props) => {
+			props.openConfirm(props.ticker, () => {
+				props.deleteAsset(props.ticker);
+				props.showAlert('success', 'Актив успешно изменен');
+			});
 		}
 	},
 	{
@@ -27,14 +29,8 @@ const dropdownItems = [
 ]
 
 const OptionsDropdownMenu = (props) => {
-	const confirm = useConfirm(() => {
-		props.deleteAsset(props.ticker);
-		props.showAlert('success', 'Актив успешно изменен');
-	});
-
 	return (
 		<>
-			<Confirm {...confirm} />
 			<OptionsDropdownList isOpen={props.isOpen}>
 				{
 					dropdownItems.map(el => <OptionsDropdownItem 
@@ -42,7 +38,7 @@ const OptionsDropdownMenu = (props) => {
 							onClick={(e) => {
 								e.stopPropagation();
 								props.toggleIsOpen(false);
-								el.onclick(props, confirm.open)
+								el.onclick(props)
 							}}
 						> 
 							{el.title}
@@ -53,4 +49,4 @@ const OptionsDropdownMenu = (props) => {
 	)
 }
 
-export default connect(null, {deleteAsset})(OptionsDropdownMenu);
+export default connect(null, {deleteAsset, openConfirm, closeConfirm})(OptionsDropdownMenu);

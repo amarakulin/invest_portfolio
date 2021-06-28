@@ -2,25 +2,26 @@ import Modal from '../Modal/Modal';
 import { SmallTitle } from '../Basic/Title/Title';
 import { Wrapper } from '../Basic/Wrapper/Wrapper';
 import Button from '../Basic/Button/Button';
+import { connect } from 'react-redux';
+import { closeConfirm } from '../../redux/confirmReduser'
 
 const Confirm = (props) => {
 	return (
-		<Modal close={props.close} isOpen={props.isOpen}>
+		<Modal close={props.closeConfirm} isOpen={props.isOpen}>
 			<SmallTitle marginBottom='40'>Подтвердите действие</SmallTitle>
 			<Wrapper>
 				<Button
 					width='40'
 					onClick={() => {
-						props.confirm();
+						props.confirmCallback();
+						props.closeConfirm();
 					}}
 				>
 					Подтвердить
 				</Button>
 				<Button
 					width='40'
-					onClick={() => {
-						props.cancel();
-					}}
+					onClick={props.closeConfirm}
 				>
 					Отмена
 				</Button>
@@ -29,4 +30,9 @@ const Confirm = (props) => {
 	)
 }
 
-export default Confirm;
+const mapStateToProps = (state) => ({
+	isOpen: state.confirm.isOpen,
+	confirmCallback: state.confirm.confirmCallback
+})
+
+export default connect(mapStateToProps, { closeConfirm })(Confirm);

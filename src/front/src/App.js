@@ -6,6 +6,7 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import AuthForm from './components/Forms/AuthForm/AuthForm'
 import SignUpForm from './components/Forms/SignUpForm/SignUpForm'
 import Alert from './components/Alert/Alert';
+import Confirm from './components/Confirm/Confirm';
 
 function App() {
 	return (
@@ -34,6 +35,7 @@ function App() {
 				/>
 			</Switch>
 			<Alert />
+			<Confirm />
 		</Router>
 	);
 }
