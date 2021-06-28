@@ -13,7 +13,7 @@ import ru.akapich.invest_portfolio.service.portfolio.visualization.DiagramServic
 import java.util.List;
 
 /**
- * Controller for {@link DiagramResponseForm}
+ * Controller for {@link DiagramResponseForm} to represent Diagram on main Page
  *
  * @author Aleksandr Marakulin
  **/
