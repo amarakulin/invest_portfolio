@@ -1,7 +1,6 @@
 package ru.akapich.invest_portfolio.controller.category;
 
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.annotations.GeneratorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.ui.Model;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Controller for {@link }
+ * Controller for Categories
  *
  * @author Aleksandr Marakulin
  **/
