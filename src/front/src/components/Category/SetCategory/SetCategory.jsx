@@ -5,7 +5,7 @@ import SetCategoryForm from '../../Forms/SetCategoryForm/SetCategoryForm'
 const SetCategory = (props) => {
 	return (
 		<Modal isOpen={props.isOpen} close={props.close}>
-			<SetCategoryForm />
+			<SetCategoryForm close={props.close}/>
 		</Modal>
 	)
 }
