@@ -2,6 +2,7 @@ package ru.akapich.invest_portfolio.service.user.impl;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,11 +11,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
+import ru.akapich.invest_portfolio.model.forms.login.RegistrationForm;
+import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.user.User;
 import ru.akapich.invest_portfolio.repository.user.UserRepository;
 import ru.akapich.invest_portfolio.service.user.UserService;
+import ru.akapich.invest_portfolio.validator.ValidatorController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -32,6 +39,9 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -67,9 +77,18 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public void save(User user){
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+	public void saveNewUser(RegistrationForm form){
+		User user = User.builder()
+				.name(form.getName())
+				.email(form.getEmail())
+				.password(bCryptPasswordEncoder.encode(form.getPassword()))
+				.role(env.getProperty("role.user"))
+				.investPortfolio(new InvestPortfolio())
+				.enable(true)
+				.build();
 		userRepository.save(user);
+		log.info(String.format("[+] New User '%s' successfully register with email '%s'.",
+				user.getName(), user.getEmail()));
 	}
 
 	@Override
@@ -98,5 +117,24 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 			}
 		}
 		return user;
+	}
+
+	@Override
+	public BaseResponseForm getResponseRegistration(BindingResult bindingResult, Model model) {
+		String errorMessage = "";
+
+		if (bindingResult.hasErrors()) {
+			model.mergeAttributes(ValidatorController.getErrors(bindingResult));
+
+			errorMessage = model.asMap().entrySet().stream().
+					filter(key -> key.getKey().contains("Error")).
+					findFirst().
+					get().
+					getValue().toString();//TODO get without isPresent!!!
+		}
+		return BaseResponseForm.builder()
+				.error(errorMessage)
+				.resultCode("".equals(errorMessage) ? 0 : 1)
+				.build();
 	}
 }
