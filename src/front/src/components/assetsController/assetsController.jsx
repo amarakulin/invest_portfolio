@@ -5,7 +5,7 @@ import { Container } from '../Basic/Wrapper/Wrapper';
 import { withAuthRedirectToSignUp } from '../../HOC/withRedirect'
 
 
-const assetsController = (props) => {
+const AssetsController = (props) => {
 	return (
 		<>
 			<Header />
@@ -17,4 +17,4 @@ const assetsController = (props) => {
 	)
 }
 
-export default withAuthRedirectToSignUp(assetsController);
+export default withAuthRedirectToSignUp(AssetsController);
