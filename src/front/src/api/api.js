@@ -81,7 +81,7 @@ export const AssetsOptionsApi = {
 }
 
 export const CategoryApi = {
-	createCategory(name, value) {
+	createCategory({name, value}) {
 		return api.post('category/create', {
 			name,
 			value
