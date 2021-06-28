@@ -34,5 +34,5 @@ public interface HistoryAmountService {
 
 	List<HistoryAmount> getAllByDateAndInvestPortfolioDependsCategory(InvestPortfolio investPortfolio, LocalDateTime date);
 
-	BigDecimal getTotalPriceByDateAndInvestPortfolioDependsCategory(InvestPortfolio investPortfolio, LocalDateTime date);
+	BigDecimal getLatestTotalPriceByInvestPortfolioDependsCategory(InvestPortfolio investPortfolio);
 }
