@@ -6,6 +6,7 @@ export const ToggeUl = styled.ul`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-wrap: wrap;
 `
 
 export const ToggleLi = styled.li`
