@@ -65,7 +65,7 @@ export const createCategory = (data) => () => {
 }
 
 export const setCategory = (category) => () => {
-	CategoryApi.setCategory(category);
+	return CategoryApi.setCategory(category);
 }
 
 export default categoryResuser;

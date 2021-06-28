@@ -14,9 +14,9 @@ export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets, showAlert, 
 	}
 	
 	try {
-		await postNewAssetsData(formData);
+		await postNewAssetsData(formData)
+			.then(() => updateTotalData());
 		showAlert('success', 'Актив успешно добавлен');
-		updateTotalData()
 	} catch (e) {
 		showAlert('danger', e.message);
 	}
@@ -43,19 +43,20 @@ export const editAssetAmountFormSubmit = ({value, ticker, type, editAsset}, show
 
 	try {
 		if (type === TYPE_BUY) {
-			await editAsset(ticker, +formData.amount + +initialValue);
+			await editAsset(ticker, +formData.amount + +initialValue)
+				.then(() => updateTotalData());
 		} else if (type === TYPE_SELL) {
-			await editAsset(ticker, +initialValue - +formData.amount);
+			await editAsset(ticker, +initialValue - +formData.amount)
+				.then(() => updateTotalData());
 		}
 		showAlert('success', 'Актив успешно изменен');
-		updateTotalData();
 	} catch (e) {
 		showAlert('danger', e.message);
 	}
 	
 }
 
-export const CreateCategoryFormSubmit = (createCategory, showAlert, updateTotalData) => async (formData) => {
+export const CreateCategoryFormSubmit = (createCategory, showAlert) => async (formData) => {
 	const data = {
 		name: formData.name,
 		value: []
@@ -69,13 +70,12 @@ export const CreateCategoryFormSubmit = (createCategory, showAlert, updateTotalD
 	try {
 		await createCategory(data);
 		showAlert('success', 'Категория успешно создана');
-		updateTotalData();
 	} catch (e) {
 		showAlert('danger', e.message);
 	}
 }
 
 export const SetCategoryFormSubmit = (setCategory, updateTotalData) => async (formData) => {
-	await setCategory(formData);
-	updateTotalData();
+	await setCategory(formData)
+		.then(() => updateTotalData());
 }
