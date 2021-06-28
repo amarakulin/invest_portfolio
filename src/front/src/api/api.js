@@ -91,7 +91,7 @@ export const CategoryApi = {
 	deleteCategory(name) {
 		return api.delete(`category/delete?name=${name}`);
 	},
-	setCategory(name) {
+	setCategory({name}) {
 		return api.put(`category/set`, {
 			name
 		});
