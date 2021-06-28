@@ -7,7 +7,7 @@ const NewAsset = (props) => {
 	return (
 		<>
 			<Modal close={props.close} isOpen={props.isOpen}>
-				<AddNewAssetsForm showAlert={props.showAlert} />
+				<AddNewAssetsForm showAlert={props.showAlert} close={props.close}/>
 			</Modal>
 		</>
 	)

@@ -8,6 +8,7 @@ import { setValue } from '../../../utils/mutators';
 import AddedAssets from '../../NewAsset/AddedAssets/AddedAssets';
 import { addNewAssetsFormSubmit } from '../../../utils/formSubmit';
 import { updateTotalData } from '../../../redux/assetsReduser';
+import { handleSubmitDecorator } from '../../../utils/formSubmitDecorator';
 
 const AddNewAssetsForm = (props) => {
 	return (
@@ -15,7 +16,7 @@ const AddNewAssetsForm = (props) => {
 			mutators={{ setValue }}
 			onSubmit={addNewAssetsFormSubmit(props.postNewAssetsData, props.newAssets, props.showAlert, props.updateTotalData)}
 			render={({ handleSubmit, form, submitting }) => (
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={e => handleSubmitDecorator(handleSubmit, e, form.reset, props.close)()}>
 					<NewAssetFields
 						searchData={props.searchData}
 						nessesaryField={props.nessesaryField}
