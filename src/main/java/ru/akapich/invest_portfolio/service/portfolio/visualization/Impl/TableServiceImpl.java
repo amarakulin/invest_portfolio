@@ -11,12 +11,14 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.Owned
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
+import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.OwnedFinancialAssetService;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.Impl.enums.HeadersData;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.Impl.enums.OrderData;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.TableService;
 import ru.akapich.invest_portfolio.service.user.UserService;
 import ru.akapich.invest_portfolio.utils.MathUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -34,7 +36,7 @@ public class TableServiceImpl implements TableService {
 	private UserService userService;
 
 	@Autowired
-	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
+	private OwnedFinancialAssetService ownedFinancialAssetService;
 
 	@Autowired
 	private HistoryAmountRepository historyAmountRepository;
@@ -50,20 +52,23 @@ public class TableServiceImpl implements TableService {
 		AllFinancialAsset tmpInfoAsset;
 		HistoryAmount tmpHistoryAmount;
 
-		List<OwnedFinancialAsset> listAssetsByInvestPortfolio = ownedFinancialAssetRepository.findAllByInvestPortfolio(investPortfolio);
-		if (listAssetsByInvestPortfolio.size() != 0){
-			for (OwnedFinancialAsset asset : listAssetsByInvestPortfolio){
+		LinkedList<OwnedFinancialAsset> allOwnedFinancialAssets = ownedFinancialAssetService.getAllOwnedAssetByInvestPortfolioDependsCategory(investPortfolio);
+
+		if (allOwnedFinancialAssets.size() != 0){
+			for (OwnedFinancialAsset asset : allOwnedFinancialAssets){
 				tmpInfoAsset = asset.getFinancialAssetInUse().getIdAllFinancialAsset();
 				tmpHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(asset);
-				body.add(BodyTable.builder()
-						.name(tmpInfoAsset.getName())
-						.ticker(tmpInfoAsset.getTicker())
-						.type(tmpInfoAsset.getIdTypeAsset().getName())
-						.exchange(tmpInfoAsset.getIdExchange().getName())
-						.price(MathUtils.divideBigDecimalWithTwoPrecisionHalf(tmpHistoryAmount.getTotal(), tmpHistoryAmount.getAmount()))
-						.amount(tmpHistoryAmount.getAmount())
-						.total(tmpHistoryAmount.getTotal())
-						.build());
+				if (tmpHistoryAmount != null && tmpHistoryAmount.getAmount().compareTo(BigDecimal.ZERO) != 0) {
+					body.add(BodyTable.builder()
+							.name(tmpInfoAsset.getName())
+							.ticker(tmpInfoAsset.getTicker())
+							.type(tmpInfoAsset.getIdTypeAsset().getName())
+							.exchange(tmpInfoAsset.getIdExchange().getName())
+							.price(MathUtils.divideBigDecimalWithTwoPrecisionHalf(tmpHistoryAmount.getTotal(), tmpHistoryAmount.getAmount()))
+							.amount(tmpHistoryAmount.getAmount())
+							.total(tmpHistoryAmount.getTotal())
+							.build());
+				}
 			}
 			System.out.println(String.format("The body: %s", body));
 		}

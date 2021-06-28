@@ -12,14 +12,18 @@ api.interceptors.request.use(config => {
 	return config;
 })
 
+api.interceptors.response.use(undefined, error => {
+	return error;
+});
+
 export const AuthAPI = {
 	login(params) {
 		return api.post('auth/login', params, {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
-			  }
+			}
 		})
-		.then(res => res.data)
+			.then(res => res.data)
 	},
 	logout() {
 		return api.delete('auth/logout')
@@ -31,7 +35,7 @@ export const AuthAPI = {
 			password,
 			rePassword
 		})
-		.then(res => res.data)
+			.then(res => res.data)
 	},
 	getToken() {
 		return api.get('auth/token')
@@ -72,5 +76,32 @@ export const AssetsOptionsApi = {
 			ticker,
 			amount
 		})
+		.then(res => res.data);
+	}
+}
+
+export const CategoryApi = {
+	createCategory({name, value}) {
+		return api.post('category/create', {
+			name,
+			value
+		})
+		.then(res => res.data);
+	},
+	deleteCategory(name) {
+		return api.delete(`category/delete?name=${name}`);
+	},
+	setCategory({name}) {
+		return api.put(`category/set`, {
+			name
+		});
+	},
+	getCategories() {
+		return api.get('category/categories')
+			.then(res => res.data);
+	},
+	getSettedCategory() {
+		return api.get('category/setted')
+			.then(res => res.data);
 	}
 }

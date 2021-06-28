@@ -13,13 +13,13 @@ const dropdownItems = [
 		}
 	},
 	{
-		title: 'Купил',
+		title: 'Купить',
 		onclick: (props) => {
 			props.setSelectedAsset({ticker: props.ticker, type: TYPE_BUY})
 		}
 	},
 	{
-		title: 'Продал',
+		title: 'Продать',
 		onclick: (props) => {
 			props.setSelectedAsset({ticker: props.ticker, type: TYPE_SELL})
 		}
@@ -27,7 +27,10 @@ const dropdownItems = [
 ]
 
 const OptionsDropdownMenu = (props) => {
-	const confirm = useConfirm(props.deleteAsset.bind(null, props.ticker));
+	const confirm = useConfirm(() => {
+		props.deleteAsset(props.ticker);
+		props.showAlert('success', 'Актив успешно изменен');
+	});
 
 	return (
 		<>

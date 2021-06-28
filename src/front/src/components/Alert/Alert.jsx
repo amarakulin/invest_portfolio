@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { AlertContainer, AlertText, CloseAlertButton } from './AlertStyles';
 import { createPortal } from 'react-dom';
 import { connect } from 'react-redux';

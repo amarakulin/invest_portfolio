@@ -3,10 +3,12 @@ package ru.akapich.invest_portfolio.controller.modify_assets;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.akapich.invest_portfolio.model.forms.assets.AssetsResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.EditAssetForm;
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 import ru.akapich.invest_portfolio.model.forms.ValidateCRUDAssetsInterface;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
@@ -54,6 +56,9 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private Environment env;
+
 	@Override
 	public NewAssetsForm firstFloatNumberAsset(List<NewAssetsForm> listNewAssetsForm) {
 		NewAssetsForm firstFloatNumberAsset;
@@ -61,7 +66,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		firstFloatNumberAsset = null;
 		for(NewAssetsForm assetsForm : listNewAssetsForm){
 			System.out.println(String.format("New Asset: %s", assetsForm));
-			if (!assetsForm.getType().equals("{type.crypto}") && !MathUtils.isIntegerValue(assetsForm.getAmount())){
+			if (!assetsForm.getType().equals(env.getProperty("type.crypto")) && !MathUtils.isIntegerValue(assetsForm.getAmount())){
 				firstFloatNumberAsset = assetsForm;
 				break;
 			}
@@ -119,27 +124,27 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		return assetInInvestPortfolio;
 	}
 
-	private AssetsResponseForm getAssetsResponseForm(List<NewAssetsForm> listAssetsForm){
+	private BaseResponseForm getAssetsResponseForm(List<NewAssetsForm> listAssetsForm){
 		String errorMessage = "";
 
 		NewAssetsForm firstNotExistAsset = notExistAsset(listAssetsForm);
 		NewAssetsForm assetAlreadyInTheInvestPortfolio = assetAlreadyInTheInvestPortfolio(listAssetsForm);
 		NewAssetsForm firstFloatNumberAsset = firstFloatNumberAsset(listAssetsForm);
 		if (!isTickersUnique(listAssetsForm)){
-			errorMessage = "{valid.assets.repeat}";
+			errorMessage = String.format("%s", env.getProperty("valid.assets.repeat"));
 		}
 		else if (firstNotExistAsset != null){
-			errorMessage = "{valid.asset.not_exist} : " + firstNotExistAsset.getTicker();
+			errorMessage = String.format("%s: %s", env.getProperty("valid.asset.not_exist"), firstNotExistAsset.getTicker());
 		}
 		else if (assetAlreadyInTheInvestPortfolio != null){
-			errorMessage = "{valid.asset.in_portfolio} : " + assetAlreadyInTheInvestPortfolio.getTicker();
+			errorMessage = String.format("%s: %s", env.getProperty("valid.asset.in_portfolio"), assetAlreadyInTheInvestPortfolio.getTicker());
 		}
 		else if (firstFloatNumberAsset != null){
-			errorMessage = "{valid.asset.not_integer} : " + firstFloatNumberAsset.getTicker();
+			errorMessage = String.format("%s: %s", env.getProperty("valid.not_integer"), firstFloatNumberAsset.getTicker());
 		}
 		Integer resultCode = errorMessage.equals("") ? 0 : 1;
 
-		return AssetsResponseForm.builder()
+		return BaseResponseForm.builder()
 				.error(errorMessage)
 				.resultCode(resultCode)
 				.build();
@@ -148,24 +153,22 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 
 
 	@RequestMapping(value = "/api/data/newassets", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public AssetsResponseForm setNewAssets(@RequestBody List<NewAssetsForm> listAssetsForm, Model model){
+	public BaseResponseForm setNewAssets(@RequestBody List<NewAssetsForm> listAssetsForm, Model model){
 		log.info("Start: setNewAssets");
 		log.info(String.format("get list with: %s", listAssetsForm.toString()));
-		AssetsResponseForm assetsResponseForm = getAssetsResponseForm(listAssetsForm);
-		log.info(String.format("Get a result of response error: %s", assetsResponseForm.getError()));
-////		//FIXME May be check if user in the session
-		if(assetsResponseForm.getResultCode() == 0){
+		BaseResponseForm baseResponseForm = getAssetsResponseForm(listAssetsForm);
+		log.info(String.format("Get a result of response error: %s", baseResponseForm.getError()));
+		if(baseResponseForm.getResultCode() == 0){
 			addingNewListFinancialAsset.addNewAssets(listAssetsForm);
 		}
 		log.info("End: setNewAssets");
-		return assetsResponseForm;
+		return baseResponseForm;
 	}
 
 	@PutMapping("/api/asset/edit")
 	@ResponseBody
-	public AssetsResponseForm updateAsset(@RequestParam(name="ticker") String ticker,
-							@RequestParam(name="amount") BigDecimal amount){
-		AssetsResponseForm response = historyAmountService.updateAssetByTickerWithAmount(ticker, amount);
+	public BaseResponseForm updateAsset(@RequestBody EditAssetForm editAssetForm){
+		BaseResponseForm response = historyAmountService.updateAssetByTickerWithAmount(editAssetForm);
 		return response;
 	}
 

@@ -15,6 +15,7 @@ const TableOptions = (props) => {
 				isOpen={isOpen}
 				toggleIsOpen={toggleIsOpen}
 				ticker={props.ticker}
+				showAlert={props.showAlert}
 			/>
 		</OptionsDropdownMenuWrapper>
 	)

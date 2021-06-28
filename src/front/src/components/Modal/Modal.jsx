@@ -1,11 +1,11 @@
 import { ModalContainer, ModalDialog, CloseModalButton } from './ModalStyles';
 import { createPortal } from 'react-dom';
 
-const Modal = (props) => {
+const Modal = ({isOpen, close, ...props}) => {
 	return createPortal(
-		<ModalContainer onClick={() => props.closeModal(false)} display={props.display ? 'block' : 'none'} >
+		<ModalContainer onClick={close} isOpen={isOpen} >
 			<ModalDialog onClick={e => e.stopPropagation()} >
-				<CloseModalButton onClick={() => props.closeModal(false)} >&#10006;</CloseModalButton>
+				<CloseModalButton onClick={close} >&#10006;</CloseModalButton>
 				{props.children}
 			</ModalDialog>
 		</ModalContainer>,

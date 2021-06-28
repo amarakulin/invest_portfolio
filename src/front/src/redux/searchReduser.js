@@ -34,33 +34,12 @@ const setMatchAssets = (searchData) => ({type: SET_MATCH_ASSETS, searchData});
 
 export const getMatchAssets = (text) => (dispatch) => {
 	dispatch(toggleIsFetching(true));
-	SearchAPI.getMatchAssets(text)
+	return SearchAPI.getMatchAssets(text)
 		.then(res => {
 			dispatch(setMatchAssets(res));
 			dispatch(toggleIsFetching(false));
-		})
-		.finally(() => {
-			dispatch(toggleIsFetching(false));
-			// dispatch(setMatchAssets(res)); //! DELETE
+			return (res);
 		})
 }
 
 export default searchReduser;
-
-const res = [
-	{
-		ticker: 'AXC',
-		name: 'APPLE',
-		type: 'акция'
-	},
-	{
-		ticker: 'ZKJ',
-		name: 'MICROSOFT',
-		type: 'акция'
-	},
-	{
-		ticker: 'ANC',
-		name: 'ahsjdbajskdnasjahsjdbajskdnasjahsjdbajskdnasjahsjdbajskdnasjahsjdbajskdnasj',
-		type: 'акция'
-	}
-]

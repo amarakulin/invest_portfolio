@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
- * Object that send a response if worked with assets.
+ * Object to get info asset to change the asset
  *
  * @author Aleksandr Marakulin
  **/
@@ -15,8 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AssetsResponseForm {
+public class EditAssetForm {
 
-	private String error;
-	private Integer resultCode;
+	private String ticker;
+	private BigDecimal amount;
 }

@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import Input from '../Basic/Input/Input';
 import SearchResult from './SearchResult';
@@ -7,15 +6,15 @@ import { connect } from 'react-redux';
 import Label from '../Basic/Label/Label';
 import { SearchWrapper } from './SearchStyles';
 
-const onSearchInputChange = (input, setShowSearch, props) => (e) => {
+const onSearchInputChange = (input, setShowSearch, props) => async (e) => {
 	const value = (e.currentTarget.value).toUpperCase();
 
 	input.onChange(value);
-	props.getMatchAssets(value);
-	props.searchData.forEach((el, i) => {
+	const data = await props.getMatchAssets(value);
+	data.forEach((el, i) => {
 		if (el.ticker === value) {
 			props.nessesaryField.forEach(el => {
-				props.mutators.setValue(el, props.searchData[i][el])
+				props.mutators.setValue(el, data[i][el])
 			})
 		}
 	})

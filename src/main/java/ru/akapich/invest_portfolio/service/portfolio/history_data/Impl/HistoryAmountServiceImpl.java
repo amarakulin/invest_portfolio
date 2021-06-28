@@ -2,9 +2,11 @@ package ru.akapich.invest_portfolio.service.portfolio.history_data.Impl;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.akapich.invest_portfolio.model.forms.assets.AssetsResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
+import ru.akapich.invest_portfolio.model.forms.assets.EditAssetForm;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
@@ -19,6 +21,7 @@ import ru.akapich.invest_portfolio.service.user.UserService;
 import ru.akapich.invest_portfolio.utils.MathUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +36,9 @@ import java.util.Set;
 @Log4j2
 @Service
 public class HistoryAmountServiceImpl implements HistoryAmountService {
+
+	@Autowired
+	private Environment env;
 
 	@Autowired
 	private HistoryAmountRepository historyAmountRepository;
@@ -66,40 +72,40 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 
 	private String stringValidateAmountByTypeOfAsset(String typeAsset, BigDecimal amount){
 		String resultError = "";
-		if (!typeAsset.equals("{type.crypto}") && !MathUtils.isIntegerValue(amount)){
-			resultError = "{valid.amount.not_integer}";
+		if (!typeAsset.equals(env.getProperty("type.crypto")) && !MathUtils.isIntegerValue(amount)){
+			resultError = env.getProperty("valid.not_integer");
 		}
 		else if (amount.compareTo(BigDecimal.ZERO) < 0){
-			resultError = "{valid.amount.negative}";
+			resultError = env.getProperty("valid.amount.negative");
 		}
 		else if (amount.compareTo(BigDecimal.ZERO) == 0){
-			resultError = "{valid.amount.cant_delete}";
+			resultError = env.getProperty("valid.amount.cant_delete");
 		}
 		return resultError;
 	}
 
 	@Override
 	@Transactional
-	public AssetsResponseForm updateAssetByTickerWithAmount(String ticker, BigDecimal amount) {
+	public BaseResponseForm updateAssetByTickerWithAmount(EditAssetForm editAssetForm) {
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
-		log.info(String.format("[+] Ticker: '%s' updating with amount: '%f' by invest portfolio: %s", ticker, amount, investPortfolio.getId()));
-		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
+		log.info(String.format("[+] Ticker: '%s' updating with amount: '%f' by invest portfolio: %s", editAssetForm.getTicker(), editAssetForm.getAmount(), investPortfolio.getId()));
+		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, editAssetForm.getTicker());
 
 		String typeAsset = historyAmount.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getIdTypeAsset().getName();
 		HistoryPrice historyPriceOfAsset = historyPriceRepository.findByIdFinancialAssetInUse(historyAmount.getOwnedFinancialAsset().getFinancialAssetInUse());
 
-		String errorMessage = stringValidateAmountByTypeOfAsset(typeAsset, amount);
+		String errorMessage = stringValidateAmountByTypeOfAsset(typeAsset, editAssetForm.getAmount());
 		int resultCode = 0;
 		if (!errorMessage.equals("")){
 			resultCode = 1;
-			log.info(String.format("[-] Ticker: '%s' failed on validation by invest portfolio: %s", ticker, investPortfolio.getId()));
+			log.info(String.format("[-] Ticker: '%s' failed on validation by invest portfolio: %s", editAssetForm.getTicker(), investPortfolio.getId()));
 		}
 		else{
-			historyAmount.setAmount(amount);
-			historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(amount));
-			log.info(String.format("[+] Ticker: '%s' successfully update by invest portfolio: %s", ticker, investPortfolio.getId()));
+			historyAmount.setAmount(editAssetForm.getAmount());
+			historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(editAssetForm.getAmount()));
+			log.info(String.format("[+] Ticker: '%s' successfully update by invest portfolio: %s", editAssetForm.getTicker(), investPortfolio.getId()));
 		}
-		return AssetsResponseForm.builder()
+		return BaseResponseForm.builder()
 				.error(errorMessage)
 				.resultCode(resultCode)
 				.build();
@@ -112,7 +118,41 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		log.info(String.format("[+] Ticker: '%s' deleting by invest portfolio: %s", ticker, investPortfolio.getId()));
 		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
 		historyAmount.setAmount(BigDecimal.ZERO);
+		OwnedFinancialAsset ownedFinancialAssetToDelete = ownedFinancialAssetRepository
+				.findByInvestPortfolioAndTickerDeleteFalse(investPortfolio, ticker);
+		ownedFinancialAssetToDelete.setDelete(true);
 		ownedFinancialAssetRepository.delete(historyAmount.getOwnedFinancialAsset());
+	}
+
+	@Override
+	public List<HistoryAmount> getAllByDateAndInvestPortfolioDependsCategory(InvestPortfolio investPortfolio, LocalDateTime date) {
+		List<HistoryAmount> listHistoryAmount;
+		if (investPortfolio.getCategory() == null){
+			listHistoryAmount = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolioAndDate(investPortfolio, date);
+		}
+		else{
+			listHistoryAmount = historyAmountRepository.getAllByCategoryAndDate(investPortfolio.getCategory(), date);
+		}
+		return listHistoryAmount;
+	}
+
+	@Override
+	public BigDecimal getTotalPriceByDateAndInvestPortfolioDependsCategory(InvestPortfolio investPortfolio, LocalDateTime date) {
+		BigDecimal totalPriceInvestPortfolio;
+		try {
+			if (investPortfolio.getCategory() == null) {
+				totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceOfInvestPortfolio(investPortfolio, date);
+			}
+			else{
+				totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceByCategoryAndDate(investPortfolio.getCategory(), date);
+			}
+			totalPriceInvestPortfolio = totalPriceInvestPortfolio.setScale(2, RoundingMode.CEILING);
+		}
+		catch (NullPointerException e){
+			totalPriceInvestPortfolio = BigDecimal.ZERO;
+			log.info(String.format("[-] InvestPortfolio with id: '%d' Didn't has any assets yet", investPortfolio.getId()));
+		}
+		return totalPriceInvestPortfolio;
 	}
 
 	@Override
@@ -126,14 +166,22 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		log.info(String.format("addNewHistoryAmount: ticker ownedFinancialAsset %s | amount %f | date %s | total %f",
 				ownedFinancialAsset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker(),
 				amount, date, totalPriceForOneAsset));
-		HistoryAmount historyAmount = HistoryAmount.builder()
-				.ownedFinancialAsset(ownedFinancialAsset)
-				.amount(amount)
-				.total(totalPriceForOneAsset)
-				.date(date)
-				.build();
+		HistoryAmount lastHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(ownedFinancialAsset);
+		if (lastHistoryAmount == null) {
+			HistoryAmount historyAmount = HistoryAmount.builder()
+					.ownedFinancialAsset(ownedFinancialAsset)
+					.amount(amount)
+					.total(totalPriceForOneAsset)
+					.date(date)
+					.build();
 
-		historyAmountRepository.save(historyAmount);
+			historyAmountRepository.save(historyAmount);
+		}
+		else{
+			lastHistoryAmount.setAmount(amount);
+			lastHistoryAmount.setTotal(totalPriceForOneAsset);
+			lastHistoryAmount.setDate(date);
+		}
 	}
 
 	@Override

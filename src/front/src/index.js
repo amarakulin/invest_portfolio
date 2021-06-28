@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import AppContainer from './AppContainer';
 import store from './redux/redux';
 import {Provider} from 'react-redux';
 import "./index.css";
@@ -8,7 +8,7 @@ import "./index.css";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <AppContainer />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

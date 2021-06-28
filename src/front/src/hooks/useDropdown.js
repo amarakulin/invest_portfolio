@@ -14,7 +14,7 @@ export const useDropdown = (ref) => {
 		return () => {
 			document.removeEventListener('click', observeClick);
 		}
-	}, [ref])
+	})
 
 	return [isOpen, toggleIsOpen];
 }

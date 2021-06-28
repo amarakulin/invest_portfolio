@@ -11,7 +11,6 @@ import Error from '../../Basic/Error/Error';
 import { signUp } from '../../../redux/authReduser'
 import { composeValidators } from '../../../utils/validators'
 import { connect } from 'react-redux';
-import { FORM_ERROR } from 'final-form'
 import { signUpFormSubmit } from '../../../utils/formSubmit'
 
 const Container = styled.div`

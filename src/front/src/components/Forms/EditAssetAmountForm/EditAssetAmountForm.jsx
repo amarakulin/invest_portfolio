@@ -20,11 +20,14 @@ const SendButton = styled.button`
 const EditAssetAmountForm = (props) => {
 	return (
 		<Form
-			onSubmit={editAssetAmountFormSubmit({value: props.value, ticker: props.ticker, type:props.type, editAsset: props.editAsset})}
+			onSubmit={editAssetAmountFormSubmit({value: props.value, ticker: props.ticker, type:props.type, editAsset: props.editAsset}, props.showAlert)}
 			render={({ handleSubmit, form, invalid, values }) => (
 				<form 
 					style={{width: '100%'}}
-					onSubmit={handleSubmit}
+					onSubmit={() => {
+						handleSubmit();
+						form.blur();
+					}}
 				>
 					<Wrapper>
 						<Field

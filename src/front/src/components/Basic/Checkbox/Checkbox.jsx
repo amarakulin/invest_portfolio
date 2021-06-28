@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import checkboxArrow from '../../../assets/checkbox.svg';
 
-const Checkbox = styled.input.attrs({ type: 'checkbox' })`
+const Checkbox = styled.input.attrs(props => ({type: props.type || 'checkbox'}))`
 	position: absolute;
 	z-index: -1;
 	opacity: 0;
@@ -39,7 +39,6 @@ const Label = styled.label`
 	color: #696F79;
 `
 const CustomCheckbox = ({ input, ...props}) => {
-
 	return (
 		<>
 			<Checkbox {...input} id={props.id} />

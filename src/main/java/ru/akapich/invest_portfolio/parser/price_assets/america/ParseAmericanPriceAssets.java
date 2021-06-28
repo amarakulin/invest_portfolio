@@ -54,19 +54,28 @@ public class ParseAmericanPriceAssets {
 		return responseData;
 	}
 
-	private Map<String, BigDecimal> parseData(StringBuilder responseData) throws JsonProcessingException {
+	private Map<String, BigDecimal> parseData(StringBuilder responseData, LinkedList<String> listTickers) throws JsonProcessingException {
 		Map<String, BigDecimal> mapAssetsPrice = new HashMap<>();
 		ObjectMapper mapper = new ObjectMapper();
+		BigDecimal priceAsset;
+		int i = 0;
 
 		JsonNode allAsset = mapper.readTree(responseData.toString());
 		if (!allAsset.has("status")) {
 			for (Iterator<String> it = allAsset.fieldNames(); it.hasNext(); ) {
 				String key = it.next();
-				mapAssetsPrice.put(key, BigDecimal.valueOf(allAsset.get(key).get("price").asDouble()));
+				if (allAsset.has("price")){
+					priceAsset = BigDecimal.valueOf(allAsset.get("price").asDouble());
+				}
+				else{
+					priceAsset = BigDecimal.valueOf(allAsset.get(key).get("price").asDouble());
+				}
+				mapAssetsPrice.put(listTickers.get(i), priceAsset);
+				i++;
 			}
 		}
 		else {
-			log.info("[-] Get an error in getAllPriceAmericanAssets. Could't get a data from 'twelvedata.com' with text: ");
+			log.info("[-] Get an error in getAllPriceAmericanAssets. Couldn't get a data from 'twelvedata.com' with text: ");
 			log.info(String.format("[-] %s", responseData));
 		}
 		return mapAssetsPrice;
@@ -77,7 +86,7 @@ public class ParseAmericanPriceAssets {
 		Map<String, BigDecimal> parsedOutputWithTickerAndPrice = new HashMap<>();
 		String requestUrl;
 		String stringTickers;
-		List<String> listTickersForURL;
+		LinkedList<String> listTickersForURL;
 		StringBuilder responseData;
 		LinkedList<String> listTickers;
 		int timesForRequest;
@@ -86,23 +95,24 @@ public class ParseAmericanPriceAssets {
 		System.out.println("Start getAllPriceAmericanAssets");
 		listTickers = historyPriceService.getListTickersToUpdateByExchange(exchange);
 		System.out.println(String.format("Get list of tickers: %s", listTickers));
-		timesForRequest = listTickers.size()/ LIMIT_TICKERS_PER_ONE_REQUEST;
+		timesForRequest = listTickers.size() / LIMIT_TICKERS_PER_ONE_REQUEST;
 		//TODO handle situation then assets in use more the  LIMIT_TICKERS_PER_ONE_REQUEST tickers * TIME_TO_WAIT minutes !!!
 		do {
-			listTickersForURL = listTickers.stream().limit(LIMIT_TICKERS_PER_ONE_REQUEST).collect(Collectors.toList());
+			listTickersForURL = listTickers.stream().limit(LIMIT_TICKERS_PER_ONE_REQUEST).collect(Collectors.toCollection(LinkedList::new));
 			listTickers.removeAll(listTickersForURL);
 			System.out.println(String.format("Len tickers: %d", listTickersForURL.size()));
 			stringTickers = String.join(",", listTickersForURL);
 			requestUrl = String.format(URL_FORM, stringTickers, API_KEY);
+			System.out.println(String.format("The list for url %s", listTickersForURL));
 			System.out.println(String.format("The string for url %s", requestUrl));
 			responseData = getResponseData(requestUrl);
-			parsedOutputWithTickerAndPrice.putAll(parseData(responseData));
+			parsedOutputWithTickerAndPrice.putAll(parseData(responseData, listTickersForURL));
 			i++;
 			if (i <= timesForRequest) {
 				TimeUnit.MILLISECONDS.sleep(TIME_TO_WAIT);
 			}
 		} while (i <= timesForRequest);
-
+		System.out.println(parsedOutputWithTickerAndPrice);
 		return parsedOutputWithTickerAndPrice;
 	}
 }
