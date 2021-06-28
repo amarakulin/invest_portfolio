@@ -134,7 +134,10 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 	}
 
 	@Override
-	public BigDecimal getTotalPriceByDateAndInvestPortfolioDependsCategory(InvestPortfolio investPortfolio, LocalDateTime date) {
+	public BigDecimal getLatestTotalPriceByInvestPortfolioDependsCategory(InvestPortfolio investPortfolio) {
+
+		LocalDateTime date = historyAmountRepository.getLastTimeUpdateAssetsByInvestPortfolio(investPortfolio);
+
 		BigDecimal totalPriceInvestPortfolio;
 		try {
 			if (investPortfolio.getCategory() == null) {

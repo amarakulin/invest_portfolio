@@ -17,7 +17,6 @@ import ru.akapich.invest_portfolio.service.portfolio.visualization.DiagramServic
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,7 +65,7 @@ public class DiagramServiceImpl implements DiagramService{
 		log.info(String.format("[+] Creating diagram for user with investPortfolio '%d'", investPortfolio.getId()));
 
 		List<HistoryAmount> listHistoryAmount = historyAmountService.getAllByDateAndInvestPortfolioDependsCategory(investPortfolio, date);
-		BigDecimal totalPriceInvestPortfolio = historyAmountService.getTotalPriceByDateAndInvestPortfolioDependsCategory(investPortfolio, date);
+		BigDecimal totalPriceInvestPortfolio = historyAmountService.getLatestTotalPriceByInvestPortfolioDependsCategory(investPortfolio);
 
 		log.info(String.format("[+] Total price of the investPortfolio '%f'", totalPriceInvestPortfolio));
 		for (HistoryAmount asset : listHistoryAmount){
