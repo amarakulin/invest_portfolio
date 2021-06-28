@@ -56,7 +56,7 @@ export const editAssetAmountFormSubmit = ({value, ticker, type, editAsset}, show
 	
 }
 
-export const CreateCategoryFormSubmit = (createCategory, showAlert) => async (formData) => {
+export const CreateCategoryFormSubmit = (createCategory, showAlert, updateTotalData) => async (formData) => {
 	const data = {
 		name: formData.name,
 		value: []
@@ -68,7 +68,8 @@ export const CreateCategoryFormSubmit = (createCategory, showAlert) => async (fo
 	}
 
 	try {
-		await createCategory(data);
+		await createCategory(data)
+			.then(() => updateTotalData());
 		showAlert('success', 'Категория успешно создана');
 	} catch (e) {
 		showAlert('danger', e.message);
