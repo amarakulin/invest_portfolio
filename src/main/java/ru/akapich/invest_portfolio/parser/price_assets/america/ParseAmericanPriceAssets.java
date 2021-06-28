@@ -63,7 +63,7 @@ public class ParseAmericanPriceAssets {
 		JsonNode allAsset = mapper.readTree(responseData.toString());
 		if (!allAsset.has("status")) {
 			for (Iterator<String> it = allAsset.fieldNames(); it.hasNext(); ) {
-				String key = it.next();
+				String key = it.next();//FIXME check !allAsset.get(key).has("status")
 				if (allAsset.has("price")){
 					priceAsset = BigDecimal.valueOf(allAsset.get("price").asDouble());
 				}
