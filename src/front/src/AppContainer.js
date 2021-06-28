@@ -5,11 +5,17 @@ import { getSettedCategory, getCategories } from './redux/categoryReduser';
 
 const AppContainer = (props) => {
 	useEffect(() => {
-		props.getSettedCategory();
-		props.getCategories();
-	}, []);
+		if (props.isAuth) {
+			props.getSettedCategory();
+			props.getCategories();
+		}
+	}, [props.isAuth]);
 
 	return <App />
 }
 
-export default connect(null, { getSettedCategory, getCategories })(AppContainer);
+const mapStateToProps = (state) => ({
+	isAuth: state.auth.isAuth
+})
+
+export default connect(mapStateToProps, { getSettedCategory, getCategories })(AppContainer);
