@@ -13,7 +13,7 @@ import { requiredField } from '../../../utils/validators'
 
 const CreateCategoryForm = (props) => {
 
-	if (!props.assetsData)
+	if (!props.totalAssets)
 		return null
 
 	return (
@@ -24,13 +24,13 @@ const CreateCategoryForm = (props) => {
 					<SmallTitle marginBottom={40}>Выберите активы для новой категории</SmallTitle>
 					<GridWrapper>
 						{
-							props.assetsData.map(el => {
+							props.totalAssets.map(el => {
 								return <Field
-									labelText={el.ticker}
-									name={el.ticker}
+									labelText={el}
+									name={el}
 									type='checkbox'
-									id={el.ticker}
-									key={el.ticker}
+									id={el}
+									key={el}
 								>
 									{props => <Checkbox {...props} />}
 								</Field>
@@ -55,7 +55,7 @@ const CreateCategoryForm = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-	assetsData: state.table.data.body
+	totalAssets: state.assets.totalAssets
 })
 
 export default connect(mapStateToProps, { createCategory, showAlert })(CreateCategoryForm);

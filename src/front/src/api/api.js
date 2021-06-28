@@ -57,6 +57,10 @@ export const DataAPI = {
 	getTableData() {
 		return api.get('data/tableassets')
 			.then(res => res.data)
+	},
+	getTotalAssets() {
+		return api.get('data/allassets')
+			.then(res => res.data)
 	}
 }
 
