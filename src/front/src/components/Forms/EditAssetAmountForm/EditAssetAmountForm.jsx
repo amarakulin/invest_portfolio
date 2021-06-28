@@ -1,12 +1,13 @@
 import { Field } from 'react-final-form';
 import { Form } from 'react-final-form';
-import { Wrapper } from '../../Basic/Wrapper/Wrapper' 
+import { Wrapper } from '../../Basic/Wrapper/Wrapper'
 import styled from 'styled-components';
 import sendIcon from '../../../assets/send.png';
 import { connect } from 'react-redux';
 import { editAsset } from '../../../redux/assetsTableReduser';
 import { editAssetAmountFormSubmit } from '../../../utils/formSubmit'
 import { amountValidator } from '../../../utils/validators';
+import { updateTotalData } from '../../../redux/assetsReduser';
 
 const SendButton = styled.button`
 	width: 25%;
@@ -20,10 +21,10 @@ const SendButton = styled.button`
 const EditAssetAmountForm = (props) => {
 	return (
 		<Form
-			onSubmit={editAssetAmountFormSubmit({value: props.value, ticker: props.ticker, type:props.type, editAsset: props.editAsset}, props.showAlert)}
+			onSubmit={editAssetAmountFormSubmit({ value: props.value, ticker: props.ticker, type: props.type, editAsset: props.editAsset }, props.showAlert, props.updateTotalData)}
 			render={({ handleSubmit, form, invalid, values }) => (
-				<form 
-					style={{width: '100%'}}
+				<form
+					style={{ width: '100%' }}
 					onSubmit={() => {
 						handleSubmit();
 						form.blur();
@@ -35,11 +36,11 @@ const EditAssetAmountForm = (props) => {
 							component='input'
 							type='number'
 							autoFocus='on'
-							style={{maxWidth: '70%'}}
+							style={{ maxWidth: '70%' }}
 							validate={amountValidator}
 							onBlur={() => props.resetSelectedAsset()}
 						/>
-						<SendButton diabled={invalid} invalid={Object.keys(values).length && invalid} onMouseDown={form.submit}/>
+						<SendButton diabled={invalid} invalid={Object.keys(values).length && invalid} onMouseDown={form.submit} />
 					</Wrapper>
 				</form>
 			)}
@@ -47,4 +48,4 @@ const EditAssetAmountForm = (props) => {
 	)
 }
 
-export default connect(null, {editAsset})(EditAssetAmountForm);
+export default connect(null, { editAsset, updateTotalData })(EditAssetAmountForm);

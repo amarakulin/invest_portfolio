@@ -37,9 +37,9 @@ const categoryResuser = (state = initialState, action) => {
 
 const addCategory = (category) => ({type: ADD_CATEGORY, category});
 
-const setCategories = (categories) => ({type: SET_CATEGORIES, categories});
+export const setCategories = (categories) => ({type: SET_CATEGORIES, categories});
 
-const setSettedCategory = (setedCategory) => ({type: SET_SETTED_CATEGORY, setedCategory});
+export const setSettedCategory = (setedCategory) => ({type: SET_SETTED_CATEGORY, setedCategory});
 
 export const getSettedCategory = () => (dispatch) => {
 	CategoryApi.getSettedCategory()

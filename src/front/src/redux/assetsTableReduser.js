@@ -83,7 +83,7 @@ const assetsTableReduser = (state = initialState, action) => {
 	}
 }
 
-const setTableData = (data) => ({type: SET_TABLE_DATA, data})
+export const setTableData = (data) => ({type: SET_TABLE_DATA, data})
 
 const deleteAssetFromState = (ticker) => ({type: DELETE_ASSET, ticker})
 
