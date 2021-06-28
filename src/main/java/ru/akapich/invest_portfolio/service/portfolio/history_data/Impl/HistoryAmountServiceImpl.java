@@ -1,6 +1,5 @@
 package ru.akapich.invest_portfolio.service.portfolio.history_data.Impl;
 
-import lombok.Value;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -22,6 +21,7 @@ import ru.akapich.invest_portfolio.service.user.UserService;
 import ru.akapich.invest_portfolio.utils.MathUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -118,7 +118,41 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		log.info(String.format("[+] Ticker: '%s' deleting by invest portfolio: %s", ticker, investPortfolio.getId()));
 		HistoryAmount historyAmount = historyAmountRepository.getLastHistoryAmountByInvestPortfolioAndTicker(investPortfolio, ticker);
 		historyAmount.setAmount(BigDecimal.ZERO);
+		OwnedFinancialAsset ownedFinancialAssetToDelete = ownedFinancialAssetRepository
+				.findByInvestPortfolioAndTickerDeleteFalse(investPortfolio, ticker);
+		ownedFinancialAssetToDelete.setDelete(true);
 		ownedFinancialAssetRepository.delete(historyAmount.getOwnedFinancialAsset());
+	}
+
+	@Override
+	public List<HistoryAmount> getAllByDateAndInvestPortfolioDependsCategory(InvestPortfolio investPortfolio, LocalDateTime date) {
+		List<HistoryAmount> listHistoryAmount;
+		if (investPortfolio.getCategory() == null){
+			listHistoryAmount = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolioAndDate(investPortfolio, date);
+		}
+		else{
+			listHistoryAmount = historyAmountRepository.getAllByCategoryAndDate(investPortfolio.getCategory(), date);
+		}
+		return listHistoryAmount;
+	}
+
+	@Override
+	public BigDecimal getTotalPriceByDateAndInvestPortfolioDependsCategory(InvestPortfolio investPortfolio, LocalDateTime date) {
+		BigDecimal totalPriceInvestPortfolio;
+		try {
+			if (investPortfolio.getCategory() == null) {
+				totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceOfInvestPortfolio(investPortfolio, date);
+			}
+			else{
+				totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceByCategoryAndDate(investPortfolio.getCategory(), date);
+			}
+			totalPriceInvestPortfolio = totalPriceInvestPortfolio.setScale(2, RoundingMode.CEILING);
+		}
+		catch (NullPointerException e){
+			totalPriceInvestPortfolio = BigDecimal.ZERO;
+			log.info(String.format("[-] InvestPortfolio with id: '%d' Didn't has any assets yet", investPortfolio.getId()));
+		}
+		return totalPriceInvestPortfolio;
 	}
 
 	@Override
@@ -132,14 +166,22 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		log.info(String.format("addNewHistoryAmount: ticker ownedFinancialAsset %s | amount %f | date %s | total %f",
 				ownedFinancialAsset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker(),
 				amount, date, totalPriceForOneAsset));
-		HistoryAmount historyAmount = HistoryAmount.builder()
-				.ownedFinancialAsset(ownedFinancialAsset)
-				.amount(amount)
-				.total(totalPriceForOneAsset)
-				.date(date)
-				.build();
+		HistoryAmount lastHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(ownedFinancialAsset);
+		if (lastHistoryAmount == null) {
+			HistoryAmount historyAmount = HistoryAmount.builder()
+					.ownedFinancialAsset(ownedFinancialAsset)
+					.amount(amount)
+					.total(totalPriceForOneAsset)
+					.date(date)
+					.build();
 
-		historyAmountRepository.save(historyAmount);
+			historyAmountRepository.save(historyAmount);
+		}
+		else{
+			lastHistoryAmount.setAmount(amount);
+			lastHistoryAmount.setTotal(totalPriceForOneAsset);
+			lastHistoryAmount.setDate(date);
+		}
 	}
 
 	@Override

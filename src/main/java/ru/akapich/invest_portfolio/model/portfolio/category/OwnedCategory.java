@@ -1,27 +1,27 @@
-package ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets;
+package ru.akapich.invest_portfolio.model.portfolio.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
 
 import javax.persistence.*;
 
 /**
- * JavaBean domain object that represents asset for a special {@link InvestPortfolio}
- *
+ * JavaBean domain object that represents asset for a special {@link Category}
  *
  * @author Aleksandr Marakulin
  **/
 
 @Entity
-@Table(name="t_owned_financial_asset")
+@Table(name="t_owned_category")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class OwnedFinancialAsset {
+public class OwnedCategory {
 
 	@Id
 	@Column
@@ -29,13 +29,10 @@ public class OwnedFinancialAsset {
 	private Integer id;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_invest_portfolio", nullable = false)
-	private InvestPortfolio investPortfolio;
+	@JoinColumn(name = "id_category", nullable = false)
+	private Category category;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_in_use_financial_asset", nullable = false)
-	private FinancialAssetInUse FinancialAssetInUse;
-
-	@Column
-	private boolean isDelete;
+	@JoinColumn(name = "id_owned_financial_asset", nullable = false)
+	private OwnedFinancialAsset ownedFinancialAsset;
 }

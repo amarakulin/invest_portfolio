@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
+import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.user.UserService;
 import ru.akapich.invest_portfolio.utils.MathUtils;
 import ru.akapich.invest_portfolio.model.forms.visualization.DiagramResponseForm;
@@ -14,11 +15,12 @@ import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.
 import ru.akapich.invest_portfolio.service.portfolio.visualization.DiagramService;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link DiagramService} interface
@@ -39,12 +41,15 @@ public class DiagramServiceImpl implements DiagramService{
 	@Autowired
 	private HistoryAmountRepository historyAmountRepository;
 
+	@Autowired
+	private HistoryAmountService historyAmountService;
+
 	@Override
 	public List<DiagramResponseForm> getListDiagramForms() {
 		//TODO Refactor!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		List<DiagramResponseForm> listDiagramResponseForm = new ArrayList<>();
 		FinancialAssetInUse financialAssetInUse;
-		BigDecimal totalPriceInvestPortfolio;
+
 
 		if (userService.getUserInCurrentSession() == null){
 			System.out.println("Here!");
@@ -59,16 +64,12 @@ public class DiagramServiceImpl implements DiagramService{
 			return listDiagramResponseForm;
 		}
 		log.info(String.format("[+] Creating diagram for user with investPortfolio '%d'", investPortfolio.getId()));
-		Set<HistoryAmount> setOfAllAssets = historyAmountRepository.findAllByOwnedFinancialAsset_InvestPortfolioAndDate(investPortfolio, date);
-		try {
-			totalPriceInvestPortfolio = historyAmountRepository.getTotalPriceOfInvestPortfolio(investPortfolio, date).setScale(2, RoundingMode.CEILING);
-		}
-		catch (NullPointerException e){
-			totalPriceInvestPortfolio = BigDecimal.ZERO;
-			log.info(String.format("[-] InvestPortfolio with id: '%d' Didn't has any assets yet", investPortfolio.getId()));
-		}
+
+		List<HistoryAmount> listHistoryAmount = historyAmountService.getAllByDateAndInvestPortfolioDependsCategory(investPortfolio, date);
+		BigDecimal totalPriceInvestPortfolio = historyAmountService.getTotalPriceByDateAndInvestPortfolioDependsCategory(investPortfolio, date);
+
 		log.info(String.format("[+] Total price of the investPortfolio '%f'", totalPriceInvestPortfolio));
-		for (HistoryAmount asset : setOfAllAssets){
+		for (HistoryAmount asset : listHistoryAmount){
 			System.out.println(asset.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker());
 			financialAssetInUse = ownedFinancialAssetRepository.findFinancialAssetInUseByOwnedFinancialAsset(
 												asset.getOwnedFinancialAsset());
@@ -84,8 +85,13 @@ public class DiagramServiceImpl implements DiagramService{
 				);
 			}
 		}
+
+		List<DiagramResponseForm> sortedListDiagramResponseForm = listDiagramResponseForm.stream()
+				.sorted(Comparator.comparing(DiagramResponseForm::getValue).reversed())
+				.collect(Collectors.toList());
+
 		log.info(String.format("[+] Finish collect DIAGRAM for user with investPortfolio '%d'", investPortfolio.getId()));
-		System.out.println(String.format("Data Diagram: %s", listDiagramResponseForm));
-		return listDiagramResponseForm;
+		System.out.println(String.format("Data Diagram: %s", sortedListDiagramResponseForm));
+		return sortedListDiagramResponseForm;
 	}
 }
