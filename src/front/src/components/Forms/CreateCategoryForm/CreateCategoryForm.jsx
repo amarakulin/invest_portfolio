@@ -9,27 +9,28 @@ import { CreateCategoryFormSubmit } from '../../../utils/formSubmit';
 import { showAlert } from '../../../redux/alertReduser';
 import { GridWrapper } from '../../Basic/Wrapper/Wrapper';
 import { SmallTitle } from '../../Basic/Title/Title';
+import { requiredField } from '../../../utils/validators'
 
 const CreateCategoryForm = (props) => {
 
-	if (!props.assetsData)
+	if (!props.totalAssets)
 		return null
 
 	return (
 		<Form
 			onSubmit={CreateCategoryFormSubmit(props.createCategory, props.showAlert)}
-			render={({ handleSubmit, submitting }) => (
+			render={({ handleSubmit, submitting, invalid }) => (
 				<form onSubmit={handleSubmit}>
 					<SmallTitle marginBottom={40}>Выберите активы для новой категории</SmallTitle>
 					<GridWrapper>
 						{
-							props.assetsData.map(el => {
+							props.totalAssets.map(el => {
 								return <Field
-									labelText={el.ticker}
-									name={el.ticker}
+									labelText={el}
+									name={el}
 									type='checkbox'
-									id={el.ticker}
-									key={el.ticker}
+									id={el}
+									key={el}
 								>
 									{props => <Checkbox {...props} />}
 								</Field>
@@ -41,11 +42,12 @@ const CreateCategoryForm = (props) => {
 						labelText='Придумайте название новой категории'
 						name='name'
 						type='text'
+						validate={requiredField}
 					>
 						{props => <FormInput {...props} />}
 					</Field>
 
-					<Button disabled={submitting}>{submitting ? <Preloader /> : 'Создать'}</Button>
+					<Button disabled={submitting || invalid}>{submitting ? <Preloader /> : 'Создать'}</Button>
 				</form>
 			)}
 		/>
@@ -53,7 +55,7 @@ const CreateCategoryForm = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-	assetsData: state.table.data.body
+	totalAssets: state.assets.totalAssets
 })
 
 export default connect(mapStateToProps, { createCategory, showAlert })(CreateCategoryForm);

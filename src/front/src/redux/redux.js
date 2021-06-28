@@ -9,6 +9,7 @@ import assetsTableReduser from './assetsTableReduser.js';
 import apiReduser from './apiReduser.js';
 import newAssetsReduser from './newAssetsReduser.js';
 import thunkMiddleware from 'redux-thunk';
+import assetsReduser from './assetsReduser.js';
 
 const reduser = combineReducers({
 	auth: authReduser,
@@ -19,7 +20,8 @@ const reduser = combineReducers({
 	table: assetsTableReduser,
 	alert: alertReduser,
 	category: categoryReduser,
-	api: apiReduser
+	api: apiReduser,
+	assets: assetsReduser
 });
 
 const store = createStore(reduser, applyMiddleware(thunkMiddleware));

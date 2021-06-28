@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.controller.modify_assets;
+package ru.akapich.invest_portfolio.controller.assets;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountS
 import ru.akapich.invest_portfolio.service.user.UserService;
 import ru.akapich.invest_portfolio.utils.MathUtils;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -92,7 +91,7 @@ public class CRUDAssetsController implements ValidateCRUDAssetsInterface {
 		for (NewAssetsForm asset : listNewAssetsForm){
 			System.out.println(String.format("notExistAsset search for ticker: %s",  asset.getTicker()));
 
-			if (allFinancialAssetRepository.findByTicker(asset.getTicker()) == null){
+			if (allFinancialAssetRepository.findByTicker(asset.getTicker()) == null){// FIXME Not unique exception(VCF)
 
 				firstNotExistAssets = asset;
 				break;
