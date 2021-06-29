@@ -9,8 +9,7 @@ import ru.akapich.invest_portfolio.model.user.User;
 import javax.persistence.*;
 
 /**
- * JavaBean object that represents a number of invest portfolio
- * A {@link User} have a pointer of the number.
+ * JavaBean object that represents a invest portfolio for {@link User}
  *
  *
  * @author Aleksandr Marakulin
@@ -32,14 +31,4 @@ public class InvestPortfolio {
 	@JoinColumn(name = "current_category")
 	@Nullable
 	private Category category;
-
-
-//	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@JoinColumn(name = "id_set_financial_assets")
-//	private SetFinancialAssets idSetFinancialAssets;
-
-//	@OneToMany
-//	@JoinColumn(name = "id_statistic")
-//	private Set<Statistic> idStatistic;
-
 }
