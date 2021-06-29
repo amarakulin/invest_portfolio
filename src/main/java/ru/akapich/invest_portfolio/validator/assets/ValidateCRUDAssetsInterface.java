@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.model.forms;
+package ru.akapich.invest_portfolio.validator.assets;
 
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 
@@ -11,8 +11,6 @@ import java.util.List;
  **/
 
 public interface ValidateCRUDAssetsInterface {
-
-	//TODO Create method to check if an Asset already in the invest portfolio
 
 	NewAssetsForm firstFloatNumberAsset(List<NewAssetsForm> listNewAssetsForm);
 	boolean isTickersUnique(List<NewAssetsForm> listNewAssetsForm);

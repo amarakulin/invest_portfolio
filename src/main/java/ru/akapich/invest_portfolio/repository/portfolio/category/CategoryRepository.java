@@ -7,7 +7,7 @@ import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 
 /**
- * JavaBean object that interaction with Database.
+ * JavaBean object that interaction with Database for {@link Category}.
  *
  * @author Aleksandr Marakulin
  **/

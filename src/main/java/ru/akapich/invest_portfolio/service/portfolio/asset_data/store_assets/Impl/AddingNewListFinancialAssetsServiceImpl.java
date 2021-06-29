@@ -7,7 +7,7 @@ import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
-import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.AddingNewListFinancialAsset;
+import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.AddingNewListFinancialAssetService;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.FinancialAssetInUseService;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.OwnedFinancialAssetService;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
@@ -16,7 +16,7 @@ import ru.akapich.invest_portfolio.service.user.UserService;
 import java.util.List;
 
 /**
- * Implementation of {@link AddingNewListFinancialAsset} interface.
+ * Implementation of {@link AddingNewListFinancialAssetService} interface.
  * Adds new assets in a {@link InvestPortfolio}
  *
  * @author Aleksandr Marakulin
@@ -24,7 +24,7 @@ import java.util.List;
 
 @Service
 @Log4j2
-public class AddingNewListFinancialAssetsImpl implements AddingNewListFinancialAsset {
+public class AddingNewListFinancialAssetsServiceImpl implements AddingNewListFinancialAssetService {
 
 	@Autowired
 	private FinancialAssetInUseService financialAssetInUseService;
@@ -40,13 +40,9 @@ public class AddingNewListFinancialAssetsImpl implements AddingNewListFinancialA
 
 	@Override
 	public void addNewAssets(List<NewAssetsForm> listAssetsForm) {
-//		if (userService.getUserInCurrentSession() == null){
-//			log.info("[-] User not in the session");
-//			return;
-//		}
 
 		InvestPortfolio userInvestPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
-		log.info(String.format("Get InvPortfolio with id : %d", userInvestPortfolio.getId()));
+		log.info(String.format("[+] Get InvPortfolio with id to add new assets: %d", userInvestPortfolio.getId()));
 		for (NewAssetsForm assetsForm : listAssetsForm){
 			log.info(String.format("Adding asset with ticker: %s", assetsForm.getTicker()));
 			FinancialAssetInUse financialAssetInUse = financialAssetInUseService
@@ -58,6 +54,6 @@ public class AddingNewListFinancialAssetsImpl implements AddingNewListFinancialA
 			log.info(String.format("Get ownedFinancialAsset with :ticker %s, inv_p %d", ownedFinancialAsset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker(), ownedFinancialAsset.getInvestPortfolio().getId()));
 			historyAmountService.addNewHistoryAmount(ownedFinancialAsset, assetsForm.getAmount());
 		}
-		log.info("Done motherfucker!!!");
+		log.info("[+] Adding new assets is done");
 	}
 }

@@ -9,7 +9,9 @@ import { CreateCategoryFormSubmit } from '../../../utils/formSubmit';
 import { showAlert } from '../../../redux/alertReduser';
 import { GridWrapper } from '../../Basic/Wrapper/Wrapper';
 import { SmallTitle } from '../../Basic/Title/Title';
-import { requiredField } from '../../../utils/validators'
+import { requiredField } from '../../../utils/validators';
+import { updateTotalData } from '../../../redux/assetsReduser';
+import { handleSubmitDecorator } from '../../../utils/formSubmitDecorator';
 
 const CreateCategoryForm = (props) => {
 
@@ -18,9 +20,9 @@ const CreateCategoryForm = (props) => {
 
 	return (
 		<Form
-			onSubmit={CreateCategoryFormSubmit(props.createCategory, props.showAlert)}
-			render={({ handleSubmit, submitting, invalid }) => (
-				<form onSubmit={handleSubmit}>
+			onSubmit={CreateCategoryFormSubmit(props.createCategory, props.showAlert, props.updateTotalData)}
+			render={({ handleSubmit, submitting, invalid, form }) => (
+				<form onSubmit={e => handleSubmitDecorator(handleSubmit, e, form.reset, props.close)()}>
 					<SmallTitle marginBottom={40}>Выберите активы для новой категории</SmallTitle>
 					<GridWrapper>
 						{
@@ -58,4 +60,4 @@ const mapStateToProps = (state) => ({
 	totalAssets: state.assets.totalAssets
 })
 
-export default connect(mapStateToProps, { createCategory, showAlert })(CreateCategoryForm);
+export default connect(mapStateToProps, { createCategory, showAlert, updateTotalData })(CreateCategoryForm);

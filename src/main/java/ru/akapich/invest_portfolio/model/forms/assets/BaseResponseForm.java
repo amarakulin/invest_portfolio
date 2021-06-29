@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Object that send a response if worked with assets.
+ * Object that send a response if action user needs validation.
  *
  * @author Aleksandr Marakulin
  **/

@@ -3,7 +3,7 @@ import { Field } from 'react-final-form';
 import Search from '../Search/Search';
 import NewAssetNumber from './NewAssetAmount';
 import AddNewAsset from './AddAssetButtons/AddNewAsset';
-import { validateIdenticalName, amountValidator, validateSearchUnknownTicker, composeValidators } from '../../utils/validators';
+import { validateIdenticalName, amountValidator, composeValidators } from '../../utils/validators';
 
 const NewAssetContainer = styled.div`
 	display: flex;

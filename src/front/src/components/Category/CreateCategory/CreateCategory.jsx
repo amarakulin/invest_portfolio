@@ -4,7 +4,7 @@ import CreateCategoryForm from '../../Forms/CreateCategoryForm/CreateCategoryFor
 const CreateCategory = (props) => {
 	return (
 		<Modal isOpen={props.isOpen} close={props.close}>
-			<CreateCategoryForm />
+			<CreateCategoryForm close={props.close}/>
 		</Modal>
 	)
 }

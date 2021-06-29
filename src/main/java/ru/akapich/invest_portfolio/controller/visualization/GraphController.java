@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.akapich.invest_portfolio.model.forms.visualization.FormGraph;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.GraphService;
 
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
- * Controller that get data of graph to front
+ * Controller for {@link FormGraph} to represent Graph on main Page
  *
  * @author Aleksandr Marakulin
  **/

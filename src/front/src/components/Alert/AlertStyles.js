@@ -56,6 +56,7 @@ export const AlertContainer = styled.div`
 `
 
 export const AlertText = styled.p`
+	max-width: 90%;
 	font-size: 16px;
 	line-height: 24px;
 	padding: 0;

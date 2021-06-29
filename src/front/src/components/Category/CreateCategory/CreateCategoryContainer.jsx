@@ -8,7 +8,6 @@ const CreateCategoryContainer = () => {
 	return (
 		<>
 			<HeaderButton
-				marginRight={20}
 				onClick={() => toggleIsOpen(true)}
 			>
 				Создать категорию

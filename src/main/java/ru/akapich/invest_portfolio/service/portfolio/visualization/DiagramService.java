@@ -1,11 +1,11 @@
 package ru.akapich.invest_portfolio.service.portfolio.visualization;
 
 import ru.akapich.invest_portfolio.model.forms.visualization.DiagramResponseForm;
-import ru.akapich.invest_portfolio.service.portfolio.visualization.Impl.DiagramServiceImpl;
+import ru.akapich.invest_portfolio.controller.visualization.DiagramController;
 import java.util.List;
 
 /**
- * Interface of {@link DiagramServiceImpl}
+ * Interface of {@link DiagramController}
  *
  * @author Aleksandr Marakulin
  **/

@@ -1,11 +1,10 @@
-package ru.akapich.invest_portfolio.validator;
+package ru.akapich.invest_portfolio.validator.login;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;

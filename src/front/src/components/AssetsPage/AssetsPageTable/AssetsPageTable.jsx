@@ -4,7 +4,7 @@ import { getTableData } from '../../../redux/assetsTableReduser';
 import Preloader from '../../Basic/Preloader/Preloader'
 import Table from '../../Table/Table'
 
-const AssetsControllerTable = (props) => {
+const AssetsPageTable = (props) => {
 
 	useEffect(() => {
 		props.getTableData();
@@ -22,4 +22,4 @@ const mapDispatchToProps = (state) => ({
 	isFetching: state.table.isFetching,
 })
 
-export default connect(mapDispatchToProps, {getTableData})(AssetsControllerTable);
+export default connect(mapDispatchToProps, {getTableData})(AssetsPageTable);

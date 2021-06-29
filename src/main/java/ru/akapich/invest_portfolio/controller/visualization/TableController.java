@@ -10,7 +10,7 @@ import ru.akapich.invest_portfolio.model.forms.visualization.FormTable;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.TableService;
 
 /**
- * Controller that send table with all data about assets in invest portfolio
+ * Controller for {@link FormTable} to represent Table on main Page
  *
  * @author Aleksandr Marakulin
  **/

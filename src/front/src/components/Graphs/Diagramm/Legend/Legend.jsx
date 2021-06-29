@@ -14,7 +14,7 @@ const Legend = (props) => {
 
 	return (
 		<LegendContainer>
-			<LegenTitle>Категории: </LegenTitle>
+			<LegenTitle>Активы: </LegenTitle>
 			<LegendList>
 				{
 					props.data.map((el, i) => {

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.info_assets.Currency;
 
 /**
- * JavaBean object that interaction with Database.
+ * JavaBean object that interaction with Database for class {@link Currency}.
  *
  * @author Aleksandr Marakulin
  **/

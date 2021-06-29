@@ -2,14 +2,13 @@ package ru.akapich.invest_portfolio.service.portfolio.visualization;
 
 import ru.akapich.invest_portfolio.model.forms.visualization.FormGraph;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
-import ru.akapich.invest_portfolio.service.portfolio.visualization.Impl.GraphServiceImpl;
-
+import ru.akapich.invest_portfolio.controller.visualization.GraphController;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Interface of {@link GraphServiceImpl}
+ * Interface of {@link GraphController}
  *
  * @author Aleksandr Marakulin
  **/

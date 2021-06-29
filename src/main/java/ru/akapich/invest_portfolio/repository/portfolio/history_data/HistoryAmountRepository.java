@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * JavaBean object that interaction with Database.
+ * JavaBean object that interaction with Database for class {@link HistoryAmount}.
  *
  * @author Aleksandr Marakulin
  **/
@@ -24,35 +24,34 @@ import java.util.List;
 @Repository
 public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Long> {
 
+	List<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndDate(InvestPortfolio investPortfolio, LocalDateTime date);
+
 	@Query("SELECT h FROM HistoryAmount h WHERE h.id = (" +
-			"SELECT MAX(h2.id) FROM HistoryAmount h2 WHERE h2.ownedFinancialAsset = ?1 AND h2.ownedFinancialAsset.isDelete = false ) ")
+			" SELECT MAX(h2.id) FROM HistoryAmount h2" +
+			" WHERE h2.ownedFinancialAsset = ?1" +
+			" AND h2.ownedFinancialAsset.isDelete = false ) ")
 	HistoryAmount lastAmountByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
 
-	@Query("SELECT SUM (h.total) FROM HistoryAmount h, OwnedFinancialAsset o WHERE" +
-			" h.ownedFinancialAsset = o " +
-			"AND o.investPortfolio = ?1 " +
-			"AND h.amount <> 0" +
-			"AND h.date = ?2")
+	@Query("SELECT SUM (h.total) FROM HistoryAmount h, OwnedFinancialAsset o" +
+			" WHERE h.ownedFinancialAsset = o " +
+			" AND o.investPortfolio = ?1 " +
+			" AND h.amount <> 0 " +
+			" AND h.date = ?2")
 	BigDecimal getTotalPriceOfInvestPortfolio(InvestPortfolio investPortfolio, LocalDateTime date);
 
-	@Query("SELECT SUM (h.total) FROM HistoryAmount h, OwnedCategory o WHERE" +
-			" h.ownedFinancialAsset = o.ownedFinancialAsset " +
-			"AND o.category = ?1 " +
-			"AND h.amount <> 0" +
-			"AND h.date = ?2")
+	@Query("SELECT SUM (h.total) FROM HistoryAmount h, OwnedCategory o " +
+			" WHERE h.ownedFinancialAsset = o.ownedFinancialAsset " +
+			" AND o.category = ?1 " +
+			" AND h.amount <> 0" +
+			" AND h.date = ?2")
 	BigDecimal getTotalPriceByCategoryAndDate(Category category, LocalDateTime date);
 
-//	@Query(value = "SELECT new ru.akapich.invest_portfolio.model.forms.sql.FormDatePriceGraphSQLQueryInvestPortfolio(h.date, SUM(h.total), h.ownedFinancialAsset.investPortfolio)" +
-//			" FROM HistoryAmount h WHERE h.ownedFinancialAsset.investPortfolio = ?1" +
-//			" GROUP BY h.date, h.ownedFinancialAsset.investPortfolio")
-//	LinkedList<FormDatePriceGraphSQLQuery> getGeneralDatePriceByInvestPortfolio(InvestPortfolio investPortfolio);
-
 	@Query(value = "SELECT new ru.akapich.invest_portfolio.model.forms.sql.FormDatePriceGraphSQLQuery(h.date, SUM(h.total), h.ownedFinancialAsset.investPortfolio)" +
-			" FROM HistoryAmount h WHERE h.ownedFinancialAsset.investPortfolio = ?1 AND h.ownedFinancialAsset IN ?2" +
+			" FROM HistoryAmount h " +
+			" WHERE h.ownedFinancialAsset.investPortfolio = ?1" +
+			" AND h.ownedFinancialAsset IN ?2" +
 			" GROUP BY h.date, h.ownedFinancialAsset.investPortfolio")
 	LinkedList<FormDatePriceGraphSQLQuery> getGeneralDatePriceByCategory(InvestPortfolio investPortfolio, LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
-
-	List<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolioAndDate(InvestPortfolio investPortfolio, LocalDateTime date);
 
 	@Query("SELECT h FROM HistoryAmount h, OwnedCategory o" +
 			" WHERE h.ownedFinancialAsset = o.ownedFinancialAsset" +
@@ -63,23 +62,25 @@ public interface HistoryAmountRepository extends JpaRepository<HistoryAmount, Lo
 	@Query("SELECT h.date FROM HistoryAmount h WHERE h.ownedFinancialAsset IN ?1 GROUP BY h.date")
 	List<LocalDateTime> getUniqueTime(LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
 
-//	LinkedList<HistoryAmount> findAllByOwnedFinancialAsset_InvestPortfolio(InvestPortfolio investPortfolio);
-
 	@Query("SELECT h FROM HistoryAmount h WHERE h.ownedFinancialAsset IN ?1")
 	LinkedList<HistoryAmount> getAllByListOwnedFinancialAssets(LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
 
 	@Query("SELECT new ru.akapich.invest_portfolio.model.forms.sql.FormPurchaseDate(h.ownedFinancialAsset,  MIN(h.date), h.ownedFinancialAsset.investPortfolio)" +
-			" FROM HistoryAmount h WHERE h.ownedFinancialAsset.investPortfolio = ?1 AND h.ownedFinancialAsset IN ?2" +
+			" FROM HistoryAmount h" +
+			" WHERE h.ownedFinancialAsset.investPortfolio = ?1" +
+			" AND h.ownedFinancialAsset IN ?2" +
 			" GROUP BY h.ownedFinancialAsset, h.ownedFinancialAsset.investPortfolio")//FIXME if user delete and after half year buy the same asset what is a purchase date?
 	List<FormPurchaseDate> getAllPurchaseDateByInvestPortfolio(InvestPortfolio investPortfolio, LinkedList<OwnedFinancialAsset> ownedFinancialAssets);
 
 	@Query("SELECT h1.date FROM HistoryAmount h1 WHERE h1.id = (" +
-			"SELECT MAX(h2.id) FROM HistoryAmount h2 WHERE h2.ownedFinancialAsset.investPortfolio = ?1 AND h2.amount <> 0)")
+			" SELECT MAX(h2.id) FROM HistoryAmount h2" +
+			" WHERE h2.ownedFinancialAsset.investPortfolio = ?1" +
+			" AND h2.amount <> 0)")
 	LocalDateTime getLastTimeUpdateAssetsByInvestPortfolio(InvestPortfolio investPortfolio);
 
 	@Query("SELECT h1 FROM HistoryAmount h1 WHERE h1.id = (" +
-			"SELECT MAX(h2.id) FROM HistoryAmount h2 " +
-			"WHERE h2.ownedFinancialAsset.investPortfolio = ?1 " +
-			"AND h2.ownedFinancialAsset.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2)")
+			" SELECT MAX(h2.id) FROM HistoryAmount h2 " +
+			" WHERE h2.ownedFinancialAsset.investPortfolio = ?1 " +
+			" AND h2.ownedFinancialAsset.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2)")
 	HistoryAmount getLastHistoryAmountByInvestPortfolioAndTicker(InvestPortfolio investPortfolio, String ticker);
 }

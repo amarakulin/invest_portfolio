@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.akapich.invest_portfolio.validator.custom_interfaces.ExistingEmail;
-import ru.akapich.invest_portfolio.validator.custom_interfaces.ExistingLogin;
+import ru.akapich.invest_portfolio.validator.login.custom_interfaces.ExistingEmail;
+import ru.akapich.invest_portfolio.validator.login.custom_interfaces.ExistingLogin;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
- * Object that get form client to validate and fill to database the user.
+ * Object that get form client to register new user.
  *
  * @author Aleksandr Marakulin
  **/
@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-public class RegistrationFrom {
+public class RegistrationForm {
 
 	@NotBlank(message = "{valid.empty.name}")
 	@Size(min = 2, max = 32, message = "{valid.size.name}")

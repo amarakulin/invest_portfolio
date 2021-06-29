@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
+import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,29 +21,23 @@ import java.util.List;
 @Repository
 public interface OwnedFinancialAssetRepository extends JpaRepository<OwnedFinancialAsset, Integer> {
 
-	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 AND o.FinancialAssetInUse = ?2 AND o.isDelete = false ")
-	OwnedFinancialAsset findExistTickerInInvestPortfolio(
-			InvestPortfolio investPortfolio,
-			FinancialAssetInUse financialAssetInUse);
-
-	@Query("SELECT o.FinancialAssetInUse FROM OwnedFinancialAsset o WHERE o = ?1 AND o.isDelete = false")
-	FinancialAssetInUse findFinancialAssetInUseByOwnedFinancialAsset(OwnedFinancialAsset ownedFinancialAsset);
-
-//	@Query("SELECT o.FinancialAssetInUse.idAllFinancialAsset.ticker FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1")
-//	List<String> findAllTickersByInvestPortfolio(InvestPortfolio investPortfolio);
-
 	LinkedList<OwnedFinancialAsset> findAllByInvestPortfolio(InvestPortfolio investPortfolio);
 
-	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 AND o.isDelete = false ")
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1" +
+			" AND o.FinancialAssetInUse = ?2" +
+			" AND o.isDelete = false ")
+	OwnedFinancialAsset findExistTickerInInvestPortfolio(InvestPortfolio investPortfolio, FinancialAssetInUse financialAssetInUse);
+
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1" +
+			" AND o.isDelete = false ")
 	LinkedList<OwnedFinancialAsset> findAllByInvestPortfolioDeleteFalse(InvestPortfolio investPortfolio);
 
 	@Query("SELECT DISTINCT o FROM OwnedFinancialAsset o WHERE o.isDelete = false")
 	List<OwnedFinancialAsset> findAllUniqueOwnedAssets();
 
-
-	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.isDelete = false " +
-			"AND o.investPortfolio = ?1 " +
-			"AND o.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2")
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.isDelete = false" +
+			" AND o.investPortfolio = ?1" +
+			" AND o.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2")
 	OwnedFinancialAsset findByInvestPortfolioAndTickerDeleteFalse(InvestPortfolio investPortfolio, String ticker);
 
 	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.isDelete = true " +
@@ -50,14 +45,11 @@ public interface OwnedFinancialAssetRepository extends JpaRepository<OwnedFinanc
 			"AND o.FinancialAssetInUse.idAllFinancialAsset.ticker = ?2")
 	OwnedFinancialAsset findByInvestPortfolioAndTickerDeleteTrue(InvestPortfolio investPortfolio, String ticker);
 
-//	OwnedFinancialAsset findByInvestPortfolioAndFinancialAssetInUse_IdAllFinancialAsset_TickerAndDeleteFalse(InvestPortfolio investPortfolio, String ticker);
-//
-//	OwnedFinancialAsset findByInvestPortfolioAndFinancialAssetInUse_IdAllFinancialAsset_TickerAndDeleteTrue(InvestPortfolio investPortfolio, String ticker);
+	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1" +
+			" AND o.isDelete = false" +
+			" AND o.FinancialAssetInUse.idAllFinancialAsset.ticker IN ?2")
+	List<OwnedFinancialAsset> getAllOwnedFinancialAssetsByListTickersAndInvestPortfolio(InvestPortfolio investPortfolio, List<String> tickers);
 
-//	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAssetTicker(List<String> tickers);
-//	List<OwnedFinancialAsset> findOwnedFinancialAssetsByFinancialAssetInUse_IdAllFinancialAsset_Ticker(List<String> tickers);
-
-	@Query("SELECT o FROM OwnedFinancialAsset o WHERE o.investPortfolio = ?1 AND o.isDelete = false AND o.FinancialAssetInUse.idAllFinancialAsset.ticker IN ?2")
-	List<OwnedFinancialAsset> getOwnedFinancialAssetsByListTickersAndInvestPortfolio(InvestPortfolio investPortfolio, List<String> tickers);
-
+	@Query("SELECT c.ownedFinancialAsset FROM OwnedCategory c WHERE c.category = ?1")
+	LinkedList<OwnedFinancialAsset> getAllByCategory(Category category);
 }

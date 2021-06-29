@@ -60,6 +60,7 @@ public class AllFinancialAssetImpl implements AllFinancialAssetService {
 				}
 		}
 		allFinancialAssetRepository.saveAllAndFlush(allFinancialAssets);
+		log.info("[+] Done loading data form American site to database");
 	}
 
 

@@ -2,7 +2,7 @@ import { FORM_ERROR } from 'final-form';
 import { TYPE_BUY, TYPE_SELL } from '../redux/assetsTableReduser';
 import createURLSearchParam from './createURLSearchParam';
 
-export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets, showAlert) => async () => {
+export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets, showAlert, updateTotalData) => async () => {
 	const formData = [];
 
 	for (let el of newAssets) {
@@ -14,13 +14,12 @@ export const addNewAssetsFormSubmit = (postNewAssetsData, newAssets, showAlert) 
 	}
 	
 	try {
-		await postNewAssetsData(formData);
+		await postNewAssetsData(formData)
+			.then(() => updateTotalData());
 		showAlert('success', 'Актив успешно добавлен');
 	} catch (e) {
 		showAlert('danger', e.message);
 	}
-
-	//TODO после отправки нужно заново запросить данные пользователя
 }
 
 export const signUpFormSubmit = (signUp) => async (formData) => {
@@ -39,14 +38,16 @@ export const authFormSubmit = (login) => async (formData) => {
 	}
 }
 
-export const editAssetAmountFormSubmit = ({value, ticker, type, editAsset}, showAlert) => async (formData) => {
+export const editAssetAmountFormSubmit = ({value, ticker, type, editAsset}, showAlert, updateTotalData) => async (formData) => {
 	const initialValue = parseInt(value);
 
 	try {
 		if (type === TYPE_BUY) {
-			await editAsset(ticker, +formData.amount + +initialValue);
+			await editAsset(ticker, +formData.amount + +initialValue)
+				.then(() => updateTotalData());
 		} else if (type === TYPE_SELL) {
-			await editAsset(ticker, +initialValue - +formData.amount);
+			await editAsset(ticker, +initialValue - +formData.amount)
+				.then(() => updateTotalData());
 		}
 		showAlert('success', 'Актив успешно изменен');
 	} catch (e) {
@@ -55,7 +56,7 @@ export const editAssetAmountFormSubmit = ({value, ticker, type, editAsset}, show
 	
 }
 
-export const CreateCategoryFormSubmit = (createCategory, showAlert) => async (formData) => {
+export const CreateCategoryFormSubmit = (createCategory, showAlert, updateTotalData) => async (formData) => {
 	const data = {
 		name: formData.name,
 		value: []
@@ -67,13 +68,15 @@ export const CreateCategoryFormSubmit = (createCategory, showAlert) => async (fo
 	}
 
 	try {
-		await createCategory(data);
+		await createCategory(data)
+			.then(() => updateTotalData());
 		showAlert('success', 'Категория успешно создана');
 	} catch (e) {
 		showAlert('danger', e.message);
 	}
 }
 
-export const SetCategoryFormSubmit = (setCategory) => async (formData) => {
-	await setCategory(formData);
+export const SetCategoryFormSubmit = (setCategory, updateTotalData) => async (formData) => {
+	await setCategory(formData)
+		.then(() => updateTotalData());
 }

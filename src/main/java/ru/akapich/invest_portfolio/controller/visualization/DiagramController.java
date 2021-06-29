@@ -13,7 +13,7 @@ import ru.akapich.invest_portfolio.service.portfolio.visualization.DiagramServic
 import java.util.List;
 
 /**
- * Controller for {@link DiagramResponseForm}
+ * Controller for {@link DiagramResponseForm} to represent Diagram on main Page
  *
  * @author Aleksandr Marakulin
  **/
@@ -29,7 +29,7 @@ public class DiagramController {
 
 	@GetMapping("/api/data/diagram")
 	public List<DiagramResponseForm> diagram(){
-		List<DiagramResponseForm> listDiagramResponseForm = diagramService.getListDiagramForms();//TODO sort the diagram by percent
-		return listDiagramResponseForm;//FIXME get a correct number of %
+		List<DiagramResponseForm> listDiagramResponseForm = diagramService.getListDiagramForms();
+		return listDiagramResponseForm;
 	}
 }

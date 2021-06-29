@@ -8,15 +8,17 @@ import { SetCategoryFormSubmit } from '../../../utils/formSubmit';
 import { SmallTitle } from '../../Basic/Title/Title';
 import { setValue } from '../../../utils/mutators';
 import { GridWrapper, Wrapper } from '../../Basic/Wrapper/Wrapper';
+import { updateTotalData } from '../../../redux/assetsReduser';
+import { handleSubmitDecorator } from '../../../utils/formSubmitDecorator';
 
 const SetCategoryForm = (props) => {
 	return (
 		<Form
 			mutators={{ setValue }}
 			initialValues={{name: props.settedCategory}}
-			onSubmit={SetCategoryFormSubmit(props.setCategory)}
+			onSubmit={SetCategoryFormSubmit(props.setCategory, props.updateTotalData)}
 			render={({ handleSubmit, submitting, form }) => (
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={e => handleSubmitDecorator(handleSubmit, e, form.reset, props.close)()}>
 					<SmallTitle marginBottom={40}>Выберите категорию для отображения</SmallTitle>
 					<GridWrapper>
 						{
@@ -58,4 +60,4 @@ const mapStateToProps = (state) => ({
 	settedCategory: state.category.settedCategory
 })
 
-export default connect(mapStateToProps, { setCategory })(SetCategoryForm);
+export default connect(mapStateToProps, { setCategory, updateTotalData })(SetCategoryForm);

@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { AlertContainer, AlertText, CloseAlertButton } from './AlertStyles';
 import { createPortal } from 'react-dom';
 import { connect } from 'react-redux';
-import { hideAlert } from '../../redux/alertReduser'
+import { hideAlert } from '../../redux/alertReduser';
+import { useEffect } from 'react';
 
 
 const Alert = (props) => {
@@ -12,9 +13,16 @@ const Alert = (props) => {
 	const hide = () => {
 		setClass('hide');
 		setTimeout(() => {
+			setClass('');
 			props.hideAlert();
-		}, 700)
+		}, hideTime - 50)
 	};
+
+	useEffect(() => {
+		const timeout = setTimeout(hide, 5000);
+	  
+		 return () => clearTimeout(timeout);
+	}, [props.visible])
 
 	if (!props.type || !props.visible)
 		return null

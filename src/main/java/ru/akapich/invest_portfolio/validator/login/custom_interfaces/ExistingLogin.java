@@ -1,7 +1,7 @@
-package ru.akapich.invest_portfolio.validator.custom_interfaces;
+package ru.akapich.invest_portfolio.validator.login.custom_interfaces;
 
-import ru.akapich.invest_portfolio.model.forms.login.RegistrationFrom;
-import ru.akapich.invest_portfolio.validator.custom_validators.LoginValidator;
+import ru.akapich.invest_portfolio.model.forms.login.RegistrationForm;
+import ru.akapich.invest_portfolio.validator.login.custom_validators.LoginValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 
 /**
  * Custom interface to verify if login already exist in
- * {@link RegistrationFrom}.
+ * {@link RegistrationForm}.
  *
  * @author Aleksandr Marakulin
  **/

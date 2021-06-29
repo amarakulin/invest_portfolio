@@ -1,12 +1,12 @@
 package ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets;
 
-import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AllFinancialAssetImpl;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFinancialAsset;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Interface of class {@link AllFinancialAssetImpl}
+ * Interface for class {@link AllFinancialAsset}
  *
  * @author Aleksandr Marakulin
  **/

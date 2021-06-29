@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
+import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.FinancialAssetInUseRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.user.UserService;
@@ -11,7 +12,6 @@ import ru.akapich.invest_portfolio.utils.MathUtils;
 import ru.akapich.invest_portfolio.model.forms.visualization.DiagramResponseForm;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryAmount;
-import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
 import ru.akapich.invest_portfolio.service.portfolio.visualization.DiagramService;
 
 import java.math.BigDecimal;
@@ -35,7 +35,7 @@ public class DiagramServiceImpl implements DiagramService{
 	private UserService userService;
 
 	@Autowired
-	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
+	private FinancialAssetInUseRepository financialAssetInUseRepository;
 
 	@Autowired
 	private HistoryAmountRepository historyAmountRepository;
@@ -45,21 +45,15 @@ public class DiagramServiceImpl implements DiagramService{
 
 	@Override
 	public List<DiagramResponseForm> getListDiagramForms() {
-		//TODO Refactor!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 		List<DiagramResponseForm> listDiagramResponseForm = new ArrayList<>();
 		FinancialAssetInUse financialAssetInUse;
 
-
-		if (userService.getUserInCurrentSession() == null){
-			System.out.println("Here!");
-			return listDiagramResponseForm;
-		}
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Collecting graph data for user with investPortfolio: %d", investPortfolio.getId()));
 		LocalDateTime date = historyAmountRepository.getLastTimeUpdateAssetsByInvestPortfolio(investPortfolio);
 		System.out.println(String.format("Last time update diagram: %s", date));
 		if (date == null){
-			System.out.println(String.format("Data Diagram: %s", listDiagramResponseForm));
 			return listDiagramResponseForm;
 		}
 		log.info(String.format("[+] Creating diagram for user with investPortfolio '%d'", investPortfolio.getId()));
@@ -69,9 +63,7 @@ public class DiagramServiceImpl implements DiagramService{
 
 		log.info(String.format("[+] Total price of the investPortfolio '%f'", totalPriceInvestPortfolio));
 		for (HistoryAmount asset : listHistoryAmount){
-			System.out.println(asset.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker());
-			financialAssetInUse = ownedFinancialAssetRepository.findFinancialAssetInUseByOwnedFinancialAsset(
-												asset.getOwnedFinancialAsset());
+			financialAssetInUse = financialAssetInUseRepository.findByOwnedFinancialAsset(asset.getOwnedFinancialAsset());
 			if (asset.getAmount().compareTo(BigDecimal.ZERO) != 0) {
 				listDiagramResponseForm.add(
 						DiagramResponseForm.builder()

@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
-
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFinancialAsset;
 import javax.persistence.*;
 
 /**
  * JavaBean object that represents the marked Exchange
- * of {@link FinancialAssetInUse}
+ * of {@link AllFinancialAsset}
  *
  * @author Aleksandr Marakulin
  **/
@@ -30,8 +29,4 @@ public class Exchange {
 
 	@Column
 	private String name;
-
-//	//foreign key
-//	@OneToOne//(mappedBy = "t_exchange")
-//	private FinancialAsset financialAsset;
 }
