@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
+import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.FinancialAssetInUseRepository;
 import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 import ru.akapich.invest_portfolio.service.user.UserService;
@@ -38,6 +39,9 @@ public class DiagramServiceImpl implements DiagramService{
 	private OwnedFinancialAssetRepository ownedFinancialAssetRepository;
 
 	@Autowired
+	private FinancialAssetInUseRepository financialAssetInUseRepository;
+
+	@Autowired
 	private HistoryAmountRepository historyAmountRepository;
 
 	@Autowired
@@ -70,8 +74,7 @@ public class DiagramServiceImpl implements DiagramService{
 		log.info(String.format("[+] Total price of the investPortfolio '%f'", totalPriceInvestPortfolio));
 		for (HistoryAmount asset : listHistoryAmount){
 			System.out.println(asset.getOwnedFinancialAsset().getFinancialAssetInUse().getIdAllFinancialAsset().getTicker());
-			financialAssetInUse = ownedFinancialAssetRepository.findFinancialAssetInUseByOwnedFinancialAsset(
-												asset.getOwnedFinancialAsset());
+			financialAssetInUse = financialAssetInUseRepository.findByOwnedFinancialAsset(asset.getOwnedFinancialAsset());
 			if (asset.getAmount().compareTo(BigDecimal.ZERO) != 0) {
 				listDiagramResponseForm.add(
 						DiagramResponseForm.builder()
