@@ -1,4 +1,4 @@
-import FunctionalAssetsPage from './FunctionalAssetsPage/FunctionalAssetsControllerContent'
+import FunctionalAssetsPage from './FunctionalAssetsPage/FunctionalAssetsPage'
 import {SmallTitle} from '../../Basic/Title/Title';
 import {Wrapper} from '../../Basic/Wrapper/Wrapper';
 
