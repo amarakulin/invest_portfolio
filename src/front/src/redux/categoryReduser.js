@@ -35,7 +35,6 @@ export const setSettedCategory = (settedCategory) => ({type: SET_SETTED_CATEGORY
 export const getSettedCategory = () => (dispatch) => {
 	CategoryApi.getSettedCategory()
 		.then(res => {
-			console.log(res.category);
 			dispatch(setSettedCategory(res.category));
 		})
 }
