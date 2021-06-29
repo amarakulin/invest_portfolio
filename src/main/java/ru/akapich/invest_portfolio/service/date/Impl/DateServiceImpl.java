@@ -32,7 +32,7 @@ public class DateServiceImpl implements DateService {
 		ZoneId asiaSingapore = ZoneId.of(timeZone);
 		ZonedDateTime currentTime = ZonedDateTime.ofInstant(nowUtc, asiaSingapore);
 		LocalDateTime localDateTime = currentTime.truncatedTo(ChronoUnit.HOURS).toLocalDateTime();
-		log.info(String.format("get Local[%s]: %s", timeZone, localDateTime));
+		log.info(String.format("[+] Get Local[%s]: %s", timeZone, localDateTime));
 
 		return localDateTime;
 	}
