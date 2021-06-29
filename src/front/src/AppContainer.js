@@ -3,15 +3,12 @@ import App from './App';
 import { connect } from 'react-redux';
 import { getSettedCategory, getCategories } from './redux/categoryReduser';
 import { getTotalAssets, getTotalPrice } from './redux/assetsReduser';
+import initializeApp from './utils/initialize'
 
 const AppContainer = (props) => {
 	useEffect(() => {
-		if (props.isAuth) {
-			props.getSettedCategory();
-			props.getCategories();
-			props.getTotalAssets();
-			props.getTotalPrice();
-		}
+		if (props.isAuth)
+			initializeApp(props);
 	}, [props.isAuth]);
 
 	return <App />
