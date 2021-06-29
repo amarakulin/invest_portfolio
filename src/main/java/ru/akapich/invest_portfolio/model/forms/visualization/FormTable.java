@@ -20,7 +20,12 @@ import java.util.Map;
 @Builder
 public class FormTable {
 
+	//Name of columns
 	private Map<String, String> header;
+
+	//All rows with data assets
 	private List<BodyTable> body;
+
+	//Order of the name columns
 	private List<String> order;
 }
