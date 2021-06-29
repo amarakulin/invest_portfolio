@@ -13,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.login.RegistrationForm;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
@@ -23,7 +21,6 @@ import ru.akapich.invest_portfolio.repository.user.UserRepository;
 import ru.akapich.invest_portfolio.service.user.UserService;
 import ru.akapich.invest_portfolio.validator.login.ValidatorController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -50,13 +47,13 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		//TODO find another way
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-		String password = request.getParameter("password");
-		log.info(String.format("loadUserByUsername: %s with password: %s", email, password));
+		//TODO Delete those comment if all working
+//		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//		String password = request.getParameter("password");
+//		log.info(String.format("loadUserByUsername: %s with password: %s", email, password));
 
 		User user = userRepository.getUserByEmail(email);
-		if (user != null && bCryptPasswordEncoder.matches(password, user.getPassword())){
+		if (user != null){ //&& bCryptPasswordEncoder.matches(password, user.getPassword())){
 
 			Collection<SimpleGrantedAuthority> roles = new HashSet<>();
 			roles.add(new SimpleGrantedAuthority(user.getRole()));
@@ -87,6 +84,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 				.enable(true)
 				.build();
 		userRepository.save(user);
+
 		log.info(String.format("[+] New User '%s' successfully register with email '%s'.",
 				user.getName(), user.getEmail()));
 	}
@@ -107,7 +105,6 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null){
-
 			user = userRepository.getUserByName(authentication.getName());
 			if (user != null) {
 				log.info(String.format("[+] Current user: %s", user.getName()));
@@ -130,7 +127,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserService {
 					filter(key -> key.getKey().contains("Error")).
 					findFirst().
 					get().
-					getValue().toString();//TODO get without isPresent!!!
+					getValue().toString();//TODO get with isPresent!!!
 		}
 		return BaseResponseForm.builder()
 				.error(errorMessage)
