@@ -11,7 +11,7 @@ import ru.akapich.invest_portfolio.service.user.UserService;
 import java.math.BigDecimal;
 
 /**
- * Implementation of {@link TotalPriceService}
+ * Implementation of {@link TotalPriceService} interface
  *
  * @author Aleksandr Marakulin
  **/
