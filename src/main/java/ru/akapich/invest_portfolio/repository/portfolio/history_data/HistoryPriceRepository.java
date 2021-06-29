@@ -6,7 +6,7 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.Finan
 import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryPrice;
 
 /**
- * JavaBean object that interaction with Database.
+ * JavaBean object that interaction with Database for class {@link HistoryPrice}.
  *
  * @author Aleksandr Marakulin
  **/

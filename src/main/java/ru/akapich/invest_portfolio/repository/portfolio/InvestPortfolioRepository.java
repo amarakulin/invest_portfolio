@@ -12,6 +12,4 @@ import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 
 @Repository
 public interface InvestPortfolioRepository extends JpaRepository<InvestPortfolio, Long> {
-
-	InvestPortfolio findFirstById(Long id);
 }
