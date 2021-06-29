@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
- * Object that get form client to validate and fill to database the user.
+ * Object that get form client to register new user.
  *
  * @author Aleksandr Marakulin
  **/
