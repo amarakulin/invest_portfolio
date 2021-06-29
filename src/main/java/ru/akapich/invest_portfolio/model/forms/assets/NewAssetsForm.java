@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 
 /**
- * Object that get data to input new asset to database.
+ * Object that get data to save new asset for user.
  *
  * @author Aleksandr Marakulin
  **/
