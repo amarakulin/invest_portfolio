@@ -13,14 +13,13 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.Finan
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * Class to get a price of {@link FinancialAssetInUse}
+ * Class to get a price of all {@link FinancialAssetInUse}
  *
  * @author Aleksandr Marakulin
  **/
@@ -48,10 +47,9 @@ public class ParseAmericanPriceAssets {
 		int i = 0;
 
 		JsonNode allAsset = mapper.readTree(responseData.toString());
-		System.out.println(String.format("Try find a status: %s", allAsset.findValues("status")));//TODO test if work just change it to one if
 		if (!allAsset.has("status")) {
 			for (Iterator<String> it = allAsset.fieldNames(); it.hasNext(); ) {
-				String key = it.next();//FIXME check !allAsset.get(key).has("status")
+				String key = it.next();
 				if (!allAsset.get(key).has("status")) {
 					if (allAsset.has("price")) {
 						priceAsset = BigDecimal.valueOf(allAsset.get("price").asDouble());
@@ -62,7 +60,7 @@ public class ParseAmericanPriceAssets {
 					i++;
 				}
 				else{
-					log.info("[-] Get an error in getAllPriceAmericanAssets. Couldn't get a data from 'twelvedata.com' with text: ");
+					log.info("[-] Get an error in getAllPriceAmericanAssets after get a key of JsonNode. Couldn't get a data from 'twelvedata.com' with text: ");
 					log.info(String.format("[-] %s", key));
 				}
 			}
@@ -74,11 +72,9 @@ public class ParseAmericanPriceAssets {
 		return mapAssetsPrice;
 	}
 
-	//TODO Set g IOException
 	public Map<String, BigDecimal> getAllPriceAmericanAssets(String exchange) throws IOException, InterruptedException {
-		Map<String, BigDecimal> parsedOutputWithTickerAndPrice = new HashMap<>();
-		String requestUrl;
-		String stringTickers;
+		Map<String, BigDecimal> mapWithTickerAndPrice = new HashMap<>();
+		String stringUrl;
 		LinkedList<String> listTickersForURL;
 		StringBuilder responseData;
 		LinkedList<String> listTickers;
@@ -93,20 +89,17 @@ public class ParseAmericanPriceAssets {
 		do {
 			listTickersForURL = listTickers.stream().limit(LIMIT_TICKERS_PER_ONE_REQUEST).collect(Collectors.toCollection(LinkedList::new));
 			listTickers.removeAll(listTickersForURL);
-			System.out.println(String.format("Len tickers: %d", listTickersForURL.size()));
-			stringTickers = String.join(",", listTickersForURL);
-			requestUrl = String.format(URL_FORM, stringTickers, API_KEY);
-			System.out.println(String.format("The list for url %s", listTickersForURL));
-			System.out.println(String.format("The string for url %s", requestUrl));
-			URL requestURL = connectionTwelveData.getRequestURL(requestUrl);
+			stringUrl = String.format(URL_FORM, String.join(",", listTickersForURL), API_KEY);
+			log.info(String.format("[+] Url string for request: %s", stringUrl));
+			URL requestURL = connectionTwelveData.getRequestURL(stringUrl);
 			responseData = UtilsParser.getResponseData(requestURL);
-			parsedOutputWithTickerAndPrice.putAll(parseData(responseData, listTickersForURL));
+			mapWithTickerAndPrice.putAll(parseData(responseData, listTickersForURL));
 			i++;
 			if (i <= timesForRequest) {
 				TimeUnit.MILLISECONDS.sleep(TIME_TO_WAIT);
 			}
 		} while (i <= timesForRequest);
-		System.out.println(parsedOutputWithTickerAndPrice);
-		return parsedOutputWithTickerAndPrice;
+		System.out.println(mapWithTickerAndPrice);
+		return mapWithTickerAndPrice;
 	}
 }
