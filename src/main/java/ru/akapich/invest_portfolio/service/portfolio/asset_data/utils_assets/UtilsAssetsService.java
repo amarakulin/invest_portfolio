@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets;
+package ru.akapich.invest_portfolio.service.portfolio.asset_data.utils_assets;
 
 import ru.akapich.invest_portfolio.controller.assets.UtilsAssetsController;
 import ru.akapich.invest_portfolio.model.forms.assets.MatchAssetForm;

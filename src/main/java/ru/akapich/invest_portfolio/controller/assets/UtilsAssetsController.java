@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.assets.MatchAssetForm;
-import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.UtilsAssetsService;
+import ru.akapich.invest_portfolio.service.portfolio.asset_data.utils_assets.UtilsAssetsService;
 
 import java.util.List;
 
