@@ -13,6 +13,8 @@ import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Own
 import java.util.LinkedList;
 
 /**
+ * Implementation of {@link OwnedFinancialAssetService} interface
+ *
  * @author Aleksandr Marakulin
  **/
 
@@ -26,7 +28,7 @@ public class OwnedFinancialAssetServiceImpl implements OwnedFinancialAssetServic
 	@Override
 	@Transactional
 	public OwnedFinancialAsset getAndAddNewOwnedAssetsUser(InvestPortfolio investPortfolio, FinancialAssetInUse financialAssetInUse) {
-		log.info(String.format("getAndAddNewOwnedAssetsUser add with InvPort: %d | ticker financialInUse: %s", investPortfolio.getId(), financialAssetInUse.getIdAllFinancialAsset().getTicker()));
+		log.info(String.format("[+] getAndAddNewOwnedAssetsUser add with InvPort: %d | ticker financialInUse: %s", investPortfolio.getId(), financialAssetInUse.getIdAllFinancialAsset().getTicker()));
 		OwnedFinancialAsset ownedFinancialAsset = ownedFinancialAssetRepository
 			.findByInvestPortfolioAndTickerDeleteTrue(investPortfolio, financialAssetInUse.getIdAllFinancialAsset().getTicker());
 		if (ownedFinancialAsset == null)
