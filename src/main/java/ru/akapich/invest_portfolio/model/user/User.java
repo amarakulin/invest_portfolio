@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 /**
- * JavaBean domain object that represents a User.
+ * JavaBean domain object that represents a User with {@link InvestPortfolio}.
  *
  * @author Aleksandr Marakulin
 **/
@@ -41,6 +41,7 @@ public class User {
 
 	@Column
 	private boolean enable;
+
 	//TODO Add timestamp create
 	//TODO Add access rules
 }
