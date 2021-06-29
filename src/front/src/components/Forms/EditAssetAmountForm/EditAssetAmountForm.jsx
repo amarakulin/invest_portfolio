@@ -8,6 +8,7 @@ import { editAsset } from '../../../redux/assetsTableReduser';
 import { editAssetAmountFormSubmit } from '../../../utils/formSubmit'
 import { composeValidators, amountValidator, requiredField } from '../../../utils/validators';
 import { updateTotalData } from '../../../redux/assetsReduser';
+import { handleSubmitDecorator } from '../../../utils/formSubmitDecorator';
 
 const SendButton = styled.button`
 	width: 25%;
@@ -25,17 +26,21 @@ const SendButton = styled.button`
 `
 
 const EditAssetAmountForm = (props) => {
+	const editAssetSubmitData = {
+		value: props.value,
+		ticker: props.ticker,
+		type: props.type,
+		editAsset: props.editAsset
+	}
+	
 	return (
 		<Form
-			onSubmit={editAssetAmountFormSubmit({ value: props.value, ticker: props.ticker, type: props.type, editAsset: props.editAsset }, props.showAlert, props.updateTotalData)}
+			updateTotalData={props.updateTotalData}
+			onSubmit={editAssetAmountFormSubmit(editAssetSubmitData, props.showAlert, props.updateTotalData)}
 			render={({ handleSubmit, form, invalid }) => (
 				<form
 					style={{ width: '100%' }}
-					onSubmit={e => {
-						e.preventDefault();
-						handleSubmit();
-						form.blur();
-					}}
+					onSubmit={e => handleSubmitDecorator(handleSubmit, e)()}
 					onBlur={props.resetSelectedAsset}
 				>
 					<Wrapper>
