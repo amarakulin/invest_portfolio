@@ -10,33 +10,35 @@ import Confirm from './components/Confirm/Confirm';
 
 function App() {
 	return (
-		<Router>
-			<Switch>
-				<Route
-					path="/login"
-					render={() => <LoginPage form={<AuthForm />}></LoginPage>}
-				/>
-				<Route
-					path="/signup"
-					render={() => <LoginPage form={<SignUpForm />}></LoginPage>}
-				/>
-				<Route
-					exact
-					path="/"
-					component={ HomePage }
-				/>
-				<Route
-					exact
-					path="/assets"
-					component={ AssetsPage }
-				/>
-				<Route
-					component={NotFound}
-				/>
-			</Switch>
+		<>
+			<Router>
+				<Switch>
+					<Route
+						path="/login"
+						render={() => <LoginPage form={<AuthForm />}></LoginPage>}
+					/>
+					<Route
+						path="/signup"
+						render={() => <LoginPage form={<SignUpForm />}></LoginPage>}
+					/>
+					<Route
+						exact
+						path="/"
+						component={HomePage}
+					/>
+					<Route
+						exact
+						path="/assets"
+						component={AssetsPage}
+					/>
+					<Route
+						component={NotFound}
+					/>
+				</Switch>
+			</Router>
 			<Alert />
 			<Confirm />
-		</Router>
+		</>
 	);
 }
 
