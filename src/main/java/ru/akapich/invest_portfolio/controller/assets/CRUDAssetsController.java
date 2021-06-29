@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.assets.EditAssetForm;
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
+import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.AddingNewListFinancialAssetService;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.CRUDAssetsService;
-import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.Impl.AddingNewListFinancialAssetsImpl;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryAmountService;
 
 import java.util.List;
@@ -27,8 +27,11 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000/*", allowedHeaders = "*", maxAge = 3600)
 public class CRUDAssetsController {
 
+//	@Autowired
+//	private AddingNewListFinancialAssetsServiceImpl addingNewListFinancialAsset;//TODO if working without. Delete it
+
 	@Autowired
-	private AddingNewListFinancialAssetsImpl addingNewListFinancialAsset;
+	private AddingNewListFinancialAssetService addingNewListFinancialAsset;
 
 	@Autowired
 	private HistoryAmountService historyAmountService;
