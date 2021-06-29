@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFinancialAsset;
 
 import javax.persistence.*;
 
 /**
- * JavaBean object that represent all types of asset.
+ * JavaBean object that represent all types of {@link AllFinancialAsset}.
  *
  * @author Aleksandr Marakulin
  **/
@@ -28,8 +29,4 @@ public class TypeAsset {
 
 	@Column
 	private String name;
-
-//	//foreign key
-//	@OneToOne//(mappedBy = "t_type_asset")
-//	private FinancialAsset financialAsset;
 }
