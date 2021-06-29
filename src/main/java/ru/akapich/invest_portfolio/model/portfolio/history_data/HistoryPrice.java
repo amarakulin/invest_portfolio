@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 /**
  * JavaBean domain object
- * That represent price changes on {@link FinancialAssetInUse}
+ * That represent last price of {@link FinancialAssetInUse}
  *
  * @author Aleksandr Marakulin
  **/
