@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.category.CategoryCreateForm;
 import ru.akapich.invest_portfolio.service.portfolio.category.CategoryService;
-
+import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Controller for Categories
+ * Controller for {@link Category}
  *
  * @author Aleksandr Marakulin
  **/
@@ -29,7 +29,15 @@ public class CategoryController {
 
 	@PostMapping("/api/category/create")
 	public BaseResponseForm createCategory(@RequestBody CategoryCreateForm categoryCreateForm, Model model){
-		return categoryService.addNewCategory(categoryCreateForm);
+		BaseResponseForm baseResponseForm = categoryService.getResponseCreateCategory(categoryCreateForm);
+		if (baseResponseForm.getError().equals("")){
+			categoryService.saveNewCategory(categoryCreateForm);
+		}
+		else{
+			log.info(String.format("[-] User try to create Category with name '%s' and didn't pass validation. Error message: %s",
+					categoryCreateForm.getName(), baseResponseForm.getError()));
+		}
+		return baseResponseForm;
 	}
 
 	@PutMapping("/api/category/set")

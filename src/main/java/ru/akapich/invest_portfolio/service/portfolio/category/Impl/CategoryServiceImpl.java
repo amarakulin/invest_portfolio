@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Implementation of {@link CategoryService} interface
+ *
  * @author Aleksandr Marakulin
  **/
 
@@ -50,18 +52,13 @@ public class CategoryServiceImpl implements CategoryService {
 	private Environment env;
 
 	@Override
-	@Transactional
-	public BaseResponseForm addNewCategory(CategoryCreateForm categoryCreateForm) {
+	public BaseResponseForm getResponseCreateCategory(CategoryCreateForm categoryCreateForm) {
+
 		String errorMessage = "";
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
-		System.out.println(String.format("investPortfolio: %s", investPortfolio));
 
 		OwnedCategory firstOwnedExistCategory = ownedCategoryRepository.findFirstByOwnedFinancialAsset_InvestPortfolioAndCategory_Name(investPortfolio, categoryCreateForm.getName());
 		System.out.println(String.format("firstOwnedExistCategory: %s", firstOwnedExistCategory));
-		List<OwnedFinancialAsset> ownedFinancialAssets = ownedFinancialAssetRepository
-				.getAllOwnedFinancialAssetsByListTickersAndInvestPortfolio(investPortfolio, categoryCreateForm.getValue());
-		System.out.println(String.format("owned financial asset EXPECTED: %s", categoryCreateForm.getValue()));
-		System.out.println(String.format("owned financial asset GET: %s", ownedFinancialAssets));
 
 		if (firstOwnedExistCategory != null){
 			errorMessage = env.getProperty("valid.category.exist");
@@ -69,21 +66,30 @@ public class CategoryServiceImpl implements CategoryService {
 		else if ("total".equals(categoryCreateForm.getName())){
 			errorMessage = env.getProperty("valid.category.main");
 		}
-		else if (ownedFinancialAssets.size() == 0){
+		else if (categoryCreateForm.getValue().size() == 0){
 			errorMessage = env.getProperty("valid.category.not_exist_tickers");
 		}
-		else{
-			Category category = Category.builder()
-					.name(categoryCreateForm.getName())
-					.build();
-			System.out.println(String.format("Create category: %s", category));
-			categoryRepository.save(category);
-			ownedCategoryService.addNewOwnedCategoriesByOwnedFinancialAssetAndCategory(ownedFinancialAssets, category);
-		}
+
 		return BaseResponseForm.builder()
 				.error(errorMessage)
 				.resultCode("".equals(errorMessage) ? 0 : 1)
 				.build();
+	}
+
+	@Override
+	@Transactional
+	public void saveNewCategory(CategoryCreateForm categoryCreateForm) {
+		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
+		List<OwnedFinancialAsset> ownedFinancialAssets = ownedFinancialAssetRepository
+				.getAllOwnedFinancialAssetsByListTickersAndInvestPortfolio(investPortfolio, categoryCreateForm.getValue());
+
+		Category category = Category.builder()
+				.name(categoryCreateForm.getName())
+				.build();
+
+		categoryRepository.save(category);
+		ownedCategoryService.addNewOwnedCategoriesByOwnedFinancialAssetAndCategory(ownedFinancialAssets, category);
+		System.out.println(String.format("Create category: %s", category));
 	}
 
 	@Override
@@ -107,7 +113,6 @@ public class CategoryServiceImpl implements CategoryService {
 			category = null;
 		}
 		else{
-			System.out.println("Not a total!");
 			OwnedCategory firstOwnedExistCategory = ownedCategoryRepository
 					.findFirstByOwnedFinancialAsset_InvestPortfolioAndCategory_Name(investPortfolio, nameCategory);
 			System.out.println(String.format("firstOwnedExistCategory: %s", firstOwnedExistCategory));
@@ -121,11 +126,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 		}
 		investPortfolio.setCategory(category);
-	}
-
-	@Override
-	public void deleteCategory(String nameCategory) {
-
 	}
 
 	@Override
