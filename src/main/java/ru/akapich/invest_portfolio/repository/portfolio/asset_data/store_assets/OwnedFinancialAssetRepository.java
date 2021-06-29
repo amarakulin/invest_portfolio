@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
+import ru.akapich.invest_portfolio.model.portfolio.category.Category;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -48,4 +49,7 @@ public interface OwnedFinancialAssetRepository extends JpaRepository<OwnedFinanc
 			" AND o.isDelete = false" +
 			" AND o.FinancialAssetInUse.idAllFinancialAsset.ticker IN ?2")
 	List<OwnedFinancialAsset> getAllOwnedFinancialAssetsByListTickersAndInvestPortfolio(InvestPortfolio investPortfolio, List<String> tickers);
+
+	@Query("SELECT c.ownedFinancialAsset FROM OwnedCategory c WHERE c.category = ?1")
+	LinkedList<OwnedFinancialAsset> getAllByCategory(Category category);
 }

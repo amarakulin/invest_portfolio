@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * JavaBean object that interaction with Database.
+ * JavaBean object that interaction with Database for {@link OwnedCategory} .
  *
  * @author Aleksandr Marakulin
  **/
@@ -21,9 +21,6 @@ import java.util.List;
 public interface OwnedCategoryRepository  extends JpaRepository<OwnedCategory, Long> {
 
 	OwnedCategory findFirstByOwnedFinancialAsset_InvestPortfolioAndCategory_Name(InvestPortfolio investPortfolio, String name);
-
-	@Query("SELECT c.ownedFinancialAsset FROM OwnedCategory c WHERE c.category = ?1")
-	LinkedList<OwnedFinancialAsset> getAllOwnedFinancialAssetByCategory(Category category);
 
 	@Query("SELECT DISTINCT c.category.name FROM OwnedCategory c WHERE c.ownedFinancialAsset.investPortfolio = ?1")
 	List<String> getAllNamesCategoriesByInvestPortfolio(InvestPortfolio investPortfolio);
