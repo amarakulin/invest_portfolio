@@ -31,7 +31,7 @@ public class TypeAssetServiceImpl implements TypeAssetService {
 		if (typeAsset == null){
 			typeAsset = TypeAsset.builder().name(name).build();
 			typeAssetRepository.save(typeAsset);
-			log.info(String.format("Add new typeAsset - '%s'", name));
+			log.info(String.format("[+] Add new typeAsset - '%s'", name));
 		}
 		return typeAsset;
 	}

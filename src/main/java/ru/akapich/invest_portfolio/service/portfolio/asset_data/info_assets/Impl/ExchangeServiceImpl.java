@@ -30,7 +30,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 		if (exchange == null){
 			exchange = Exchange.builder().name(name).build();
 			exchangeRepository.save(exchange);
-			log.info(String.format("Add new exchange - '%s'", name));
+			log.info(String.format("[+] Add new exchange - '%s'", name));
 		}
 		return exchange;
 	}

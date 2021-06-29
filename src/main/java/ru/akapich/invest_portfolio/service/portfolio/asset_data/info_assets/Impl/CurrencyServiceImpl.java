@@ -30,7 +30,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 		if (currency == null){
 			currency = Currency.builder().name(name).build();
 			currencyRepository.save(currency);
-			log.info(String.format("Add new currency - '%s'", name));
+			log.info(String.format("[+] Add new currency - '%s'", name));
 		}
 		return currency;
 	}
