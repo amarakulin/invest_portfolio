@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Implementation of {@link HistoryPriceService}
+ * Implementation of {@link HistoryPriceService} interface
  *
  * @author Aleksandr Marakulin
  **/
@@ -67,7 +67,6 @@ public class HistoryPriceServiceImpl implements HistoryPriceService {
 			else{
 				historyPrice.setPrice(asset.getValue());
 			}
-
 		}
 	}
 

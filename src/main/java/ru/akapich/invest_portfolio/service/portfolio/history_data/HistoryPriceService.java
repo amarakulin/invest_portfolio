@@ -1,14 +1,12 @@
 package ru.akapich.invest_portfolio.service.portfolio.history_data;
 
-import ru.akapich.invest_portfolio.service.portfolio.history_data.Impl.HistoryPriceServiceImpl;
-
+import ru.akapich.invest_portfolio.model.portfolio.history_data.HistoryPrice;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
- * Interface of {@link HistoryPriceServiceImpl}
+ * Interface of {@link HistoryPrice}
  *
  * @author Aleksandr Marakulin
  **/
