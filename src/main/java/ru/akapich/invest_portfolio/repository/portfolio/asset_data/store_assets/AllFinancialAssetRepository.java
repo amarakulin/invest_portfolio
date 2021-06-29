@@ -7,7 +7,7 @@ import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFi
 import java.util.List;
 
 /**
- * JavaBean object that interaction with Database.
+ * JavaBean object that interaction with Database for class {@link AllFinancialAsset}.
  *
  * @author Aleksandr Marakulin
  **/

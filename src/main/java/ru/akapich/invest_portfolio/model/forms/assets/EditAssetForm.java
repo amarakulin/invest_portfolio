@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 /**
- * Object to get info asset to change the asset
+ * Object to with info to change the asset
  *
  * @author Aleksandr Marakulin
  **/

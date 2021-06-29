@@ -11,7 +11,7 @@ import ru.akapich.invest_portfolio.service.portfolio.visualization.TotalPriceSer
 import java.math.BigDecimal;
 
 /**
- * Controller that send total price of the invest portfolio
+ * Controller to represent TotalPrice on main Page
  *
  * @author Aleksandr Marakulin
  **/

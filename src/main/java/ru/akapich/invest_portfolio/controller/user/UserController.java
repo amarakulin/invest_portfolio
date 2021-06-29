@@ -3,20 +3,17 @@ package ru.akapich.invest_portfolio.controller.user;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
-import ru.akapich.invest_portfolio.model.forms.login.RegistrationFrom;
-import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
+import ru.akapich.invest_portfolio.model.forms.login.RegistrationForm;
 import ru.akapich.invest_portfolio.model.user.User;
 import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
-import ru.akapich.invest_portfolio.validator.ValidatorController;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -32,55 +29,33 @@ import java.util.Map;
 public class UserController {
 
 	@Autowired
-	private Environment env;
-
-	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
 	@CrossOrigin(origins = "http://localhost:3000/signup")
 	@PostMapping("/api/auth/signup")
-	public BaseResponseForm registration(@Valid @RequestBody RegistrationFrom form,
+	public BaseResponseForm registration(@Valid @RequestBody RegistrationForm form,
 											BindingResult bindingResult, Model model) {
-		String errorMessage = "";
 
-		if (bindingResult.hasErrors()) {
-			model.mergeAttributes(ValidatorController.getErrors(bindingResult));
-
-			errorMessage = model.asMap().entrySet().stream().
-					filter(key -> key.getKey().contains("Error")).
-					findFirst().
-					get().
-					getValue().toString();//TODO get without isPresent!!!
-
+		BaseResponseForm baseResponseForm = userDetailsService.getResponseRegistration(bindingResult, model);
+		if (baseResponseForm.getError().equals("")){
+			userDetailsService.saveNewUser(form);
+		}
+		else{
 			log.info(String.format("[-] User '%s' try to register and didn't pass validation. Error message: %s",
-					form.getName(), errorMessage));
+					form.getName(), baseResponseForm.getError()));
 		}
-		else {
-			User user = User.builder()
-					.name(form.getName())
-					.email(form.getEmail())
-					.password(form.getPassword())
-					.role(env.getProperty("role.user"))
-					.investPortfolio(new InvestPortfolio())
-					.enable(true)
-					.build();
-			userDetailsService.save(user);
-
-			log.info(String.format("[+] New User '%s' successfully register with email '%s'.",
-								user.getName(), user.getEmail()));
-		}
-		return BaseResponseForm.builder()
-				.error(errorMessage)
-				.resultCode("".equals(errorMessage) ? 0 : 1)
-				.build();
+		return baseResponseForm;
 	}
 
 	@GetMapping("/api/auth/token")
 	public Map<String,String> token(HttpSession session) {
-		Map<String,String> result = new java.util.HashMap<>(Collections.singletonMap("token", session.getId()));
-		System.out.println(String.format("Token: %s",  Collections.singletonMap("token", session.getId())));
+//		Map<String,String> result = new java.util.HashMap<>(Collections.singletonMap("token", session.getId()));
+//		System.out.println(String.format("Token: %s",  Collections.singletonMap("token", session.getId())));
+		Map<String, String> result = new HashMap<>();
+		//TODO if it doesn't work change on singletonMap above
 		User user = userDetailsService.getUserInCurrentSession();
 		result.put("name", user.getName());
+		result.put("token", session.getId());
 		return result;
 	}
 }

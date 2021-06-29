@@ -6,11 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.OwnedFinancialAsset;
+import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
 
 import java.time.LocalDateTime;
 
 /**
- * Object to get data form db
+ * Object to get purchase date form db {@link HistoryAmountRepository}
  *
  * @author Aleksandr Marakulin
  **/

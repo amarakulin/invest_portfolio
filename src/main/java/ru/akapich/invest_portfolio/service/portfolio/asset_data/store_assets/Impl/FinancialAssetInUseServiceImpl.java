@@ -34,7 +34,7 @@ public class FinancialAssetInUseServiceImpl implements FinancialAssetInUseServic
 	@Override
 	@Transactional
 	public FinancialAssetInUse getAndAddToAssetInUseIfNotExist(String ticker) {
-		log.info("addToAssetInUseIfNotExist start searching");
+		log.info("[+] addToAssetInUseIfNotExist start searching");
 		FinancialAssetInUse matchedAsset = financialAssetInUseRepository.
 				findFinancialAssetInUseByIdAllFinancialAsset_Ticker(ticker);
 		log.info(String.format("matchedAsset in addToAssetInUseIfNotExist: %s", ticker));
@@ -47,7 +47,6 @@ public class FinancialAssetInUseServiceImpl implements FinancialAssetInUseServic
 			log.info(String.format("addToAssetInUseIfNotExist add new assert 'in use': %s", ticker));
 			financialAssetInUseRepository.save(matchedAsset);
 		}
-//		financialAssetInUseRepository.save(matchedAsset);
 		return matchedAsset;
 	}
 

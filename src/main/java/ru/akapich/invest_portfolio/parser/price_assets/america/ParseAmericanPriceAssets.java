@@ -6,19 +6,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.akapich.invest_portfolio.parser.connection.ConnectionTwelveData;
+import ru.akapich.invest_portfolio.parser.utils.UtilsParser;
 import ru.akapich.invest_portfolio.service.portfolio.history_data.HistoryPriceService;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * Class to get a price of {@link FinancialAssetInUse}
+ * Class to get a price of all {@link FinancialAssetInUse}
  *
  * @author Aleksandr Marakulin
  **/
@@ -26,6 +27,10 @@ import java.util.stream.Collectors;
 @Log4j2
 @Component
 public class ParseAmericanPriceAssets {
+
+	@Autowired
+	private ConnectionTwelveData connectionTwelveData;
+
 	//TODO encode !!
 	private static final String API_KEY = "1480cef042784c4ea6dc3cd0975ad6e5";
 	private static final int LIMIT_TICKERS_PER_ONE_REQUEST = 7;
@@ -34,25 +39,6 @@ public class ParseAmericanPriceAssets {
 
 	@Autowired
 	private HistoryPriceService historyPriceService;
-
-	private StringBuilder getResponseData(String requestURLString) throws IOException {
-		URL requestURL = new URL(requestURLString);
-		HttpURLConnection connection = (HttpURLConnection)requestURL.openConnection();
-		StringBuilder responseData = new StringBuilder();
-
-		connection.setRequestMethod("GET");
-		connection.setRequestProperty("User-Agent", "twelve_java/1.0");
-		connection.connect();
-
-		if (connection.getResponseCode() != 200) {
-			throw new RuntimeException("Request failed. Error: " + connection.getResponseMessage());
-		}
-		Scanner scanner = new Scanner(requestURL.openStream());
-		while (scanner.hasNextLine()) {
-			responseData.append(scanner.nextLine());
-		}
-		return responseData;
-	}
 
 	private Map<String, BigDecimal> parseData(StringBuilder responseData, LinkedList<String> listTickers) throws JsonProcessingException {
 		Map<String, BigDecimal> mapAssetsPrice = new HashMap<>();
@@ -63,15 +49,20 @@ public class ParseAmericanPriceAssets {
 		JsonNode allAsset = mapper.readTree(responseData.toString());
 		if (!allAsset.has("status")) {
 			for (Iterator<String> it = allAsset.fieldNames(); it.hasNext(); ) {
-				String key = it.next();//FIXME check !allAsset.get(key).has("status")
-				if (allAsset.has("price")){
-					priceAsset = BigDecimal.valueOf(allAsset.get("price").asDouble());
+				String key = it.next();
+				if (!allAsset.get(key).has("status")) {
+					if (allAsset.has("price")) {
+						priceAsset = BigDecimal.valueOf(allAsset.get("price").asDouble());
+					} else {
+						priceAsset = BigDecimal.valueOf(allAsset.get(key).get("price").asDouble());
+					}
+					mapAssetsPrice.put(listTickers.get(i), priceAsset);
+					i++;
 				}
 				else{
-					priceAsset = BigDecimal.valueOf(allAsset.get(key).get("price").asDouble());
+					log.info("[-] Get an error in getAllPriceAmericanAssets after get a key of JsonNode. Couldn't get a data from 'twelvedata.com' with text: ");
+					log.info(String.format("[-] %s", key));
 				}
-				mapAssetsPrice.put(listTickers.get(i), priceAsset);
-				i++;
 			}
 		}
 		else {
@@ -81,11 +72,9 @@ public class ParseAmericanPriceAssets {
 		return mapAssetsPrice;
 	}
 
-	//TODO Set g IOException
 	public Map<String, BigDecimal> getAllPriceAmericanAssets(String exchange) throws IOException, InterruptedException {
-		Map<String, BigDecimal> parsedOutputWithTickerAndPrice = new HashMap<>();
-		String requestUrl;
-		String stringTickers;
+		Map<String, BigDecimal> mapWithTickerAndPrice = new HashMap<>();
+		String stringUrl;
 		LinkedList<String> listTickersForURL;
 		StringBuilder responseData;
 		LinkedList<String> listTickers;
@@ -100,19 +89,17 @@ public class ParseAmericanPriceAssets {
 		do {
 			listTickersForURL = listTickers.stream().limit(LIMIT_TICKERS_PER_ONE_REQUEST).collect(Collectors.toCollection(LinkedList::new));
 			listTickers.removeAll(listTickersForURL);
-			System.out.println(String.format("Len tickers: %d", listTickersForURL.size()));
-			stringTickers = String.join(",", listTickersForURL);
-			requestUrl = String.format(URL_FORM, stringTickers, API_KEY);
-			System.out.println(String.format("The list for url %s", listTickersForURL));
-			System.out.println(String.format("The string for url %s", requestUrl));
-			responseData = getResponseData(requestUrl);
-			parsedOutputWithTickerAndPrice.putAll(parseData(responseData, listTickersForURL));
+			stringUrl = String.format(URL_FORM, String.join(",", listTickersForURL), API_KEY);
+			log.info(String.format("[+] Url string for request: %s", stringUrl));
+			URL requestURL = connectionTwelveData.getRequestURL(stringUrl);
+			responseData = UtilsParser.getResponseData(requestURL);
+			mapWithTickerAndPrice.putAll(parseData(responseData, listTickersForURL));
 			i++;
 			if (i <= timesForRequest) {
 				TimeUnit.MILLISECONDS.sleep(TIME_TO_WAIT);
 			}
 		} while (i <= timesForRequest);
-		System.out.println(parsedOutputWithTickerAndPrice);
-		return parsedOutputWithTickerAndPrice;
+		System.out.println(mapWithTickerAndPrice);
+		return mapWithTickerAndPrice;
 	}
 }

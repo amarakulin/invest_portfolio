@@ -4,9 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.akapich.invest_portfolio.controller.assets.UtilsAssetsController;
 
 /**
- * Form response for {@link ru.akapich.invest_portfolio.controller.assets.UtilsAssetsController}
+ * Form response for {@link UtilsAssetsController}
  *
  * @author Aleksandr Marakulin
  **/

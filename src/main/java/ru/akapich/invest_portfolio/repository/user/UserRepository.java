@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.akapich.invest_portfolio.model.user.User;
 
 /**
- * JavaBean object that interaction with Database.
+ * JavaBean object that interaction with Database for class {@link User}.
  *
  * @author Aleksandr Marakulin
  **/
