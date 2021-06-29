@@ -1,7 +1,7 @@
 import CreateCategoryContainer from '../../../Category/CreateCategory/CreateCategoryContainer'
 import {Wrapper} from '../../../Basic/Wrapper/Wrapper';
 
-const FunctionalAssetsControllerContent = () => {
+const FunctionalAssetsPage = () => {
 	return (
 		<Wrapper>
 			<CreateCategoryContainer />
@@ -9,4 +9,4 @@ const FunctionalAssetsControllerContent = () => {
 	)
 }
 
-export default FunctionalAssetsControllerContent;
+export default FunctionalAssetsPage;

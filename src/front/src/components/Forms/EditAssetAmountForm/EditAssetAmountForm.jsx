@@ -40,7 +40,7 @@ const EditAssetAmountForm = (props) => {
 							validate={amountValidator}
 							onBlur={() => props.resetSelectedAsset()}
 						/>
-						<SendButton diabled={invalid} invalid={Object.keys(values).length && invalid} onMouseDown={form.submit} />
+						<SendButton disabled={invalid} invalid={Object.keys(values).length && invalid} onMouseDown={form.submit} />
 					</Wrapper>
 				</form>
 			)}
