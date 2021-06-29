@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.validator;
+package ru.akapich.invest_portfolio.validator.assets;
 
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 

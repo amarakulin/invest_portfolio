@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.CRUDAssetsService;
-import ru.akapich.invest_portfolio.validator.ValidateCRUDAssetsInterface;
+import ru.akapich.invest_portfolio.validator.assets.ValidateCRUDAssetsInterface;
 
 import java.util.List;
 

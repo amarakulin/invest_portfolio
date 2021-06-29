@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.validator.Impl;
+package ru.akapich.invest_portfolio.validator.assets.Impl;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
 import ru.akapich.invest_portfolio.service.user.UserService;
 import ru.akapich.invest_portfolio.utils.MathUtils;
-import ru.akapich.invest_portfolio.validator.ValidateCRUDAssetsInterface;
+import ru.akapich.invest_portfolio.validator.assets.ValidateCRUDAssetsInterface;
 
 import java.util.List;
 import java.util.stream.Collectors;
