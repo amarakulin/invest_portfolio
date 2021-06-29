@@ -1,4 +1,4 @@
-package ru.akapich.invest_portfolio.validator;
+package ru.akapich.invest_portfolio.validator.login;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;

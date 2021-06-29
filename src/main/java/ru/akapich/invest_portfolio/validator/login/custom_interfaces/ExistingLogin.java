@@ -1,14 +1,14 @@
-package ru.akapich.invest_portfolio.validator.custom_interfaces;
+package ru.akapich.invest_portfolio.validator.login.custom_interfaces;
 
 import ru.akapich.invest_portfolio.model.forms.login.RegistrationForm;
-import ru.akapich.invest_portfolio.validator.custom_validators.EmailValidator;
+import ru.akapich.invest_portfolio.validator.login.custom_validators.LoginValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**
- * Custom interface to verify if email already exist in
+ * Custom interface to verify if login already exist in
  * {@link RegistrationForm}.
  *
  * @author Aleksandr Marakulin
@@ -16,10 +16,11 @@ import java.lang.annotation.*;
 
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EmailValidator.class)
+@Constraint(validatedBy = LoginValidator.class)
 @Documented
-public @interface ExistingEmail {
-	String message() default "{valid.existing.email}";
+public @interface ExistingLogin {
+
+	String message() default "{valid.existing.name}";
 
 	Class<?>[] groups() default {};
 

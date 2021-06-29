@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.akapich.invest_portfolio.validator.custom_interfaces.ExistingEmail;
-import ru.akapich.invest_portfolio.validator.custom_interfaces.ExistingLogin;
+import ru.akapich.invest_portfolio.validator.login.custom_interfaces.ExistingEmail;
+import ru.akapich.invest_portfolio.validator.login.custom_interfaces.ExistingLogin;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

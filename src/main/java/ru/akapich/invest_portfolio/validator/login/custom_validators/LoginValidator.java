@@ -1,9 +1,9 @@
-package ru.akapich.invest_portfolio.validator.custom_validators;
+package ru.akapich.invest_portfolio.validator.login.custom_validators;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.akapich.invest_portfolio.service.user.UserService;
-import ru.akapich.invest_portfolio.validator.custom_interfaces.ExistingLogin;
+import ru.akapich.invest_portfolio.validator.login.custom_interfaces.ExistingLogin;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

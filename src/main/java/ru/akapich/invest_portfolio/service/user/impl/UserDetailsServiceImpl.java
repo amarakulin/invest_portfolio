@@ -21,7 +21,7 @@ import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.user.User;
 import ru.akapich.invest_portfolio.repository.user.UserRepository;
 import ru.akapich.invest_portfolio.service.user.UserService;
-import ru.akapich.invest_portfolio.validator.ValidatorController;
+import ru.akapich.invest_portfolio.validator.login.ValidatorController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
