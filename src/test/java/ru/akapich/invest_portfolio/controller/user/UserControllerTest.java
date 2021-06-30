@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -44,6 +45,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Import(ValidatorController.class)
+@PropertySource("classpath:application-test.properties")
 public class UserControllerTest {
 
 	@Autowired
@@ -52,11 +54,14 @@ public class UserControllerTest {
 	@Autowired
 	private UserController userController;
 
+	@Autowired
+	private UserService userService;
+
 	@MockBean
-	UserService userService;
+	private BindingResult bindingResult;
 
 	@Test
-	public void test() throws Exception{
+	public void testUserControllerOnNull() throws Exception{
 		assertThat(userController).isNotNull();
 	}
 
@@ -70,23 +75,23 @@ public class UserControllerTest {
 
 
 	@Test
-	public void BadCredentialsTest() throws Exception{
+	public void badCredentialsTest() throws Exception{//FIXME Bud test
 		this.mockMvc.perform(post("/api/auth/login").param("bad", "bad"))
 				.andDo(print())
 				.andExpect(status().isUnauthorized());
 	}
 
-//	@Test
-//	public void testSuccessRegistration() throws Exception {
-//		RegistrationForm registrationForm = new RegistrationForm("just_test", "just_test@mail.com", "just_test", "just_test");
-//
-//		this.mockMvc.perform(post("/api/auth/signup")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(toJson(registrationForm)))
-//				.andDo(print())
-//				.andExpect(status().isOk())
-//				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-//	}
+	@Test
+	public void testSuccessRegistration() throws Exception {
+		RegistrationForm registrationForm = new RegistrationForm("just_test", "just_test@mail.com", "just_test", "just_test");
+
+		this.mockMvc.perform(post("/api/auth/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(toJson(registrationForm)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
 
 //	@Test
 //	public void testGetToken() throws Exception {
