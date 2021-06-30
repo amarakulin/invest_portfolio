@@ -27,7 +27,7 @@ public class OwnedFinancialAssetServiceImpl implements OwnedFinancialAssetServic
 
 	@Override
 	@Transactional
-	public OwnedFinancialAsset getAndAddNewOwnedAssetsUser(InvestPortfolio investPortfolio, FinancialAssetInUse financialAssetInUse) {
+	public OwnedFinancialAsset getAndAddNewOwnedAssetsUserIfNotExist(InvestPortfolio investPortfolio, FinancialAssetInUse financialAssetInUse) {
 		log.info(String.format("[+] getAndAddNewOwnedAssetsUser add with InvPort: %d | ticker financialInUse: %s", investPortfolio.getId(), financialAssetInUse.getIdAllFinancialAsset().getTicker()));
 		OwnedFinancialAsset ownedFinancialAsset = ownedFinancialAssetRepository
 			.findByInvestPortfolioAndTickerDeleteTrue(investPortfolio, financialAssetInUse.getIdAllFinancialAsset().getTicker());
