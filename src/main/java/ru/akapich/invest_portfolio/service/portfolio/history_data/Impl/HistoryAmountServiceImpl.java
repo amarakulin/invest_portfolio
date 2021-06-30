@@ -99,7 +99,9 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		}
 		else{
 			historyAmount.setAmount(editAssetForm.getAmount());
-			historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(editAssetForm.getAmount()));
+			if (historyPriceOfAsset != null){//TODO test: change asset after adding in the work time of exchange
+				historyAmount.setTotal(historyPriceOfAsset.getPrice().multiply(editAssetForm.getAmount()));
+			}
 			log.info(String.format("[+] Ticker: '%s' successfully update by invest portfolio: %s", editAssetForm.getTicker(), investPortfolio.getId()));
 		}
 		return BaseResponseForm.builder()
