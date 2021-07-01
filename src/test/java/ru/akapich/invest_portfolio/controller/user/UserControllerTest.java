@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 /**
- *
+ * Test class for {@link UserController}
  *
  * @author Aleksandr Marakulin
  **/
@@ -107,7 +107,29 @@ public class UserControllerTest {
 
 	@Test
 	public void testSuccessRegistration() throws Exception {
-		RegistrationForm registrationForm = new RegistrationForm("just_test", "just_test@mail.com", "just_test", "just_test");
+		RegistrationForm registrationForm = RegistrationForm.builder()
+				.email("success_registration@mail.com")
+				.name("success_registration")
+				.password("success_registration")
+				.rePassword("success_registration")
+				.build();
+
+		this.mockMvc.perform(post("/api/auth/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(registrationForm)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
+
+	@Test
+	public void testSuccessLogin() throws Exception{
+		RegistrationForm registrationForm = RegistrationForm.builder()
+				.email("success_login@mail.com")
+				.name("success_login")
+				.password("success_login")
+				.rePassword("success_login")
+				.build();
 
 		this.mockMvc.perform(post("/api/auth/signup")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -118,12 +140,11 @@ public class UserControllerTest {
 
 		this.mockMvc.perform(post("/api/auth/login")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-				.content("email=just_test@mail.com&password=just_test"))
+				.content("email=success_login@mail.com&password=success_login"))
 				.andDo(print())
 				.andExpect(status().isOk());
-
-
 	}
+
 
 	private String toJson(RegistrationForm registrationForm) throws JsonProcessingException {
 		ObjectMapper objectMapper = new ObjectMapper();

@@ -1,6 +1,7 @@
 package ru.akapich.invest_portfolio.model.forms.login;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
+@Builder
 public class RegistrationForm {
 
 	@NotBlank(message = "{valid.empty.name}")
