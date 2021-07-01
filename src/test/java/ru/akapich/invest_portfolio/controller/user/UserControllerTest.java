@@ -53,12 +53,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("application.properties")
 public class UserControllerTest {
 
-	private static final int ERROR_RESULT_CODE = 1;
-	private static final int SUCCESS_RESULT_CODE = 0;
-	private static final String TEMPLATE_BASE_RESPONSE_FORM = "{'error':'%s','resultCode':%d}";
-	private static final String TEMPLATE_LOGIN_FORM = "email=%s&password=%s";
-	private static final String SUCCESS_RESPONSE_LOGIN = "ok";
-	private static final String FAILED_RESPONSE_LOGIN = "Authentication failure";
+	public static final int ERROR_RESULT_CODE = 1;
+	public static final int SUCCESS_RESULT_CODE = 0;
+	public static final String TEMPLATE_BASE_RESPONSE_FORM = "{'error':'%s','resultCode':%d}";
+	public static final String TEMPLATE_LOGIN_FORM = "email=%s&password=%s";
+	public static final String SUCCESS_RESPONSE_LOGIN = "ok";
+	public static final String FAILED_RESPONSE_LOGIN = "Authentication failure";
 
 
 
