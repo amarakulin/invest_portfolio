@@ -56,6 +56,7 @@ public class UserControllerTest {
 	private static final int ERROR_RESULT_CODE = 1;
 	private static final int SUCCESS_RESULT_CODE = 0;
 	private static final String TEMPLATE_BASE_RESPONSE_FORM = "{'error':'%s','resultCode':%d}";
+	private static final String TEMPLATE_LOGIN_FORM = "email=%s&password=%s";
 	private static final String SUCCESS_RESPONSE_LOGIN = "ok";
 	private static final String FAILED_RESPONSE_LOGIN = "Authentication failure";
 
@@ -211,6 +212,24 @@ public class UserControllerTest {
 	}
 
 	@Test
+	public void testFailedRegistrationEmptyName() throws Exception {
+		RegistrationForm registrationForm = RegistrationForm.builder()
+				.email("failed_registration_empty_name@mail.com")
+				.name("")
+				.password("failed_registration_empty_name")
+				.rePassword("failed_registration_empty_name")
+				.build();
+		String errorMessage = env.getProperty("valid.size.name");
+		this.mockMvc.perform(post("/api/auth/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(registrationForm)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, errorMessage, ERROR_RESULT_CODE)))
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
+
+	@Test
 	public void testFailedRegistrationShortName() throws Exception {
 		RegistrationForm registrationForm = RegistrationForm.builder()
 				.email("failed_registration_short_name@mail.com")
@@ -307,6 +326,24 @@ public class UserControllerTest {
 	}
 
 	@Test
+	public void testFailedRegistrationEmptyPassword() throws Exception {
+		RegistrationForm registrationForm = RegistrationForm.builder()
+				.email("registration_empty_password@mail.com")
+				.name("registration_empty_password")
+				.password("")
+				.rePassword("")
+				.build();
+		String errorMessage = env.getProperty("valid.size.password");
+		this.mockMvc.perform(post("/api/auth/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(registrationForm)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, errorMessage, ERROR_RESULT_CODE)))
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
+
+	@Test
 	public void testFailedRegistrationShortPassword() throws Exception {
 		RegistrationForm registrationForm = RegistrationForm.builder()
 				.email("registration_big_password@mail.com")
@@ -383,10 +420,64 @@ public class UserControllerTest {
 
 		this.mockMvc.perform(post("/api/auth/login")
 				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-				.content("email=success_login@mail.com&password=success_login"))
+				.content(String.format(TEMPLATE_LOGIN_FORM, registrationForm.getEmail(), registrationForm.getPassword())))
 				.andDo(print())
-				.andExpect(content().string("ok"))
+				.andExpect(content().string(SUCCESS_RESPONSE_LOGIN))
 				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void testFailedLoginWrongEmail() throws Exception{
+		RegistrationForm registrationForm = RegistrationForm.builder()
+				.email("failed_login_email@mail.com")
+				.name("failed_login_email")
+				.password("failed_login_email")
+				.rePassword("failed_login_email")
+				.build();
+
+		String wrongEmail = "different_mail@mail.com";
+
+		this.mockMvc.perform(post("/api/auth/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(registrationForm)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+		this.mockMvc.perform(post("/api/auth/login")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.content(String.format(TEMPLATE_LOGIN_FORM, wrongEmail, registrationForm.getPassword())))
+				.andDo(print())
+				.andExpect(content().string(FAILED_RESPONSE_LOGIN))
+				.andExpect(status().is4xxClientError());
+	}
+
+	@Test
+	public void testFailedLoginWrongPassword() throws Exception{
+		RegistrationForm registrationForm = RegistrationForm.builder()
+				.email("failed_login_password@mail.com")
+				.name("failed_login_password")
+				.password("failed_login_password")
+				.rePassword("failed_login_password")
+				.build();
+
+		String wrongPassword = "different_password";
+
+		this.mockMvc.perform(post("/api/auth/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(registrationForm)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
+		this.mockMvc.perform(post("/api/auth/login")
+				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+				.content(String.format(TEMPLATE_LOGIN_FORM, registrationForm.getEmail(), wrongPassword)))
+				.andDo(print())
+				.andExpect(content().string(FAILED_RESPONSE_LOGIN))
+				.andExpect(status().is4xxClientError());
 	}
 
 
