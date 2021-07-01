@@ -13,7 +13,7 @@ const NewAssetContainer = styled.div`
 	position: relative;
 `
 
-const disableAddNewAssetButton = (values, errors) => {//TODO перенести
+const disableAddNewAssetButton = (values, errors) => {
 	if (!values.ticker || !values.name || !values.amount || !values.type)
 		return true;
 	if (parseInt(values.amount) <= 0)
