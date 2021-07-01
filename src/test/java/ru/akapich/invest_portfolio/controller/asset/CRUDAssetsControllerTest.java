@@ -138,13 +138,13 @@ public class CRUDAssetsControllerTest {
 				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-		this.mockMvc.perform(post("/api/auth/login").with(csrf())
-				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-				.content(String.format(TEMPLATE_LOGIN_FORM, registrationForm.getEmail(), registrationForm.getPassword())))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(cookie().exists("JSESSIONID"))
-				.andExpect(content().string(SUCCESS_RESPONSE_LOGIN));
+//		this.mockMvc.perform(post("/api/auth/login").with(csrf())
+//				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+//				.content(String.format(TEMPLATE_LOGIN_FORM, registrationForm.getEmail(), registrationForm.getPassword())))
+//				.andDo(print())
+//				.andExpect(status().isOk())
+//				.andExpect(cookie().exists("JSESSIONID"))
+//				.andExpect(content().string(SUCCESS_RESPONSE_LOGIN));
 
 
 //		RequestBuilder requestBuilder = formLogin()
@@ -158,13 +158,13 @@ public class CRUDAssetsControllerTest {
 //				.andExpect(status().isOk())
 //				.andExpect(cookie().exists("JSESSIONID"));
 
-		this.mockMvc.perform(post("/api/data/newassets")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsBytes(newAssetsFormList)))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+//		this.mockMvc.perform(post("/api/data/newassets")
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.content(objectMapper.writeValueAsBytes(newAssetsFormList)))
+//				.andDo(print())
+//				.andExpect(status().isOk())
+//				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
+//				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
 	}
 }
