@@ -26,7 +26,6 @@ import javax.validation.constraints.Size;
 @Builder
 public class RegistrationForm {
 
-	@NotBlank(message = "{valid.empty.name}")
 	@Size(min = 2, max = 32, message = "{valid.size.name}")
 	@ExistingLogin
 	private String name;
@@ -36,11 +35,9 @@ public class RegistrationForm {
 	@ExistingEmail
 	private String email;
 
-	@NotBlank(message = "{valid.empty.password}")
 	@Size(min = 5, max = 32, message = "{valid.size.password}")
 	private String password;
 
-	@NotBlank(message = "{valid.empty.password}")
 	@Size(min = 5, max = 32, message = "{valid.size.password}")
 	private String rePassword;
 
