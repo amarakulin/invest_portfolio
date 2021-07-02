@@ -40,8 +40,10 @@ public class AllFinancialAssetImpl implements AllFinancialAssetService {
 	public void insertAllAssets(List<Map<String, String>> listAssets) {
 		log.info("[...] Start loading data form American site to database");
 		Set<AllFinancialAsset> allFinancialAssets = new HashSet<>();
+		Set<String> repeatTickers = new HashSet<>();
 		for (Map<String, String> asset : listAssets) {
-				if (allFinancialAssetRepository.findFirstByTicker(asset.get("symbol")) != null){
+				if (allFinancialAssetRepository.findFirstByTicker(asset.get("symbol")) != null
+					|| !repeatTickers.add(asset.get("symbol"))){
 					//The ticker already in the database
 					continue;
 				}

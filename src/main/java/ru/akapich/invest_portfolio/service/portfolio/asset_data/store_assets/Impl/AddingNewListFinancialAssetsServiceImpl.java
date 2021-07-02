@@ -50,7 +50,7 @@ public class AddingNewListFinancialAssetsServiceImpl implements AddingNewListFin
 			log.info(String.format("Get asset with ticker: %s", financialAssetInUse.getIdAllFinancialAsset().getTicker()));
 
 			OwnedFinancialAsset ownedFinancialAsset = ownedFinancialAssetService
-					.getAndAddNewOwnedAssetsUser(userInvestPortfolio, financialAssetInUse);
+					.getAndAddNewOwnedAssetsUserIfNotExist(userInvestPortfolio, financialAssetInUse);
 			log.info(String.format("Get ownedFinancialAsset with :ticker %s, inv_p %d", ownedFinancialAsset.getFinancialAssetInUse().getIdAllFinancialAsset().getTicker(), ownedFinancialAsset.getInvestPortfolio().getId()));
 			historyAmountService.addNewHistoryAmount(ownedFinancialAsset, assetsForm.getAmount());
 		}

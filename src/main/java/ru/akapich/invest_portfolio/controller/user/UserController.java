@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.akapich.invest_portfolio.model.forms.assets.BaseResponseForm;
 import ru.akapich.invest_portfolio.model.forms.login.RegistrationForm;
 import ru.akapich.invest_portfolio.model.user.User;
-import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
+import ru.akapich.invest_portfolio.service.user.UserService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -29,16 +29,16 @@ import java.util.Map;
 public class UserController {
 
 	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
+	private UserService userService;
 
 	@CrossOrigin(origins = "http://localhost:3000/signup")
 	@PostMapping("/api/auth/signup")
 	public BaseResponseForm registration(@Valid @RequestBody RegistrationForm form,
 											BindingResult bindingResult, Model model) {
 
-		BaseResponseForm baseResponseForm = userDetailsService.getResponseRegistration(bindingResult, model);
-		if (baseResponseForm.getError().equals("")){
-			userDetailsService.saveNewUser(form);
+		BaseResponseForm baseResponseForm = userService.getResponseRegistration(bindingResult, model);
+		if ("".equals(baseResponseForm.getError())){
+			userService.saveNewUser(form);
 		}
 		else{
 			log.info(String.format("[-] User '%s' try to register and didn't pass validation. Error message: %s",
@@ -53,7 +53,7 @@ public class UserController {
 //		System.out.println(String.format("Token: %s",  Collections.singletonMap("token", session.getId())));
 		Map<String, String> result = new HashMap<>();
 		//TODO if it doesn't work change on singletonMap above
-		User user = userDetailsService.getUserInCurrentSession();
+		User user = userService.getUserInCurrentSession();
 		result.put("name", user.getName());
 		result.put("token", session.getId());
 		return result;

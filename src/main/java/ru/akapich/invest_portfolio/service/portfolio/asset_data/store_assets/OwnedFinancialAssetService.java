@@ -14,8 +14,8 @@ import java.util.LinkedList;
 
 public interface OwnedFinancialAssetService {
 
-	OwnedFinancialAsset getAndAddNewOwnedAssetsUser(InvestPortfolio investPortfolio,
-													FinancialAssetInUse financialAssetInUse);
+	OwnedFinancialAsset getAndAddNewOwnedAssetsUserIfNotExist(InvestPortfolio investPortfolio,
+	                                                          FinancialAssetInUse financialAssetInUse);
 
 	LinkedList<OwnedFinancialAsset> getAllOwnedAssetByInvestPortfolioDependsCategory(InvestPortfolio investPortfolio);
 }
