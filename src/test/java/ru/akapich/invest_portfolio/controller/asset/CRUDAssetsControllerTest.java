@@ -9,32 +9,30 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.FilterChainProxy;
-import org.springframework.session.web.http.SessionRepositoryFilter;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import ru.akapich.invest_portfolio.InvestPortfolioApplication;
 import ru.akapich.invest_portfolio.controller.assets.CRUDAssetsController;
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 import ru.akapich.invest_portfolio.model.forms.login.RegistrationForm;
+import ru.akapich.invest_portfolio.model.portfolio.InvestPortfolio;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFinancialAsset;
 import ru.akapich.invest_portfolio.parser.info_assets.america.ParseInfoAmericanStock;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.AllFinancialAssetRepository;
+import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.OwnedFinancialAssetRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.AllFinancialAssetService;
+import ru.akapich.invest_portfolio.service.user.UserService;
+import ru.akapich.invest_portfolio.service.user.impl.UserDetailsServiceImpl;
 import ru.akapich.invest_portfolio.validator.login.ValidatorController;
 
 import javax.servlet.Filter;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +46,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.akapich.invest_portfolio.controller.user.UserControllerTest.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
 /**
  * Test class for {@link CRUDAssetsController}
@@ -70,9 +69,6 @@ public class CRUDAssetsControllerTest {
 	private AllFinancialAssetRepository allFinancialAssetRepository;
 
 	@Autowired
-	private ParseInfoAmericanStock parseInfoAmericanStock;
-
-	@Autowired
 	private ObjectMapper objectMapper;
 
 	@Autowired
@@ -82,13 +78,30 @@ public class CRUDAssetsControllerTest {
 	private Filter springSecurityFilterChain;
 
 	@Autowired
-	private WebApplicationContext wac;
+	private WebApplicationContext context;
 
 	@BeforeEach
 	void initDatabase() throws Exception {
 
+		RegistrationForm registrationForm = RegistrationForm.builder()
+				.email("user_1@mail.com")
+				.name("user_1")
+				.password("user_1")
+				.rePassword("user_1")
+				.build();
+
+		this.mockMvc.perform(post("/api/auth/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(registrationForm)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
 		this.mockMvc = MockMvcBuilders
-				.webAppContextSetup(this.wac)
+				.webAppContextSetup(context)
+				.apply(springSecurity())
+				.defaultRequest(post("/api/auth/login").with(user(registrationForm.getName()).password(registrationForm.getPassword())))
 				.addFilters(this.springSecurityFilterChain)
 				.build();
 
@@ -122,22 +135,22 @@ public class CRUDAssetsControllerTest {
 		newAssetsFormList.add(newAssetsForm);
 
 
-
-		RegistrationForm registrationForm = RegistrationForm.builder()
-				.email("user_1@mail.com")
-				.name("user_1")
-				.password("user_1")
-				.rePassword("user_1")
-				.build();
-
-		this.mockMvc.perform(post("/api/auth/signup")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsBytes(registrationForm)))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-
+//
+//		RegistrationForm registrationForm = RegistrationForm.builder()
+//				.email("user_1@mail.com")
+//				.name("user_1")
+//				.password("user_1")
+//				.rePassword("user_1")
+//				.build();
+//
+//		this.mockMvc.perform(post("/api/auth/signup")
+//				.contentType(MediaType.APPLICATION_JSON)
+//				.content(objectMapper.writeValueAsBytes(registrationForm)))
+//				.andDo(print())
+//				.andExpect(status().isOk())
+//				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
+//				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+//
 //		this.mockMvc.perform(post("/api/auth/login").with(csrf())
 //				.contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 //				.content(String.format(TEMPLATE_LOGIN_FORM, registrationForm.getEmail(), registrationForm.getPassword())))
@@ -158,13 +171,13 @@ public class CRUDAssetsControllerTest {
 //				.andExpect(status().isOk())
 //				.andExpect(cookie().exists("JSESSIONID"));
 
-//		this.mockMvc.perform(post("/api/data/newassets")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(objectMapper.writeValueAsBytes(newAssetsFormList)))
-//				.andDo(print())
-//				.andExpect(status().isOk())
-//				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
-//				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+		this.mockMvc.perform(post("/api/data/newassets")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(newAssetsFormList)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, "", SUCCESS_RESULT_CODE)))
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
 	}
 }
