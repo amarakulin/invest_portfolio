@@ -58,7 +58,6 @@ public class CategoryServiceImpl implements CategoryService {
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 
 		OwnedCategory firstOwnedExistCategory = ownedCategoryRepository.findFirstByOwnedFinancialAsset_InvestPortfolioAndCategory_Name(investPortfolio, categoryCreateForm.getName());
-		System.out.println(String.format("firstOwnedExistCategory: %s", firstOwnedExistCategory));
 
 		if (firstOwnedExistCategory != null){
 			errorMessage = env.getProperty("valid.category.exist");
@@ -89,7 +88,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 		categoryRepository.save(category);
 		ownedCategoryService.addNewOwnedCategoriesByOwnedFinancialAssetAndCategory(ownedFinancialAssets, category);
-		System.out.println(String.format("Create category: %s", category));
 	}
 
 	@Override
@@ -108,14 +106,12 @@ public class CategoryServiceImpl implements CategoryService {
 	public void setCategory(String nameCategory) {
 		Category category;
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
-		System.out.println(String.format("setCategory search for name: %s", nameCategory));
 		if ("total".equals(nameCategory)){
 			category = null;
 		}
 		else{
 			OwnedCategory firstOwnedExistCategory = ownedCategoryRepository
 					.findFirstByOwnedFinancialAsset_InvestPortfolioAndCategory_Name(investPortfolio, nameCategory);
-			System.out.println(String.format("firstOwnedExistCategory: %s", firstOwnedExistCategory));
 			if (firstOwnedExistCategory != null){
 				category = firstOwnedExistCategory.getCategory();
 			}

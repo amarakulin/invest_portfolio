@@ -52,7 +52,6 @@ public class DiagramServiceImpl implements DiagramService{
 		InvestPortfolio investPortfolio = userService.getUserInCurrentSession().getInvestPortfolio();
 		log.info(String.format("[+] Collecting graph data for user with investPortfolio: %d", investPortfolio.getId()));
 		LocalDateTime date = historyAmountRepository.getLastTimeUpdateAssetsByInvestPortfolio(investPortfolio);
-		System.out.println(String.format("Last time update diagram: %s", date));
 		if (date == null){
 			return listDiagramResponseForm;
 		}
@@ -82,7 +81,6 @@ public class DiagramServiceImpl implements DiagramService{
 				.collect(Collectors.toList());
 
 		log.info(String.format("[+] Finish collect DIAGRAM for user with investPortfolio '%d'", investPortfolio.getId()));
-		System.out.println(String.format("Data Diagram: %s", sortedListDiagramResponseForm));
 		return sortedListDiagramResponseForm;
 	}
 }

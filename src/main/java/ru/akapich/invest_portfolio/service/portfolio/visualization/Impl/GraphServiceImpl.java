@@ -178,7 +178,6 @@ public class GraphServiceImpl implements GraphService{
 					.purchaseDate(getPurchaseDate(allOwnedFinancialAssets))
 					.build();
 		}
-		System.out.println(String.format("FormGraph: %s", formGraph));
 		log.info(String.format("[+] Finish collect GRAPH for user with investPortfolio '%d'", investPortfolio.getId()));
 
 		return formGraph;

@@ -1,7 +1,6 @@
 package ru.akapich.invest_portfolio.controller.asset;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,7 @@ import ru.akapich.invest_portfolio.controller.assets.CRUDAssetsController;
 import ru.akapich.invest_portfolio.model.forms.assets.NewAssetsForm;
 import ru.akapich.invest_portfolio.model.forms.login.RegistrationForm;
 import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.AllFinancialAsset;
-import ru.akapich.invest_portfolio.model.portfolio.asset_data.store_assets.FinancialAssetInUse;
 import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.AllFinancialAssetRepository;
-import ru.akapich.invest_portfolio.repository.portfolio.asset_data.store_assets.FinancialAssetInUseRepository;
-import ru.akapich.invest_portfolio.repository.portfolio.history_data.HistoryAmountRepository;
 import ru.akapich.invest_portfolio.service.portfolio.asset_data.store_assets.AllFinancialAssetService;
 import ru.akapich.invest_portfolio.validator.login.ValidatorController;
 

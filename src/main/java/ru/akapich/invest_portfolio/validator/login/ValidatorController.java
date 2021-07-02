@@ -28,7 +28,6 @@ public class ValidatorController implements ErrorController {
 		}
 		catch (IllegalStateException e){
 			//If more the one annotation is worked
-			//TODO Ask Georgi
 			mapError = bindingResult.getFieldErrors().stream().limit(1).collect(collector);
 		}
 		return mapError;

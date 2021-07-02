@@ -48,7 +48,6 @@ public class ValidatorCRUDAssetsImpl implements ValidateCRUDAssetsInterface {
 
 		firstFloatNumberAsset = null;
 		for(NewAssetsForm assetsForm : listNewAssetsForm){
-			System.out.println(String.format("New Asset: %s", assetsForm));
 			if (!assetsForm.getType().equals(env.getProperty("type.crypto")) && !MathUtils.isIntegerValue(assetsForm.getAmount())){
 				firstFloatNumberAsset = assetsForm;
 				break;
@@ -72,7 +71,6 @@ public class ValidatorCRUDAssetsImpl implements ValidateCRUDAssetsInterface {
 
 		firstNotExistAssets = null;
 		for (NewAssetsForm asset : listNewAssetsForm){
-			System.out.println(String.format("notExistAsset search for ticker: %s",  asset.getTicker()));
 
 			if (allFinancialAssetRepository.findByTicker(asset.getTicker()) == null){// FIXME Not unique exception(VCF)
 

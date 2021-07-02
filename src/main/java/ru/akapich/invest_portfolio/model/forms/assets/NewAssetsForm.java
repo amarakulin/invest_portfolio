@@ -41,21 +41,4 @@ public class NewAssetsForm {
 		}
 		return newAssetsForm;
 	}
-
-//	Override
-//	public Object clone() throws CloneNotSupportedException {
-//		RegistrationForm registrationForm = null;
-//		try{
-//			registrationForm = (RegistrationForm) super.clone();
-//		}
-//		catch (CloneNotSupportedException e){
-//			registrationForm = RegistrationForm.builder()
-//					.name(this.name)
-//					.email(this.email)
-//					.password(this.password)
-//					.rePassword(this.rePassword)
-//					.build();
-//		}
-//		return registrationForm;
-//	}
 }

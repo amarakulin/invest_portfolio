@@ -191,7 +191,6 @@ public class HistoryAmountServiceImpl implements HistoryAmountService {
 		//TODO optimaze query !!!
 		Set<HistoryAmount> setLastAmount = new HashSet<>();
 		HistoryAmount tmpHistoryAmount;
-		System.out.println("In getLastAmountForEachUniqueOwnedAsset()");
 		List<OwnedFinancialAsset> uniqueOwnedAssets = ownedFinancialAssetRepository.findAllUniqueOwnedAssets();
 		for (OwnedFinancialAsset asset : uniqueOwnedAssets){
 			tmpHistoryAmount = historyAmountRepository.lastAmountByOwnedFinancialAsset(asset);

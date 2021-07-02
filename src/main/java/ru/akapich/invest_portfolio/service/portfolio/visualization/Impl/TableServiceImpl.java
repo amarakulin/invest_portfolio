@@ -69,7 +69,6 @@ public class TableServiceImpl implements TableService {
 							.build());
 				}
 			}
-			System.out.println(String.format("The body: %s", body));
 		}
 		return body;
 	}
@@ -91,7 +90,6 @@ public class TableServiceImpl implements TableService {
 				.order(getOrder())
 				.build();
 
-		System.out.println(String.format("formTable: %s", formTable));
 		return formTable;
 	}
 }

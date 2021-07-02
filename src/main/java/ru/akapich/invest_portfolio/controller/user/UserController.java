@@ -49,10 +49,7 @@ public class UserController {
 
 	@GetMapping("/api/auth/token")
 	public Map<String,String> token(HttpSession session) {
-//		Map<String,String> result = new java.util.HashMap<>(Collections.singletonMap("token", session.getId()));
-//		System.out.println(String.format("Token: %s",  Collections.singletonMap("token", session.getId())));
 		Map<String, String> result = new HashMap<>();
-		//TODO if it doesn't work change on singletonMap above
 		User user = userService.getUserInCurrentSession();
 		result.put("name", user.getName());
 		result.put("token", session.getId());

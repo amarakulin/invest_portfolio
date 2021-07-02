@@ -81,9 +81,7 @@ public class ParseAmericanPriceAssets {
 		int timesForRequest;
 		int i = 0;
 
-		System.out.println("Start getAllPriceAmericanAssets");
 		listTickers = historyPriceService.getListTickersToUpdateByExchange(exchange);
-		System.out.println(String.format("Get list of tickers: %s", listTickers));
 		timesForRequest = listTickers.size() / LIMIT_TICKERS_PER_ONE_REQUEST;
 		//TODO handle situation then assets in use more the  LIMIT_TICKERS_PER_ONE_REQUEST tickers * TIME_TO_WAIT minutes !!!
 		do {
@@ -99,7 +97,6 @@ public class ParseAmericanPriceAssets {
 				TimeUnit.MILLISECONDS.sleep(TIME_TO_WAIT);
 			}
 		} while (i <= timesForRequest);
-		System.out.println(mapWithTickerAndPrice);
 		return mapWithTickerAndPrice;
 	}
 }

@@ -27,9 +27,6 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000/*", allowedHeaders = "*", maxAge = 3600)
 public class CRUDAssetsController {
 
-//	@Autowired
-//	private AddingNewListFinancialAssetsServiceImpl addingNewListFinancialAsset;//TODO if working without. Delete it
-
 	@Autowired
 	private AddingNewListFinancialAssetService addingNewListFinancialAsset;
 

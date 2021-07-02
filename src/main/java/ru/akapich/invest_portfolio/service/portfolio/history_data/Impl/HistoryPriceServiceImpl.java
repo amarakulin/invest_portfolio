@@ -43,7 +43,6 @@ public class HistoryPriceServiceImpl implements HistoryPriceService {
 	@Transactional
 	public void updatePriceAmericanAssetsByExchange(String exchange) throws IOException, InterruptedException {
 		FinancialAssetInUse financialAssetInUse;
-		System.out.println(String.format("updatePriceAmericanAssetsByExchange with exchange: %s", exchange));
 		Map<String, BigDecimal> infoAmericanPriceAssets = parseAmericanPriceAssets.getAllPriceAmericanAssets(exchange);
 		if (infoAmericanPriceAssets == null){
 			log.info("[-] Couldn't get a tickers from parseAmericanPriceAssets");
@@ -72,7 +71,6 @@ public class HistoryPriceServiceImpl implements HistoryPriceService {
 
 	@Override
 	public LinkedList<String> getListTickersToUpdateByExchange(String exchange) {
-		System.out.println(String.format("Start stringTickersToUpdateByExchange with exchange: %s", exchange));
 		List<FinancialAssetInUse> listFinancialAssetInUse = financialAssetInUseRepository.getListTickersToUpdateByExchange(exchange);
 		LinkedList<String> listTickers = listFinancialAssetInUse.stream().map(a -> a.getIdAllFinancialAsset().getTicker()).collect(Collectors.toCollection(LinkedList::new));
 		return listTickers;
