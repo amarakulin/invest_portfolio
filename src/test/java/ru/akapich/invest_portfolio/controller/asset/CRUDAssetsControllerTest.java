@@ -132,14 +132,12 @@ public class CRUDAssetsControllerTest {
 		List<NewAssetsForm> newAssetsFormList = new ArrayList<>();
 		List<AllFinancialAsset> allFinancialAssetList = allFinancialAssetRepository.findAll();
 		for(AllFinancialAsset asset : allFinancialAssetList){
-			if (!"A1".equals(asset.getTicker())) {
-				newAssetsFormList.add(
-						NewAssetsForm.builder()
-								.ticker(asset.getTicker())
-								.type(asset.getIdTypeAsset().getName())
-								.amount(BigDecimal.TEN)
-								.build());
-			}
+			newAssetsFormList.add(
+					NewAssetsForm.builder()
+							.ticker(asset.getTicker())
+							.type(asset.getIdTypeAsset().getName())
+							.amount(BigDecimal.TEN)
+							.build());
 		}
 
 		this.mockMvc.perform(post("/api/data/newassets")
@@ -231,26 +229,26 @@ public class CRUDAssetsControllerTest {
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 	}
 
-//	@Test
-//	public void testFailedNewAssetsInPortfolio() throws Exception{
-//
-//		List<NewAssetsForm> newAssetsFormList = new ArrayList<>();
-//		AllFinancialAsset allFinancialAsset = allFinancialAssetRepository.findByTicker("A1");
-//		NewAssetsForm newAssetsForm = NewAssetsForm.builder()
-//				.ticker(allFinancialAsset.getTicker())
-//				.type(allFinancialAsset.getIdTypeAsset().getName())
-//				.amount(BigDecimal.TEN)
-//				.build();
-//		newAssetsFormList.add(newAssetsForm);
-//
-//		String errorMessage = String.format("%s: %s", env.getProperty("valid.asset.in_portfolio"), newAssetsForm.getTicker());
-//
-//		this.mockMvc.perform(post("/api/data/newassets")
-//				.contentType(MediaType.APPLICATION_JSON)
-//				.content(objectMapper.writeValueAsBytes(newAssetsFormList)))
-//				.andDo(print())
-//				.andExpect(status().isOk())
-//				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, errorMessage, ERROR_RESULT_CODE)))
-//				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
-//	}
+	@Test
+	public void testFailedNewAssetsInPortfolio() throws Exception{
+
+		List<NewAssetsForm> newAssetsFormList = new ArrayList<>();
+		AllFinancialAsset allFinancialAsset = allFinancialAssetRepository.findByTicker("A1");
+		NewAssetsForm newAssetsForm = NewAssetsForm.builder()
+				.ticker(allFinancialAsset.getTicker())
+				.type(allFinancialAsset.getIdTypeAsset().getName())
+				.amount(BigDecimal.TEN)
+				.build();
+		newAssetsFormList.add(newAssetsForm);
+
+		String errorMessage = String.format("%s: %s", env.getProperty("valid.asset.in_portfolio"), newAssetsForm.getTicker());
+
+		this.mockMvc.perform(post("/api/data/newassets")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsBytes(newAssetsFormList)))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().json(String.format(TEMPLATE_BASE_RESPONSE_FORM, errorMessage, ERROR_RESULT_CODE)))
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
+	}
 }
