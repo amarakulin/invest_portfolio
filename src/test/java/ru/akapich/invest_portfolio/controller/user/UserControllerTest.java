@@ -479,11 +479,4 @@ public class UserControllerTest {
 				.andExpect(content().string(FAILED_RESPONSE_LOGIN))
 				.andExpect(status().is4xxClientError());
 	}
-
-
-
-	private String toJson(RegistrationForm registrationForm) throws JsonProcessingException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		return  objectMapper.writeValueAsString(registrationForm);
-	}
 }
