@@ -46,6 +46,15 @@
   * You could edit a asset. To do this, use a colon at the end of each ticker.
   ![Table view](/screenshots/edit_asset.png)
   
+# Category
+  * To create new category you gonna choose a several assets
+  ![Creating category view](/screenshots/createing_category.png)
+  * Then select the category you need
+  ![Select category view](/screenshots/choose_category.png)
+  ![Table category view](/screenshots/table_category.png)
+
+
+
 # About Developers
 
   
