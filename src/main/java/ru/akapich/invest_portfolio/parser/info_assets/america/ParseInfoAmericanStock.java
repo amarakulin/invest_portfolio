@@ -26,7 +26,7 @@ public class ParseInfoAmericanStock {
 	private ConnectionTwelveData connectionTwelveData;
 
 	//TODO encode !!
-	private static final String API_KEY = "1480cef042784c4ea6dc3cd0975ad6e5";
+	private static final String API_KEY = "some api key";
 
 	private static final String URL_FORM = "https://api.twelvedata.com/stocks?exchange=%s&apikey=%s";
 

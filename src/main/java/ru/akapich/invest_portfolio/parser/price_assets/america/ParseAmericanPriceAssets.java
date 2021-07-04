@@ -32,7 +32,7 @@ public class ParseAmericanPriceAssets {
 	private ConnectionTwelveData connectionTwelveData;
 
 	//TODO encode !!
-	private static final String API_KEY = "1480cef042784c4ea6dc3cd0975ad6e5";
+	private static final String API_KEY = "some api key";
 	private static final int LIMIT_TICKERS_PER_ONE_REQUEST = 7;
 	private static final String URL_FORM = "https://api.twelvedata.com/price?symbol=%s&apikey=%s";
 	private static final long TIME_TO_WAIT = 60000;
@@ -93,9 +93,7 @@ public class ParseAmericanPriceAssets {
 			responseData = UtilsParser.getResponseData(requestURL);
 			mapWithTickerAndPrice.putAll(parseData(responseData, listTickersForURL));
 			i++;
-			if (i <= timesForRequest) {
-				TimeUnit.MILLISECONDS.sleep(TIME_TO_WAIT);
-			}
+			TimeUnit.MILLISECONDS.sleep(TIME_TO_WAIT);
 		} while (i <= timesForRequest);
 		return mapWithTickerAndPrice;
 	}
