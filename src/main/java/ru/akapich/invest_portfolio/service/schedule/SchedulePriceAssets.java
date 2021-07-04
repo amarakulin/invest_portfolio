@@ -38,6 +38,7 @@ public class SchedulePriceAssets {
 	@Scheduled(cron = "0 1 9-15 ? * MON-FRI", zone = "GMT-5")
 	void updatePriceOfNYSEExchange() throws IOException, ParseException, CloneNotSupportedException, InterruptedException {
 		historyPriceService.updatePriceAmericanAssetsByExchange("NYSE");
+		historyPriceService.updatePriceAmericanAssetsByExchange("NASDAQ");
 		historyAmountService.updateAllHistoryAmount();
 	}
 
@@ -45,7 +46,9 @@ public class SchedulePriceAssets {
 	//Every Monday-Friday at 9:40
 	@Scheduled(cron = "0 40 9 ? * MON-FRI", zone = "GMT-5")
 	void updateInfoAssetsExchange() throws IOException {
-		List<Map<String, String>> listAssets = parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
-		allFinancialAssetService.insertAllAssets(listAssets);
+		List<Map<String, String>> listAssetsNYSE = parseAmericanStock.getAllStocksByAmericanExchange("NYSE");
+		allFinancialAssetService.insertAllAssets(listAssetsNYSE);
+		List<Map<String, String>> listAssetsNASDAQ = parseAmericanStock.getAllStocksByAmericanExchange("NASDAQ");
+		allFinancialAssetService.insertAllAssets(listAssetsNASDAQ);
 	}
 }
