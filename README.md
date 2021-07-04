@@ -55,8 +55,9 @@
 
 
 
-# About Developers
-
+# About Technologies
   
+  Backend(https://github.com/pichkasik): Java(11), Spring Boot, Spring Security, Maven, PostgersSQL, Hibernate(JPA), Jackson, Lombok, Mockito.
+  Frontend(https://github.com/MinisterAkasha): ReactJS, Redux, Redux-thunk, Axios, Styled-component, Canvas, Rest-api.
 
 
